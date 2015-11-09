@@ -1,0 +1,39 @@
+// Size
+@mixin grow {
+	width: 100%;
+	height: 100%;
+}
+@mixin width-height($w,$h) {
+	width: $w;
+	height: $h;
+}
+
+// Positioning
+@mixin absolute($z) {
+	position: absolute;
+	z-index: $z;
+}
+@mixin h-center( $width ) {
+	left: 50%;
+	margin-left: $width;
+}
+@mixin v-center( $width ) {
+	top: 50%;
+	margin-top: $width;
+}
+
+// Shadow
+@mixin std-box-shadow( $opac:0.3 ) {
+	box-shadow: 0 1px 1px rgba(0,0,0,$opac);
+}
+
+// Border
+@mixin round {
+	border-radius: 50%;
+}
+
+// Text
+@mixin heading-reset {
+	line-height: 1;
+	margin: 0;
+}

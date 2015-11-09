@@ -1,0 +1,65 @@
+/*
+ * ITCSS Stage 1: Settings
+ * scss variables
+ */
+@import
+	"settings.main",
+	"settings.foundation";
+
+/*
+ * ITCSS Stage 2: Tools
+ * scss mixins and functions
+ */
+@import
+	"tools.main";
+
+/*
+ * ITCSS Stage 3: Generic
+ * global selectors, lowest specificity
+ * no cosmetics
+ */
+@import
+	"generic.main";
+
+/*
+ * ITCSS Stage 4: Base
+ * type selectors, no .classes or #ids
+ * no cosmetics
+ */
+@import
+	"base.main";
+
+/*
+ * ITCSS Stage 5: Objects
+ * OOCSS and Framework
+ * no cometics (except framework)
+ */
+@import
+	"objects.foundation",
+	"objects.text",
+	"objects.links",
+	"objects.buttons",
+	"objects.misc";
+
+/*
+ * ITCSS Stage 6: Components
+ * high specificity
+ * the cosmetics
+ */
+@import
+	"components.foundation-icons",
+	"components.main",
+	"components.nodelist",
+	"components.badge";
+
+/*
+ * ITCSS Stage 7: Win
+ * Highly specific functions that overwrite everything
+ * !important
+ */
+@import
+	"win.main";
+
+
+
+

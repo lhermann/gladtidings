@@ -1,0 +1,145 @@
+/*
+ * Component: .lesson-list
+\* =================================== */
+
+.lesson-list, .activity-list {
+	list-style: none;
+	margin-left: 0;
+}
+.lesson-list > .lesson:not(:last-child) {
+	margin-bottom: 1.25rem;
+}
+.lesson {
+	position: relative;
+    background-color: #f5f5f5;
+    color: #333333;
+    border-radius: 3px;
+    border: 1px solid transparent;
+    @include std-box-shadow;
+}
+.lesson-inner {
+	margin-left: 80px;
+	padding: 4px;
+}
+.lesson:hover {
+	background-color: #f1f1f1;
+	&.lesson-active {
+		border: 1px solid $primary-color;	
+	}
+	.action {
+		display: block;
+	}
+}
+.lesson-header {
+	padding-top: 1rem;
+}
+.lesson-title, .lesson-meta, .lesson-footer {
+	margin: 0;
+}
+.lesson-title {
+	font-size: 1.4rem;
+}
+.lesson-meta {
+	position: absolute;
+	top: 0.2rem;
+	color: $unstress-color;
+	.success {
+		color: $success-color;
+	}
+}
+.lesson-footer {
+	p {
+		font-size: 80%;
+		color: $suppl-color;
+	}
+	p, .action {
+		margin-bottom: 0;
+	}
+	.action {
+		@include absolute(0);
+		right: 4px;
+		bottom: 4px;
+		padding: 0.3rem 0.6rem;
+		display: none;
+	}
+}
+
+.node {
+	@include v-center( -30px );
+	margin-left: 10px;
+	width: 60px;
+	height: 60px;
+
+	&, &>* {
+		position: absolute;
+	}
+}
+.link-border, .node-border {
+	background-color: #fff;
+	border: 1px solid #ddd;
+}
+.link-inner {
+	background-color: #fff;
+}
+.node-border, .node-inner {
+	border-radius: 50%;
+}
+.link-border {
+	z-index: 1;
+	@include h-center( -7px );
+	top: 50px;
+	@include width-height( 14px, 90px );
+}
+.node-border {
+	z-index: 2;
+	@include grow;
+}
+.link-inner {
+	z-index: 3;
+	@include h-center( -6px );
+	top: 50px;
+	@include width-height( 12px, 90px );
+	border: 4px solid #fff;
+}
+.node-inner {
+	z-index: 4;
+	@include width-height( 50px, 50px );
+	margin: 5px;
+	border: 4px solid #ccc;
+	background-color: #fff;
+}
+.lesson:last-child {
+	.link-border, .link-inner {display: none}
+}
+.node-inner:after {
+	font-family: "foundation-icons";
+	font-size: 40px;
+	margin-left: 10px;
+	line-height: normal;
+	vertical-align: text-top;
+}
+// Success
+.lesson-success {
+	.link-inner, .node-inner { background-color: $primary-color; }
+	.node-inner { border: none;	}
+	.node-inner:after {
+		content: "\f126";
+		color: #fff;
+	}
+}
+// Active
+.lesson-active {
+	.node-inner {
+		border-color: $primary-color;
+		background-color: #fff;
+		box-shadow: 0 0 5px $primary-color, 0 0 5px $primary-color inset;
+	}
+}
+// Locked
+.lesson-locked {
+	.node-inner { border: none; }
+	.node-inner:after {
+		content: "\f16a";
+		color: #ccc;
+	}
+}

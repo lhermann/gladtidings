@@ -1,0 +1,14 @@
+.breadcrumbs {
+	display: inline-block;
+	float: left;
+}
+
+/* Owl */
+.owl {
+	* + * {
+		margin-top: 1.5em;
+	}
+	* {
+		margin-bottom: 0;
+	}
+}

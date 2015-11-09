@@ -1,0 +1,348 @@
+/*
+ * Component: .nodelist
+\* =================================== */
+// ul.nodelist
+.nodelist {
+	list-style: none;
+	margin-left: 0;
+}
+.nodelist--horizontal {
+	text-align: justify;
+	line-height: 0;
+	font-size: 0;
+	&:after {
+		display: inline-block;
+		position: relative;
+		content: '';
+		width: 100%;
+		// Horizontal node2link
+		border: 1px solid $border-color;
+		bottom: 1rem;
+		z-index: 1;
+	}
+	> li {
+		display: inline-block;
+		position: relative;
+		z-index: 2;
+		font-size: 1rem;
+	}
+}
+
+// li.nodelist__item
+.nl__item {
+	position: relative;
+	&--activity {
+		margin-bottom: rem-calc(12);
+	}
+	&--lesson {
+		@include panel;
+		margin-bottom: rem-calc(20);
+		color: #333333;
+		&:hover {
+			background-color: $panel-bg-color-hover;
+			.button, .badge {
+				display: block;
+			}
+		}
+	}
+	&--hero {
+		background-color: rgba(0,0,0,.3);
+		border-radius: 3px;
+	}
+}
+// Content
+%activity--icon {
+	font-family: "foundation-icons";
+	position: absolute;
+	font-size: 20px;
+	line-height: 1;
+	@include v-center( -10px );
+	left: 45px;
+	color: $unstress-color;
+}
+.nl__item__article {
+	margin-left: 70px;
+	padding: 4px;
+	.nl__item--lesson & {
+		margin-left: 80px;
+	}
+	.nl__item--video &:before {
+		@extend %activity--icon;
+		content: "\f20e";
+	}
+	.nl__item--quizz &:before {
+		@extend %activity--icon;
+		content: "\f129";
+	}
+}
+.nl__item__header {
+	.nl__item--lesson & {
+		padding-top: 1rem;
+	}
+}
+.nl__item__title,
+.nl__item__meta,
+.nl__item__footer {
+	margin: 0;
+}
+.nl__item__title {
+	font-weight: 200;
+}
+.nl__item__meta {
+	position: absolute;
+	top: 0.2rem;
+	color: $unstress-color;
+}
+.nl__item__footer {
+	p {
+		font-size: 80%;
+		color: $suppl-color;
+	}
+	p, .button, .badge {
+		margin-bottom: 0;
+	}
+	.button, .badge { // I should make my own button class to avoid specificity wars
+		@include absolute(0);
+		right: 4px;
+		bottom: 4px;
+		padding: 0.3rem 0.6rem;
+		display: none;
+	}
+}
+
+// Node
+.nl__node {
+	position: absolute;
+	@include width-height( 30px, 30px );
+	.nl__item--activity & {
+		@include v-center( -15px );
+	}
+	.nl__item--node & {
+		position: relative;
+	}
+	> div {
+		position: absolute;
+	}
+}
+.nl__node__link,
+.nl__node__link__inner {
+	left: 50%;
+}
+.nl__node__link {
+	z-index: 1;
+	margin-left: -1px;
+	border: 1px solid $border-color;
+	height: 300%;
+	top: -100%;
+	.nl__item:first-child & {
+		height: 200%; top: 50%;
+	}
+	.nl__item:last-child & {
+		height: 100%;
+	}
+}
+.nl__node__link__inner {
+	z-index: 3;
+}
+.nl__node__border {
+	z-index: 2;
+	@include grow;
+	@include round;
+	border: 1px solid $border-color;
+	padding: 3px;
+	background-color: #fff;
+	@include std-box-shadow;
+	a &:hover {
+		background-color: #f5f5f5;
+	}
+}
+.nl__node__inner {
+	z-index: 4;
+	@include grow;
+	@include round;
+	color: $body-color;
+	text-align: center;
+	line-height: 22px;
+	&:after {
+		font-family: "foundation-icons";
+		font-size: 1.3rem;
+		line-height: 1.1;
+		margin-left: 1px;
+	}
+}
+
+// Node Variations
+.nl__node--small {
+	padding: 8px;
+	.nl__node__border {
+		@include width-height( 14px, 14px );
+	}
+	.nl__node__inner {
+		background-color: $border-color;
+		&:after {
+			display: none;
+		}
+	}
+}
+.nl__node--big {
+	@include width-height( 60px, 60px );
+	@include v-center( -30px );
+	margin-left: 10px;
+	.nl__node__link,
+	.nl__node__link__inner {
+		top: 50%;
+		height: 200%;
+		background-color: #fff;
+		.nl__item:last-child & {
+			display: none;
+		}
+	}
+	.nl__node__link {
+		margin-left: -7px;
+		width: 14px;
+	}
+	.nl__node__link__inner {
+		margin-left: -6px;
+		width: 12px;
+		border: 4px solid #fff;
+	}
+	.nl__node__border {
+		box-shadow: 0 1px 1px rgba(0,0,0,.3) inset;
+	}
+	.nl__node__inner {
+		@include width-height( 50px, 50px );
+		margin: 5px;
+		border: 4px solid $border-color;
+		background-color: #fff;
+		&:after {
+			font-size: 2rem;
+			line-height: 1.3;
+		}
+	}
+}
+.nl__node--bigger {
+	@include width-height( 120px, 120px );
+	@include v-center( -60px );
+	margin-left: -60px;
+	.nl__node__link {
+		display: none;
+	}
+	.nl__node__border {
+		border-color: $border-color;
+	}
+	.nl__node__inner {
+		@include width-height( 104px, 104px );
+		margin: 8px;
+		border: 6px solid $border-color;
+		background-color: #fff;
+		&:after {
+			font-size: 2rem;
+			line-height: 1.3;
+		}
+	}
+}
+
+// Success
+.nl__item--success {
+	.nl__node__link__inner,
+	.nl__node--small .nl__node__inner {
+		background-color: $success-color;
+	}
+	:not(.nl__node--big) .nl__node__border {
+		border-color: $success-color;
+	}
+	.nl__node__inner {
+		font-size: 0;
+		border-color: $success-color;
+		&:after {
+			content: "\f126";
+			color: $success-color;
+		}
+	}
+}
+
+// Active
+.nl__item--active {
+	:not(.nl__node--big) { 
+		.nl__node__border {
+			border-color: $primary-color;
+		}
+		.nl__node__inner {
+			color: $primary-color;
+			font-weight: bold;
+		}
+	}
+	.nl__node--bigger {
+		.nl__node__border {
+			border: none;
+		}
+	}
+	.nl__node--big .nl__node__inner,
+	.nl__node--bigger .nl__node__inner {
+		border-color: $success-color;
+		overflow: hidden;
+		font-weight: 200;
+		line-height: 2.5;
+		color: $body-color;
+		&:before {
+			content:"";
+			position: absolute;
+			width: 40%;
+			height: 100%;
+			background-color: rgba( $success-color, .4 );
+			left: 0;
+		}
+	}
+	.nl__node--bigger .nl__node__inner {
+		font-size: 2rem;
+		line-height: 2.9;
+		font-weight: bold
+	}
+}
+
+// Locked
+.nl__item--locked {
+	.nl__node__inner {
+		font-size: 0;
+		&:after {
+			content: "\f16a";
+			color: $border-color;
+		}
+	}
+}
+
+/*
+ * Component: .lesson-list
+\* =================================== */
+.node2-inner:after {
+	font-family: "foundation-icons";
+	font-size: 40px;
+	margin-left: 10px;
+	line-height: normal;
+	vertical-align: text-top;
+}
+// Success
+.lesson-success {
+	.link-inner, .node2-inner { background-color: $primary-color; }
+	.node2-inner { border: none;	}
+	.node2-inner:after {
+		content: "\f126";
+		color: #fff;
+	}
+}
+// Active
+.lesson-active {
+	.node2-inner {
+		border-color: $primary-color;
+		background-color: #fff;
+		box-shadow: 0 0 5px $primary-color, 0 0 5px $primary-color inset;
+	}
+}
+// Locked
+.lesson-locked {
+	.node2-inner { border: none; }
+	.node2-inner:after {
+		content: "\f16a";
+		color: #ccc;
+	}
+}
