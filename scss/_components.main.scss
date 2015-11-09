@@ -35,7 +35,7 @@
 // }
 .title__frame {
 	@include grow;
-	background-color: rgba(0,0,0,.3);
+	background-color: rgba(0,0,0,$title-frame-alpha);
 	border-radius: 3px;
 	padding: 1rem;
 }
@@ -50,8 +50,8 @@
 /*
  * Component: .progress
 \* =================================== */
-.progress {
-	@include std-box-shadow;
+.progress--panel {
+	border-color: $border-color;
 	.meter {
 		color: #fff;
 		font-size: 80%;
