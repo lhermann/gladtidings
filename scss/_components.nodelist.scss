@@ -31,10 +31,10 @@
 // li.nodelist__item
 .nl__item {
 	position: relative;
-	&--activity {
+	&--lesson {
 		margin-bottom: rem-calc(12);
 	}
-	&--lesson {
+	&--module {
 		@include panel;
 		margin-bottom: rem-calc(20);
 		color: #333333;
@@ -64,7 +64,10 @@
 .nl__item__article {
 	margin-left: 70px;
 	padding: 4px;
-	.nl__item--lesson & {
+	.nl__item--heading & {
+		margin-left: 38px;
+	}
+	.nl__item--module & {
 		margin-left: 80px;
 	}
 	.nl__item--hero & {
@@ -82,7 +85,7 @@
 	}
 }
 .nl__item__header {
-	.nl__item--lesson & {
+	.nl__item--module & {
 		padding-top: 1rem;
 	}
 }
@@ -120,7 +123,7 @@
 .nl__node {
 	position: absolute;
 	@include width-height( 30px, 30px );
-	.nl__item--activity & {
+	.nl__item--lesson & {
 		@include v-center( -15px );
 	}
 	.nl__item--node & {
@@ -292,7 +295,6 @@
 		&:before {
 			content:"";
 			position: absolute;
-			width: 40%;
 			height: 100%;
 			background-color: rgba( $success-color, .4 );
 			left: 0;
