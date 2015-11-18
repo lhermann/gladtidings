@@ -1,0 +1,13 @@
+/*------------------------------------*\
+    #FUNCTIONS
+\*------------------------------------*/
+
+// Calculate line height in px from font-size;
+@function whitespace-height( $font-size ) {
+    @return ceil($font-size / $base-line-height) * ($base-line-height / $font-size) * $font-size;
+}
+
+// Convert px to rem
+@function px-to-rem( $px ) {
+	@return $px / $base-font-size * 1rem;
+}

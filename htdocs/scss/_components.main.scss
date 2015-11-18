@@ -1,50 +1,51 @@
 /*
- * Component: .top-bar
+ * Component: .page-hero
 \* =================================== */
-.top-bar {
-	box-shadow: 0 1px 3px rgba(0,0,0,.3);
-}
-
-/*
- * Component: #page-hero
-\* =================================== */
-#page-hero {
-	padding: 10% 0;
-	&.hero--skinny {
-		padding: 6% 0;
+.page-hero {
+	
+	> .wrapper {
+		margin-top: 0;
+		padding-top: 10%;
+		padding-bottom: 10%;
 	}
-	box-shadow: 0 -6px 6px -6px rgba(0, 0, 0, 1) inset;
-	background-color: $primary-color;
-	background: url("../assets/img/header-bg2.jpg") center/cover $primary-color;
-	h1, .subtitle {
+	&--skinny > .wrapper { 
+		padding-top: 6%;
+		padding-bottom: 6%;
+	}
+
+	margin-top: 0;
+
+	background-color: $success-color;
+	background: url("../img/header-bg2.jpg") center/cover $primary-color;
+
+	&__frame {
+		max-width: 46rem;
+		margin: 0 auto;
+		background-color: rgba( 0, 0, 0, $title-frame-alpha );
+		border-radius: 3px;
+		padding: 0.5rem;
+		text-align: center;
 		color: #fff;
-		text-shadow: 0 1px 3px rgba(0, 0, 0, .65);
-		margin-bottom: 0;
+		text-shadow: 0 1px 3px rgba( 0, 0, 0, .65 );
 	}
-	.subtitle {
-		font-weight: 200;
-		margin-bottom: 0.5rem;
-	}
-}
 
-// @import "compass";
-// %title__gradient {
-// 	background-color: #fffcaf; // Old browsers
-// 	@include filter-gradient(#fffcaf, #ffbf27, horizontal); // IE6-9
-// 	@include background-image(linear-gradient(left, #fffcaf 0%, #fff727 25%, #ffbf27 50%, #fff727 75%, #fffcaf 100%));
-// }
-.title__frame {
-	@include grow;
-	background-color: rgba(0,0,0,$title-frame-alpha);
-	border-radius: 3px;
-	padding: 1rem;
-}
-.title__hr {
-	background-color: #fff;
-	width: 60%;
-	height: 1px;
-	margin: 0 auto;
-	box-shadow: 0 1px 3px rgba(0, 0, 0, .65);
+	&__title,
+	&__subtitle {
+		margin: 1rem 0;
+	}
+
+	&__subtitle {
+		font-weight: 200;
+	}
+
+	&__hr {
+		background-color: #fff;
+		width: 60%;
+		height: 1px;
+		margin: 0 auto;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, .65);
+	}
+
 }
 
 /*
@@ -59,11 +60,10 @@
 }
 
 /*
- * Component: #page-footer
+ * Component: .page-footer
 \* =================================== */
-#page-footer {
-	padding: 20px 0;
+.page-footer {
+	padding: 1.5rem 0;
 	background-color: $dark-bg-color;
 	color: #ccc;
-	box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 1) inset;
 }

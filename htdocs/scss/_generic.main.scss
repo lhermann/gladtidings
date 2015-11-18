@@ -1,8 +1,10 @@
+/**
+ * The owl, adding margin-top to every element that follows another element
+ * http://alistapart.com/article/axiomatic-css-and-lobotomized-owls
+ */
 * + * {
 	margin-top: 1.5em;
 }
-.owl-off {
-	&, & * + * {
-		margin-top: 0;
-	}
+.owl--off * + * {
+	margin-top: 0;
 }

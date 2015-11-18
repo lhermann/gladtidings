@@ -1,0 +1,15 @@
+/*------------------------------------*\
+    #WHITESPACE
+\*------------------------------------*/
+
+// $inuit-base-font-size:          16px !default;
+// $inuit-base-line-height:        24px !default;
+// line-height: ceil($inuit-font-size / $inuit-base-line-height) * ($inuit-base-line-height / $inuit-font-size);
+// ceil(1.25) * 0.8
+
+.whitespace {
+	&--h2 {
+		height: whitespace-height( $inuit-heading-size-2 );
+		height: px-to-rem( whitespace-height( $inuit-heading-size-2 ) );
+	}
+}

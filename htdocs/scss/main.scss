@@ -1,0 +1,228 @@
+/**
+ * CONTENTS
+ *
+ * SETTINGS
+ * Default..............inuitcss’ default settings.
+ * Global...............Globally-available variables and settings/config.
+ * Colors...............Manage our color palette in isolation.
+ * Responsive...........Set up and name our breakpoints.
+ *
+ * TOOLS
+ * Functions............inuitcss’ default functions.
+ * Mixins...............inuitcss’ default mixins.
+ * Mixins...............Our extension of inuitcss’ mixins.
+ * Responsive...........Responsive tooling (requires responsive settings).
+ * Aliases..............Aliases onto longer inuitcss variables and mixins.
+ *
+ * GENERIC
+ * Normalize.css........A level playing field.
+ * Reset................A pared back reset to remove margins.
+ * Box-sizing...........Better default `box-sizing`.
+ * Shared...............Sensibly and tersely share global commonalities.
+ *
+ * BASE
+ * Page.................Page-level styles (HTML element).
+ * Page.................Our extension of the inuitcss page module.
+ * Headings.............Heading styles
+ * Type.................Misc type styles
+ * Links................Hyperlink styles
+ * Lists................inuitcss list styles
+ * Images...............inuitcss images
+ * Quotes...............Styling for blockquotes, etc.
+ *
+ * OBJECTS
+ * Wrappers.............Wrappers and page constraints.
+ * Buttons..............inuitcss’ buttons module.
+ * Layout...............inuitcss’ layout tool.
+ * Box..................inuitcss’ box object.
+ * Media................The media object.
+ * Flag.................The flag object.
+ * UI list..............inuitcss’ UI list.
+ *
+ * COMPONENTS
+ * Page-head............Page header styles.
+ * Bands................Full-width page bands.
+ * Promo................Lead promo blocks on the home page.
+ * Page-foot............Page footer styles.
+ * Page-micro...........Page copyright styles.
+ * Site-nav.............Site’s main nav area.
+ * Buttons..............Extension of inuitcss’ buttons.
+ * Boxes................Extension of inuitcss’ box object
+ * Post.................Post-specific styles.
+ * Pull-quote...........Large, featured quotes.
+ * Carousel.............Pure CSS carousel component.
+ * Iconic...............Iconic icon styles.
+ * Sprites..............Image sprite styles.
+ * Feature list.........Big blocky lists of feature items.
+ * Annotate.............Pure CSS figure annotations.
+ * Ads..................AdPacks overrides.
+ * Client-list..........Amazing people I’ve had the pleasure of working with.
+ *
+ * TRUMPS
+ * Clearfix.............I can’t believe we still need this in 2014.
+ * Widths...............Simple width helper classes.
+ * Widths-responsive....Polyfill for responsive width classes.
+ * Spacing..............Micro-level spacing.
+ * Show/hide............Helpers to show and side stuff.
+ */
+
+
+
+
+/*
+ * ITCSS Stage 1: Settings
+ * scss variables
+ */
+@import "settings.colors";
+//@import "settings.foundation";
+
+		$base-font-size: 			16px;
+		$base-line-height:			24px;
+		$inuit-base-font-size: 		$base-font-size;
+		$inuit-base-line-height:	$base-line-height;
+@import "inuit-defaults/settings.defaults";
+@import "inuit-responsive-settings/settings.responsive";
+
+		// there is no special file for this as of yet
+		$title-frame-alpha:		0.4;
+		$default-border-radius:	3px;
+
+/*
+ * ITCSS Stage 2: Tools
+ * scss mixins and functions
+ */
+@import	"inuit-functions/tools.functions";
+@import	"inuit-mixins/tools.mixins";
+@import	"inuit-tools-widths/tools.widths";
+@import	"inuit-responsive-tools/tools.responsive";
+@import	"tools.aliases";
+@import	"tools.mixins";
+@import "tools.functions";
+
+/*
+ * ITCSS Stage 3: Generic
+ * global selectors, lowest specificity
+ * no cosmetics
+ */
+@import	"inuit-normalize/generic.normalize";
+@import	"generic.reset";
+@import	"generic.main";
+@import	"inuit-box-sizing/generic.box-sizing";
+
+/*
+ * ITCSS Stage 4: Base
+ * type selectors, no .classes or #ids
+ * no cosmetics
+ */
+@import "base.main";
+@import	"inuit-page/base.page";
+		$inuit-lede-size: 1.2;
+@import	"inuit-paragraphs/base.paragraphs";
+@import	"inuit-headings/base.headings";
+@import	"base.links";
+
+/*
+ * ITCSS Stage 5: Objects
+ * OOCSS and Framework
+ * no cometics (except framework)
+ */
+		$inuit-enable-layout--center:   true;
+		$inuit-enable-layout--auto:     true;
+@import "inuit-layout/objects.layout";
+		.layout--spacehack {
+			font-size: 0; // remove space between .layout__item elements
+			> * {
+				margin-top: 0; // undo owl
+				font-size: 1rem;
+			}
+		}
+		.layout__item--hr:before {
+			content: "";
+			display: block;
+			border-top: 1px solid $border-color;
+			width: 100%;
+			padding-bottom: 0.75rem;
+			margin-top: -0.75rem;
+		}
+
+		$inuit-enable-btn--small:   true;
+		$inuit-enable-btn--full:   true;
+		$inuit-btn-radius: 			$default-border-radius;
+		$inuit-btn-border-width:	0;
+@import "inuit-buttons/objects.buttons";
+@import	"inuit-list-inline/objects.list-inline";
+@import	"objects.wrapper";
+@import	"objects.text";
+@import	"objects.buttons";
+@import	"objects.badge";
+@import	"objects.whitespace";
+		
+		// Misc
+		@mixin panel {
+			background-color: $panel-bg-color;
+			border-radius: 3px;
+			@include std-box-shadow;
+		}
+		.panel {
+			@include panel;
+			padding: 10px;
+		}
+		.shaddow {
+			&--drop {
+				box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.1);
+			}
+			&--receive {
+				box-shadow: 0 6px 6px -6px rgba( 0, 0, 0, 1 ) inset;
+			}
+		}
+
+/*
+ * ITCSS Stage 6: Components
+ * high specificity
+ * the cosmetics
+ */
+@import	"components.foundation-icons";
+@import	"components.top-bar";
+@import	"components.main";
+@import	"components.nodelist";
+@import	"components.progress-bar";
+@import	"components.embed";
+
+/*
+ * ITCSS Stage 7: Trumps
+ * Highly specific functions that overwrite everything
+ * !important
+ */
+@import	"trumps.main";
+@import	"inuit-widths/trumps.widths";
+@import	"inuit-widths-responsive/trumps.widths-responsive";
+
+		.text--center {
+			text-align: center;
+		}
+
+		.pull {
+			&--left { float: left; }
+			&--right { float: right; }
+		}
+
+		// The Lesson Page Nodelist Hack
+		.lesson-page-hack {
+			@include media-query( desk ) {
+				margin-top: 0;
+				> .layout {
+					position: relative;
+					.layout__item:nth-child(1) {
+						position: absolute;
+						top: -( ($top-bar-height - 32px) / 2 + 32px );
+					}
+					.layout__item:nth-child(2) {
+						margin-top: 0;
+					}
+				}
+				.nodelist { margin: 0 10%; }
+			}
+		}
+
+
+

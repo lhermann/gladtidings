@@ -1,9 +1,44 @@
 {
-  "name": "gladtidings",
-  "version": "0.1.0",
+  "name": "inuit",
+  "authors": [
+    "lhermann <lukher6@web.de>"
+  ],
+  "description": "test purposes",
   "main": "index.html",
-  "private": "true",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
   "dependencies": {
-    "foundation": "zurb/bower-foundation"
+    "inuit-starter-kit": "~0.2.9",
+    "jquery": "~2.1.4",
+    "modernizr": "~3.2.0",
+    "inuit-paragraphs": "~0.1.4",
+    "inuit-list-inline": "~0.3.2",
+    "inuit-buttons": "~0.4.2",
+    "inuit-page": "~0.2.1",
+    "inuit-clearfix": "~0.2.2",
+    "inuit-layout": "~0.3.2",
+    "inuit-spacing": "~0.7.0",
+    "inuit-widths": "~0.4.2",
+    "inuit-images": "~0.3.3",
+    "inuit-headings": "~0.3.1",
+    "inuit-media": "~0.4.2",
+    "inuit-responsive-settings": "~0.1.5",
+    "inuit-responsive-tools": "~0.1.3",
+    "inuit-widths-responsive": "~0.2.2",
+    "inuit-list-ui": "~0.4.1",
+    "foundation-icon-fonts": "*",
+    "inuit-reset": "~0.1.1"
+  },
+  "private": true,
+  "devDependencies": {
+    "spec": "bower/spec"
   }
 }

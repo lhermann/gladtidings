@@ -1,10 +1,12 @@
-/*
- * Component: .nodelist
-\* =================================== */
+/*------------------------------------*\
+    #NODELIST
+\*------------------------------------*/
+
 // ul.nodelist
 .nodelist {
 	list-style: none;
 	margin-left: 0;
+	padding-left: 0;
 }
 .nodelist--horizontal {
 	text-align: justify;
@@ -40,7 +42,7 @@
 		color: #333333;
 		&:hover {
 			background-color: $panel-bg-color-hover;
-			.button, .badge {
+			.btn, .badge {
 				display: block;
 			}
 		}
@@ -52,7 +54,7 @@
 	}
 }
 // Content
-%activity--icon {
+%nodelist__icon {
 	font-family: "foundation-icons";
 	position: absolute;
 	font-size: 20px;
@@ -70,17 +72,12 @@
 	.nl__item--module & {
 		margin-left: 80px;
 	}
-	.nl__item--hero & {
-		margin-left: 140px;
-		padding: 0;
-		min-height: 120px;
-	}
 	.nl__item--video &:before {
-		@extend %activity--icon;
+		@extend %nodelist__icon;
 		content: "\f20e";
 	}
 	.nl__item--quizz &:before {
-		@extend %activity--icon;
+		@extend %nodelist__icon;
 		content: "\f129";
 	}
 }
@@ -89,13 +86,14 @@
 		padding-top: 1rem;
 	}
 }
-.nl__item__title,
 .nl__item__meta,
 .nl__item__footer {
 	margin: 0;
 }
 .nl__item__title {
 	font-weight: 200;
+	margin: 0.5rem 0;
+	color: $body-color;
 }
 .nl__item__meta {
 	position: absolute;
@@ -104,18 +102,35 @@
 }
 .nl__item__footer {
 	p {
+		margin: 0;
 		font-size: 80%;
 		color: $suppl-color;
 	}
-	p, .button, .badge {
-		margin-bottom: 0;
-	}
-	.button, .badge { // I should make my own button class to avoid specificity wars
-		@include absolute(0);
+	.btn, .badge { // I should make my own button class to avoid specificity wars
+		@include absolute(false);
 		right: 4px;
 		bottom: 4px;
-		padding: 0.3rem 0.6rem;
 		display: none;
+	}
+}
+
+//Variations
+.nl__item--hero {
+	.nl__item__article {
+		margin-left: 140px;
+		min-height: 120px;
+	}
+	.nl__item__title,
+	.nl__item__subtitle {
+		color: #fff;
+		text-shaddow: 0 1px 3px rgba(0, 0, 0, 0.65);
+	}
+	.nl__item__title {
+		font-weight: 500;
+		margin-top: 0;
+	}
+	.nl__item__subtitle {
+		margin-bottom: 0.5rem;
 	}
 }
 
@@ -131,6 +146,7 @@
 	}
 	> div {
 		position: absolute;
+		margin: 0;
 	}
 }
 .nl__node__link,
@@ -169,7 +185,7 @@
 	z-index: 4;
 	@include grow;
 	@include round;
-	color: $body-color;
+	//color: $body-color;
 	text-align: center;
 	line-height: 22px;
 	&:after {
@@ -290,7 +306,7 @@
 		border-color: $success-color;
 		overflow: hidden;
 		font-weight: 200;
-		line-height: 2.5;
+		line-height: 2.75;
 		color: $body-color;
 		&:before {
 			content:"";
@@ -302,7 +318,7 @@
 	}
 	.nl__node--bigger .nl__node__inner {
 		font-size: 2rem;
-		line-height: 2.9;
+		line-height: 2.85;
 		font-weight: bold
 	}
 }

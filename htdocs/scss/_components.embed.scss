@@ -1,0 +1,11 @@
+.embed {
+	height: 0;
+	overflow: hidden;
+	padding-bottom: 67.5%;
+	padding-top: 1.5625rem;
+	position: relative;
+
+	&--16\:9 {
+		padding-bottom: 56.34%;
+	}
+}

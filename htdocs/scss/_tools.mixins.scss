@@ -11,7 +11,9 @@
 // Positioning
 @mixin absolute($z) {
 	position: absolute;
-	z-index: $z;
+	@if($z != false) {
+		z-index: $z;
+	}
 }
 @mixin h-center( $width ) {
 	left: 50%;
