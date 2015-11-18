@@ -1,6 +1,7 @@
 {
-  "name": "foundation-compass-app",
-  "version": "0.0.1",
+  "name": "gladtidings",
+  "version": "0.1.0",
+  "main": "index.html",
   "private": "true",
   "dependencies": {
     "foundation": "zurb/bower-foundation"
