@@ -3,7 +3,7 @@ A Wordpress theme for missionary purposes. It highly customizes wordpress to mak
 
 This Project is under early development.
 
-## Utalizes
+## Utilizes
 * [InuitCSS](https://github.com/inuitcss/getting-started)
 * [Foundation Icons](https://github.com/zurb/foundation-icon-fonts)
 
