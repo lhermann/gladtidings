@@ -16,7 +16,11 @@
 	margin-top: 0;
 
 	background-color: $success-color;
-	background: url("../img/header-bg2.jpg") center/cover $primary-color;
+	background-image: url("../img/header-bg2.jpg");
+	background-position: center;
+	background-size: cover;
+
+	color: #fff;
 
 	&__frame {
 		max-width: 46rem;
@@ -25,7 +29,6 @@
 		border-radius: 3px;
 		padding: 0.5rem;
 		text-align: center;
-		color: #fff;
 		text-shadow: 0 1px 3px rgba( 0, 0, 0, .65 );
 	}
 

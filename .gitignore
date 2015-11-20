@@ -1,4 +1,10 @@
 /bower_components/*
 /.sass-cache/*
 *.DS_Store
-/stylesheets/*
+/themefiles/css/*
+/themefiles/fonts/*
+
+
+# Wordpress
+wordpress
+/index.php

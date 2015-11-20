@@ -2,6 +2,13 @@
  * Design by Lukas Hermann <lukas.hermann@joelmediatv.de>
  */
 
+ /*
+  * To Do
+  * - integrate icons into assets
+  * - change header default background color
+  * - check W3C compliance
+  */
+
 /**
  * CONTENTS
  * [work in progress]
@@ -123,6 +130,9 @@
 @import	"inuit-page/base.page";
 		$inuit-lede-size: 1.2;
 @import	"inuit-paragraphs/base.paragraphs";
+		.lede {
+			color: $unstress-color;
+		}
 @import	"inuit-headings/base.headings";
 @import	"base.links";
 
@@ -227,6 +237,11 @@
 				}
 				.nodelist { margin: 0 10%; }
 			}
+		}
+		
+		// Wordpress Admin Bar
+		#wpadminbar {
+			margin-top: 0;
 		}
 
 

@@ -1,6 +1,16 @@
 @charset "UTF-8";
+/*!
+ * Design by Lukas Hermann <lukas.hermann@joelmediatv.de>
+ */
+/*
+ * To Do
+ * - integrate icons into assets
+ * - change header default background color
+ * - check W3C compliance
+ */
 /**
  * CONTENTS
+ * [work in progress]
  *
  * SETTINGS
  * Default..............inuitcss’ default settings.
@@ -664,6 +674,11 @@ html {
   line-height: 1.25;
 }
 
+/* line 133, ../scss/main.scss */
+.lede {
+  color: #AAA;
+}
+
 /*------------------------------------*\
     #HEADINGS
 \*------------------------------------*/
@@ -796,17 +811,17 @@ a:hover {
   width: auto;
 }
 
-/* line 132, ../scss/main.scss */
+/* line 147, ../scss/main.scss */
 .layout--spacehack {
   font-size: 0;
 }
-/* line 134, ../scss/main.scss */
+/* line 149, ../scss/main.scss */
 .layout--spacehack > * {
   margin-top: 0;
   font-size: 1rem;
 }
 
-/* line 139, ../scss/main.scss */
+/* line 154, ../scss/main.scss */
 .layout__item--hr:before {
   content: "";
   display: block;
@@ -1010,7 +1025,7 @@ a:hover {
   height: 3rem;
 }
 
-/* line 166, ../scss/main.scss */
+/* line 181, ../scss/main.scss */
 .panel {
   background-color: #F5F5F5;
   border-radius: 3px;
@@ -1018,11 +1033,11 @@ a:hover {
   padding: 10px;
 }
 
-/* line 171, ../scss/main.scss */
+/* line 186, ../scss/main.scss */
 .shaddow--drop {
   box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.1);
 }
-/* line 174, ../scss/main.scss */
+/* line 189, ../scss/main.scss */
 .shaddow--receive {
   box-shadow: 0 6px 6px -6px black inset;
 }
@@ -1041,12 +1056,12 @@ a:hover {
  */
 @font-face {
   font-family: "foundation-icons";
-  src: url("../../bower_components/foundation-icon-fonts/foundation-icons.eot");
-  src: url("../../bower_components/foundation-icon-fonts/foundation-icons.eot?#iefix") format("embedded-opentype"), url("../../bower_components/foundation-icon-fonts/foundation-icons.woff") format("woff"), url("../../bower_components/foundation-icon-fonts/foundation-icons.ttf") format("truetype"), url("../../bower_components/foundation-icon-fonts/foundation-icons.svg#fontcustom") format("svg");
+  src: url("../fonts//foundation-icons.eot");
+  src: url("../fonts//foundation-icons.eot?#iefix") format("embedded-opentype"), url("../fonts//foundation-icons.woff") format("woff"), url("../fonts//foundation-icons.ttf") format("truetype"), url("../fonts//foundation-icons.svg#fontcustom") format("svg");
   font-weight: normal;
   font-style: normal;
 }
-/* line 29, ../scss/_components.foundation-icons.scss */
+/* line 30, ../scss/_components.foundation-icons.scss */
 .fi:before {
   font-family: "foundation-icons";
   font-style: normal;
@@ -1059,32 +1074,32 @@ a:hover {
   vertical-align: bottom;
 }
 
-/* line 52, ../scss/_components.foundation-icons.scss */
+/* line 53, ../scss/_components.foundation-icons.scss */
 .fi-arrow-right:before {
   content: "\f10b";
 }
 
-/* line 82, ../scss/_components.foundation-icons.scss */
+/* line 83, ../scss/_components.foundation-icons.scss */
 .fi-clipboard-pencil:before {
   content: "\f129";
 }
 
-/* line 108, ../scss/_components.foundation-icons.scss */
+/* line 109, ../scss/_components.foundation-icons.scss */
 .fi-download:before {
   content: "\f143";
 }
 
-/* line 143, ../scss/_components.foundation-icons.scss */
+/* line 144, ../scss/_components.foundation-icons.scss */
 .fi-list-bullet:before {
   content: "\f166";
 }
 
-/* line 237, ../scss/_components.foundation-icons.scss */
+/* line 238, ../scss/_components.foundation-icons.scss */
 .fi-social-facebook:before {
   content: "\f1c4";
 }
 
-/* line 311, ../scss/_components.foundation-icons.scss */
+/* line 312, ../scss/_components.foundation-icons.scss */
 .fi-video:before {
   content: "\f20e";
 }
@@ -1194,7 +1209,10 @@ a:hover {
 .page-hero {
   margin-top: 0;
   background-color: #02944B;
-  background: url("../img/header-bg2.jpg") center/cover #4FA5B8;
+  background-image: url("../img/header-bg2.jpg");
+  background-position: center;
+  background-size: cover;
+  color: #fff;
 }
 /* line 6, ../scss/_components.main.scss */
 .page-hero > .wrapper {
@@ -1207,7 +1225,7 @@ a:hover {
   padding-top: 6%;
   padding-bottom: 6%;
 }
-/* line 21, ../scss/_components.main.scss */
+/* line 25, ../scss/_components.main.scss */
 .page-hero__frame {
   max-width: 46rem;
   margin: 0 auto;
@@ -1215,18 +1233,17 @@ a:hover {
   border-radius: 3px;
   padding: 0.5rem;
   text-align: center;
-  color: #fff;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.65);
 }
-/* line 32, ../scss/_components.main.scss */
+/* line 35, ../scss/_components.main.scss */
 .page-hero__title, .page-hero__subtitle {
   margin: 1rem 0;
 }
-/* line 37, ../scss/_components.main.scss */
+/* line 40, ../scss/_components.main.scss */
 .page-hero__subtitle {
   font-weight: 200;
 }
-/* line 41, ../scss/_components.main.scss */
+/* line 44, ../scss/_components.main.scss */
 .page-hero__hr {
   background-color: #fff;
   width: 60%;
@@ -1238,11 +1255,11 @@ a:hover {
 /*
  * Component: .progress
 \* =================================== */
-/* line 54, ../scss/_components.main.scss */
+/* line 57, ../scss/_components.main.scss */
 .progress--panel {
   border-color: #CCC;
 }
-/* line 56, ../scss/_components.main.scss */
+/* line 59, ../scss/_components.main.scss */
 .progress--panel .meter {
   color: #fff;
   font-size: 80%;
@@ -1251,7 +1268,7 @@ a:hover {
 /*
  * Component: .page-footer
 \* =================================== */
-/* line 65, ../scss/_components.main.scss */
+/* line 68, ../scss/_components.main.scss */
 .page-footer {
   padding: 1.5rem 0;
   background-color: #333;
@@ -2156,40 +2173,45 @@ a .nl__node__border:hover {
     width: 80% !important;
   }
 }
-/* line 200, ../scss/main.scss */
+/* line 215, ../scss/main.scss */
 .text--center {
   text-align: center;
 }
 
-/* line 205, ../scss/main.scss */
+/* line 220, ../scss/main.scss */
 .pull--left {
   float: left;
 }
-/* line 206, ../scss/main.scss */
+/* line 221, ../scss/main.scss */
 .pull--right {
   float: right;
 }
 
 @media screen and (min-width: 64em) {
-  /* line 210, ../scss/main.scss */
+  /* line 225, ../scss/main.scss */
   .lesson-page-hack {
     margin-top: 0;
   }
-  /* line 213, ../scss/main.scss */
+  /* line 228, ../scss/main.scss */
   .lesson-page-hack > .layout {
     position: relative;
   }
-  /* line 215, ../scss/main.scss */
+  /* line 230, ../scss/main.scss */
   .lesson-page-hack > .layout .layout__item:nth-child(1) {
     position: absolute;
     top: -42px;
   }
-  /* line 219, ../scss/main.scss */
+  /* line 234, ../scss/main.scss */
   .lesson-page-hack > .layout .layout__item:nth-child(2) {
     margin-top: 0;
   }
-  /* line 223, ../scss/main.scss */
+  /* line 238, ../scss/main.scss */
   .lesson-page-hack .nodelist {
     margin: 0 10%;
   }
+}
+
+/* line 243, ../scss/main.scss */
+#wpadminbar {
+  margin-top: 0;
 }

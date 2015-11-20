@@ -1,14 +1,14 @@
 require 'compass/import-once/activate'
 # Require any additional compass plugins here.
 
-# add_import_path "/Applications/MAMP/htdocs/inuit/bower_components"
+# add_import_path "/Applications/MAMP/bower_components"
 add_import_path "bower_components"
 
-http_path = "htdocs/"
-css_dir = "htdocs/css"
-sass_dir = "htdocs/scss"
-images_dir = "htdocs/img"
-javascripts_dir = "htdocs/js"
+http_path = "themefiles/"
+css_dir = "themefiles/css"
+sass_dir = "themefiles/scss"
+images_dir = "themefiles/img"
+javascripts_dir = "themefiles/js"
 
 # You can select your preferred output style here (can be overridden via the command line):
 # output_style = :expanded or :nested or :compact or :compressed
