@@ -55,7 +55,8 @@ $color-active-border: #006799;
 	.column-type {
 		width: 12px;
 	}
-	.column-order {
+	.column-l-order,
+	.column-c-order {
 		width: 40px;
 		text-align: center;
 		> a {
