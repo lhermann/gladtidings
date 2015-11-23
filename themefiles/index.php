@@ -2,25 +2,33 @@
 <html class="no-js" <?php language_attributes(); ?>>
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
-	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Home – The Glad Tidings</title>
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
 	<!--<script src="js/modernizr.js"></script>-->
 	<?php wp_head(); ?>
+	<style>
+		.page-hero {
+			background-image: url( "<?= get_header_image(); ?>" );
+			color: #<?= get_header_textcolor() ?>;
+		}
+		.page-hero__hr {
+			background-color: #<?= get_header_textcolor() ?>;
+		}
+		.nl__item--2 .nl__node__inner:before {
+			width: 31%;
+		}
+	</style>
 </head>
 <body>
 
 	<header id="page-header" class="page-hero">
 
-		<nav class="top-bar top-bar--layover owl--off" role="navigation">
+		<nav class="top-bar top-bar--layover owl--off">
 			<ul class="top-bar__right">
 				
 				<li class="top-bar__item top-bar__item--link"><a href="#" title=""> </a></li>
-				<!-- <li class="top-bar__item top-bar__item--btn"><a class="top-bar__btn btn btn--small" href="#" title="Sign up or Log in">Log In</a></li> -->
-				<li class="top-bar__item top-bar__item--avatar"><a class="top-bar__avatar" href="" title="Your Profile"><img src="img/avatar-300.jpg" alt="User Avatar" height="36px" width="36px"></a></li>
-
-				<!-- <li class="top-bar__item top-bar__item--menu-icon"><a href="#"><span>Menu</span></a></li> -->
+				<li class="top-bar__item top-bar__item--avatar"><a class="top-bar__avatar" href="" title="Your Profile"><img src="img/avatar-300.jpg" alt="User Avatar" height="36" width="36"></a></li>
 
 			</ul>
 		</nav>
@@ -32,16 +40,6 @@
 				<p class="page-hero__subtitle">What the Prophets of old want you to know</p>
 			</div>
 		</div><!-- /.wrapper -->
-
-		<style type="text/css">
-			.page-hero {
-				background-image: url( "<?= get_header_image(); ?>" );
-				color: #<?= get_header_textcolor() ?>;
-			}
-			.page-hero__hr {
-				background-color: #<?= get_header_textcolor() ?>;
-			}
-		</style>
 
 	</header>
 
@@ -60,7 +58,7 @@
 				<section class="layout__item u-2/3-lap-and-up">
 					<h2 class="text-center">Lessons</h2>
 					<ul class="nodelist">
-						<li class="nl__item nl__item--module nl__item--success">
+						<li class="nl__item nl__item--1 nl__item--module nl__item--success">
 							<a href="module.html">
 								<article class="nl__item__article">
 									<header class="nl__item__header">
@@ -69,7 +67,7 @@
 									</header>
 									<footer class="nl__item__footer">
 										<p><i class="fi fi-video"></i> 10 Lessons &nbsp; <i class="fi fi-clipboard-pencil"></i> 1 Quizz</p>
-										<button class="btn btn--tiny" href="module.html">Review</button>
+										<span class="btn btn--tiny">Review</span>
 									</footer>
 								</article>
 							</a>
@@ -80,7 +78,7 @@
 								<div class="nl__node__inner"></div>
 							</div>
 						</li>
-						<li class="nl__item nl__item--module nl__item--active">
+						<li class="nl__item nl__item--2 nl__item--module nl__item--active">
 							<a href="module.html">
 								<article class="nl__item__article">
 									<header class="nl__item__header">
@@ -89,22 +87,17 @@
 									</header>
 									<footer class="nl__item__footer">
 										<p><i class="fi fi-video"></i> 8 Lessons &nbsp; <i class="fi fi-clipboard-pencil"></i> 1 Quizz</p>
-										<button class="btn btn--tiny" href="module.html">Continue</button>
+										<span class="btn btn--tiny">Continue</span>
 									</footer>
 								</article></a>
 							<div class="nl__node nl__node--big">
 								<div class="nl__node__link"></div>
 								<div class="nl__node__border"></div>
 								<div class="nl__node__link__inner"></div>
-								<style>
-									.nl__node__inner:before {
-										width: 31%;
-									}
-								</style>
 								<div class="nl__node__inner">31%</div>
 							</div>
 						</li>
-						<li class="nl__item nl__item--module nl__item--locked">
+						<li class="nl__item nl__item--3 nl__item--module nl__item--locked">
 							<article class="nl__item__article">
 								<header class="nl__item__header">
 									<h4 class="nl__item__title">The Ottoman Empire and how God used Mohammed to Punish Rome</h4>
@@ -122,7 +115,7 @@
 								<div class="nl__node__inner"></div>
 							</div>
 						</li>
-						<li class="nl__item nl__item--module nl__item--locked">
+						<li class="nl__item nl__item--4 nl__item--module nl__item--locked">
 							<article class="nl__item__article">
 								<header class="nl__item__header">
 									<h4 class="nl__item__title">A Message to the World</h4>
@@ -140,7 +133,7 @@
 								<div class="nl__node__inner"></div>
 							</div>
 						</li>
-						<li class="nl__item nl__item--module nl__item--locked">
+						<li class="nl__item nl__item--5 nl__item--module nl__item--locked">
 								<article class="nl__item__article">
 									<header class="nl__item__header">
 										<h4 class="nl__item__title">Health, History and Prophets</h4>
@@ -158,7 +151,7 @@
 								<div class="nl__node__inner"></div>
 							</div>
 						</li>
-						<li class="nl__item nl__item--module nl__item--locked">
+						<li class="nl__item nl__item--6 nl__item--module nl__item--locked">
 								<article class="nl__item__article">
 									<header class="nl__item__header">
 										<h4 class="nl__item__title">Last Things</h4>

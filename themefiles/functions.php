@@ -16,7 +16,7 @@ define( THEMEVERSION, '0.2.0-beta.1' );
 	External Modules/Files
 \*------------------------------------*/
 
-// Load any external files you have here
+require_once ( "inc/functions-course.php" );
 
 /*------------------------------------*\
 	Theme Setup
@@ -70,28 +70,72 @@ function scripts_and_styles() {
 }
 add_action( 'wp_enqueue_scripts', 'scripts_and_styles' );
 
+/*
+ * Admin Scripts and styles
+ */
+function admin_scripts_and_styles() {
+	// Add stylesheet
+	wp_enqueue_style( 'custom_admin_css', get_bloginfo('template_directory').'/css/admin.css', array( 'colors' ) );
+
+	// Add javascript
+	wp_enqueue_script( 'custom_admin_js', get_bloginfo( 'template_directory' ).'/js/admin.js', array( 'jquery' ), false, true );
+};
+add_action( 'admin_enqueue_scripts', 'admin_scripts_and_styles' );
+
 /*------------------------------------*\
 	Functions
 \*------------------------------------*/
 
+/**
+ * Admin Menu tweaks
+ */
+function remove_menus(){
+  
+//	remove_menu_page( 'index.php' );                  //Dashboard
+	remove_menu_page( 'edit.php' );                   //Posts
+//	remove_menu_page( 'upload.php' );                 //Media
+	remove_menu_page( 'edit.php?post_type=page' );    //Pages
+	remove_menu_page( 'edit-comments.php' );          //Comments
+//	remove_menu_page( 'themes.php' );                 //Appearance
+//	remove_menu_page( 'plugins.php' );                //Plugins
+//	remove_menu_page( 'users.php' );                  //Users
+//	remove_menu_page( 'tools.php' );                  //Tools
+//	remove_menu_page( 'options-general.php' );        //Settings
+  
+}
+add_action( 'admin_menu', 'remove_menus' );
 
+/**
+ * Admin Bar tweaks
+ * (1) Remove Comments Display
+ * (2) Remove 'Add Post' and 'Add Page'
+ */
+function my_tweaked_admin_bar() {
+    global $wp_admin_bar;
+    $wp_admin_bar->remove_menu('comments'); // (1)
+    $wp_admin_bar->remove_menu('new-post'); // (2)
+    $wp_admin_bar->remove_menu('new-page'); // (2)
+}
+add_action( 'wp_before_admin_bar_render', 'my_tweaked_admin_bar' );
 
 /*------------------------------------*\
 	Actions + Filters
 \*------------------------------------*/
 // Remove Actions
 // remove_action('wp_head', 'feed_links_extra', 3); // Display the links to the extra feeds such as category feeds
-// remove_action('wp_head', 'feed_links', 2); // Display the links to the general feeds: Post and Comment Feed
-// remove_action('wp_head', 'rsd_link'); // Display the link to the Really Simple Discovery service endpoint, EditURI link
-// remove_action('wp_head', 'wlwmanifest_link'); // Display the link to the Windows Live Writer manifest file.
+remove_action('wp_head', 'feed_links', 2); // Display the links to the general feeds: Post and Comment Feed
+remove_action('wp_head', 'rsd_link'); // Display the link to the Really Simple Discovery service endpoint, EditURI link
+remove_action('wp_head', 'wlwmanifest_link'); // Display the link to the Windows Live Writer manifest file.
 // remove_action('wp_head', 'index_rel_link'); // Index link
 // remove_action('wp_head', 'parent_post_rel_link', 10, 0); // Prev link
 // remove_action('wp_head', 'start_post_rel_link', 10, 0); // Start link
 // remove_action('wp_head', 'adjacent_posts_rel_link', 10, 0); // Display relational links for the posts adjacent to the current post.
-// remove_action('wp_head', 'wp_generator'); // Display the XHTML generator that is generated on the wp_head hook, WP version
+remove_action('wp_head', 'wp_generator'); // Display the XHTML generator that is generated on the wp_head hook, WP version
 // remove_action('wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0);
 // remove_action('wp_head', 'rel_canonical');
 // remove_action('wp_head', 'wp_shortlink_wp_head', 10, 0);
+remove_action( 'wp_head', 'print_emoji_detection_script', 7 ); // javascript that detects emoji support
+remove_action( 'wp_print_styles', 'print_emoji_styles' ); // emoji styles printed in the head section
 
 // Add Filters
 //add_filter( 'show_admin_bar', 'remove_admin_bar' ); // Remove Admin bar
@@ -100,8 +144,7 @@ add_action( 'wp_enqueue_scripts', 'scripts_and_styles' );
 // remove_filter('the_excerpt', 'wpautop'); // Remove <p> tags from Excerpt altogether
 
 // Remove Admin bar
-function remove_admin_bar()
-{
+function remove_admin_bar() {
     return false;
 }
 

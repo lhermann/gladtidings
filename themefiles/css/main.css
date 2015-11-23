@@ -1313,34 +1313,29 @@ a:hover {
 .nl__item {
   position: relative;
 }
-/* line 36, ../scss/_components.nodelist.scss */
-.nl__item--lesson {
-  margin-bottom: rem-calc(12);
-}
-/* line 39, ../scss/_components.nodelist.scss */
+/* line 38, ../scss/_components.nodelist.scss */
 .nl__item--module {
   background-color: #F5F5F5;
   border-radius: 3px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-  margin-bottom: rem-calc(20);
   color: #333333;
 }
-/* line 43, ../scss/_components.nodelist.scss */
+/* line 41, ../scss/_components.nodelist.scss */
 .nl__item--module:hover {
   background-color: #f1f1f1;
 }
-/* line 45, ../scss/_components.nodelist.scss */
+/* line 43, ../scss/_components.nodelist.scss */
 .nl__item--module:hover .btn, .nl__item--module:hover .badge {
   display: block;
 }
-/* line 50, ../scss/_components.nodelist.scss */
+/* line 48, ../scss/_components.nodelist.scss */
 .nl__item--hero {
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 4rem 3px 3px 4rem;
   padding: 0.3rem;
 }
 
-/* line 57, ../scss/_components.nodelist.scss */
+/* line 55, ../scss/_components.nodelist.scss */
 .nl__item--video .nl__item__article:before, .nl__item--quizz .nl__item__article:before {
   font-family: "foundation-icons";
   position: absolute;
@@ -1352,60 +1347,60 @@ a:hover {
   color: #AAA;
 }
 
-/* line 66, ../scss/_components.nodelist.scss */
+/* line 64, ../scss/_components.nodelist.scss */
 .nl__item__article {
   margin-left: 70px;
   padding: 4px;
 }
-/* line 69, ../scss/_components.nodelist.scss */
+/* line 67, ../scss/_components.nodelist.scss */
 .nl__item--heading .nl__item__article {
   margin-left: 38px;
 }
-/* line 72, ../scss/_components.nodelist.scss */
+/* line 70, ../scss/_components.nodelist.scss */
 .nl__item--module .nl__item__article {
   margin-left: 80px;
 }
-/* line 75, ../scss/_components.nodelist.scss */
+/* line 73, ../scss/_components.nodelist.scss */
 .nl__item--video .nl__item__article:before {
   content: "\f20e";
 }
-/* line 79, ../scss/_components.nodelist.scss */
+/* line 77, ../scss/_components.nodelist.scss */
 .nl__item--quizz .nl__item__article:before {
   content: "\f129";
 }
 
-/* line 85, ../scss/_components.nodelist.scss */
+/* line 83, ../scss/_components.nodelist.scss */
 .nl__item--module .nl__item__header {
   padding-top: 1rem;
 }
 
-/* line 89, ../scss/_components.nodelist.scss */
+/* line 87, ../scss/_components.nodelist.scss */
 .nl__item__meta,
 .nl__item__footer {
   margin: 0;
 }
 
-/* line 93, ../scss/_components.nodelist.scss */
+/* line 91, ../scss/_components.nodelist.scss */
 .nl__item__title {
   font-weight: 200;
   margin: 0.5rem 0;
   color: #222;
 }
 
-/* line 98, ../scss/_components.nodelist.scss */
+/* line 96, ../scss/_components.nodelist.scss */
 .nl__item__meta {
   position: absolute;
   top: 0.2rem;
   color: #AAA;
 }
 
-/* line 104, ../scss/_components.nodelist.scss */
+/* line 102, ../scss/_components.nodelist.scss */
 .nl__item__footer p {
   margin: 0;
   font-size: 80%;
   color: #F2A200;
 }
-/* line 109, ../scss/_components.nodelist.scss */
+/* line 107, ../scss/_components.nodelist.scss */
 .nl__item__footer .btn, .nl__item__footer .badge {
   position: absolute;
   right: 4px;
@@ -1413,55 +1408,55 @@ a:hover {
   display: none;
 }
 
-/* line 119, ../scss/_components.nodelist.scss */
+/* line 117, ../scss/_components.nodelist.scss */
 .nl__item--hero .nl__item__article {
   margin-left: 140px;
   min-height: 120px;
 }
-/* line 123, ../scss/_components.nodelist.scss */
+/* line 121, ../scss/_components.nodelist.scss */
 .nl__item--hero .nl__item__title,
 .nl__item--hero .nl__item__subtitle {
   color: #fff;
-  text-shaddow: 0 1px 3px rgba(0, 0, 0, 0.65);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.65);
 }
-/* line 128, ../scss/_components.nodelist.scss */
+/* line 126, ../scss/_components.nodelist.scss */
 .nl__item--hero .nl__item__title {
   font-weight: 500;
   margin-top: 0;
 }
-/* line 132, ../scss/_components.nodelist.scss */
+/* line 130, ../scss/_components.nodelist.scss */
 .nl__item--hero .nl__item__subtitle {
   margin-bottom: 0.5rem;
 }
 
-/* line 138, ../scss/_components.nodelist.scss */
+/* line 136, ../scss/_components.nodelist.scss */
 .nl__node {
   position: absolute;
   width: 30px;
   height: 30px;
 }
-/* line 141, ../scss/_components.nodelist.scss */
+/* line 139, ../scss/_components.nodelist.scss */
 .nl__item--lesson .nl__node {
   top: 50%;
   margin-top: -15px;
 }
-/* line 144, ../scss/_components.nodelist.scss */
+/* line 142, ../scss/_components.nodelist.scss */
 .nl__item--node .nl__node {
   position: relative;
 }
-/* line 147, ../scss/_components.nodelist.scss */
+/* line 145, ../scss/_components.nodelist.scss */
 .nl__node > div {
   position: absolute;
   margin: 0;
 }
 
-/* line 152, ../scss/_components.nodelist.scss */
+/* line 150, ../scss/_components.nodelist.scss */
 .nl__node__link,
 .nl__node__link__inner {
   left: 50%;
 }
 
-/* line 156, ../scss/_components.nodelist.scss */
+/* line 154, ../scss/_components.nodelist.scss */
 .nl__node__link {
   z-index: 1;
   margin-left: -1px;
@@ -1469,22 +1464,22 @@ a:hover {
   height: 300%;
   top: -100%;
 }
-/* line 162, ../scss/_components.nodelist.scss */
+/* line 160, ../scss/_components.nodelist.scss */
 .nl__item:first-child .nl__node__link {
   height: 200%;
   top: 50%;
 }
-/* line 165, ../scss/_components.nodelist.scss */
+/* line 163, ../scss/_components.nodelist.scss */
 .nl__item:last-child .nl__node__link {
   height: 100%;
 }
 
-/* line 169, ../scss/_components.nodelist.scss */
+/* line 167, ../scss/_components.nodelist.scss */
 .nl__node__link__inner {
   z-index: 3;
 }
 
-/* line 172, ../scss/_components.nodelist.scss */
+/* line 170, ../scss/_components.nodelist.scss */
 .nl__node__border {
   z-index: 2;
   width: 100%;
@@ -1495,12 +1490,12 @@ a:hover {
   background-color: #fff;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 }
-/* line 180, ../scss/_components.nodelist.scss */
+/* line 178, ../scss/_components.nodelist.scss */
 a .nl__node__border:hover {
   background-color: #f5f5f5;
 }
 
-/* line 184, ../scss/_components.nodelist.scss */
+/* line 182, ../scss/_components.nodelist.scss */
 .nl__node__inner {
   z-index: 4;
   width: 100%;
@@ -1509,7 +1504,7 @@ a .nl__node__border:hover {
   text-align: center;
   line-height: 22px;
 }
-/* line 191, ../scss/_components.nodelist.scss */
+/* line 189, ../scss/_components.nodelist.scss */
 .nl__node__inner:after {
   font-family: "foundation-icons";
   font-size: 1.3rem;
@@ -1517,25 +1512,25 @@ a .nl__node__border:hover {
   margin-left: 1px;
 }
 
-/* line 200, ../scss/_components.nodelist.scss */
+/* line 198, ../scss/_components.nodelist.scss */
 .nl__node--small {
   padding: 8px;
 }
-/* line 202, ../scss/_components.nodelist.scss */
+/* line 200, ../scss/_components.nodelist.scss */
 .nl__node--small .nl__node__border {
   width: 14px;
   height: 14px;
 }
-/* line 205, ../scss/_components.nodelist.scss */
+/* line 203, ../scss/_components.nodelist.scss */
 .nl__node--small .nl__node__inner {
   background-color: #CCC;
 }
-/* line 207, ../scss/_components.nodelist.scss */
+/* line 205, ../scss/_components.nodelist.scss */
 .nl__node--small .nl__node__inner:after {
   display: none;
 }
 
-/* line 212, ../scss/_components.nodelist.scss */
+/* line 210, ../scss/_components.nodelist.scss */
 .nl__node--big {
   width: 60px;
   height: 60px;
@@ -1543,34 +1538,34 @@ a .nl__node__border:hover {
   margin-top: -30px;
   margin-left: 10px;
 }
-/* line 216, ../scss/_components.nodelist.scss */
+/* line 214, ../scss/_components.nodelist.scss */
 .nl__node--big .nl__node__link,
 .nl__node--big .nl__node__link__inner {
   top: 50%;
   height: 200%;
   background-color: #fff;
 }
-/* line 221, ../scss/_components.nodelist.scss */
+/* line 219, ../scss/_components.nodelist.scss */
 .nl__item:last-child .nl__node--big .nl__node__link, .nl__item:last-child
 .nl__node--big .nl__node__link__inner {
   display: none;
 }
-/* line 225, ../scss/_components.nodelist.scss */
+/* line 223, ../scss/_components.nodelist.scss */
 .nl__node--big .nl__node__link {
   margin-left: -7px;
   width: 14px;
 }
-/* line 229, ../scss/_components.nodelist.scss */
+/* line 227, ../scss/_components.nodelist.scss */
 .nl__node--big .nl__node__link__inner {
   margin-left: -6px;
   width: 12px;
   border: 4px solid #fff;
 }
-/* line 234, ../scss/_components.nodelist.scss */
+/* line 232, ../scss/_components.nodelist.scss */
 .nl__node--big .nl__node__border {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3) inset;
 }
-/* line 237, ../scss/_components.nodelist.scss */
+/* line 235, ../scss/_components.nodelist.scss */
 .nl__node--big .nl__node__inner {
   width: 50px;
   height: 50px;
@@ -1578,28 +1573,28 @@ a .nl__node__border:hover {
   border: 4px solid #CCC;
   background-color: #fff;
 }
-/* line 242, ../scss/_components.nodelist.scss */
+/* line 240, ../scss/_components.nodelist.scss */
 .nl__node--big .nl__node__inner:after {
   font-size: 2rem;
   line-height: 1.3;
 }
 
-/* line 248, ../scss/_components.nodelist.scss */
+/* line 246, ../scss/_components.nodelist.scss */
 .nl__node--bigger {
   width: 120px;
   height: 120px;
   top: 50%;
   margin-top: -60px;
 }
-/* line 251, ../scss/_components.nodelist.scss */
+/* line 249, ../scss/_components.nodelist.scss */
 .nl__node--bigger .nl__node__link {
   display: none;
 }
-/* line 254, ../scss/_components.nodelist.scss */
+/* line 252, ../scss/_components.nodelist.scss */
 .nl__node--bigger .nl__node__border {
   border-color: #CCC;
 }
-/* line 257, ../scss/_components.nodelist.scss */
+/* line 255, ../scss/_components.nodelist.scss */
 .nl__node--bigger .nl__node__inner {
   width: 104px;
   height: 104px;
@@ -1607,46 +1602,46 @@ a .nl__node__border:hover {
   border: 6px solid #CCC;
   background-color: #fff;
 }
-/* line 262, ../scss/_components.nodelist.scss */
+/* line 260, ../scss/_components.nodelist.scss */
 .nl__node--bigger .nl__node__inner:after {
   font-size: 2rem;
   line-height: 1.3;
 }
 
-/* line 271, ../scss/_components.nodelist.scss */
+/* line 269, ../scss/_components.nodelist.scss */
 .nl__item--success .nl__node__link__inner,
 .nl__item--success .nl__node--small .nl__node__inner {
   background-color: #02944B;
 }
-/* line 275, ../scss/_components.nodelist.scss */
+/* line 273, ../scss/_components.nodelist.scss */
 .nl__item--success :not(.nl__node--big) .nl__node__border {
   border-color: #02944B;
 }
-/* line 278, ../scss/_components.nodelist.scss */
+/* line 276, ../scss/_components.nodelist.scss */
 .nl__item--success .nl__node__inner {
   font-size: 0;
   border-color: #02944B;
 }
-/* line 281, ../scss/_components.nodelist.scss */
+/* line 279, ../scss/_components.nodelist.scss */
 .nl__item--success .nl__node__inner:after {
   content: "\f126";
   color: #02944B;
 }
 
-/* line 291, ../scss/_components.nodelist.scss */
+/* line 289, ../scss/_components.nodelist.scss */
 .nl__item--active :not(.nl__node--big) .nl__node__border {
   border-color: #4FA5B8;
 }
-/* line 294, ../scss/_components.nodelist.scss */
+/* line 292, ../scss/_components.nodelist.scss */
 .nl__item--active :not(.nl__node--big) .nl__node__inner {
   color: #4FA5B8;
   font-weight: bold;
 }
-/* line 300, ../scss/_components.nodelist.scss */
+/* line 298, ../scss/_components.nodelist.scss */
 .nl__item--active .nl__node--bigger .nl__node__border {
   border: none;
 }
-/* line 304, ../scss/_components.nodelist.scss */
+/* line 302, ../scss/_components.nodelist.scss */
 .nl__item--active .nl__node--big .nl__node__inner,
 .nl__item--active .nl__node--bigger .nl__node__inner {
   border-color: #02944B;
@@ -1655,7 +1650,7 @@ a .nl__node__border:hover {
   line-height: 2.75;
   color: #222;
 }
-/* line 311, ../scss/_components.nodelist.scss */
+/* line 309, ../scss/_components.nodelist.scss */
 .nl__item--active .nl__node--big .nl__node__inner:before,
 .nl__item--active .nl__node--bigger .nl__node__inner:before {
   content: "";
@@ -1664,18 +1659,18 @@ a .nl__node__border:hover {
   background-color: rgba(2, 148, 75, 0.4);
   left: 0;
 }
-/* line 319, ../scss/_components.nodelist.scss */
+/* line 317, ../scss/_components.nodelist.scss */
 .nl__item--active .nl__node--bigger .nl__node__inner {
   font-size: 2rem;
   line-height: 2.85;
   font-weight: bold;
 }
 
-/* line 328, ../scss/_components.nodelist.scss */
+/* line 326, ../scss/_components.nodelist.scss */
 .nl__item--locked .nl__node__inner {
   font-size: 0;
 }
-/* line 330, ../scss/_components.nodelist.scss */
+/* line 328, ../scss/_components.nodelist.scss */
 .nl__item--locked .nl__node__inner:after {
   content: "\f16a";
   color: #CCC;
@@ -1684,7 +1679,7 @@ a .nl__node__border:hover {
 /*
  * Component: .lesson-list
 \* =================================== */
-/* line 340, ../scss/_components.nodelist.scss */
+/* line 338, ../scss/_components.nodelist.scss */
 .node2-inner:after {
   font-family: "foundation-icons";
   font-size: 40px;
@@ -1693,32 +1688,32 @@ a .nl__node__border:hover {
   vertical-align: text-top;
 }
 
-/* line 349, ../scss/_components.nodelist.scss */
+/* line 347, ../scss/_components.nodelist.scss */
 .lesson-success .link-inner, .lesson-success .node2-inner {
   background-color: #4FA5B8;
 }
-/* line 350, ../scss/_components.nodelist.scss */
+/* line 348, ../scss/_components.nodelist.scss */
 .lesson-success .node2-inner {
   border: none;
 }
-/* line 351, ../scss/_components.nodelist.scss */
+/* line 349, ../scss/_components.nodelist.scss */
 .lesson-success .node2-inner:after {
   content: "\f126";
   color: #fff;
 }
 
-/* line 358, ../scss/_components.nodelist.scss */
+/* line 356, ../scss/_components.nodelist.scss */
 .lesson-active .node2-inner {
   border-color: #4FA5B8;
   background-color: #fff;
   box-shadow: 0 0 5px #4FA5B8, 0 0 5px #4FA5B8 inset;
 }
 
-/* line 366, ../scss/_components.nodelist.scss */
+/* line 364, ../scss/_components.nodelist.scss */
 .lesson-locked .node2-inner {
   border: none;
 }
-/* line 367, ../scss/_components.nodelist.scss */
+/* line 365, ../scss/_components.nodelist.scss */
 .lesson-locked .node2-inner:after {
   content: "\f16a";
   color: #ccc;
