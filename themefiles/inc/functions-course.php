@@ -1,6 +1,6 @@
 <?php
 /**
- * Register Custom Post Type 'Course' 
+ * Register Custom Post Type 'Course'
  */
 function add_post_type_course() {
 
@@ -236,15 +236,15 @@ add_action( 'admin_menu', 'register_custom_menu_page' );
  */
 function save_lesson_assoziation( $post_id, $post_object ) {
 	if( $post_object->post_type !== 'course' ) return;
-	
+
 	// if current post_name doesn't exist as term, create it
-	$x_term_title = $post_object->post_title; 
+	$x_term_title = $post_object->post_title;
 	$x_term_name = $post_object->post_name;
 	$x_taxonomy = 'tax-'.$post_object->post_type;
 	if ( !term_exists( $x_term_title, $x_taxonomy ) ) {
-		$return = wp_insert_term( 
-			$x_term_title, 
-			$x_taxonomy, 
+		$return = wp_insert_term(
+			$x_term_title,
+			$x_taxonomy,
 			$args = array(
 					'slug' => $x_term_name
 				)
@@ -308,7 +308,7 @@ function get_objects_by_term( $term_slug, $taxonomy_slug, $select_value = '*' ) 
 		AND $wpdb->term_taxonomy.taxonomy = '$taxonomy_slug'
 	";
 	$result = $wpdb->get_results( $querystr, ARRAY_A );
-	return $result;	
+	return $result;
 }
 
 

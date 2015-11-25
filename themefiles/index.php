@@ -8,21 +8,17 @@
 	<!--<script src="js/modernizr.js"></script>-->
 	<?php wp_head(); ?>
 	<style>
-		.page-hero {
-			background-image: url( "<?= get_header_image(); ?>" );
+		.u-header-image { background-image: url( "<?= get_header_image(); ?>" ); }
+		.u-header-color {
 			color: #<?= get_header_textcolor() ?>;
+			border-color: #<?= get_header_textcolor() ?>;
 		}
-		.page-hero__hr {
-			background-color: #<?= get_header_textcolor() ?>;
-		}
-		.nl__item--2 .nl__node__inner:before {
-			width: 31%;
-		}
+		.u-nodelist-progress:before { width: 31%; }
 	</style>
 </head>
 <body>
 
-	<header id="page-header" class="page-hero">
+	<header id="page-header" class="page-hero u-header-image u-header-color">
 
 		<nav class="top-bar top-bar--layover owl--off">
 			<ul class="top-bar__right">
@@ -36,7 +32,7 @@
 		<div class="wrapper">
 			<div class="page-hero__frame">
 				<h1 class="page-hero__title">The Glad Tidings</h1>
-				<div class="page-hero__hr"></div>
+				<div class="page-hero__hr u-header-color"></div>
 				<p class="page-hero__subtitle">What the Prophets of old want you to know</p>
 			</div>
 		</div><!-- /.wrapper -->
@@ -94,7 +90,7 @@
 								<div class="nl__node__link"></div>
 								<div class="nl__node__border"></div>
 								<div class="nl__node__link__inner"></div>
-								<div class="nl__node__inner">31%</div>
+								<div class="nl__node__inner u-nodelist-progress">31%</div>
 							</div>
 						</li>
 						<li class="nl__item nl__item--3 nl__item--module nl__item--locked">
