@@ -18,13 +18,24 @@
 </head>
 <body>
 
+<?php
+//var_dump($userdata);
+?>
+
 	<header id="page-header" class="page-hero u-header-image u-header-color">
 
 		<nav class="top-bar top-bar--layover owl--off">
 			<ul class="top-bar__right">
 				
 				<li class="top-bar__item top-bar__item--link"><a href="#" title=""> </a></li>
-				<li class="top-bar__item top-bar__item--avatar"><a class="top-bar__avatar" href="" title="Your Profile"><img src="img/avatar-300.jpg" alt="User Avatar" height="36" width="36"></a></li>
+				<?php
+					if( $userdata ) {
+						print( '<li class="top-bar__item top-bar__item--avatar">Hello '.$userdata->data->display_name.' <a class="top-bar__avatar" href="" title="Your Profile"><img src="'.get_bloginfo('template_directory').'/img/avatar-300.jpg" alt="User Avatar" height="36" width="36"></a></li>' );
+					} else {
+						// print( '<li class="top-bar__item top-bar__item--btn">'.wp_login_form().'</li>' );
+						print( '<li class="top-bar__item top-bar__item--btn"><a class="top-bar__btn btn btn--small" href="'.wp_login_url( $_SERVER['REQUEST_URI'] ).'">Log In</a></li>' );
+					}
+				?>
 
 			</ul>
 		</nav>
@@ -53,17 +64,40 @@
 			<div class="layout layout--center layout--spacehack">
 				<section class="layout__item u-2/3-lap-and-up">
 					<h2 class="text-center">Lessons</h2>
+
+					<?php
+
+						// The Query
+						$bible_basics = new WP_Query( 
+							array(
+								'post_type' => 'course',
+								'name' => 'bible-basics'
+							)
+						);
+
+						//The Loop
+						if ( $bible_basics->have_posts() ) {
+							//while ( $bible_basics->have_posts() ) {
+								$bible_basics->the_post();
+								get_template_part( 'partials/nodelist', 'course' );
+							//}
+						}
+						
+						/* Restore original Post Data */
+						wp_reset_postdata(); 
+					?>
+
 					<ul class="nodelist">
-						<li class="nl__item nl__item--1 nl__item--module nl__item--success">
-							<a href="module.html">
+						<li class="nl__item nl__item--1 nl__item--unit nl__item--success">
+							<a href="unit.html">
 								<article class="nl__item__article">
 									<header class="nl__item__header">
 										<h4 class="nl__item__title">Introduction, the Kingdom of God and Religious Liberty</h4>
-										<small class="nl__item__meta">Module 1 &bull; <span class="color--success">Finished</span></small>
+										<small class="nl__item__meta">Unit 1 &bull; <span class="color--success">Finished</span></small>
 									</header>
 									<footer class="nl__item__footer">
 										<p><i class="fi fi-video"></i> 10 Lessons &nbsp; <i class="fi fi-clipboard-pencil"></i> 1 Quizz</p>
-										<span class="btn btn--tiny">Review</span>
+										<span class="btn btn--tiny btn--unstress">Review</span>
 									</footer>
 								</article>
 							</a>
@@ -74,16 +108,16 @@
 								<div class="nl__node__inner"></div>
 							</div>
 						</li>
-						<li class="nl__item nl__item--2 nl__item--module nl__item--active">
-							<a href="module.html">
+						<li class="nl__item nl__item--2 nl__item--unit nl__item--active">
+							<a href="unit.html">
 								<article class="nl__item__article">
 									<header class="nl__item__header">
 										<h4 class="nl__item__title">God’s Plan and God’s Special People</h4>
-										<small class="nl__item__meta">Module 2</small>
+										<small class="nl__item__meta">Unit 2</small>
 									</header>
 									<footer class="nl__item__footer">
 										<p><i class="fi fi-video"></i> 8 Lessons &nbsp; <i class="fi fi-clipboard-pencil"></i> 1 Quizz</p>
-										<span class="btn btn--tiny">Continue</span>
+										<span class="btn btn--tiny btn--success">Continue</span>
 									</footer>
 								</article></a>
 							<div class="nl__node nl__node--big">
@@ -93,15 +127,15 @@
 								<div class="nl__node__inner u-nodelist-progress">31%</div>
 							</div>
 						</li>
-						<li class="nl__item nl__item--3 nl__item--module nl__item--locked">
+						<li class="nl__item nl__item--3 nl__item--unit nl__item--public">
 							<article class="nl__item__article">
 								<header class="nl__item__header">
 									<h4 class="nl__item__title">The Ottoman Empire and how God used Mohammed to Punish Rome</h4>
-									<small class="nl__item__meta">Module 3 &bull; <span class="locked">Locked</span></small>
+									<small class="nl__item__meta">Unit 3 &bull; <span class="locked">Locked</span></small>
 								</header>
 								<footer class="nl__item__footer">
 									<p><i class="fi fi-video"></i> 10 Lessons &nbsp; <i class="fi fi-clipboard-pencil"></i> 1 Quizz</p>
-									<span class="badge badge--tiny badge--unstress">Locked</span>
+									<span class="btn btn--tiny">Start Lesson</span>
 								</footer>
 							</article>
 							<div class="nl__node nl__node--big">
@@ -111,11 +145,11 @@
 								<div class="nl__node__inner"></div>
 							</div>
 						</li>
-						<li class="nl__item nl__item--4 nl__item--module nl__item--locked">
+						<li class="nl__item nl__item--4 nl__item--unit nl__item--locked">
 							<article class="nl__item__article">
 								<header class="nl__item__header">
 									<h4 class="nl__item__title">A Message to the World</h4>
-									<small class="nl__item__meta">Module 4 &bull; <span class="locked">Locked</span></small>
+									<small class="nl__item__meta">Unit 4 &bull; <span class="locked">Locked: Complete Unit 3 to unlock</span></small>
 								</header>
 								<footer class="nl__item__footer">
 									<p><i class="fi fi-video"></i> 5 Lessons &nbsp; <i class="fi fi-clipboard-pencil"></i> 1 Quizz</p>
@@ -129,15 +163,15 @@
 								<div class="nl__node__inner"></div>
 							</div>
 						</li>
-						<li class="nl__item nl__item--5 nl__item--module nl__item--locked">
+						<li class="nl__item nl__item--5 nl__item--unit nl__item--scheduled">
 								<article class="nl__item__article">
 									<header class="nl__item__header">
 										<h4 class="nl__item__title">Health, History and Prophets</h4>
-										<small class="nl__item__meta">Module 5 &bull; <span class="locked">Locked</span></small>
+										<small class="nl__item__meta">Unit 5 &bull; <span class="color--primary">Scheduled for 01/01/2016</span></small>
 									</header>
 									<footer class="nl__item__footer">
 										<p><i class="fi fi-video"></i> 6 Lessons &nbsp; <i class="fi fi-clipboard-pencil"></i> 1 Quizz</p>
-										<span class="badge badge--tiny badge--unstress">Locked</span>
+										<span class="badge badge--tiny">Scheduled</span>
 									</footer>
 								</article>
 							<div class="nl__node nl__node--big">
@@ -147,15 +181,14 @@
 								<div class="nl__node__inner"></div>
 							</div>
 						</li>
-						<li class="nl__item nl__item--6 nl__item--module nl__item--locked">
+						<li class="nl__item nl__item--6 nl__item--unit nl__item--disabled">
 								<article class="nl__item__article">
 									<header class="nl__item__header">
 										<h4 class="nl__item__title">Last Things</h4>
-										<small class="nl__item__meta">Module 6 &bull; <span class="locked">Locked</span></small>
+										<small class="nl__item__meta">Unit 6 &bull; <span class="locked">Disabled</span></small>
 									</header>
 									<footer class="nl__item__footer">
 										<p><i class="fi fi-video"></i> 6 Lessons &nbsp; <i class="fi fi-clipboard-pencil"></i> 1 Quizz</p>
-										<span class="badge badge--tiny badge--unstress">Locked</span>
 									</footer>
 								</article>
 							<div class="nl__node nl__node--big">
@@ -192,7 +225,14 @@
 	<footer id="page-footer" class="page-footer">
 		<div class="wrapper">
 			<p class="text--center">
-				Copyright 2015 The Glad Tidings, Inc.
+				Copyright 2015 The Glad Tidings, Inc. &bull; <?php wp_loginout( $_SERVER['REQUEST_URI'], true ); ?>
+				<?php
+					// display execution time
+					if( true ) {
+						$time = round( microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], 3 );
+						print( '&bull; Execution Time: '.$time );
+					};
+				?>
 			</p>
 		</div><!-- /.wrapper -->
 	</footer>

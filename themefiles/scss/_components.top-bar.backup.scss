@@ -32,7 +32,7 @@
 }
 
 .top-bar__li {
-	border-left: 1px solid $border-color;
+	border-left: 1px solid $color-border;
 }
 
 .top-bar__li--a {
@@ -41,10 +41,10 @@
 		line-height: px-to-rem( whitespace-height( $inuit-heading-size-2 ) );
 		padding: 0 0.8rem;
 		border: none;
-		color: $body-color;
+		color: $color-body;
 		display: block;
 		&:hover {
-			color: $body-color;
+			color: $color-body;
 			background-color: rgba( 0, 0, 0, .1 );
 		}
 	}
@@ -54,7 +54,7 @@
 	a {
 		@include inuit-font-size( $inuit-heading-size-2 );
 		border: none;
-		color: $body-color;
+		color: $color-body;
 	}
 }
 

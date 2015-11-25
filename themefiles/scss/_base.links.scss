@@ -1,11 +1,11 @@
 a {
-	color: $primary-color;
+	color: $color-primary;
 	text-decoration: none;
-	border-bottom: 1px dotted $primary-color;
-	&:hover { color: $suppl-color; }
+	border-bottom: 1px dotted $color-primary;
+	&:hover { color: $color-suppl; }
 }
 
 .a--bodycolor {
-	color: $body-color;
-	&:hover { color: $primary-color; }
+	color: $color-body;
+	&:hover { color: $color-primary; }
 }

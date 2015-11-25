@@ -18,7 +18,7 @@
 		content: '';
 		width: 100%;
 		// Horizontal node2link
-		border: 1px solid $border-color;
+		border: 1px solid $color-border;
 		bottom: 1rem;
 		z-index: 1;
 	}
@@ -35,14 +35,11 @@
 	position: relative;
 	&--lesson {
 	}
-	&--module {
+	&--unit {
 		@include panel;
 		color: #333333;
 		&:hover {
-			background-color: $panel-bg-color-hover;
-			.btn, .badge {
-				display: block;
-			}
+			background-color: $color-panel-bg-hover;
 		}
 	}
 	&--hero {
@@ -59,7 +56,7 @@
 	line-height: 1;
 	@include v-center( -10px );
 	left: 45px;
-	color: $unstress-color;
+	color: $color-unstress;
 }
 .nl__item__article {
 	margin-left: 70px;
@@ -67,7 +64,7 @@
 	.nl__item--heading & {
 		margin-left: 38px;
 	}
-	.nl__item--module & {
+	.nl__item--unit & {
 		margin-left: 80px;
 	}
 	.nl__item--video &:before {
@@ -80,7 +77,7 @@
 	}
 }
 .nl__item__header {
-	.nl__item--module & {
+	.nl__item--unit & {
 		padding-top: 1rem;
 	}
 }
@@ -91,24 +88,23 @@
 .nl__item__title {
 	font-weight: 200;
 	margin: 0.5rem 0;
-	color: $body-color;
+	color: $color-body;
 }
 .nl__item__meta {
 	position: absolute;
 	top: 0.2rem;
-	color: $unstress-color;
+	color: $color-unstress;
 }
 .nl__item__footer {
 	p {
 		margin: 0;
 		font-size: 80%;
-		color: $suppl-color;
+		color: $color-suppl;
 	}
 	.btn, .badge { // I should make my own button class to avoid specificity wars
 		@include absolute(false);
 		right: 4px;
 		bottom: 4px;
-		display: none;
 	}
 }
 
@@ -154,7 +150,7 @@
 .nl__node__link {
 	z-index: 1;
 	margin-left: -1px;
-	border: 1px solid $border-color;
+	border: 1px solid $color-border;
 	height: 300%;
 	top: -100%;
 	.nl__item:first-child & {
@@ -171,7 +167,7 @@
 	z-index: 2;
 	@include grow;
 	@include round;
-	border: 1px solid $border-color;
+	border: 1px solid $color-border;
 	padding: 3px;
 	background-color: #fff;
 	@include std-box-shadow;
@@ -183,7 +179,7 @@
 	z-index: 4;
 	@include grow;
 	@include round;
-	//color: $body-color;
+	//color: $color-body;
 	text-align: center;
 	line-height: 22px;
 	&:after {
@@ -201,7 +197,7 @@
 		@include width-height( 14px, 14px );
 	}
 	.nl__node__inner {
-		background-color: $border-color;
+		background-color: $color-border;
 		&:after {
 			display: none;
 		}
@@ -235,11 +231,13 @@
 	.nl__node__inner {
 		@include width-height( 50px, 50px );
 		margin: 5px;
-		border: 4px solid $border-color;
+		border: 4px solid $color-border;
 		background-color: #fff;
+		font-size: 0;
 		&:after {
 			font-size: 2rem;
 			line-height: 1.3;
+			color: $color-border;
 		}
 	}
 }
@@ -250,12 +248,12 @@
 		display: none;
 	}
 	.nl__node__border {
-		border-color: $border-color;
+		border-color: $color-border;
 	}
 	.nl__node__inner {
 		@include width-height( 104px, 104px );
 		margin: 8px;
-		border: 6px solid $border-color;
+		border: 6px solid $color-border;
 		background-color: #fff;
 		&:after {
 			font-size: 2rem;
@@ -264,22 +262,41 @@
 	}
 }
 
-// Success
-.nl__item--success {
-	.nl__node__link__inner,
-	.nl__node--small .nl__node__inner {
-		background-color: $success-color;
+/*
+ * Nodelist Item States
+ * 0 => 'disabled'
+ * 1 => 'scheduled'
+ * 2 => 'locked'
+ * 3 => 'public'
+ * 4 => 'active'
+ * 5 => 'success'
+ */
+
+// Disabled
+.nl__item--disabled {
+	.nl__node__inner:after {
+		content: "\f217";
 	}
-	:not(.nl__node--big) .nl__node__border {
-		border-color: $success-color;
+}
+
+// Scheduled
+.nl__item--scheduled {
+	.nl__node__inner:after {
+		content: "\f124";
 	}
-	.nl__node__inner {
-		font-size: 0;
-		border-color: $success-color;
-		&:after {
-			content: "\f126";
-			color: $success-color;
-		}
+}
+
+// Locked
+.nl__item--locked {
+	.nl__node__inner:after {
+		content: "\f16a";
+	}
+}
+
+// Public
+.nl__item--public {
+	.nl__node--big .nl__node__inner {
+		border-color: $color-primary;
 	}
 }
 
@@ -287,10 +304,10 @@
 .nl__item--active {
 	:not(.nl__node--big) { 
 		.nl__node__border {
-			border-color: $primary-color;
+			border-color: $color-primary;
 		}
 		.nl__node__inner {
-			color: $primary-color;
+			color: $color-primary;
 			font-weight: bold;
 		}
 	}
@@ -301,18 +318,21 @@
 	}
 	.nl__node--big .nl__node__inner,
 	.nl__node--bigger .nl__node__inner {
-		border-color: $success-color;
+		border-color: $color-success;
 		overflow: hidden;
-		font-weight: 200;
-		line-height: 2.75;
-		color: $body-color;
+		color: $color-body;
 		&:before {
 			content:"";
 			position: absolute;
 			height: 100%;
-			background-color: rgba( $success-color, .4 );
+			background-color: rgba( $color-success, .4 );
 			left: 0;
 		}
+	}
+	.nl__node--big .nl__node__inner {
+		font-size: 1rem;
+		line-height: 2.75;
+		font-weight: 200;
 	}
 	.nl__node--bigger .nl__node__inner {
 		font-size: 2rem;
@@ -321,49 +341,21 @@
 	}
 }
 
-// Locked
-.nl__item--locked {
+// Success
+.nl__item--success {
+	.nl__node__link__inner,
+	.nl__node--small .nl__node__inner {
+		background-color: $color-success;
+	}
+	:not(.nl__node--big) .nl__node__border {
+		border-color: $color-success;
+	}
 	.nl__node__inner {
 		font-size: 0;
+		border-color: $color-success;
 		&:after {
-			content: "\f16a";
-			color: $border-color;
+			content: "\f126";
+			color: $color-success;
 		}
-	}
-}
-
-/*
- * Component: .lesson-list
-\* =================================== */
-.node2-inner:after {
-	font-family: "foundation-icons";
-	font-size: 40px;
-	margin-left: 10px;
-	line-height: normal;
-	vertical-align: text-top;
-}
-// Success
-.lesson-success {
-	.link-inner, .node2-inner { background-color: $primary-color; }
-	.node2-inner { border: none;	}
-	.node2-inner:after {
-		content: "\f126";
-		color: #fff;
-	}
-}
-// Active
-.lesson-active {
-	.node2-inner {
-		border-color: $primary-color;
-		background-color: #fff;
-		box-shadow: 0 0 5px $primary-color, 0 0 5px $primary-color inset;
-	}
-}
-// Locked
-.lesson-locked {
-	.node2-inner { border: none; }
-	.node2-inner:after {
-		content: "\f16a";
-		color: #ccc;
 	}
 }

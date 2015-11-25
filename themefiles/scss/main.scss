@@ -131,7 +131,7 @@
 		$inuit-lede-size: 1.2;
 @import	"inuit-paragraphs/base.paragraphs";
 		.lede {
-			color: $unstress-color;
+			color: $color-unstress;
 		}
 @import	"inuit-headings/base.headings";
 @import	"base.links";
@@ -154,16 +154,19 @@
 		.layout__item--hr:before {
 			content: "";
 			display: block;
-			border-top: 1px solid $border-color;
+			border-top: 1px solid $color-border;
 			width: 100%;
 			padding-bottom: 0.75rem;
 			margin-top: -0.75rem;
 		}
 
 		$inuit-enable-btn--small:   true;
-		$inuit-enable-btn--full:   true;
+		$inuit-enable-btn--full:	true;
 		$inuit-btn-radius: 			$default-border-radius;
 		$inuit-btn-border-width:	0;
+		$inuit-btn-background:		$color-primary;
+		$btn-background-unstress:	$color-unstress;
+		$btn-background-sucess:		$color-success;
 @import "inuit-buttons/objects.buttons";
 @import	"inuit-list-inline/objects.list-inline";
 @import	"objects.wrapper";
@@ -174,7 +177,7 @@
 		
 		// Misc
 		@mixin panel {
-			background-color: $panel-bg-color;
+			background-color: $color-panel-bg;
 			border-radius: 3px;
 			@include std-box-shadow;
 		}
@@ -208,7 +211,7 @@
  * Highly specific functions that overwrite everything
  * !important
  */
-@import	"trumps.main";
+//@import	"trumps.main";
 @import	"inuit-widths/trumps.widths";
 @import	"inuit-widths-responsive/trumps.widths-responsive";
 

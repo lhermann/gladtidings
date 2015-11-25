@@ -89,6 +89,8 @@ function add_taxonomy_course() {
 		'show_admin_column'          => true,
 		'show_in_nav_menus'          => true,
 		'show_tagcloud'              => false,
+		'query_var'                  => 'course',
+		'rewrite'                    => 'slug'
 	);
 	register_taxonomy( 'course', array( 'lesson' ), $args );
 

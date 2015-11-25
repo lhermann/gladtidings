@@ -137,15 +137,45 @@ remove_action('wp_head', 'wp_generator'); // Display the XHTML generator that is
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 ); // javascript that detects emoji support
 remove_action( 'wp_print_styles', 'print_emoji_styles' ); // emoji styles printed in the head section
 
-// Add Filters
-//add_filter( 'show_admin_bar', 'remove_admin_bar' ); // Remove Admin bar
-
 // Remove Filters
 // remove_filter('the_excerpt', 'wpautop'); // Remove <p> tags from Excerpt altogether
 
 // Remove Admin bar
 function remove_admin_bar() {
-    return false;
+    // Show Admin Bar only for privileged Users
+    if( current_user_can( 'edit_pages' ) ) {
+        return true;
+    } else {
+        return false;
+    }
 }
+add_filter( 'show_admin_bar', 'remove_admin_bar' ); // Remove Admin bar
 
+
+/*------------------------------------*\
+    Theme Activation / Deactivation
+\*------------------------------------*/
+
+function gladtidings_activation() {
+    // Add new User Role 'student'
+    // with custom capability 'study'
+    add_role( 
+        'student',
+        __( 'Student', 'gladtidings' ),
+        array(
+            'study' => true
+        )
+    );
+
+    // Set 'studnet' as new default user role
+    update_option( 'default_role', 'student', true );
+}
+add_action( 'after_switch_theme', 'gladtidings_activation' );
+
+
+function gladtidings_deactivation () {
+    // Delete user role 'student'
+    remove_role( 'student' );
+}
+add_action('switch_theme', 'gladtidings_deactivation');
 

@@ -1,11 +1,14 @@
 .color {
+	&--primary {
+		color: $color-primary;
+	}	
 	&--success {
-		color: $success-color;
+		color: $color-success;
 	}
 }
 .p {
 	&--lead {
-		color: $unstress-color;
+		color: $color-unstress;
 		font-size: 1.4rem;
 	}
 }

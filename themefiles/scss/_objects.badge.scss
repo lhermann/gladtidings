@@ -9,8 +9,8 @@ $badge-border-width:	1px;
 
 .badge {
 	padding: $badge-padding - $badge-border-width  double($badge-padding) - $badge-border-width;
-	color: $primary-color;
-	border: 1px solid $primary-color;
+	color: $color-primary;
+	border: 1px solid $color-primary;
 
 	@if($inuit-btn-radius != 0) {
 	    border-radius: $inuit-btn-radius;
@@ -22,6 +22,6 @@ $badge-border-width:	1px;
 }
 
 .badge--unstress {
-	color: $unstress-color;
-	border-color: $unstress-color;
+	color: $color-unstress;
+	border-color: $color-unstress;
 }

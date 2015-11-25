@@ -1,9 +1,13 @@
 <?php
 /**
- * Register Custom Post Type 'Course'
+ * Register Custom Post Types 'Course', 'Lessson' and 'Quizz'
+ * Register Taxonomies 'tax-course' and 'tax-unit'
  */
-function add_post_type_course() {
+function add_post_types_and_taxonomies() {
 
+	/**
+	 * Register Custom Post Type 'Course'
+	 */
 	$labels = array(
 		'name'                  => _x( 'Courses', 'Post Type General Name', 'gladtidings' ),
 		'singular_name'         => _x( 'Course', 'Post Type Singular Name', 'gladtidings' ),
@@ -51,15 +55,9 @@ function add_post_type_course() {
 	);
 	register_post_type( 'course', $args );
 
-}
-add_action( 'init', 'add_post_type_course', 0 );
-
-
-/**
- * Register Custom Post Type 'Lesson'
- */
-function add_post_type_lesson() {
-
+	/**
+	 * Register Custom Post Type 'Lesson'
+	 */
 	$labels = array(
 		'name'                  => _x( 'Lessons', 'Post Type General Name', 'gladtidings' ),
 		'singular_name'         => _x( 'Lesson', 'Post Type Singular Name', 'gladtidings' ),
@@ -108,14 +106,9 @@ function add_post_type_lesson() {
 	);
 	register_post_type( 'lesson', $args );
 
-}
-add_action( 'init', 'add_post_type_lesson', 0 );
-
-/**
- * Register Custom Post Type 'Quizz'
- */
-function add_post_type_quizz() {
-
+	/**
+	 * Register Custom Post Type 'Quizz'
+	 */
 	$labels = array(
 		'name'                  => _x( 'Quizzes', 'Post Type General Name', 'gladtidings' ),
 		'singular_name'         => _x( 'Quizz', 'Post Type Singular Name', 'gladtidings' ),
@@ -164,16 +157,9 @@ function add_post_type_quizz() {
 	);
 	register_post_type( 'quizz', $args );
 
-}
-add_action( 'init', 'add_post_type_quizz', 0 );
-
-
-/**
- * Register Custom Taxonomy 'Course'
- * (1) Remove Tag-cloud
- */
-function add_taxonomy_course() {
-
+	/**
+	 * Register Custom Taxonomy 'Course'
+	 */
 	$labels = array(
 		'name'                       => _x( 'Courses', 'Taxonomy General Name', 'gladtidings' ),
 		'singular_name'              => _x( 'Course', 'Taxonomy Singular Name', 'gladtidings' ),
@@ -189,7 +175,7 @@ function add_taxonomy_course() {
 		'separate_items_with_commas' => __( 'Separate items with commas', 'gladtidings' ),
 		'add_or_remove_items'        => __( 'Add or remove courses', 'gladtidings' ),
 		'choose_from_most_used'      => __( 'Choose from the most used', 'gladtidings' ),
-		'popular_items'              => null, // (1)
+		'popular_items'              => null, // Remove Tag-cloud
 		'search_items'               => __( 'Search Courses', 'gladtidings' ),
 		'not_found'                  => __( 'Not Found', 'gladtidings' ),
 		'items_list'                 => __( 'Course list', 'gladtidings' ),
@@ -203,11 +189,50 @@ function add_taxonomy_course() {
 		'show_admin_column'          => true,
 		'show_in_nav_menus'          => false,
 		'show_tagcloud'              => false,
+		'query_var'                  => true,
+		'rewrite'                    => array( 'slug' => 'course' ),
 	);
 	register_taxonomy( 'tax-course', array( 'lesson', 'quizz' ), $args );
 
+	/**
+	 * Register Custom Taxonomy 'Unit'
+	 */
+	$labels = array(
+		'name'                       => _x( 'Units', 'Taxonomy General Name', 'gladtidings' ),
+		'singular_name'              => _x( 'Unit', 'Taxonomy Singular Name', 'gladtidings' ),
+		'menu_name'                  => __( 'Units', 'gladtidings' ),
+		'all_items'                  => __( 'All Units', 'gladtidings' ),
+		'parent_item'                => __( 'Parent Unit', 'gladtidings' ),
+		'parent_item_colon'          => __( 'Parent Unit:', 'gladtidings' ),
+		'new_item_name'              => __( 'New Unit Name', 'gladtidings' ),
+		'add_new_item'               => __( 'Add New Unit', 'gladtidings' ),
+		'edit_item'                  => __( 'Edit Unit', 'gladtidings' ),
+		'update_item'                => __( 'Update Unit', 'gladtidings' ),
+		'view_item'                  => __( 'View Unit', 'gladtidings' ),
+		'separate_items_with_commas' => __( 'Separate items with commas', 'gladtidings' ),
+		'add_or_remove_items'        => __( 'Add or remove courses', 'gladtidings' ),
+		'choose_from_most_used'      => __( 'Choose from the most used', 'gladtidings' ),
+		'popular_items'              => null, // Remove Tag-cloud
+		'search_items'               => __( 'Search Units', 'gladtidings' ),
+		'not_found'                  => __( 'Not Found', 'gladtidings' ),
+		'items_list'                 => __( 'Unit list', 'gladtidings' ),
+		'items_list_navigation'      => __( 'Unit list navigation', 'gladtidings' ),
+	);
+	$args = array(
+		'labels'                     => $labels,
+		'hierarchical'               => true,
+		'public'                     => true,
+		'show_ui'                    => false,
+		'show_admin_column'          => true,
+		'show_in_nav_menus'          => false,
+		'show_tagcloud'              => false,
+		'query_var'                  => true,
+		'rewrite'                    => array( 'slug' => 'unit' ),
+	);
+	register_taxonomy( 'tax-unit', array( 'lesson', 'quizz' ), $args );
+
 }
-add_action( 'init', 'add_taxonomy_course', 0 );
+add_action( 'init', 'add_post_types_and_taxonomies', 0 );
 
 
 /**

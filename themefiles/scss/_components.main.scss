@@ -15,7 +15,7 @@
 
 	margin-top: 0;
 
-	background-color: $success-color;
+	background-color: $color-success;
 	background-image: url("../img/header-bg2.jpg");
 	background-position: center;
 	background-size: cover;
@@ -54,7 +54,7 @@
  * Component: .progress
 \* =================================== */
 .progress--panel {
-	border-color: $border-color;
+	border-color: $color-border;
 	.meter {
 		color: #fff;
 		font-size: 80%;
@@ -66,6 +66,6 @@
 \* =================================== */
 .page-footer {
 	padding: 1.5rem 0;
-	background-color: $dark-bg-color;
+	background-color: $color-dark-bg;
 	color: #ccc;
 }

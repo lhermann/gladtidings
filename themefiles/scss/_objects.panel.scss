@@ -1,5 +1,5 @@
 @mixin panel {
-	background-color: $panel-bg-color;
+	background-color: $color-panel-bg;
 	border-radius: 3px;
 	@include std-box-shadow;
 }

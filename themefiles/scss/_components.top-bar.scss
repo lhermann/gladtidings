@@ -48,7 +48,6 @@ $top-bar-height: 52px;
 
 	a {
 		vertical-align: middle;
-		border: none;
 	}
 	
 	&--link,
@@ -60,7 +59,7 @@ $top-bar-height: 52px;
 	&--title {
 		a {
 			@include inuit-font-size( halve($top-bar-height), $top-bar-height );
-			color: $body-color;
+			color: $color-body;
 		}
 	}
 
@@ -71,7 +70,7 @@ $top-bar-height: 52px;
 		border-bottom-left-radius: 5px;
 		
 		a {
-			color: $body-color;
+			color: $color-body;
 			font-weight: 600;
 
 			&:after {
