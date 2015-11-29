@@ -1,22 +1,4 @@
-<!doctype html>
-<html class="no-js" <?php language_attributes(); ?>>
-<head>
-	<meta charset="<?php bloginfo( 'charset' ); ?>">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Home – The Glad Tidings</title>
-	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
-	<!--<script src="js/modernizr.js"></script>-->
-	<?php wp_head(); ?>
-	<style>
-		.u-header-image { background-image: url( "<?= get_header_image(); ?>" ); }
-		.u-header-color {
-			color: #<?= get_header_textcolor() ?>;
-			border-color: #<?= get_header_textcolor() ?>;
-		}
-		.u-nodelist-progress:before { width: 31%; }
-	</style>
-</head>
-<body>
+<?php get_header(); ?>
 
 <?php
 //var_dump($userdata);
@@ -222,25 +204,5 @@
 			</div>
 		</div><!-- /.wrapper -->
 	</main>
-	<footer id="page-footer" class="page-footer">
-		<div class="wrapper">
-			<p class="text--center">
-				Copyright 2015 The Glad Tidings, Inc. &bull; <?php wp_loginout( $_SERVER['REQUEST_URI'], true ); ?>
-				<?php
-					// display execution time
-					if( true ) {
-						$time = round( microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], 3 );
-						print( '&bull; Execution Time: '.$time );
-					};
-				?>
-			</p>
-		</div><!-- /.wrapper -->
-	</footer>
-	
-	<?php wp_footer(); ?>
-	<!--
-	<script src="js/jquery.min.js"></script>
-	<script src="js/main.js"></script>
-	-->
-</body>
-</html>
+
+<?php get_footer(); ?>
