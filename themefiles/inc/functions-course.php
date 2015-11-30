@@ -312,78 +312,104 @@ function convert_id_to_term_in_query( $query ) {
  * It checks all the Objects that have been assoziated with the given Course and updates
  *		its terms, i.e. adds a term with the same name as the Course to the Object
  * Objectives:
- * *1* Create a slug for each unit
- * *2* Save the course of each given object via 'tax-term'
- * *2* Save the unit of each given object via 'tax-unit'
+ * (1) Create a slug for each unit
+ * (2) Set up a term to represent the Course
+ * (3) Set up a counter for videos and quizzes
+ * (4) Loop through the Units
+ * (5) Set up a term to represent each Unit
+ * (6) Loop through the Items in each Unit
+ * (7) Count
+ * (8) Add/remove terms to the item (object)
+ * (9) Save count as term meta
  */
-function save_lesson_assoziation( $post_id, $post_object ) {
+function update_course_and_unit_tax( $post_id, $post_object ) {
 	if( $post_object->post_type !== 'course' ) return;
 
-	/*
-	 * *1*
-	 * get the repeater field key and populate the unit slug field
-	 */
+	//get the repeater field key and populate the unit slug field					/* 1 */
 	$r_key = key($_POST['acf']);
 	array_walk( $_POST['acf'][$r_key], 'create_unit_id' );
 
-	// if current post_name doesn't exist as term, create it
+	// set up a term to represent the course object									/* 2 */
 	$course_term_title = $post_object->post_title;
-	$course_term_name = $post_object->post_name;
-	
-	create_term_if_needed( $course_term_title, $course_term_name, TAX_COURSE );
-	$course_objects_array = get_object_id_array_by_term( $course_term_name, TAX_COURSE );
+	$course_term_slug = $post_object->post_name;
+	$course_term_id = create_term_if_needed( $course_term_title, $course_term_slug, TAX_COURSE );
+	// the $course_objects_array is used to determine if an object has been removed from the list
+	$course_objects_array = get_object_id_array_by_term( $course_term_slug, TAX_COURSE );
 
-	// loop through the units
-	foreach ( reset($_POST['acf']) as $u_key => $unit ) {
+
+	/*
+	 * loop through the units
+	 */
+	$course_counter = array( 'lesson_video' => 0, 'lesson_quizz' => 0 ); 			/* 3 */
+	foreach ( reset($_POST['acf']) as $u_key => $unit ) { 							/* 4 */
 		$unit_title = reset($unit); // first index: the title
 		$unit_id = next($unit); // second index: the id
 		if ( !isset($unit) || next($unit) == '' ) continue; // prevent running into errors if unit has no Lessons
 
-		/*
-		 * For each Unit:
-		 * Create the term if it doesn't exist yet
-		 */
-		create_term_if_needed( $unit_title, $unit_id, TAX_UNIT );
+		// For each Unit: Set up a term to represent the unit						/* 4 */
+		$unit_term_id = create_term_if_needed( $unit_title, $unit_id, TAX_UNIT );
 		$unit_objects_array = get_object_id_array_by_term( $unit_id, TAX_UNIT );
 
-		// loop through the items
-		foreach ( current($unit) as $item ) {
+
+		/*
+		 * loop through the items (headline, lesson, quizz)
+		 */
+		$unit_counter = array( 'lesson_video' => 0, 'lesson_quizz' => 0 );			/* 3 */
+		foreach ( current($unit) as $item ) {										/* 4 */
 			if ( !in_array( reset($item), array( 'lesson_video', 'lesson_quizz' ) ) ) continue;
+			$unit_counter[reset($item)]++; //count									/* 7 */
+
 			/*
-			 * If there is a object ID -> unset the ID in the array
+			 * If there is an object ID -> unset the ID in the ${term}_objects_array
 			 * If there is NO object ID -> wp_set_object_terms
-			 * If there are object ID's left -> remove term from the list
 			 */
 			$object_id = (int)end($item);
 
-			// Check the Course Object Ids array
+			// Check the Course Object Ids array									/* 8 */
 			if( in_array( $object_id, $course_objects_array ) ) {
 				$temp_key = array_search( $object_id, $course_objects_array );
 				unset( $course_objects_array[$temp_key] );
 			} else {
-				wp_set_object_terms( end($item), $course_term_name, TAX_COURSE );
+				wp_set_object_terms( end($item), $course_term_slug, TAX_COURSE );
 			}
 
-			// Check the Unit Object Ids array
+			// Check the Unit Object Ids array										/* 8 */
 			if( in_array( $object_id, $unit_objects_array ) ) {
 				$temp_key = array_search( $object_id, $unit_objects_array );
 				unset( $unit_objects_array[$temp_key] );
 			} else {
 				wp_set_object_terms( end($item), $unit_id, TAX_UNIT );
 			}
-		}
-		//remove the term from each object that has been removed from the unit list
-		foreach ( $unit_objects_array as $object_id ) {
+
+		} // end item loop
+
+
+		// update the tax-unit term meta with the numbers							/* 9 */
+		update_term_meta( $unit_term_id, 'num_lesson_videos', $unit_counter['lesson_video'] );
+		update_term_meta( $unit_term_id, 'num_lesson_quizzes', $unit_counter['lesson_quizz'] );
+
+		// add numbers to the course counter
+		$course_counter['lesson_video'] += $unit_counter['lesson_video'];
+		$course_counter['lesson_quizz'] += $unit_counter['lesson_quizz'];
+
+		// remove the term from each object that has been removed from the unit list
+		foreach ( $unit_objects_array as $object_id ) {								/* 8 */
 			remove_term_from_object( $object_id, $unit_id, TAX_UNIT );
 		}
-	}
+
+	} // end unit loop
+
+
+	// update the tax-course term meta with the numbers								/* 9 */
+	update_term_meta( $course_term_id, 'num_lesson_videos', $course_counter['lesson_video'] );
+	update_term_meta( $course_term_id, 'num_lesson_quizzes', $course_counter['lesson_quizz'] );
 
 	//remove the term from each object that has been removed from the course list
-	foreach ( $course_objects_array as $object_id ) {
-		remove_term_from_object( $object_id, $course_term_name, TAX_COURSE );
+	foreach ( $course_objects_array as $object_id ) {								/* 8 */
+		remove_term_from_object( $object_id, $course_term_slug, TAX_COURSE );
 	}
 }
-add_action( 'save_post', 'save_lesson_assoziation', 9, 2 );
+add_action( 'save_post', 'update_course_and_unit_tax', 9, 2 );
 
 
 /**
@@ -408,25 +434,30 @@ function create_unit_id( &$unit ) {
 
 /**
  * Helper function to create a term if it doesn't exist yet
+ * Returns the 'term_id' on success or fetches the 'term_id'
  */
-function create_term_if_needed( $term_title, $term_name, $taxonomy ) {
+function create_term_if_needed( $term_title, $term_slug, $taxonomy ) {
 	if ( !term_exists( $term_title, $taxonomy ) ) {
-		$return = wp_insert_term(
+		$term_id = wp_insert_term(
 			$term_title,
 			$taxonomy,
 			$args = array(
-					'slug' => $term_name
+					'slug' => $term_slug
 				)
 		);
+		return $term_id;
+	} else {
+		$trem = get_term_by( 'slug', $term_slug, $taxonomy );
+		return (int)$trem->term_id;
 	}
 }
 
 /**
  * Helper function to get an array of object id's asociated with a term
  */
-function get_object_id_array_by_term( $term_name, $taxonomy ) {
+function get_object_id_array_by_term( $term_slug, $taxonomy ) {
 	// get all objects (lessons and quizzes) already assoziated with the term
-	$objects_by_term = get_objects_by_term( $term_name, $taxonomy, 'object_id' );
+	$objects_by_term = get_objects_by_term( $term_slug, $taxonomy, 'object_id' );
 	$objects_id_array = array();
 
 	// Get a list with all the object id's
@@ -440,9 +471,9 @@ function get_object_id_array_by_term( $term_name, $taxonomy ) {
 /**
  * Helper function
  */
-function remove_term_from_object( $object_id, $term_name, $taxonomy ) {
+function remove_term_from_object( $object_id, $term_slug, $taxonomy ) {
 	$current_terms = wp_get_object_terms( $object_id, $taxonomy, array( 'fields' => 'slugs' ) );
-	$temp_key = array_search( $term_name, $current_terms );
+	$temp_key = array_search( $term_slug, $current_terms );
 	unset( $current_terms[$temp_key] );
 	wp_set_object_terms( $object_id, $current_terms, $taxonomy );
 }
@@ -464,5 +495,57 @@ function get_objects_by_term( $term_slug, $taxonomy_slug, $select_value = '*' ) 
 	$result = $wpdb->get_results( $querystr, ARRAY_A );
 	return $result;
 }
+
+
+/**
+ * Hooks when the repeater fields (units) for the edit course screen are prepared
+ * The purpose of this filter is to retreive the 'unit_id' and save it in a global variable for later use
+ */
+function acf_get_unit_ids( $field ) {
+	global $temp_unit_slugs;
+	foreach ( $field['value'] as $i => $unit ) {
+		$key = "acf-{$field['key']}-$i-".key($unit);
+		$temp_unit_slugs[$key] = next($unit);
+	}
+	return $field;
+}
+add_filter('acf/prepare_field/name=units_repeater', 'acf_get_unit_ids');
+
+/**
+ * Hooks into the creation of each unit tile
+ * The purpose of this filter is to add some helper text after the title to show the video and quizz count
+ */
+function acf_extend_unit_title( $field ) {
+	global $temp_unit_slugs;
+
+	// get term
+	$term_slug = $temp_unit_slugs[$field['id']];
+	$term = get_term_by( 'slug', $term_slug, TAX_UNIT );
+
+	// get term meta
+	$num_lessons = get_term_meta( $term->term_id, 'num_lesson_videos' )[0];
+	$num_quizzes = get_term_meta( $term->term_id, 'num_lesson_quizzes' )[0];
+
+	// generate helper text output
+	if( $num_lessons || $num_quizzes ) {
+		$field['label'] .= sprintf( '<small class="acf-unit-title-helper-text">%s%s%s</small>',
+			( $num_lessons ? '<span class="dashicons dashicons-video-alt2"></span> '.$num_lessons.' '.( $num_lessons == 1 ? 'Lesson' : 'Lessons' ) : '' ),
+			( $num_lessons && $num_quizzes ? ', ' : '' ),
+			( $num_quizzes ? '<span class="dashicons dashicons-welcome-write-blog"></span> '.$num_quizzes.' '.( $num_quizzes == 1 ? 'Quizz' : 'Quizzes' ) : '' )
+		);
+	}
+
+	return $field;
+}
+add_filter('acf/prepare_field/name=unit_title', 'acf_extend_unit_title');
+
+
+
+
+
+
+
+
+
 
 

@@ -1,66 +1,28 @@
-$color-border: #e8e8e8;
+$color-border: 			#e8e8e8;
+$color-suppl: 			#F2A200;
 
-$color-active: #008ec2;
-$color-active-border: #006799;
+$color-active: 			#008ec2;
+$color-active-border: 	#006799;
 
 
-
-/*
- * Post Type Lesson Single Edit Page
+/**
+ * Format the Unit Title helper text
+ * found on the edit page for courses
  */
-#acf-type {
-	
-	padding: 12px 0 0;
+.acf-unit-title-helper-text {
+	display: block;
+	color: $color-suppl;
+	font-weight: normal;
+	position: absolute;
 
-	.label {
+	.dashicons {
+		width: 16px;
+		height: 16px;
+		font-size: 16px;
+	}
+	
+	// switch off required asterisk which acf adds autmatically
+	& + .acf-required {
 		display: none;
-	}
-	
-	.acf-radio-list {
-		display: flex;
-		justify-content: space-around;
-		padding: 0;
-		border-bottom: 1px solid $color-active-border;
-
-		li {
-			position: relative;
-			margin: 0 0 -1px 6px;
-			padding: 8px 20px;
-			border: 1px solid $color-border;
-			border-radius: 3px 3px 0 0;
-			font-size: 1.2em;
-			background-color: #eee;
-
-			input {
-				display: none;
-			}
-
-			&:hover {
-				border-color: $color-active-border;
-			}
-		}
-		.active {
-			background-color: $color-active;
-			color: #fff;
-			border-color: $color-active-border;
-		}
-	}
-
-}
-
-/*
- * Post Type Lesson List
- */
-.post-type-lesson {
-	.column-type {
-		width: 12px;
-	}
-	.column-l-order,
-	.column-c-order {
-		width: 40px;
-		text-align: center;
-		> a {
-			padding: 8px 0;
-		}
 	}
 }
