@@ -14,8 +14,7 @@ if( $units ):
 	print( '<ul class="nodelist">' );
 
 	foreach ( $units as $key => $unit ) {
-		// var_dump( $unit );
-
+		
 		/*
 		 * Render Each Unit
 		 */
@@ -42,8 +41,7 @@ if( $units ):
 		);
 
 		// Unit Link
-		$unit['link'] = ( $s >= 3 ? '<a href="'.get_term_link( $post->post_name, 'tax-course' ).'">' : '' );
-		//$unit['link'] = ( $s >= 3 ? '<a href="'.get_term_link( 'escape-unit-title', 'tax-unit' ).'">' : '' );
+		$unit['link'] = ( $s >= 3 ? '<a href="'.get_term_link( $unit['unit_id'], 'tax-unit' ).'">' : '' );
 
 		/*
 		 * Meta States:

@@ -6,6 +6,17 @@ $color-active-border: 	#006799;
 
 
 /**
+ * Post Type: Lesson & Quizz
+ * Admin Column Modifications
+ */
+.column-taxonomy-tax-course,
+.column-taxonomy-tax-unit {
+	width: 20%;
+}
+
+
+
+/**
  * Format the Unit Title helper text
  * found on the edit page for courses
  */
@@ -25,4 +36,11 @@ $color-active-border: 	#006799;
 	& + .acf-required {
 		display: none;
 	}
+}
+
+/**
+ * Hide unit_id
+ */
+.acf-course-unit-id {
+	display: none;
 }

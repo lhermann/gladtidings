@@ -8,7 +8,7 @@
 
 		<div class="wrapper">
 			<div class="page-hero__frame">
-				<h1 class="page-hero__title">single.php</h1>
+				<h1 class="page-hero__title">taxonomy-tax-unit.php</h1>
 			</div>
 		</div><!-- /.wrapper -->
 
@@ -18,10 +18,26 @@
 	<main id="page-content">
 
 		<div class="wrapper">
-			
-			<?php get_template_part( 'partials/nodelist', 'course' ); ?>
 
-			<?php //var_dump($post); ?>
+			<?php
+				if ( have_posts() ) :
+
+					echo '<ul class="nodelist nodelist--normal">';
+
+					while ( have_posts() ) : the_post();
+
+						get_template_part( 'partials/nodelist', 'unit' );
+
+					endwhile;
+
+					echo '</ul>';
+
+				else :
+					_e( 'Sorry, no posts matched your criteria.' );
+				endif;
+			?>
+
+			<?php //var_dump($wp_query); ?>
 
 		</div><!-- /.wrapper -->
 

@@ -44,6 +44,7 @@ function add_post_types_and_taxonomies() {
 		'description'           => __( 'Courses consisting of separate Units with Videos and Quizzes', 'gladtidings' ),
 		'labels'                => $labels,
 		'supports'              => array( 'title', 'thumbnail', 'page-attributes', ),
+		//'taxonomies'            => array( TAX_UNIT ),
 		'hierarchical'          => false,
 		'public'                => true,
 		'show_ui'               => true,
@@ -56,7 +57,7 @@ function add_post_types_and_taxonomies() {
 		'has_archive'           => true,		
 		'exclude_from_search'   => false,
 		'publicly_queryable'    => true,
-		'rewrite'               => $rewrite,
+		//'rewrite'               => $rewrite,
 		'capability_type'       => 'post',
 	);
 	register_post_type( 'course', $args );
@@ -98,7 +99,7 @@ function add_post_types_and_taxonomies() {
 		'hierarchical'          => false,
 		'public'                => true,
 		'show_ui'               => true,
-		'show_in_menu'          => false,
+		'show_in_menu'          => true,
 		'menu_position'         => 5,
 		'menu_icon'             => 'dashicons-video-alt2',
 		'show_in_admin_bar'     => true,
@@ -191,12 +192,12 @@ function add_post_types_and_taxonomies() {
 		'labels'                     => $labels,
 		'hierarchical'               => true,
 		'public'                     => true,
-		'show_ui'                    => false,
+		'show_ui'                    => true,
 		'show_admin_column'          => true,
 		'show_in_nav_menus'          => false,
 		'show_tagcloud'              => false,
 		//'query_var'                  => true,
-		// 'rewrite'                    => array( 'slug' => 'course' ),
+		//'rewrite'                    => array( 'slug' => 'course' ),
 	);
 	register_taxonomy( TAX_COURSE, array( 'lesson', 'quizz' ), $args );
 
@@ -228,7 +229,7 @@ function add_post_types_and_taxonomies() {
 		'labels'                     => $labels,
 		'hierarchical'               => true,
 		'public'                     => true,
-		'show_ui'                    => false,
+		'show_ui'                    => true,
 		'show_admin_column'          => true,
 		'show_in_nav_menus'          => false,
 		'show_tagcloud'              => false,
@@ -323,11 +324,15 @@ function convert_id_to_term_in_query( $query ) {
  * (9) Save count as term meta
  */
 function update_course_and_unit_tax( $post_id, $post_object ) {
-	if( $post_object->post_type !== 'course' ) return;
+	if( $post_object->post_type !== 'course' ) return; // escape if it is not a course object
+	if( $post_object->post_status == 'auto-draft' ) return; // escape if it is an automatic save
+	if( !isset($_POST['acf']) || !reset($_POST['acf']) ) return; // escape if there are no units
+	//var_dump( $post_id, $post_object, $_POST['acf'] ); die();
 
 	//get the repeater field key and populate the unit slug field					/* 1 */
-	$r_key = key($_POST['acf']);
+	$r_key = key( $_POST['acf'] );
 	array_walk( $_POST['acf'][$r_key], 'create_unit_id' );
+	//var_dump( $_POST['acf'][$r_key] ); die();
 
 	// set up a term to represent the course object									/* 2 */
 	$course_term_title = $post_object->post_title;
@@ -341,10 +346,12 @@ function update_course_and_unit_tax( $post_id, $post_object ) {
 	 * loop through the units
 	 */
 	$course_counter = array( 'lesson_video' => 0, 'lesson_quizz' => 0 ); 			/* 3 */
-	foreach ( reset($_POST['acf']) as $u_key => $unit ) { 							/* 4 */
-		$unit_title = reset($unit); // first index: the title
+	foreach ( reset($_POST['acf']) as $u_key => $unit ) { 	
+		//var_dump( '=== unit ===', $unit );						/* 4 */
+		$unit_title = ($u_key+1).'. '.reset($unit); // first index: the title
 		$unit_id = next($unit); // second index: the id
-		if ( !isset($unit) || next($unit) == '' ) continue; // prevent running into errors if unit has no Lessons
+		$items = next($unit); // third index: unit array
+		if ( !isset($items) || empty($items) ) $items = array(); // prevent running into errors if unit has no Lessons
 
 		// For each Unit: Set up a term to represent the unit						/* 4 */
 		$unit_term_id = create_term_if_needed( $unit_title, $unit_id, TAX_UNIT );
@@ -355,7 +362,7 @@ function update_course_and_unit_tax( $post_id, $post_object ) {
 		 * loop through the items (headline, lesson, quizz)
 		 */
 		$unit_counter = array( 'lesson_video' => 0, 'lesson_quizz' => 0 );			/* 3 */
-		foreach ( current($unit) as $item ) {										/* 4 */
+		foreach ( $items as $item ) {												/* 4 */
 			if ( !in_array( reset($item), array( 'lesson_video', 'lesson_quizz' ) ) ) continue;
 			$unit_counter[reset($item)]++; //count									/* 7 */
 
@@ -370,7 +377,7 @@ function update_course_and_unit_tax( $post_id, $post_object ) {
 				$temp_key = array_search( $object_id, $course_objects_array );
 				unset( $course_objects_array[$temp_key] );
 			} else {
-				wp_set_object_terms( end($item), $course_term_slug, TAX_COURSE );
+				wp_add_object_terms( end($item), $course_term_slug, TAX_COURSE );
 			}
 
 			// Check the Unit Object Ids array										/* 8 */
@@ -378,7 +385,7 @@ function update_course_and_unit_tax( $post_id, $post_object ) {
 				$temp_key = array_search( $object_id, $unit_objects_array );
 				unset( $unit_objects_array[$temp_key] );
 			} else {
-				wp_set_object_terms( end($item), $unit_id, TAX_UNIT );
+				wp_add_object_terms( end($item), $unit_id, TAX_UNIT );
 			}
 
 		} // end item loop
@@ -388,6 +395,9 @@ function update_course_and_unit_tax( $post_id, $post_object ) {
 		update_term_meta( $unit_term_id, 'num_lesson_videos', $unit_counter['lesson_video'] );
 		update_term_meta( $unit_term_id, 'num_lesson_quizzes', $unit_counter['lesson_quizz'] );
 
+		// save the lesson order as tax-unit term meta
+		update_term_meta( $unit_term_id, 'lesson_order', $items );
+
 		// add numbers to the course counter
 		$course_counter['lesson_video'] += $unit_counter['lesson_video'];
 		$course_counter['lesson_quizz'] += $unit_counter['lesson_quizz'];
@@ -395,6 +405,7 @@ function update_course_and_unit_tax( $post_id, $post_object ) {
 		// remove the term from each object that has been removed from the unit list
 		foreach ( $unit_objects_array as $object_id ) {								/* 8 */
 			remove_term_from_object( $object_id, $unit_id, TAX_UNIT );
+			delete_term_if_needed( $unit_term_id, TAX_UNIT );
 		}
 
 	} // end unit loop
@@ -407,7 +418,9 @@ function update_course_and_unit_tax( $post_id, $post_object ) {
 	//remove the term from each object that has been removed from the course list
 	foreach ( $course_objects_array as $object_id ) {								/* 8 */
 		remove_term_from_object( $object_id, $course_term_slug, TAX_COURSE );
+		delete_term_if_needed( $course_term_id, TAX_COURSE );
 	}
+	//die();
 }
 add_action( 'save_post', 'update_course_and_unit_tax', 9, 2 );
 
@@ -447,8 +460,18 @@ function create_term_if_needed( $term_title, $term_slug, $taxonomy ) {
 		);
 		return $term_id;
 	} else {
-		$trem = get_term_by( 'slug', $term_slug, $taxonomy );
-		return (int)$trem->term_id;
+		$term = get_term_by( 'slug', $term_slug, $taxonomy );
+		return (int)$term->term_id;
+	}
+}
+
+/**
+ * 
+ */
+function delete_term_if_needed( $term_id, $taxonomy ) {
+	$term = get_term( $term_id, $taxonomy );
+	if( $term->count == 0 ) {
+		wp_delete_term( $term_id, $taxonomy );
 	}
 }
 
@@ -503,6 +526,8 @@ function get_objects_by_term( $term_slug, $taxonomy_slug, $select_value = '*' ) 
  */
 function acf_get_unit_ids( $field ) {
 	global $temp_unit_slugs;
+	if( !$field['value'] ) return $field; // Bail early
+
 	foreach ( $field['value'] as $i => $unit ) {
 		$key = "acf-{$field['key']}-$i-".key($unit);
 		$temp_unit_slugs[$key] = next($unit);
@@ -517,6 +542,7 @@ add_filter('acf/prepare_field/name=units_repeater', 'acf_get_unit_ids');
  */
 function acf_extend_unit_title( $field ) {
 	global $temp_unit_slugs;
+	if( !$temp_unit_slugs ) return $field; // Bail early
 
 	// get term
 	$term_slug = $temp_unit_slugs[$field['id']];

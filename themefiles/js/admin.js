@@ -1,14 +1,22 @@
 (function($) {
 
-	/*
-	 * On Post Type Lesson Edit Page
-	 * Add class 'active' to active radio option
+	/**
+	 * Disable unit_id field
+	 * Note: I cannot use this function because disabled fields will not be transmitted via $GLOBAL['acf']
 	 */
-	console.log( $("#acf-type .acf-radio-list input:checked").parent() );
-	$("#acf-type .acf-radio-list input:checked").parent().parent().addClass("active");
-	$("#acf-type .acf-radio-list").on( "change", "li", function(event) {
-		$("#acf-type .acf-radio-list li").removeClass("active");
-		$( this ).addClass("active");
-	});
+	/*
+	if( typeof(acf) === 'object' ) {
+		acfDisableField( $(".acf-course-unit-id") ); // after DOM load
+		acf.add_action('append', function( el ){ // when new repeater fields are added
+
+			var field = el.find(".acf-course-unit-id");
+			acfDisableField( field );
+			
+		});
+		function acfDisableField ( field ) {
+			field.find("input").prop( "disabled", true);
+		}
+	}
+	*/
 
 })( jQuery );

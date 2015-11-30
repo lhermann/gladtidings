@@ -33,8 +33,6 @@
 // li.nodelist__item
 .nl__item {
 	position: relative;
-	&--lesson {
-	}
 	&--unit {
 		@include panel;
 		color: #333333;
@@ -67,7 +65,7 @@
 	.nl__item--unit & {
 		margin-left: 80px;
 	}
-	.nl__item--video &:before {
+	.nl__item--lesson &:before {
 		@extend %nodelist__icon;
 		content: "\f20e";
 	}
@@ -132,7 +130,7 @@
 .nl__node {
 	position: absolute;
 	@include width-height( 30px, 30px );
-	.nl__item--lesson & {
+	.nodelist--normal & {
 		@include v-center( -15px );
 	}
 	.nl__item--node & {
@@ -140,7 +138,7 @@
 	}
 	> div {
 		position: absolute;
-		margin: 0;
+		margin-top: 0;
 	}
 }
 .nl__node__link,

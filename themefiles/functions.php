@@ -152,6 +152,17 @@ function remove_admin_bar() {
 add_filter( 'show_admin_bar', 'remove_admin_bar' ); // Remove Admin bar
 
 
+/**
+ * Alter the main wp_query on the home page to fetch 'course' instead of 'post'
+ */
+function alter_query_home( $query ) {
+    if ( $query->is_home() && $query->is_main_query() ) {
+        $query->set( 'post_type', 'course' );
+    }
+}
+add_action( 'pre_get_posts', 'alter_query_home' );
+
+
 /*------------------------------------*\
     Theme Activation / Deactivation
 \*------------------------------------*/
@@ -178,4 +189,7 @@ function gladtidings_deactivation () {
     remove_role( 'student' );
 }
 add_action('switch_theme', 'gladtidings_deactivation');
+
+
+
 
