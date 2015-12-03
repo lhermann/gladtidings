@@ -346,15 +346,20 @@ function update_course_and_unit_tax( $post_id, $post_object ) {
 	 * loop through the units
 	 */
 	$course_counter = array( 'lesson_video' => 0, 'lesson_quizz' => 0 ); 			/* 3 */
-	foreach ( reset($_POST['acf']) as $u_key => $unit ) { 	
-		//var_dump( '=== unit ===', $unit );						/* 4 */
-		$unit_title = ($u_key+1).'. '.reset($unit); // first index: the title
+	foreach ( reset($_POST['acf']) as $u_key => $unit ) { 							/* 4 */
+		//var_dump( '=== unit ===', $unit );
+		$unit_title = reset($unit); // first index: the title
 		$unit_id = next($unit); // second index: the id
 		$items = next($unit); // third index: unit array
 		if ( !isset($items) || empty($items) ) $items = array(); // prevent running into errors if unit has no Lessons
 
-		// For each Unit: Set up a term to represent the unit						/* 4 */
+		// For each Unit: Set up a term to represent the unit						/* 5 */
 		$unit_term_id = create_term_if_needed( $unit_title, $unit_id, TAX_UNIT );
+
+		// save the array index as 'unit_order' inside the tax-unit term
+		update_term_meta( $unit_term_id, 'unit_order', $u_key );
+
+		// get an array with all the id's associated with the term
 		$unit_objects_array = get_object_id_array_by_term( $unit_id, TAX_UNIT );
 
 
@@ -362,7 +367,7 @@ function update_course_and_unit_tax( $post_id, $post_object ) {
 		 * loop through the items (headline, lesson, quizz)
 		 */
 		$unit_counter = array( 'lesson_video' => 0, 'lesson_quizz' => 0 );			/* 3 */
-		foreach ( $items as $item ) {												/* 4 */
+		foreach ( $items as $item ) {												/* 6 */
 			if ( !in_array( reset($item), array( 'lesson_video', 'lesson_quizz' ) ) ) continue;
 			$unit_counter[reset($item)]++; //count									/* 7 */
 
@@ -420,7 +425,7 @@ function update_course_and_unit_tax( $post_id, $post_object ) {
 		remove_term_from_object( $object_id, $course_term_slug, TAX_COURSE );
 		delete_term_if_needed( $course_term_id, TAX_COURSE );
 	}
-	//die();
+	// die();
 }
 add_action( 'save_post', 'update_course_and_unit_tax', 9, 2 );
 

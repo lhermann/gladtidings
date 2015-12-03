@@ -3,13 +3,197 @@
 \*------------------------------------*/
 
 /*
- * === ul.nodelist ===
+ * Settings
  */
+$size-node:			30px;
+$size-node--big:	$size-node*2;
+$size-node--bigger:	$size-node*4;
+
+/*
+ * Helper Includes
+ */
+
+%nodelist__icon {
+	font-family: "foundation-icons";
+	position: absolute;
+	font-size: 20px;
+	line-height: 1;
+	@include v-center( -10px );
+	left: 45px;
+	color: $color-unstress;
+}
+
+/*
+ * Standard Definitions
+ */
+
+/* === ul.nodelist === */
 .nodelist {
 	list-style: none;
 	margin-left: 0;
 	padding-left: 0;
 }
+
+/* === ul li.nl__item === */
+.nl__item {
+	position: relative;
+}
+
+/* === ul li article.nl__article === */
+.nl__article {
+	
+	margin-left: 70px;
+	padding: 4px;
+	
+	&:before {
+		@extend %nodelist__icon;
+	}
+
+	&__header {
+
+	}
+
+	&__title {
+		font-weight: 200;
+		margin: 0.3em 0;
+		color: $color-body;
+	}
+
+	&__meta {
+		margin: 0;
+		position: absolute;
+		top: 0.2em;
+		color: $color-unstress;
+	}
+
+	&__footer {
+		margin: 0;
+		p {
+			margin: 0;
+			font-size: 80%;
+			color: $color-suppl;
+		}
+		.btn, .badge { // I should make my own button class to avoid specificity wars
+			@include absolute(false);
+			right: 4px;
+			bottom: 4px;
+		}
+	}
+
+
+}
+
+/* === ul li div.nl__node === */
+.nl__node {
+
+	position: absolute;
+	@include width-height( 30px, 30px );
+	
+	> div {
+		position: absolute;
+		margin-top: 0;
+	}
+
+	&__link {
+		left: 50%;
+		z-index: 1;
+		margin-left: -1px;
+		border: 1px solid $color-border;
+		height: 400%;
+		top: -100%;
+		
+		.nl__item:first-child & {
+			height: 200%; top: 50%;
+		}
+		
+		.nl__item:last-child & {
+			height: 100%;
+		}
+		
+		.nl__item:first-child:last-child & {
+			display: none;
+		}
+	}
+
+	&__border {
+		z-index: 2;
+		@include grow;
+		@include round;
+		border: 1px solid $color-border;
+		padding: 3px;
+		background-color: #fff;
+		@include std-box-shadow;
+		
+		a &:hover {
+			background-color: #f5f5f5;
+		}
+	}
+
+	&__link-inner {
+		left: 50%;
+		z-index: 3;
+	}
+
+	&__inner {
+		z-index: 4;
+		@include grow;
+		@include round;
+		//color: $color-body;
+		text-align: center;
+		line-height: 22px;
+		
+		&:after {
+			font-family: "foundation-icons";
+			font-size: 1.3rem;
+			line-height: 1.1;
+			margin-left: 1px;
+		}
+	}
+
+}
+
+
+
+
+
+/*
+ * Variations
+ */
+
+/* === ul.nodelist === */
+
+/* nodelist displays the contents of a course,
+	the individual elements are units */
+.nodelist--course {
+	.nl__item {
+		@include panel;
+		color: #333333;
+		&:hover {
+			background-color: $color-panel-bg-hover;
+		}
+	}
+	.nl__article {
+		margin-left: 80px;
+		&__header {
+			padding-top: 1rem;
+		}
+	}
+
+}
+
+/* nodelist displays the contents of a unit,
+	the individual elements are lessons, quizzes and headlines */
+.nodelist--unit {
+	.nl__node {
+		@include v-center( -15px );
+	}
+}
+
+/* nodelist displays the contents of a unit but inside a single lesson screen */
+.nodelist--lesson {
+
+}
+
 .nodelist--horizontal {
 	text-align: justify;
 	line-height: 0;
@@ -32,174 +216,73 @@
 	}
 }
 
-/*
- * === ul li.nl__item ===
- */
-.nl__item {
-	position: relative;
-	&--unit {
-		@include panel;
-		color: #333333;
-		&:hover {
-			background-color: $color-panel-bg-hover;
-		}
-	}
-	&--hero {
+/* === ul li.nl__item === */
+
+/* One prominent nodelist item in the header */
+.nl__item--hero {
+
+	.nl__article {
+
 		background-color: rgba(0,0,0,$title-frame-alpha);
-		border-radius: 4rem 3px 3px 4rem;
-		padding: 0.3rem;
+		border-radius: $default-border-radius;
+
+		margin-left: $size-node--bigger/2;
+		padding-left: $size-node--bigger/2 + 20px;
+		min-height: $size-node--bigger;
+		
+		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.65);
+
+		font-size: 1.3rem;
+
+		&__title {
+			color: #fff;
+			margin: 0.1em 0;
+			font-weight: 700;
+		}
+
+		&__meta {
+			color: #fff;
+		}
+
 	}
 }
-/*
- * === Content ===
- */
-%nodelist__icon {
-	font-family: "foundation-icons";
-	position: absolute;
-	font-size: 20px;
-	line-height: 1;
-	@include v-center( -10px );
-	left: 45px;
-	color: $color-unstress;
-}
-.nl__item__article {
-	margin-left: 70px;
-	padding: 4px;
-	.nl__item--headline & {
+
+/* this nodelist item is a headline */
+.nl__item--headline {
+	.nl__article {
 		margin-left: 38px;
 	}
-	.nl__item--unit & {
-		margin-left: 80px;
-	}
-	.nl__item--lesson &:before {
-		@extend %nodelist__icon;
+}
+
+/* this nodelist item represents a video lesson */
+.nl__item--lesson {
+	.nl__article:before {
 		content: "\f20e";
 	}
-	.nl__item--quizz &:before {
-		@extend %nodelist__icon;
+}
+
+/* this nodelist item represents a quizz */
+.nl__item--quizz {
+	.nl__article:before {
 		content: "\f129";
 	}
 }
-.nl__item__header {
-	.nl__item--unit & {
-		padding-top: 1rem;
-	}
-}
-.nl__item__meta,
-.nl__item__footer {
-	margin: 0;
-}
-.nl__item__title {
-	font-weight: 200;
-	margin: 0.5rem 0;
-	color: $color-body;
-}
-.nl__item__meta {
-	position: absolute;
-	top: 0.2rem;
-	color: $color-unstress;
-}
-.nl__item__footer {
-	p {
-		margin: 0;
-		font-size: 80%;
-		color: $color-suppl;
-	}
-	.btn, .badge { // I should make my own button class to avoid specificity wars
-		@include absolute(false);
-		right: 4px;
-		bottom: 4px;
-	}
-}
 
-/* == nl__item variations == */
-.nl__item--hero {
-	.nl__item__article {
-		margin-left: 140px;
-		min-height: 120px;
-	}
-	.nl__item__title,
-	.nl__item__subtitle {
-		color: #fff;
-		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.65);
-	}
-	.nl__item__title {
-		font-weight: 500;
-		margin-top: 0;
-	}
-	.nl__item__subtitle {
-		margin-bottom: 0.5rem;
-	}
-}
-
-/*
- * === ul li div.nl__node ===
- */
-.nl__node {
-	position: absolute;
-	@include width-height( 30px, 30px );
-	.nodelist--normal & {
-		@include v-center( -15px );
-	}
-	.nl__item--node & {
+/* ??? */
+.nl__item--node {
+	.nl__node {
 		position: relative;
 	}
-	> div {
-		position: absolute;
-		margin-top: 0;
-	}
-}
-.nl__node__link,
-.nl__node__link__inner {
-	left: 50%;
-}
-.nl__node__link {
-	z-index: 1;
-	margin-left: -1px;
-	border: 1px solid $color-border;
-	height: 400%;
-	top: -100%;
-	.nl__item:first-child & {
-		height: 200%; top: 50%;
-	}
-	.nl__item:last-child & {
-		height: 100%;
-	}
-	.nl__item:first-child:last-child & {
-		display: none;
-	}
-}
-.nl__node__link__inner {
-	z-index: 3;
-}
-.nl__node__border {
-	z-index: 2;
-	@include grow;
-	@include round;
-	border: 1px solid $color-border;
-	padding: 3px;
-	background-color: #fff;
-	@include std-box-shadow;
-	a &:hover {
-		background-color: #f5f5f5;
-	}
-}
-.nl__node__inner {
-	z-index: 4;
-	@include grow;
-	@include round;
-	//color: $color-body;
-	text-align: center;
-	line-height: 22px;
-	&:after {
-		font-family: "foundation-icons";
-		font-size: 1.3rem;
-		line-height: 1.1;
-		margin-left: 1px;
-	}
 }
 
-/* == Node Variations == */
+/* === ul li article.nl__article === */
+
+
+
+/* === ul li div.nl__node === */
+
+/* small node dot to unstress it's importance,
+	used for headlines */
 .nl__node--small {
 	padding: 8px;
 	.nl__node__border {
@@ -212,12 +295,15 @@
 		}
 	}
 }
+
+/* bog node dot providing broader information,
+	used to represent entire units */
 .nl__node--big {
 	@include width-height( 60px, 60px );
 	@include v-center( -30px );
 	margin-left: 10px;
 	.nl__node__link,
-	.nl__node__link__inner {
+	.nl__node__link-inner {
 		top: 50%;
 		height: 200%;
 		background-color: #fff;
@@ -229,7 +315,7 @@
 		margin-left: -7px;
 		width: 14px;
 	}
-	.nl__node__link__inner {
+	.nl__node__link-inner {
 		margin-left: -6px;
 		width: 12px;
 		border: 4px solid #fff;
@@ -250,9 +336,13 @@
 		}
 	}
 }
+
+/* same layout as the --big but magnified,
+	used in the page-hero */
+$bigger-marging: $size-node--bigger/15;
 .nl__node--bigger {
-	@include width-height( 120px, 120px );
-	@include v-center( -60px );
+	@include width-height( $size-node--bigger );
+	@include v-center( -(halve($size-node--bigger)) );
 	.nl__node__link {
 		display: none;
 	}
@@ -260,9 +350,9 @@
 		border-color: $color-border;
 	}
 	.nl__node__inner {
-		@include width-height( 104px, 104px );
-		margin: 8px;
-		border: 6px solid $color-border;
+		@include width-height( $size-node--bigger - $bigger-marging*2 );
+		margin: $bigger-marging;
+		border: $bigger-marging - 2px solid $color-border;
 		background-color: #fff;
 		&:after {
 			font-size: 2rem;
@@ -270,6 +360,7 @@
 		}
 	}
 }
+
 
 /*
  * Nodelist Item States
@@ -304,7 +395,7 @@
 
 // Public
 .nl__item--public {
-	.nl__node--big .nl__node__inner {
+	.nl__node__inner {
 		border-color: $color-primary;
 	}
 }
@@ -352,7 +443,7 @@
 
 // Success
 .nl__item--success {
-	.nl__node__link__inner,
+	.nl__node__link-inner,
 	.nl__node--small .nl__node__inner {
 		background-color: $color-success;
 	}

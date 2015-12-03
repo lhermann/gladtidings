@@ -1,6 +1,6 @@
 <?php
 /**
- * Tamplate to display the nodelist items inside terms of type 'tax-unit'
+ * Tamplate to display the nodelist items (objects of type 'headline', 'lesson' and 'quizz') inside terms of type 'tax-unit'
  * This template works inside The Loop
  */
 
@@ -25,7 +25,7 @@ switch ( $post->post_type ) {
 	case 'quizz':
 	default:
 		
-		$title = sprintf( '<h4 class="nl__item__title"><a class="a--bodycolor" href="%s" title="Permanent Link to %s">%s</a></h4>',
+		$title = sprintf( '<h4 class="nl__article__title"><a class="a--bodycolor" href="%s" title="Permanent Link to %s">%s</a></h4>',
 			get_the_permalink(),
 			the_title_attribute( array( 'echo' => false ) ),
 			$post->post_title
@@ -39,8 +39,8 @@ switch ( $post->post_type ) {
 ?>
 
 <li class="<?= $li_classes ?>">
-	<article class="nl__item__article">
-		<header class="nl__item__header">
+	<article class="nl__article">
+		<header class="nl__article__header">
 			<?= $title; ?>
 		</header>
 	</article>

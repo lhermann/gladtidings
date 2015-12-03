@@ -11,7 +11,7 @@ $units = get_field( 'units_repeater' );
 // check if the repeater field has rows of data
 if( $units ):
 
-	print( '<ul class="nodelist">' );
+	print( '<ul class="nodelist nodelist--course">' );
 
 	foreach ( $units as $key => $unit ) {
 		
@@ -35,7 +35,7 @@ if( $units ):
 		if( $s === 0 ) continue;
 
 		// CSS classes
-		$unit['li-classes'] = sprintf( 'nl__item %s nl__item--unit %s',
+		$unit['li-classes'] = sprintf( 'nl__item %s %s',
 			'nl__item--'.$key,
 			'nl__item--'.$unit['unit_status']
 		);
@@ -87,12 +87,12 @@ if( $units ):
 
 		<li class="<?= $unit['li-classes'] ?>">
 			<?= $unit['link'] ?>
-				<article class="nl__item__article">
-					<header class="nl__item__header">
-						<h4 class="nl__item__title"><?= $unit['unit_title'] ?></h4>
-						<small class="nl__item__meta"><?= $unit['meta'] ?></small>
+				<article class="nl__article">
+					<header class="nl__article__header">
+						<h4 class="nl__article__title"><?= $unit['unit_title'] ?></h4>
+						<small class="nl__article__meta"><?= $unit['meta'] ?></small>
 					</header>
-					<footer class="nl__item__footer">
+					<footer class="nl__article__footer">
 						<p><?= $unit['footer'] ?></p>
 						<?= $unit['button'] ?>
 					</footer>
@@ -101,7 +101,7 @@ if( $units ):
 			<div class="nl__node nl__node--big">
 				<div class="nl__node__link"></div>
 				<div class="nl__node__border"></div>
-				<div class="nl__node__link__inner"></div>
+				<div class="nl__node__link-inner"></div>
 				<div class="nl__node__inner">1</div>
 			</div>
 		</li>
