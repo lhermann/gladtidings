@@ -102,7 +102,7 @@ if( $units ):
 				<div class="nl__node__link"></div>
 				<div class="nl__node__border"></div>
 				<div class="nl__node__link__inner"></div>
-				<div class="nl__node__inner"></div>
+				<div class="nl__node__inner">1</div>
 			</div>
 		</li>
 

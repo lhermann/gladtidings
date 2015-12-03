@@ -8,7 +8,7 @@
 
 		<div class="wrapper">
 			<div class="page-hero__frame">
-				<h1 class="page-hero__title">single.php</h1>
+				<h1 class="page-hero__title">single-lesson.php</h1>
 			</div>
 		</div><!-- /.wrapper -->
 

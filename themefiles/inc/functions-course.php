@@ -566,9 +566,60 @@ function acf_extend_unit_title( $field ) {
 add_filter('acf/prepare_field/name=unit_title', 'acf_extend_unit_title');
 
 
+/**
+ * This function can be called for a term of type 'tax-unit'
+ * Order the post-objects (used for The Loop) in the right order
+ * Add the Headlines as a "pseudo" post-object
+ */
+function sort_objects_inside_unit() {
+	global $wp_query, $posts;
+	$term = get_queried_object();
 
+	// get item_order
+	$term->item_order = array_values( get_term_meta( $term->term_id, 'lesson_order' )[0] );
 
+	// create a copy, because $posts is passed by reference
+	$posts_copy = $posts;
+	$posts = array();
 
+	$lesson_number = 1;
+
+	// loop through the item_order array (containing all headlines, videos and quizzes in right order)
+	foreach ( $term->item_order as $i => $lesson ) {
+		
+		// switch by lesson type (headline, video, quizz)
+		switch ( reset($lesson) ) {
+			case 'lesson_headline':
+
+				$posts[$i] = new stdClass();
+				$posts[$i]->post_title = end($lesson);
+				$posts[$i]->post_type = 'headline';
+
+				break;
+			case 'lesson_video':
+			case 'lesson_quizz':
+			default:
+
+				foreach ( $posts_copy as $object ) {
+					if( (int)end($lesson) == $object->ID ) {
+						$posts[$i] = $object;
+					}
+				}
+
+				// add the index variable
+				$posts[$i]->task_number = $lesson_number;
+				$lesson_number++;
+
+				break;
+
+		}
+
+	}
+
+	// update post count
+	$wp_query->post_count = count($posts);
+
+}
 
 
 

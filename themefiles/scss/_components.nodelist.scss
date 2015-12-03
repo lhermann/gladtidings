@@ -2,7 +2,9 @@
     #NODELIST
 \*------------------------------------*/
 
-// ul.nodelist
+/*
+ * === ul.nodelist ===
+ */
 .nodelist {
 	list-style: none;
 	margin-left: 0;
@@ -30,7 +32,9 @@
 	}
 }
 
-// li.nodelist__item
+/*
+ * === ul li.nl__item ===
+ */
 .nl__item {
 	position: relative;
 	&--unit {
@@ -46,7 +50,9 @@
 		padding: 0.3rem;
 	}
 }
-// Content
+/*
+ * === Content ===
+ */
 %nodelist__icon {
 	font-family: "foundation-icons";
 	position: absolute;
@@ -59,7 +65,7 @@
 .nl__item__article {
 	margin-left: 70px;
 	padding: 4px;
-	.nl__item--heading & {
+	.nl__item--headline & {
 		margin-left: 38px;
 	}
 	.nl__item--unit & {
@@ -106,7 +112,7 @@
 	}
 }
 
-//Variations
+/* == nl__item variations == */
 .nl__item--hero {
 	.nl__item__article {
 		margin-left: 140px;
@@ -126,7 +132,9 @@
 	}
 }
 
-// Node
+/*
+ * === ul li div.nl__node ===
+ */
 .nl__node {
 	position: absolute;
 	@include width-height( 30px, 30px );
@@ -149,13 +157,16 @@
 	z-index: 1;
 	margin-left: -1px;
 	border: 1px solid $color-border;
-	height: 300%;
+	height: 400%;
 	top: -100%;
 	.nl__item:first-child & {
 		height: 200%; top: 50%;
 	}
 	.nl__item:last-child & {
 		height: 100%;
+	}
+	.nl__item:first-child:last-child & {
+		display: none;
 	}
 }
 .nl__node__link__inner {
@@ -188,7 +199,7 @@
 	}
 }
 
-// Node Variations
+/* == Node Variations == */
 .nl__node--small {
 	padding: 8px;
 	.nl__node__border {
