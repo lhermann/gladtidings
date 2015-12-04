@@ -8,21 +8,11 @@
 
 	<header id="page-header" class="page-hero u-header-image u-header-color">
 
-		<nav class="top-bar top-bar--layover owl--off">
-			<ul class="top-bar__right">
-				
-				<li class="top-bar__item top-bar__item--link"><a href="#" title=""> </a></li>
-				<?php
-					if( $userdata ) {
-						print( '<li class="top-bar__item top-bar__item--avatar">Hello '.$userdata->data->display_name.' <a class="top-bar__avatar" href="" title="Your Profile"><img src="'.get_bloginfo('template_directory').'/img/avatar-300.jpg" alt="User Avatar" height="36" width="36"></a></li>' );
-					} else {
-						// print( '<li class="top-bar__item top-bar__item--btn">'.wp_login_form().'</li>' );
-						print( '<li class="top-bar__item top-bar__item--btn"><a class="top-bar__btn btn btn--small" href="'.wp_login_url( $_SERVER['REQUEST_URI'] ).'">Log In</a></li>' );
-					}
-				?>
-
-			</ul>
-		</nav>
+		<?php 
+			global $nav_overlay;
+			$nav_overlay = true;
+			get_template_part( 'partials/navigation', 'home' );
+		?>
 
 		<div class="wrapper">
 			<div class="page-hero__frame">

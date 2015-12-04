@@ -4,16 +4,11 @@
 //var_dump($userdata);
 ?>
 
-	<header id="page-header" class="page-hero u-header-image u-header-color">
-
-		<div class="wrapper">
-			<div class="page-hero__frame">
-				<h1 class="page-hero__title">single-lesson.php</h1>
-			</div>
-		</div><!-- /.wrapper -->
+	<header id="page-header" class="shaddow--drop">
+		
+		<?php get_template_part( 'partials/navigation', 'lesson' ); ?>
 
 	</header>
-
 
 	<main id="page-content">
 

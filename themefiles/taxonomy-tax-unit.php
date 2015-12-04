@@ -1,8 +1,10 @@
 <?php get_header(); ?>
 
 	<header id="page-header">
+		
+		<?php get_template_part( 'partials/navigation', 'unit' ); ?>
 
-		<div class="page-hero page-hero--skinny u-header-image u-header-color">
+		<div class="page-hero page-hero--skinny shaddow--receive u-header-image u-header-color">
 			<div class="wrapper">
 			
 				<?php get_template_part( 'partials/nodelist', 'hero' ); ?>

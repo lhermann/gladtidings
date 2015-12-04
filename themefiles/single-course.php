@@ -4,13 +4,17 @@
 //var_dump($userdata);
 ?>
 
-	<header id="page-header" class="page-hero u-header-image u-header-color">
+	<header id="page-header">
 
-		<div class="wrapper">
-			<div class="page-hero__frame">
-				<h1 class="page-hero__title">single-course.php</h1>
-			</div>
-		</div><!-- /.wrapper -->
+		<?php get_template_part( 'partials/navigation', 'course' ); ?>
+
+		<div class="page-hero shaddow--receive u-header-image u-header-color">
+			<div class="wrapper">
+				<div class="page-hero__frame">
+					<h1 class="page-hero__title">single-course.php</h1>
+				</div>
+			</div><!-- /.wrapper -->
+		</div>
 
 	</header>
 

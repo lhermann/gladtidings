@@ -1,93 +1,161 @@
 /*------------------------------------*\
     #TOP-BAR
 \*------------------------------------*/
-$top-bar-height: 52px;
+
+/*
+ * Settings
+ */
+$top-bar-height:		52px;
+$top-bar-avatar-size:	36px;
+
+/*
+ * Helper Includes
+ */
+%top-bar-location-setup {
+	display: inline-block;
+	list-style: none;
+}
+%vertical-padding-reset {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+
+/*
+ * Standard Definitions
+ */
 
 .top-bar {
 	height: $top-bar-height;
 	height: px-to-rem( $top-bar-height );
 
-	&--layover {
-		position: absolute;
-		width: 100%;
-	}
-}
-
-.top-bar__left,
-.top-bar__center,
-.top-bar__right,
-.top-bar__item,
-.top-bar__item a {
-	display: inline-block;
-}
-
-.top-bar__left,
-.top-bar__right {
-	list-style: none;
-}
-
-.top-bar__right {
-	float: right;
-
-	.top-bar__item:not(.top-bar__item--menu-icon) {
-		display: none;
-	}
-
-	@include media-query( lap-and-up ) {
-		.top-bar__item:not(.top-bar__item--menu-icon) {
-			display: inline-block;
-		}
-		.top-bar__item--menu-icon {
-			display: none;
-		}
-	}
-}
-
-.top-bar__item {
-	padding: 0 0.8rem;
-
-	a {
-		vertical-align: middle;
+	&__left {
+		@extend %top-bar-location-setup;
 	}
 	
-	&--link,
-	&--menu-icon {
-		line-height: $top-bar-height - 1px;
-		line-height: px-to-rem( $top-bar-height - 1px );
+	&__center {
+		@extend %top-bar-location-setup;
 	}
 
-	&--title {
+	&__right {
+		@extend %top-bar-location-setup;
+		float: right;
+
+		// .top-bar__item {
+		// 	display: none;
+		// 	@include media-query( lap-and-up ) {
+		// 		display: inline-block;
+		// 	}
+		// }
+
+	}
+
+	&__item {
+		display: inline-block;
+		padding: 0 0.8rem;
+
+		line-height: $top-bar-height;
+		line-height: px-to-rem( $top-bar-height );
+
 		a {
-			@include inuit-font-size( halve($top-bar-height), $top-bar-height );
-			color: $color-body;
+			display: inline;
+			vertical-align: middle;
+			border-bottom: none;
+
+			padding: $inuit-btn-padding--small double($inuit-btn-padding--small);
 		}
 	}
 
-	&--menu-icon {
-		text-transform: uppercase;
+}
 
-		background-color: rgba( white, .8 );
-		border-bottom-left-radius: 5px;
-		
-		a {
-			color: $color-body;
-			font-weight: 600;
+/*
+ * Variations
+ */
 
-			&:after {
-				content: "";
-				display: inline-block;
-				box-shadow: 0 0 0 1px #222, 0 7px 0 1px #222, 0 14px 0 1px #222;
-				width: 1rem;
-				margin: 0 0.6rem 0.85rem;
-			}
-		}
+/* the top-bar stays on top of the page-hero with transparent background */
+.top-bar--overlay {
+	position: absolute;
+	width: 100%;
+
+	.top-bar__item--title {
+		display: none;
 	}
 }
 
+/* the page title,
+	has a greater size */
+.top-bar__item--title {
+	a {
+		@include inuit-font-size( halve($top-bar-height), $top-bar-height );
+		color: $color-body;
+	}
+}
 
-.top-bar__avatar {
-	font-size: 0;
-	img {
+/* the username and user avatar */
+.top-bar__item--avatar {
+	.tb__avatar__link {
+		display: inline-block;
+		line-height: 0;
+		@extend %vertical-padding-reset;
+
+		&:hover {
+			.tb__avatar__img {
+				box-shadow: 0 0 3px $color-suppl;
+			}
+		}
+
+	}
+
+	.tb__avatar__name {
+		line-height: $top-bar-avatar-size;
+		vertical-align: bottom;
+	}
+
+	.tb__avatar__img {
 		border-radius: $default-border-radius;
 	}
 }
+
+/* any item that is a simple link */
+.top-bar__item--link {
+	@extend %vertical-padding-reset;
+}
+
+/* the menu icon
+	only shows up for lap-and-up */
+.top-bar__item--menu-icon {
+
+	border-bottom-left-radius: 5px;
+
+	a {
+		color: $color-body;
+		font-weight: 600;
+		border: 1px solid $color-body;
+		border-radius: $default-border-radius;
+
+		background-color: rgba( white, 1 );
+
+		&:hover {
+			color: white;
+			background-color: $color-suppl;
+			border-color: $color-suppl;
+			&:after {
+				box-shadow: 0 0 0 1px white, 0 7px 0 1px white, 0 14px 0 1px white;
+			}
+		}
+
+		&:after {
+			content: "";
+			display: inline-block;
+			box-shadow: 0 0 0 1px $color-body, 0 7px 0 1px $color-body, 0 14px 0 1px $color-body;
+			width: 1rem;
+			margin: 0 0 0.75em 0.6rem;
+		}
+	}
+}
+
+
+
+
+
+
