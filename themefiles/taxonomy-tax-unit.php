@@ -18,7 +18,6 @@
 	<main id="page-content">
 
 		<div class="wrapper">
-			<p>taxonomy-tax-unit.php</p>
 			<?php get_template_part( 'partials/breadcrumbs', 'unit' ); ?>
 		</div><!-- /.wrapper -->
 
