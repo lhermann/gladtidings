@@ -26,7 +26,7 @@
 
 					while ( have_posts() ) : the_post();
 
-						get_template_part( 'partials/nodelist', 'course' );
+						get_template_part( 'templates/nodelist', 'course' );
 
 					endwhile;
 

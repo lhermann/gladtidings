@@ -5,6 +5,8 @@
 	padding-top: 1.5625rem;
 	position: relative;
 
+	background: black url('../img/video-widescreen.jpg') center/cover no-repeat;
+
 	&--16\:9 {
 		padding-bottom: 56.34%;
 	}

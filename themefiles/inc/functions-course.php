@@ -241,6 +241,20 @@ function add_post_types_and_taxonomies() {
 }
 add_action( 'init', 'add_post_types_and_taxonomies', 0 );
 
+/**
+ * Remove the meta box on the admin post edit screen for taxonomy input
+ */
+if (is_admin()) :
+	function remove_edit_screen_meta_boxes() {
+		remove_meta_box('tax-coursediv', 'lesson', 'side');
+		remove_meta_box('tax-unitdiv', 'lesson', 'side');
+		remove_meta_box('tax-coursediv', 'quizz', 'side');
+		remove_meta_box('tax-unitdiv', 'quizz', 'side');
+	}
+	add_action( 'admin_menu', 'remove_edit_screen_meta_boxes' );
+endif;
+
+
 
 /**
  * Register a custom menu item 'Courses' to handle all three post types 'course', 'lesson' and 'quizz'
@@ -350,8 +364,8 @@ function update_course_and_unit_tax( $post_id, $post_object ) {
 		//var_dump( '=== unit ===', $unit );
 		$unit_title = reset($unit); // first index: the title
 		$unit_id = next($unit); // second index: the id
-		$items = next($unit); // third index: unit array
-		if ( !isset($items) || empty($items) ) $items = array(); // prevent running into errors if unit has no Lessons
+		$objects = next($unit); // third index: unit array
+		if ( !isset($objects) || empty($objects) ) $objects = array(); // prevent running into errors if unit has no Lessons
 
 		// For each Unit: Set up a term to represent the unit						/* 5 */
 		$unit_term_id = create_term_if_needed( $unit_title, $unit_id, TAX_UNIT );
@@ -364,25 +378,25 @@ function update_course_and_unit_tax( $post_id, $post_object ) {
 
 
 		/*
-		 * loop through the items (headline, lesson, quizz)
+		 * loop through the objects (headline, lesson, quizz)
 		 */
 		$unit_counter = array( 'lesson_video' => 0, 'lesson_quizz' => 0 );			/* 3 */
-		foreach ( $items as $item ) {												/* 6 */
-			if ( !in_array( reset($item), array( 'lesson_video', 'lesson_quizz' ) ) ) continue;
-			$unit_counter[reset($item)]++; //count									/* 7 */
+		foreach ( $objects as $object ) {												/* 6 */
+			if ( !in_array( reset($object), array( 'lesson_video', 'lesson_quizz' ) ) ) continue;
+			$unit_counter[reset($object)]++; //count									/* 7 */
 
 			/*
 			 * If there is an object ID -> unset the ID in the ${term}_objects_array
 			 * If there is NO object ID -> wp_set_object_terms
 			 */
-			$object_id = (int)end($item);
+			$object_id = (int)end($object);
 
 			// Check the Course Object Ids array									/* 8 */
 			if( in_array( $object_id, $course_objects_array ) ) {
 				$temp_key = array_search( $object_id, $course_objects_array );
 				unset( $course_objects_array[$temp_key] );
 			} else {
-				wp_add_object_terms( end($item), $course_term_slug, TAX_COURSE );
+				wp_add_object_terms( end($object), $course_term_slug, TAX_COURSE );
 			}
 
 			// Check the Unit Object Ids array										/* 8 */
@@ -390,8 +404,12 @@ function update_course_and_unit_tax( $post_id, $post_object ) {
 				$temp_key = array_search( $object_id, $unit_objects_array );
 				unset( $unit_objects_array[$temp_key] );
 			} else {
-				wp_add_object_terms( end($item), $unit_id, TAX_UNIT );
+				wp_add_object_terms( end($object), $unit_id, TAX_UNIT );
 			}
+
+			// Update Object with the meta value order_nr
+			$order_nr = $unit_counter['lesson_video'] + $unit_counter['lesson_quizz'];
+			update_post_meta( $object_id, 'order_nr', $order_nr );
 
 		} // end item loop
 
@@ -401,7 +419,11 @@ function update_course_and_unit_tax( $post_id, $post_object ) {
 		update_term_meta( $unit_term_id, 'num_lesson_quizzes', $unit_counter['lesson_quizz'] );
 
 		// save the lesson order as tax-unit term meta
-		update_term_meta( $unit_term_id, 'lesson_order', $items );
+		update_term_meta( $unit_term_id, 'lesson_order', $objects );
+		// save IDs of post object and term of the course
+		update_term_meta( $unit_term_id, 'course_title', $post_object->post_title );
+		update_term_meta( $unit_term_id, 'course_term_id', $course_term_id );
+		update_term_meta( $unit_term_id, 'course_object_id', $post_id );
 
 		// add numbers to the course counter
 		$course_counter['lesson_video'] += $unit_counter['lesson_video'];
@@ -577,11 +599,7 @@ add_filter('acf/prepare_field/name=unit_title', 'acf_extend_unit_title');
  * Add the Headlines as a "pseudo" post-object
  */
 function sort_objects_inside_unit() {
-	global $wp_query, $posts;
-	$term = get_queried_object();
-
-	// get item_order
-	$term->item_order = array_values( get_term_meta( $term->term_id, 'lesson_order' )[0] );
+	global $wp_query, $posts, $unit;
 
 	// create a copy, because $posts is passed by reference
 	$posts_copy = $posts;
@@ -590,8 +608,8 @@ function sort_objects_inside_unit() {
 	$lesson_number = 1;
 
 	// loop through the item_order array (containing all headlines, videos and quizzes in right order)
-	foreach ( $term->item_order as $i => $lesson ) {
-		
+	$i = 0;
+	foreach ( $unit->lesson_order as $lesson ) {
 		// switch by lesson type (headline, video, quizz)
 		switch ( reset($lesson) ) {
 			case 'lesson_headline':
@@ -618,6 +636,7 @@ function sort_objects_inside_unit() {
 				break;
 
 		}
+		$i++;
 
 	}
 
@@ -627,6 +646,61 @@ function sort_objects_inside_unit() {
 }
 
 
+/**
+ * OBSOLETE
+ */
+function find_lesson_order_nr( $term_id ) {
+	global $post;
+	$lesson_order = get_term_meta( $term_id, 'lesson_order' )[0];
+
+	$lesson_number = 0;
+	foreach ( $lesson_order as $lesson ) {
+
+		// switch by lesson type (headline, video, quizz)
+		switch ( reset($lesson) ) {
+			case 'lesson_video':
+			case 'lesson_quizz':
+
+				$lesson_number++;
+				if( (int)end($lesson) == $post->ID ) {
+					return $lesson_number;
+				}
+
+				break;
+
+		}
+
+	}
+}
+
+
+/**
+ * Get the unit of a lesson/quizz
+ * Including the unit_order number
+ */
+function get_unit( $post_id ) {
+	$unit 				= wp_get_post_terms( $post_id, TAX_UNIT )[0];
+	$unit->unit_order 	= get_term_meta( $unit->term_id, 'unit_order', true ) + 1;
+	return $unit;
+}
+
+function get_unit_meta( $unit ) {
+	$meta = get_term_meta( $unit->term_id );
+
+	foreach ( $meta as $key => $raw_value ) {
+		$value = ( $key == 'lesson_order' ? unserialize( $raw_value[0] ) : $raw_value[0] );
+		$unit->{$key} = is_int($value) ? (int)$value : $value ;
+	}
+	$unit->unit_order += 1;
+	return $unit;
+}
+
+function get_course( $post_id ) {
+	global $wpdb;
+	$course 			= wp_get_post_terms( $post_id, TAX_COURSE )[0];
+	$course->post_id 	= (int)$wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_name = '$course->slug'" );
+	return $course;
+}
 
 
 

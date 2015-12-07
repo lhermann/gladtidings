@@ -5,24 +5,24 @@
 */
 
 // Get term and meta information
-$term = get_queried_object();
-$meta = get_term_meta( $term->term_id );
+global $unit;
+//$meta = get_term_meta( $unit->term_id );
 
 // Unit number
-$unit = 'Unit '.( $meta['unit_order'][0]+1 );
+$number = 'Unit '.$unit->unit_order;
 
 // Footer
 $footer = sprintf( '%s &nbsp; %s',
-	( $meta['num_lesson_videos'][0] ? '<i class="fi fi-video"></i> '.$meta['num_lesson_videos'][0].' Lesson Videos' : '' ),
-	( $meta['num_lesson_quizzes'][0] ? '<i class="fi fi-clipboard-pencil"></i> '.$meta['num_lesson_quizzes'][0].' Quizz' : '' )
+	( $unit->num_lesson_videos ? '<i class="fi fi-video"></i> '.$unit->num_lesson_videos.' Lesson Videos' : '' ),
+	( $unit->num_lesson_quizzes ? '<i class="fi fi-clipboard-pencil"></i> '.$unit->num_lesson_quizzes.' Quizz' : '' )
 );
 ?>
 
 <div class="nl__item nl__item--hero nl__item--active">
 	<article class="nl__article">
 		<header class="nl__article__header owl--off">
-			<p><?= $unit ?></p>
-			<h1 class="nl__article__title"><?= $term->name ?></h1>
+			<p><?= $number ?></p>
+			<h1 class="nl__article__title"><?= $unit->name ?></h1>
 		</header>
 		<footer class="nl__article__footer">
 			<p><?= $footer ?></p>

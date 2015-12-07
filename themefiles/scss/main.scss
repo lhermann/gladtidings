@@ -172,6 +172,8 @@
 @import	"objects.wrapper";
 @import	"objects.text";
 @import	"objects.buttons";
+		$enable-badge--small:	true;
+		$enable-badge--tiny:	true;
 @import	"objects.badge";
 @import	"objects.whitespace";
 		
@@ -191,6 +193,16 @@
 			}
 			&--receive {
 				box-shadow: 0 6px 6px -6px rgba( 0, 0, 0, 1 ) inset;
+			}
+		}
+
+		.flex {
+			display: flex;
+			justify-content: space-between;
+			align-items: baseline;
+			&__item {
+				display: inline;
+				margin-top: 0;
 			}
 		}
 
@@ -215,8 +227,12 @@
 @import	"inuit-widths/trumps.widths";
 @import	"inuit-widths-responsive/trumps.widths-responsive";
 
-		.text--center {
+		.t-text--center {
 			text-align: center;
+		}
+
+		.t-text--right {
+			text-align: right;
 		}
 
 		.pull {
@@ -224,23 +240,29 @@
 			&--right { float: right; }
 		}
 
-		// The Lesson Page Nodelist Hack
-		.lesson-page-hack {
-			@include media-query( desk ) {
-				margin-top: 0;
-				> .layout {
-					position: relative;
-					.layout__item:nth-child(1) {
-						position: absolute;
-						top: -( ($top-bar-height - 32px) / 2 + 32px );
-					}
-					.layout__item:nth-child(2) {
-						margin-top: 0;
-					}
-				}
-				.nodelist { margin: 0 10%; }
+		.t-margin-reset {
+			&--top {
+				margin-top: 0 !important;
 			}
 		}
+
+		// The Lesson Page Nodelist Hack
+		// .lesson-page-hack {
+		// 	@include media-query( desk ) {
+		// 		margin-top: 0;
+		// 		> .layout {
+		// 			position: relative;
+		// 			.layout__item:nth-child(1) {
+		// 				position: absolute;
+		// 				top: -( ($top-bar-height - 32px) / 2 + 32px );
+		// 			}
+		// 			.layout__item:nth-child(2) {
+		// 				margin-top: 0;
+		// 			}
+		// 		}
+		// 		.nodelist { margin: 0 10%; }
+		// 	}
+		// }
 		
 		// Wordpress Admin Bar
 		#wpadminbar {

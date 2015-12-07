@@ -5,10 +5,10 @@
 ?>
 	<footer id="page-footer" class="page-footer">
 		<div class="wrapper">
-			<p class="text--center">
+			<p class="t-text--center">
 				Copyright 2015 The Glad Tidings, Inc. &bull; <?php wp_loginout( $_SERVER['REQUEST_URI'], true ); ?>
 			</p>
-			<p class="text--center">
+			<p class="t-text--center">
 				<?php
 					// display execution time
 					if( true ) {

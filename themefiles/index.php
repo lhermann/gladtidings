@@ -11,7 +11,7 @@
 		<?php 
 			global $nav_overlay;
 			$nav_overlay = true;
-			get_template_part( 'partials/navigation', 'home' );
+			get_template_part( 'templates/navigation', 'home' );
 		?>
 
 		<div class="wrapper">
@@ -29,7 +29,7 @@
 		<div class="wrapper">
 			<div class="layout layout--center">
 				<div class="layout__item u-2/3-lap-and-up">
-					<p class="lede text--center">A short description of the course so people know what this website is about. This is a course about the ancient writings of the prophets and applicability today.</p>
+					<p class="lede t-text--center">A short description of the course so people know what this website is about. This is a course about the ancient writings of the prophets and applicability today.</p>
 				</div>
 			</div>
 		</div><!-- /.wrapper -->
@@ -42,7 +42,7 @@
 						if ( have_posts() ) :
 							while ( have_posts() ) : the_post();
 
-								get_template_part( 'partials/teaser', $post->post_type );
+								get_template_part( 'templates/teaser', $post->post_type );
 
 							endwhile;
 						else :

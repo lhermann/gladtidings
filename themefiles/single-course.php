@@ -6,12 +6,12 @@
 
 	<header id="page-header">
 
-		<?php get_template_part( 'partials/navigation', 'course' ); ?>
+		<?php get_template_part( 'templates/navigation', 'course' ); ?>
 
 		<div class="page-hero shaddow--receive u-header-image u-header-color">
 			<div class="wrapper">
 				<div class="page-hero__frame">
-					<h1 class="page-hero__title">single-course.php</h1>
+					<h1 class="page-hero__title"><?php the_title(); ?></h1>
 				</div>
 			</div><!-- /.wrapper -->
 		</div>
@@ -23,14 +23,17 @@
 
 		<div class="wrapper">
 			
-			<?php get_template_part( 'partials/nodelist', 'course' ); ?>
+			<?php get_template_part( 'templates/nodelist', 'course' ); ?>
 
 			<?php //var_dump($post); ?>
 
 		</div><!-- /.wrapper -->
 
 		<div class="wrapper">
-
+			<hr>
+			<div class="breadcrumb">
+				<?php get_template_part( 'templates/breadcrumbs', 'course' ); ?>
+			</div>
 		</div><!-- /.wrapper -->
 
 	</main>

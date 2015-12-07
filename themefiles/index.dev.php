@@ -37,7 +37,7 @@
 		<div class="wrapper">
 			<div class="layout layout--center">
 				<div class="layout__item u-2/3-lap-and-up">
-					<p class="lede text--center">A short description of the course so people know what this website is about. This is a course about the ancient writings of the prophets and applicability today.</p>
+					<p class="lede t-text--center">A short description of the course so people know what this website is about. This is a course about the ancient writings of the prophets and applicability today.</p>
 				</div>
 			</div>
 		</div><!-- /.wrapper -->
@@ -61,7 +61,7 @@
 						if ( $bible_basics->have_posts() ) {
 							//while ( $bible_basics->have_posts() ) {
 								$bible_basics->the_post();
-								get_template_part( 'partials/nodelist', 'course' );
+								get_template_part( 'templates/nodelist', 'course' );
 							//}
 						}
 						
