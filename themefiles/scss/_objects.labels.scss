@@ -1,0 +1,91 @@
+/*
+ * Component: label
+\* =================================== */
+
+/*
+ * a default label is equivalent with a btn--small
+ */
+
+$label-padding:         quarter($inuit-base-spacing-unit) !default;
+$label-padding--large:  double($label-padding) !default;
+$label-padding--small:  halve($label-padding) !default;
+$label-border-width:	1px !default;
+$label-color:			$color-primary !default;
+
+$enable-label--large:	true !default;
+$enable-label--small:	true !default;
+
+
+.label {
+	display: inline-block;
+	margin: 0;
+	overflow: visible;
+
+	padding: $label-padding - $label-border-width  double($label-padding) - $label-border-width;
+
+	color: $label-color;
+	border: $label-border-width solid $label-color;
+
+	@if($inuit-btn-radius != 0) {
+	    border-radius: $inuit-btn-radius;
+	}
+}
+
+
+/**
+ * Additional Sizes
+ */
+
+// Large Label
+@if ($enable-label--large == true) {
+
+    .label--large,
+    %label--large {
+        padding: $label-padding--large - $label-border-width  double($label-padding--large) - $label-border-width;
+    }
+
+}
+
+// Small Label
+@if ($enable-label--small == true) {
+
+    .label--small,
+    %label--small {
+        padding: 1px - $label-border-width  tripple($label-padding--small) - $label-border-width;
+    }
+
+}
+
+// Fixed Width
+.label--fixed {
+	width: 3em;
+	padding: 0;
+	text-align: center;
+	&.label--small {
+		width: 2.6em;
+	}
+}
+
+
+/**
+ * Color Variations
+ */
+@mixin label-color( $color ) {
+	color: $color;
+	border-color: $color;
+}
+
+.label {
+	&--suppl {
+		@include label-color( $color-suppl );
+	}
+	&--success {
+		@include label-color( $color-success );
+	}
+	&--unstress {
+		@include label-color( $color-unstress );
+	}
+	&--dark {
+		@include label-color( rgba( black, .75 ) );
+	}
+}

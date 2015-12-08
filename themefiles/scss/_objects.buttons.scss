@@ -6,22 +6,76 @@
  */
 $btn-padding--tiny:  	quarter($inuit-btn-padding);
 $btn-border-width:		$inuit-btn-border-width;
-$btn-border-bottom-width: 1px;
+$btn-border-bottom-width: 0px;
 
+// .btn {
+// 	//box-shadow: 0 -15px 30px rgba(0,0,0,.15) inset, 0 -1px 0px rgba(0,0,0,.3) inset;
+// 	box-shadow: 0 -15px 30px rgba(0,0,0,.15) inset;
+// 	// border-bottom: $btn-border-bottom-width solid rgba(0, 0, 0, .8);
+// 	// padding-bottom: $inuit-btn-padding - $btn-border-bottom-width;
+// 	// transition: box-shadow 0.2s;
+// 	&:hover {
+// 		//box-shadow: 0 -15px 30px rgba(0,0,0,.25) inset, 0 -1px 0px rgba(0,0,0,.3) inset;
+// 		box-shadow: 0 -15px 30px rgba(0,0,0,.30) inset;
+// 	}
+// }
 .btn {
-	//box-shadow: 0 -15px 30px rgba(0,0,0,.15) inset, 0 -1px 0px rgba(0,0,0,.3) inset;
-	box-shadow: 0 -15px 30px rgba(0,0,0,.15) inset;
-	border-bottom: $btn-border-bottom-width solid rgba(0, 0, 0, .8);
-	padding-bottom: $inuit-btn-padding - $btn-border-bottom-width;
-	transition: background-color 0.3s;
 	&:hover {
-		//box-shadow: 0 -15px 30px rgba(0,0,0,.25) inset, 0 -1px 0px rgba(0,0,0,.3) inset;
-		box-shadow: 0 -15px 30px rgba(0,0,0,.25) inset;
+		color: $inuit-btn-background;
+		background-color: $inuit-btn-color;
 	}
 }
 
-/*
- * Sizes
+/**
+ * Color Variations
+ */
+%btn-3d {
+	color: #fff;
+	box-shadow: 0 -15px 30px rgba(0,0,0,.15) inset;
+	&:hover {
+		color: #fff;
+		box-shadow: 0 -15px 30px rgba(0,0,0,.30) inset;
+	}
+}
+@mixin btn-color( $color ) {
+	background-color: $color;
+	border-color: darken( $color, 10% );
+	&:hover {
+		background-color: $color;
+	}
+}
+.btn {
+	&--simple-dark {
+		color: $color-body;
+		border-color: $color-body;
+		&:hover {
+			background-color: $color-body;
+		}
+	}
+	&--primary {
+		@extend %btn-3d;
+		@include btn-color( $color-primary );
+	}
+	&--suppl {
+		@extend %btn-3d;
+		@include btn-color( $color-suppl );
+	}
+	&--success {
+		@extend %btn-3d;
+		@include btn-color( $color-success );
+	}
+	&--unstress {
+		@extend %btn-3d;
+		@include btn-color( $color-unstress );
+	}
+	&--dark {
+		@extend %btn-3d;
+		@include btn-color( rgba( black, .75 ) );
+	}
+}
+
+/**
+ * Additional Sizes
  */
 .btn {
 	&--small {
@@ -29,18 +83,5 @@ $btn-border-bottom-width: 1px;
 	}
 	&--tiny {
 		padding: 1px - $btn-border-width  quadruple($btn-padding--tiny) - $btn-border-width 1px - $btn-border-width - $btn-border-bottom-width;
-	}
-}
-
-/*
- * Color Variations
- */
-.btn {
-	&--unstress {
-		background-color: $color-unstress;
-		border-bottom-color: rgba(0, 0, 0, .4);
-	}
-	&--success {
-		background-color: $color-success;
 	}
 }

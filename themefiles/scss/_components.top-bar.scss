@@ -40,7 +40,7 @@ $top-bar-avatar-size:	36px;
 		a {
 			display: inline;
 			vertical-align: middle;
-			border-bottom: none;
+			border-bottom-width: 0;
 
 			padding: $inuit-btn-padding--small double($inuit-btn-padding--small);
 		}
@@ -117,21 +117,12 @@ $top-bar-avatar-size:	36px;
 /* the menu icon
 	only shows up for lap-and-up */
 .top-bar__item--menu-icon {
-
-	border-bottom-left-radius: 5px;
-
 	a {
-		color: $color-body;
 		font-weight: 600;
-		border: 1px solid $color-body;
-		border-radius: $default-border-radius;
 
-		background-color: rgba( white, 1 );
+		border-width: 1px;
 
 		&:hover {
-			color: white;
-			background-color: $color-suppl;
-			border-color: $color-suppl;
 			&:after {
 				box-shadow: 0 0 0 1px white, 0 7px 0 1px white, 0 14px 0 1px white;
 			}

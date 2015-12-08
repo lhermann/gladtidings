@@ -6,7 +6,6 @@
 
 // Get term and meta information
 global $unit;
-//$meta = get_term_meta( $unit->term_id );
 
 // Unit number
 $number = 'Unit '.$unit->unit_order;

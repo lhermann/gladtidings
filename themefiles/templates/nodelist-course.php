@@ -76,11 +76,11 @@ if( $units ):
 
 		// Button
 		$unit['button'] = '';
-		if( $s == 1 ) $unit['button'] = '<span class="badge badge--tiny">Scheduled</span>';
-		if( $s == 2 ) $unit['button'] = '<span class="badge badge--tiny badge--unstress">Locked</span>';
-		if( $s == 3 ) $unit['button'] = '<span class="btn badge--tiny">Start Lesson</span>';
-		if( $s == 4 ) $unit['button'] = '<span class="btn badge--tiny btn--success">Continue</span>';
-		if( $s == 5 ) $unit['button'] = '<span class="btn btn--tiny btn--unstress">Review</span>';
+		if( $s == 1 ) $unit['button'] = '<span class="label label--small">Scheduled</span>';
+		if( $s == 2 ) $unit['button'] = '<span class="label label--small label--unstress">Locked</span>';
+		if( $s == 3 ) $unit['button'] = '<span class="btn btn--primary btn--tiny">Start Lesson</span>';
+		if( $s == 4 ) $unit['button'] = '<span class="btn btn--success btn--tiny">Continue</span>';
+		if( $s == 5 ) $unit['button'] = '<span class="btn btn--unstress btn--tiny">Review</span>';
 
 
 		?>

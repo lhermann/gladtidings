@@ -94,7 +94,8 @@
 		$inuit-base-line-height:	$base-line-height;
 @import "inuit-defaults/settings.defaults";
 @import "inuit-responsive-settings/settings.responsive";
-
+		
+		// Misc
 		// there is no special file for this as of yet
 		$title-frame-alpha:		0.4;
 		$default-border-radius:	3px;
@@ -163,21 +164,24 @@
 		$inuit-enable-btn--small:   true;
 		$inuit-enable-btn--full:	true;
 		$inuit-btn-radius: 			$default-border-radius;
-		$inuit-btn-border-width:	0;
-		$inuit-btn-background:		$color-primary;
-		$btn-background-unstress:	$color-unstress;
-		$btn-background-sucess:		$color-success;
+		$inuit-btn-border-width:	1px;
+		$inuit-btn-background:		#fff;
+		$inuit-btn-color:			$color-primary;
+		$inuit-btn-border-color:	$inuit-btn-color;
 @import "inuit-buttons/objects.buttons";
-@import	"inuit-list-inline/objects.list-inline";
-@import	"objects.wrapper";
-@import	"objects.text";
+		// Extend Inuit Buttons Object
 @import	"objects.buttons";
 		$enable-badge--small:	true;
 		$enable-badge--tiny:	true;
-@import	"objects.badge";
+@import	"objects.labels";
+
+@import	"inuit-list-inline/objects.list-inline";
+@import	"objects.wrapper";
+@import	"objects.text";
 @import	"objects.whitespace";
 		
 		// Misc
+		// there is no special file for this as of yet
 		@mixin panel {
 			background-color: $color-panel-bg;
 			border-radius: 3px;
@@ -226,7 +230,9 @@
 //@import	"trumps.main";
 @import	"inuit-widths/trumps.widths";
 @import	"inuit-widths-responsive/trumps.widths-responsive";
-
+		
+		// Misc
+		// there is no special file for this as of yet
 		.t-text--center {
 			text-align: center;
 		}

@@ -25,15 +25,14 @@
 			
 			<?php get_template_part( 'templates/nodelist', 'course' ); ?>
 
-			<?php //var_dump($post); ?>
-
-		</div><!-- /.wrapper -->
-
-		<div class="wrapper">
 			<hr>
+
 			<div class="breadcrumb">
 				<?php get_template_part( 'templates/breadcrumbs', 'course' ); ?>
 			</div>
+
+			<?php //var_dump($post); ?>
+
 		</div><!-- /.wrapper -->
 
 	</main>

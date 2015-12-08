@@ -11,3 +11,8 @@
 @function px-to-rem( $px ) {
 	@return $px / $base-font-size * 1rem;
 }
+
+// Tripple a value
+@function tripple($number) {
+    @return round($number * 3);
+}

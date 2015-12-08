@@ -29,9 +29,7 @@
 				if ( have_posts() ) :
 
 					// this function will manipulate the global $posts array directly
-					// var_dump($posts);
 					sort_objects_inside_unit();
-					// var_dump($posts);
 
 					echo '<ul class="nodelist nodelist--unit">';
 

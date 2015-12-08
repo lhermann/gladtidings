@@ -1,7 +1,11 @@
-<?php get_header(); ?>
+<?php 
+	get_header();
 
-<?php
-//var_dump($userdata);
+	global $meta, $unit;
+
+	// get variables
+	$meta 	= get_post_meta( $post->ID, '', true );
+	$unit 	= get_unit( $post->ID );
 ?>
 
 	<header id="page-header" class="shaddow--drop">
@@ -30,6 +34,17 @@
 				<div class="layout__item u-2/3-lap-and-up">
 
 					<?php get_template_part( 'templates/content', 'lesson' ); ?>
+
+					<hr>
+
+					<div class="breadcrumb flex">
+						<div class="flex__item">
+							<?php get_template_part( 'templates/breadcrumbs', 'lesson' ); ?>
+						</div>
+						<div class="flex__item">
+							<a class="btn btn--success" href="#" title="View Next Lesson">Continue <i class="fi fi-arrow-right"></i></a>
+						</div>
+					</div>
 				
 				</div>
 			</div>

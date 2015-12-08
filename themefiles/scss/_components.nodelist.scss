@@ -42,12 +42,12 @@ $size-node--bigger:	$size-node*4;
 /* === ul li article.nl__article === */
 .nl__article {
 	
-	margin-left: 70px;
+	margin-left: 38px;
 	padding: 4px;
 	
-	&:before {
-		@extend %nodelist__icon;
-	}
+	// &:before {
+	// 	@extend %nodelist__icon;
+	// }
 
 	&__header {
 
@@ -73,7 +73,7 @@ $size-node--bigger:	$size-node*4;
 			font-size: 80%;
 			color: $color-suppl;
 		}
-		.btn, .badge { // I should make my own button class to avoid specificity wars
+		.btn, .label { // I should make my own button class to avoid specificity wars
 			@include absolute(false);
 			right: 4px;
 			bottom: 4px;
@@ -138,14 +138,14 @@ $size-node--bigger:	$size-node*4;
 		z-index: 4;
 		@include grow;
 		@include round;
-		//color: $color-body;
+		color: $color-border;
 		text-align: center;
 		line-height: 22px;
 		
 		&:after {
 			font-family: "foundation-icons";
-			font-size: 1.3rem;
-			line-height: 1.1;
+			font-size: 1.2rem;
+			line-height: 1.25;
 			margin-left: 1px;
 		}
 	}
@@ -156,9 +156,22 @@ $size-node--bigger:	$size-node*4;
 
 
 
-/*
+/**
  * Variations
  */
+
+// mixins
+@mixin nl__node__icon ( $icon, $color: false ) {
+	@if ($color) {
+		border-color: $color;
+	}
+	&:after {
+		content: $icon;
+		@if ($color) {
+			color: $color;
+		}
+	}
+}
 
 /* === ul.nodelist === */
 
@@ -248,35 +261,8 @@ $size-node--bigger:	$size-node*4;
 }
 
 /* this nodelist item is a headline */
-.nl__item--headline {
-	.nl__article {
-		margin-left: 38px;
-	}
-}
-
-/* this nodelist item represents a video lesson */
-.nl__item--lesson {
-	.nl__article:before {
-		content: "\f20e";
-	}
-}
-
-/* this nodelist item represents a quizz */
-.nl__item--quizz {
-	.nl__article:before {
-		content: "\f129";
-	}
-}
-
-/* ??? */
-.nl__item--node {
-	.nl__node {
-		position: relative;
-	}
-}
-
-/* === ul li article.nl__article === */
-
+// .nl__item--headline {
+// }
 
 
 /* === ul li div.nl__node === */
@@ -451,11 +437,20 @@ $bigger-marging: $size-node--bigger/15;
 		border-color: $color-success;
 	}
 	.nl__node__inner {
-		font-size: 0;
-		border-color: $color-success;
-		&:after {
-			content: "\f126";
-			color: $color-success;
-		}
+		@include nl__node__icon ( "\f126", $color-success );
+	}
+}
+
+/* this nodelist item represents a video lesson */
+.nl__item--lesson {
+	.nl__node__inner {
+		@include nl__node__icon ( "\f20e" );
+	}
+}
+
+/* this nodelist item represents a quizz */
+.nl__item--quizz {
+	.nl__node__inner {
+		@include nl__node__icon ( "\f129" );
 	}
 }

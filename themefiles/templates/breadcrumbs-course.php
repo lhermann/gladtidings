@@ -1,8 +1,7 @@
 <?php
 global $post;
 
-$badge_home =		sprintf( '<a class="badge badge--tiny" href="%s">%s</a>', home_url(), __( 'Home', 'gladtidings' ) );
-$badge_course = 	$post->post_title;
+$btn_home =		sprintf( '<a class="btn btn--tiny" href="%s">%s</a>', home_url(), __( 'Home', 'gladtidings' ) );
 
-print( $badge_home.' / '.$badge_course );
+print( $btn_home.' / '.$post->post_title );
 ?>

@@ -4,6 +4,8 @@
  * This template works inside The Loop
  */
 
+global $unit;
+
 // CSS classes
 $li_classes = sprintf( 'nl__item %s %s',
 	'nl__item--'.$post->ID,
@@ -25,7 +27,8 @@ switch ( $post->post_type ) {
 	case 'quizz':
 	default:
 		
-		$title = sprintf( '<h4 class="nl__article__title"><a class="a--bodycolor" href="%s" title="Permanent Link to %s">%s</a></h4>',
+		$title = sprintf( '<h4 class="nl__article__title">%s <a class="a--bodycolor" href="%s" title="Permanent Link to %s">%s</a></h4>',
+			'<span class="label label--small label--fixed">'.$unit->unit_order.'.'.$post->order_nr.'</span>',
 			get_the_permalink(),
 			the_title_attribute( array( 'echo' => false ) ),
 			$post->post_title
@@ -47,7 +50,7 @@ switch ( $post->post_type ) {
 	<div class="nl__node <?= $node_class; ?>">
 		<div class="nl__node__link"></div>
 		<div class="nl__node__border">
-			<div class="nl__node__inner"><?= $post->task_number ?></div>
+			<div class="nl__node__inner"></div>
 		</div>
 	</div>
 </li>

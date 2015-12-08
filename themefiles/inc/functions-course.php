@@ -605,7 +605,7 @@ function sort_objects_inside_unit() {
 	$posts_copy = $posts;
 	$posts = array();
 
-	$lesson_number = 1;
+	$order_nr = 1;
 
 	// loop through the item_order array (containing all headlines, videos and quizzes in right order)
 	$i = 0;
@@ -630,8 +630,8 @@ function sort_objects_inside_unit() {
 				}
 
 				// add the index variable
-				$posts[$i]->task_number = $lesson_number;
-				$lesson_number++;
+				$posts[$i]->task_number = $order_nr;
+				$order_nr++;
 
 				break;
 
@@ -679,8 +679,8 @@ function find_lesson_order_nr( $term_id ) {
  * Including the unit_order number
  */
 function get_unit( $post_id ) {
-	$unit 				= wp_get_post_terms( $post_id, TAX_UNIT )[0];
-	$unit->unit_order 	= get_term_meta( $unit->term_id, 'unit_order', true ) + 1;
+	$unit = wp_get_post_terms( $post_id, TAX_UNIT )[0];
+	$unit = get_unit_meta( $unit );
 	return $unit;
 }
 
@@ -692,6 +692,7 @@ function get_unit_meta( $unit ) {
 		$unit->{$key} = is_int($value) ? (int)$value : $value ;
 	}
 	$unit->unit_order += 1;
+
 	return $unit;
 }
 
