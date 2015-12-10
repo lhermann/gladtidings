@@ -49,8 +49,7 @@ switch ( $post->post_type ) {
 	</article>
 	<div class="nl__node <?= $node_class; ?>">
 		<div class="nl__node__link"></div>
-		<div class="nl__node__border">
-			<div class="nl__node__inner"></div>
-		</div>
+		<div class="nl__node__border"></div>
+		<div class="nl__node__inner"></div>
 	</div>
 </li>

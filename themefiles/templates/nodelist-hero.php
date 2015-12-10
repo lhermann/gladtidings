@@ -28,14 +28,14 @@ $footer = sprintf( '%s &nbsp; %s',
 		</footer>
 	</article>
 	<div class="nl__node nl__node--bigger">
-		<div class="nl__node__link"></div>
 		<div class="nl__node__border"></div>
-		<div class="nl__node__link__inner"></div>
-		<style>
-			.nl__node__inner:before {
-				width: 0%;
-			}
-		</style>
+		<?php
+		// <style>
+		// 	.nl__node__inner:before {
+		// 		width: 0%;
+		// 	}
+		// </style>
+		?>
 		<div class="nl__node__inner">0%</div>
 	</div>
 </div>	

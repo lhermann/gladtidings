@@ -92,7 +92,11 @@
 		$base-line-height:			24px;
 		$inuit-base-font-size: 		$base-font-size;
 		$inuit-base-line-height:	$base-line-height;
+		$mobile-font-size:			14px;
+		$mobile-line-height:		21px;
 @import "inuit-defaults/settings.defaults";
+		$base-spacing-unit:			$inuit-base-spacing-unit;
+
 @import "inuit-responsive-settings/settings.responsive";
 		
 		// Misc
@@ -129,6 +133,13 @@
  */
 @import "base.main";
 @import	"inuit-page/base.page";
+		html {
+			@include media-query(palm) {
+			    font-size: ($mobile-font-size / $base-font-size) * 1em;
+			    line-height: $mobile-line-height / $mobile-font-size;
+			}
+		}
+
 		$inuit-lede-size: 1.2;
 @import	"inuit-paragraphs/base.paragraphs";
 		.lede {
@@ -143,23 +154,11 @@
  * no cometics (except framework)
  */
 		$inuit-enable-layout--center:   true;
+		$inuit-enable-layout--rev:		true;
+		$inuit-enable-layout--middle:	true;
 		$inuit-enable-layout--auto:     true;
 @import "inuit-layout/objects.layout";
-		.layout--spacehack {
-			font-size: 0; // remove space between .layout__item elements
-			> * {
-				margin-top: 0; // undo owl
-				font-size: 1rem;
-			}
-		}
-		.layout__item--hr:before {
-			content: "";
-			display: block;
-			border-top: 1px solid $color-border;
-			width: 100%;
-			padding-bottom: 0.75rem;
-			margin-top: -0.75rem;
-		}
+@import "objects.layout";
 
 		$inuit-enable-btn--small:   true;
 		$inuit-enable-btn--full:	true;
@@ -182,13 +181,18 @@
 		
 		// Misc
 		// there is no special file for this as of yet
-		@mixin panel {
+		@mixin panel( $border-width: 1px, $border-color: $color-border, $shadow: true ) {
 			background-color: $color-panel-bg;
-			border-radius: 3px;
-			@include std-box-shadow;
+			border: $border-width solid $border-color;
+			@if($inuit-btn-radius != 0) {
+			    border-radius: $inuit-btn-radius;
+			}
+			@if($shadow) {
+				@include std-box-shadow;
+			}
 		}
 		.panel {
-			@include panel;
+			@include panel();
 			padding: 10px;
 		}
 		.shaddow {
@@ -221,6 +225,7 @@
 @import	"components.nodelist";
 @import	"components.progress-bar";
 @import	"components.embed";
+@import	"components.breadcrumbs";
 
 /*
  * ITCSS Stage 7: Trumps
@@ -234,11 +239,11 @@
 		// Misc
 		// there is no special file for this as of yet
 		.t-text--center {
-			text-align: center;
+			text-align: center !important;
 		}
 
 		.t-text--right {
-			text-align: right;
+			text-align: right !important;
 		}
 
 		.pull {

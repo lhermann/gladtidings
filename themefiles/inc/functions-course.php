@@ -647,34 +647,6 @@ function sort_objects_inside_unit() {
 
 
 /**
- * OBSOLETE
- */
-function find_lesson_order_nr( $term_id ) {
-	global $post;
-	$lesson_order = get_term_meta( $term_id, 'lesson_order' )[0];
-
-	$lesson_number = 0;
-	foreach ( $lesson_order as $lesson ) {
-
-		// switch by lesson type (headline, video, quizz)
-		switch ( reset($lesson) ) {
-			case 'lesson_video':
-			case 'lesson_quizz':
-
-				$lesson_number++;
-				if( (int)end($lesson) == $post->ID ) {
-					return $lesson_number;
-				}
-
-				break;
-
-		}
-
-	}
-}
-
-
-/**
  * Get the unit of a lesson/quizz
  * Including the unit_order number
  */
@@ -684,6 +656,7 @@ function get_unit( $post_id ) {
 	return $unit;
 }
 
+// Helper function to get unit meta, can be called inidividually
 function get_unit_meta( $unit ) {
 	$meta = get_term_meta( $unit->term_id );
 
@@ -696,6 +669,10 @@ function get_unit_meta( $unit ) {
 	return $unit;
 }
 
+/**
+ * Get the course of a lesson/quizz
+ * Including the inluding the course object_id
+ */
 function get_course( $post_id ) {
 	global $wpdb;
 	$course 			= wp_get_post_terms( $post_id, TAX_COURSE )[0];
@@ -703,6 +680,9 @@ function get_course( $post_id ) {
 	return $course;
 }
 
+function spaces_to_nbsp( $string ) {
+	return str_replace( ' ', '&nbsp;', $string);
+}
 
 
 

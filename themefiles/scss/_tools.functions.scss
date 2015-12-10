@@ -12,6 +12,11 @@
 	@return $px / $base-font-size * 1rem;
 }
 
+// Convert px to em
+@function px-to-em( $px ) {
+	@return $px / $base-font-size * 1em;
+}
+
 // Tripple a value
 @function tripple($number) {
     @return round($number * 3);

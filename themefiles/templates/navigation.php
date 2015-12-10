@@ -20,7 +20,7 @@
 		<?php
 			$user = wp_get_current_user();
 
-			if( empty($user) ) {
+			if( $user->ID ) {
 				print( '<li class="top-bar__item top-bar__item--avatar"><a class="tb__avatar__link" href="#" title="Your Profile"><span class="tb__avatar__name">Hello '.$user->data->display_name.'</span> <img class="tb__avatar__img" src="'.get_bloginfo('template_directory').'/img/avatar-300.jpg" alt="User Avatar" height="36" width="36"></a></li>' );
 				print( '<li class="top-bar__item top-bar__item--menu-icon"><a class="btn btn--simple-dark btn--small" href="#">Menu</a></li>' );
 			} else {

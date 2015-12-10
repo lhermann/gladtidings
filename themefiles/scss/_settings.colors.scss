@@ -1,13 +1,12 @@
 /* Color Variabes */
 
-$color-unstress: 		#AAA;
-$color-border: 			#CCC;
-$color-panel-bg: 		#F5F5F5;
-$color-panel-bg-hover: 	#f1f1f1;
-$color-dark-bg: 		#333;
-$color-body: 			#222;
+$color-unstress: 		hsl( 0, 0, 67 );
+$color-border: 			hsl( 0, 0, 85 );
+$color-panel-bg: 		hsl( 0, 0, 97.5 );
+$color-dark-bg: 		hsl( 0, 0, 20 );
+$color-body: 			hsl( 0, 0, 13 );
 
-$color-neutral:			#ddd;
+$color-neutral:			hsl( 0, 0, 87 );
 $color-primary: 		#4FA5B8;
 $color-suppl: 			#F2A200;
 $color-secondary: 		#e7e7e7;

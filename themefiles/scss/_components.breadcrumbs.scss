@@ -1,0 +1,40 @@
+/*------------------------------------*\
+    #BREADCRUMBS
+\*------------------------------------*/
+
+$bc-padding:			quarter($inuit-base-spacing-unit) !default;
+$bc-border-color:		$color-border !default;
+$bc-border-width:		$label-border-width !default;
+
+.breadcrumbs {
+	
+	display: inline-block;
+
+	padding: $bc-padding - $bc-border-width  double($bc-padding) - $bc-border-width;
+	
+	@include panel( $bc-border-width, $bc-border-color, false );
+	
+	// Responsive changes
+	@include media-query(palm) {
+		display: block;
+		text-align: center;
+		margin-top: px-to-em($inuit-base-spacing-unit);
+	}
+}
+
+// List item styling
+.crumb__item {
+	border-bottom: 0;
+	
+	// Item sperator
+	& + &:before {
+		padding: 0 halve($bc-padding);
+		color: $color-border;
+		content: "/\00a0"
+	}
+
+	&--current {
+		cursor: default;
+		color: $color-body;
+	}
+}

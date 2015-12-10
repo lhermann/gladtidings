@@ -36,13 +36,12 @@
 					<?php get_template_part( 'templates/content', 'lesson' ); ?>
 
 					<hr>
-
-					<div class="breadcrumb flex">
-						<div class="flex__item">
-							<?php get_template_part( 'templates/breadcrumbs', 'lesson' ); ?>
-						</div>
-						<div class="flex__item">
+					
+					<div class="layout layout--middle layout--rev">
+						<div class="layout__item u-1/3-lap-and-up t-text--right">
 							<a class="btn btn--success" href="#" title="View Next Lesson">Continue <i class="fi fi-arrow-right"></i></a>
+						</div><div class="layout__item u-2/3-lap-and-up">
+							<?php get_template_part( 'templates/breadcrumbs', 'lesson' ); ?>
 						</div>
 					</div>
 				
