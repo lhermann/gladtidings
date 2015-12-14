@@ -1,9 +1,5 @@
 <?php get_header(); ?>
 
-<?php
-//var_dump($userdata);
-?>
-
 	<header id="page-header">
 
 		<?php get_template_part( 'templates/navigation', 'course' ); ?>
@@ -23,15 +19,34 @@
 
 		<div class="wrapper">
 			
-			<?php get_template_part( 'templates/nodelist', 'course' ); ?>
+			<?php
+				//get all the units
+				$units = get_field( 'units_repeater' );
+
+				// check if the repeater field has rows of data
+				if( $units ) {
+
+					print( '<ul class="nodelist nodelist--course">' );
+
+					foreach ( $units as $key => $post ) {
+
+						get_template_part( 'templates/nodelist', 'course' );
+						
+					}
+
+					print( '</ul><!-- /.nodelist -->' );
+
+					// restore the original post
+					wp_reset_postdata();
+
+				}
+			?>
 
 			<hr>
 
 			<div class="breadcrumb">
 				<?php get_template_part( 'templates/breadcrumbs', 'course' ); ?>
 			</div>
-
-			<?php //var_dump($post); ?>
 
 		</div><!-- /.wrapper -->
 

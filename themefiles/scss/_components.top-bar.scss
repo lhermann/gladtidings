@@ -119,25 +119,31 @@ $top-bar-avatar-size:	36px;
 
 /* the menu icon
 	only shows up for lap-and-up */
-.top-bar__item--menu-icon {
-	a {
+.top-bar__item--button {
+	.btn {
 		font-weight: 600;
+		line-height: 1.2;
 
 		border-width: 1px;
+	}
+}
 
-		&:hover {
-			&:after {
-				box-shadow: 0 0 0 1px white, 0 7px 0 1px white, 0 14px 0 1px white;
-			}
-		}
-
+#menu-button,
+#flyout-button {
+	&:hover {
 		&:after {
-			content: "";
-			display: inline-block;
-			box-shadow: 0 0 0 1px $color-body, 0 7px 0 1px $color-body, 0 14px 0 1px $color-body;
-			width: $base-font-size;
-			margin: 0 0 0.75em 0.6rem;
+			box-shadow: 0 0 0 1px white, 0 7px 0 1px white, 0 14px 0 1px white;
 		}
+	}
+
+	&:after {
+		// content: "\f169";
+		// font-family: "foundation-icons";
+		content: "";
+		display: inline-block;
+		box-shadow: 0 0 0 1px $color-body, 0 7px 0 1px $color-body, 0 14px 0 1px $color-body;
+		width: $base-font-size;
+		margin: 0 0 0.75em 0.6rem;
 	}
 }
 

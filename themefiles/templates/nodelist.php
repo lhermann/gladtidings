@@ -62,10 +62,10 @@ if( $units ):
 		// Footer Paragraph
 		// -> get number of videos and lessons
 		$count = array( 'videos' => 0, 'quizzes' => 0 );
-		if( $unit['unit_items_repeater'] ) {
-			foreach( $unit['unit_items_repeater'] as $i => $item ) {
-				if( $item['acf_fc_layout'] == 'lesson_video' ) $count['videos']++;
-				if( $item['acf_fc_layout'] == 'lesson_quizz' ) $count['quizzes']++;
+		if( $unit['unit_items'] ) {
+			foreach( $unit['unit_items'] as $i => $item ) {
+				if( $item['acf_fc_layout'] == 'item_lesson' ) $count['videos']++;
+				if( $item['acf_fc_layout'] == 'item_quizz' ) $count['quizzes']++;
 			}
 		}
 

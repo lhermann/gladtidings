@@ -66,7 +66,7 @@ function scripts_and_styles() {
 	wp_enqueue_style( 'gladtidings-style', get_template_directory_uri().'/css/main.css', array(), THEMEVERSION );
 
 	// Add javascript
-
+    wp_enqueue_script( 'gladtidings-sript', get_template_directory_uri().'/js/main.js', array(), THEMEVERSION, ture );
 }
 add_action( 'wp_enqueue_scripts', 'scripts_and_styles' );
 

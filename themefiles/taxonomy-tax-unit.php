@@ -42,7 +42,7 @@
 					echo '</ul>';
 
 				else :
-					_e( 'Sorry, no posts matched your criteria.' );
+					_e( 'No Units!' );
 				endif;
 			?>
 

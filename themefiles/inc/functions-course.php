@@ -359,7 +359,7 @@ function update_course_and_unit_tax( $post_id, $post_object ) {
 	/*
 	 * loop through the units
 	 */
-	$course_counter = array( 'lesson_video' => 0, 'lesson_quizz' => 0 ); 			/* 3 */
+	$course_counter = array( 'item_lesson' => 0, 'item_quizz' => 0 ); 				/* 3 */
 	foreach ( reset($_POST['acf']) as $u_key => $unit ) { 							/* 4 */
 		//var_dump( '=== unit ===', $unit );
 		$unit_title = reset($unit); // first index: the title
@@ -380,9 +380,9 @@ function update_course_and_unit_tax( $post_id, $post_object ) {
 		/*
 		 * loop through the objects (headline, lesson, quizz)
 		 */
-		$unit_counter = array( 'lesson_video' => 0, 'lesson_quizz' => 0 );			/* 3 */
+		$unit_counter = array( 'item_lesson' => 0, 'item_quizz' => 0 );			/* 3 */
 		foreach ( $objects as $object ) {												/* 6 */
-			if ( !in_array( reset($object), array( 'lesson_video', 'lesson_quizz' ) ) ) continue;
+			if ( !in_array( reset($object), array( 'item_lesson', 'item_quizz' ) ) ) continue;
 			$unit_counter[reset($object)]++; //count									/* 7 */
 
 			/*
@@ -408,15 +408,15 @@ function update_course_and_unit_tax( $post_id, $post_object ) {
 			}
 
 			// Update Object with the meta value order_nr
-			$order_nr = $unit_counter['lesson_video'] + $unit_counter['lesson_quizz'];
+			$order_nr = $unit_counter['item_lesson'] + $unit_counter['item_quizz'];
 			update_post_meta( $object_id, 'order_nr', $order_nr );
 
 		} // end item loop
 
 
 		// update the tax-unit term meta with the numbers							/* 9 */
-		update_term_meta( $unit_term_id, 'num_lesson_videos', $unit_counter['lesson_video'] );
-		update_term_meta( $unit_term_id, 'num_lesson_quizzes', $unit_counter['lesson_quizz'] );
+		update_term_meta( $unit_term_id, 'num_lessons', $unit_counter['item_lesson'] );
+		update_term_meta( $unit_term_id, 'num_quizzes', $unit_counter['item_quizz'] );
 
 		// save the lesson order as tax-unit term meta
 		update_term_meta( $unit_term_id, 'lesson_order', $objects );
@@ -426,8 +426,8 @@ function update_course_and_unit_tax( $post_id, $post_object ) {
 		update_term_meta( $unit_term_id, 'course_object_id', $post_id );
 
 		// add numbers to the course counter
-		$course_counter['lesson_video'] += $unit_counter['lesson_video'];
-		$course_counter['lesson_quizz'] += $unit_counter['lesson_quizz'];
+		$course_counter['item_lesson'] += $unit_counter['item_lesson'];
+		$course_counter['item_quizz'] += $unit_counter['item_quizz'];
 
 		// remove the term from each object that has been removed from the unit list
 		foreach ( $unit_objects_array as $object_id ) {								/* 8 */
@@ -439,8 +439,8 @@ function update_course_and_unit_tax( $post_id, $post_object ) {
 
 
 	// update the tax-course term meta with the numbers								/* 9 */
-	update_term_meta( $course_term_id, 'num_lesson_videos', $course_counter['lesson_video'] );
-	update_term_meta( $course_term_id, 'num_lesson_quizzes', $course_counter['lesson_quizz'] );
+	update_term_meta( $course_term_id, 'num_lessons', $course_counter['item_lesson'] );
+	update_term_meta( $course_term_id, 'num_quizzes', $course_counter['item_quizz'] );
 
 	//remove the term from each object that has been removed from the course list
 	foreach ( $course_objects_array as $object_id ) {								/* 8 */
@@ -576,8 +576,8 @@ function acf_extend_unit_title( $field ) {
 	$term = get_term_by( 'slug', $term_slug, TAX_UNIT );
 
 	// get term meta
-	$num_lessons = get_term_meta( $term->term_id, 'num_lesson_videos' )[0];
-	$num_quizzes = get_term_meta( $term->term_id, 'num_lesson_quizzes' )[0];
+	$num_lessons = get_term_meta( $term->term_id, 'num_lessons' )[0];
+	$num_quizzes = get_term_meta( $term->term_id, 'num_quizzes' )[0];
 
 	// generate helper text output
 	if( $num_lessons || $num_quizzes ) {
@@ -612,15 +612,15 @@ function sort_objects_inside_unit() {
 	foreach ( $unit->lesson_order as $lesson ) {
 		// switch by lesson type (headline, video, quizz)
 		switch ( reset($lesson) ) {
-			case 'lesson_headline':
+			case 'item_headline':
 
 				$posts[$i] = new stdClass();
 				$posts[$i]->post_title = end($lesson);
 				$posts[$i]->post_type = 'headline';
 
 				break;
-			case 'lesson_video':
-			case 'lesson_quizz':
+			case 'item_lesson':
+			case 'item_quizz':
 			default:
 
 				foreach ( $posts_copy as $object ) {
@@ -656,8 +656,12 @@ function get_unit( $post_id ) {
 	return $unit;
 }
 
-// Helper function to get unit meta, can be called inidividually
+/**
+ * Helper function to get unit meta, can be called inidividually
+ * INPUT: term object of tax-unit
+ */
 function get_unit_meta( $unit ) {
+
 	$meta = get_term_meta( $unit->term_id );
 
 	foreach ( $meta as $key => $raw_value ) {

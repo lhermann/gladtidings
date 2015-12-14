@@ -12,8 +12,8 @@ $number = 'Unit '.$unit->unit_order;
 
 // Footer
 $footer = sprintf( '%s &nbsp; %s',
-	( $unit->num_lesson_videos ? '<i class="fi fi-video"></i> '.$unit->num_lesson_videos.' Lesson Videos' : '' ),
-	( $unit->num_lesson_quizzes ? '<i class="fi fi-clipboard-pencil"></i> '.$unit->num_lesson_quizzes.' Quizz' : '' )
+	( $unit->num_lessons ? '<i class="fi fi-video"></i> '.$unit->num_lessons.' Lesson Videos' : '' ),
+	( $unit->num_quizzes ? '<i class="fi fi-clipboard-pencil"></i> '.$unit->num_quizzes.' Quizz' : '' )
 );
 ?>
 

@@ -4,18 +4,18 @@
  * This template works inside The Loop
  */
 
-global $unit;
+global $lesson, $post, $unit;
 
-// var_dump($unit);
+var_dump($lesson);
+
+$type = end(explode( '_', reset($lesson) ));
 
 // CSS classes
-$li_classes = sprintf( 'nl__item %s %s',
-	'nl__item--'.$post->ID,
-	'nl__item--'.$post->post_type
+$li_classes = sprintf( 'nl__item %s',
+	'nl__item--'.$type
 );
 
-
-switch ( $post->post_type ) {
+switch ( $type ) {
 	case 'headline':
 		
 		$title = sprintf( '<h3>%s</h3>',

@@ -68,7 +68,7 @@ acf_add_local_field_group(array (
 				array (
 					'key' => 'field_56539b37b4115',
 					'label' => 'Items',
-					'name' => 'unit_items_repeater',
+					'name' => 'unit_items',
 					'type' => 'flexible_content',
 					'instructions' => 'Add Lesson Videos and Quizzes.
 Use Headlines to separate content thematically.',
@@ -85,7 +85,7 @@ Use Headlines to separate content thematically.',
 					'layouts' => array (
 						array (
 							'key' => '565352d8e583c',
-							'name' => 'lesson_headline',
+							'name' => 'item_headline',
 							'label' => 'Headline',
 							'display' => 'row',
 							'sub_fields' => array (
@@ -116,7 +116,7 @@ Use Headlines to separate content thematically.',
 						),
 						array (
 							'key' => '565352fa40a05',
-							'name' => 'lesson_video',
+							'name' => 'item_lesson',
 							'label' => 'Lesson Video',
 							'display' => 'row',
 							'sub_fields' => array (
@@ -149,7 +149,7 @@ Use Headlines to separate content thematically.',
 						),
 						array (
 							'key' => '5653530b40a06',
-							'name' => 'lesson_quizz',
+							'name' => 'item_quizz',
 							'label' => 'Quizz',
 							'display' => 'row',
 							'sub_fields' => array (
