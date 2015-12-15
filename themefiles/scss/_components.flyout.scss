@@ -1,0 +1,144 @@
+/*------------------------------------*\
+    #FLYOUT
+\*------------------------------------*/
+
+/**
+ * Color Scheme & Settings
+ */
+
+$color-flyout:			$color-theme;
+// $color-flyout-bg:		desaturate( lighten( $color-flyout, 60% ), 60%);
+// $color-flyout-text:		darken( $color-flyout, 12% );
+$color-flyout-bg:		#1b592e;
+$color-flyout-bg-alt:	desaturate( lighten( $color-flyout-bg, 10% ), 30%);
+$color-flyout-text:		#ffffe5;
+$color-flyout-alt:		desaturate( darken($color-flyout-text, 20%), 30%);
+
+
+$flyout-width:			90%;
+
+
+/**
+ * .flyout is a body_class adding a distinctive off-canvass background 
+ * through the whole height for the flyout
+ */
+.flyout:before,
+.flyout>.wrapper:before {
+	position: absolute;
+	z-index: -1;
+	top: 0;
+	height: 100%;
+	background-color: $color-flyout-bg;
+}
+@include media-query(palm) {
+	.flyout:before {
+		content: " ";
+		left: -100%;
+		width: 100%;
+	}
+}
+@include media-query(lap-and-up) {
+	.flyout>.wrapper:before {
+		content: " ";
+		left: 0;
+		width: 25%;
+		height: calc(100% + 1.5em );
+	}
+}
+@include media-query(desk) {
+	.flyout>.wrapper:before {
+		left: $spacing-unit--small;
+	}
+}
+
+.flyout>.wrapper { position: relative; }
+
+.flyout {
+	position: relative;
+	transition: left 0.3s;
+	
+	// Part of top-bar that is really part of the flyout
+	&__top-bar {
+		position: absolute;
+		z-index: 3;
+		left: -$flyout-width;
+		width: $flyout-width;
+
+		.top-bar__item--title {
+			font-size: halve($top-bar-height);
+			color: darken($color-flyout-text, 10%);
+		}
+	}
+
+	// Show Flyout Button
+	&__button {
+		@include media-query(lap-and-up) {
+			display: none;
+		}
+	}
+	
+	// Close Flyout Button
+	&__close {
+
+		float: right;
+
+		.btn {
+			@include btn-color( $color-flyout-text, 80% );
+			color: $color-flyout-bg;
+			&:hover {
+				background-color: darken($color-flyout-text, 10%);
+			}
+		}
+	}
+
+}
+
+.flyout--active {
+	left: $flyout-width;
+}
+
+/**
+ * Utility class to pull the content into the flyout
+ */
+.u-flyout-palm {
+	@include media-query(palm) {
+		position: absolute;
+		z-index: 2;
+		top: 0;
+		left: -$flyout-width;
+		width: $flyout-width;
+		height: 100%;
+	}
+
+	color: $color-flyout-text;
+
+	// Recolor several elements
+	.nl__item--active {
+		background-color: darken($color-flyout, 5%);
+	}
+	.nl__article__header {
+		color: $color-flyout-alt;
+	}
+	.nl__node {
+		&__link { border-color: $color-flyout-alt; }
+		&__border { 
+			border-color: $color-flyout-text;
+			background-color: $color-flyout-text;
+		}
+		&__inner { color: $color-flyout-bg;	}
+		&--small {
+			.nl__node__inner { background-color: $color-flyout-bg; }
+		}
+	}
+	.a--bodycolor {
+		color: $color-flyout-text;
+		border-color: $color-flyout-text;
+		&:hover {
+			color: $color-flyout-alt;
+		}
+	}
+	.label {
+		color: $color-flyout-alt;
+		border-color: $color-flyout-alt;
+	}
+}

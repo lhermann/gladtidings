@@ -15,9 +15,8 @@ $top-bar-avatar-size:	36px;
 
 .top-bar {
 	height: $top-bar-height;
-	// height: px-to-rem( $top-bar-height );
-
 	font-size: $base-font-size;
+	background-color: #fff;
 
 	&__left {
 		@extend %top-bar-location-setup;
@@ -67,6 +66,7 @@ $top-bar-avatar-size:	36px;
 /* the page title,
 	has a greater size */
 .top-bar__item--title {
+	
 	
 	.tb__title__link {
 		font-size: halve($top-bar-height);
@@ -130,18 +130,18 @@ $top-bar-avatar-size:	36px;
 
 #menu-button,
 #flyout-button {
-	&:hover {
-		&:after {
-			box-shadow: 0 0 0 1px white, 0 7px 0 1px white, 0 14px 0 1px white;
-		}
-	}
+	// &:hover {
+	// 	&:after {
+	// 		box-shadow: 0 0 0 1px white, 0 7px 0 1px white, 0 14px 0 1px white;
+	// 	}
+	// }
 
 	&:after {
 		// content: "\f169";
 		// font-family: "foundation-icons";
 		content: "";
 		display: inline-block;
-		box-shadow: 0 0 0 1px $color-body, 0 7px 0 1px $color-body, 0 14px 0 1px $color-body;
+		box-shadow: 0 0 0 1px $inuit-btn-color, 0 7px 0 1px $inuit-btn-color, 0 14px 0 1px $inuit-btn-color;
 		width: $base-font-size;
 		margin: 0 0 0.75em 0.6rem;
 	}

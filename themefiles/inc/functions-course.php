@@ -43,7 +43,7 @@ function add_post_types_and_taxonomies() {
 		'label'                 => __( 'Course', 'gladtidings' ),
 		'description'           => __( 'Courses consisting of separate Units with Videos and Quizzes', 'gladtidings' ),
 		'labels'                => $labels,
-		'supports'              => array( 'title', 'thumbnail', 'page-attributes', ),
+		'supports'              => array( 'title', 'page-attributes', ),
 		//'taxonomies'            => array( TAX_UNIT ),
 		'hierarchical'          => false,
 		'public'                => true,

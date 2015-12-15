@@ -6,7 +6,7 @@
  * Toggle class .flyout--active class .flyout is present
  */
 var toggleFlyout = function( action ) {
-	var page = document.getElementsByTagName("body")[0];
+	var page = document.getElementById("container");
 	var bodyClasses = page.getAttribute("class").split(" ");
 	if( bodyClasses.indexOf("flyout") >= 0 ) {
 
@@ -25,14 +25,16 @@ var toggleFlyout = function( action ) {
 // Toggle flyout on button click
 window.onload = function() {
 	var flyoutButton = document.getElementById("flyout-button");
-	flyoutButton.onclick = function(event) {
-		toggleFlyout();
-		event.preventDefault();
-	}
-	var flyoutClose = document.getElementById("flyout-close");
-	flyoutClose.onclick = function(event) {
-		toggleFlyout("close");
-		event.preventDefault();
+	if( flyoutButton !== null ) {
+		flyoutButton.onclick = function(event) {
+			toggleFlyout();
+			event.preventDefault();
+		}
+		var flyoutClose = document.getElementById("flyout-close");
+		flyoutClose.onclick = function(event) {
+			toggleFlyout("close");
+			event.preventDefault();
+		}
 	}
 }
 

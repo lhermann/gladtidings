@@ -38,6 +38,9 @@ $size-node--bigger:	$size-node * 4;
 /* === ul li.nl__item === */
 .nl__item {
 	position: relative;
+
+	border-radius: $default-border-radius;
+	padding: $size-node/10;
 }
 
 /* === ul li article.nl__article === */
@@ -89,8 +92,9 @@ $node-margin: $size-node/15;
 .nl__node {
 
 	position: absolute;
-	@include width-height( 30px, 30px );
-	
+	@include width-height( $size-node );
+	@include v-center( halve(-$size-node) );
+
 	> div {
 		position: absolute;
 		margin-top: 0;
@@ -199,14 +203,25 @@ $node-margin: $size-node/15;
 /* nodelist displays the contents of a unit,
 	the individual elements are lessons, quizzes and headlines */
 .nodelist--unit {
-	.nl__node {
-		@include v-center( -15px );
+	.nl__item {
+		margin-top: px-to-em( halve($inuit-base-spacing-unit) );
 	}
 }
 
 /* nodelist displays the contents of a unit but inside a single lesson screen */
 .nodelist--lesson {
-
+	.nl__item {
+		margin-top: px-to-em( quarter($inuit-base-spacing-unit) );
+	}
+	.nl__item--active {
+		background-color: $color-secondary;
+	}
+	.nl__article__title {
+		font-size: 100%;
+	}
+	.nl__node__link {
+		height: 300%;
+	}
 }
 
 .nodelist--horizontal {

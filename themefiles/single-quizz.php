@@ -22,12 +22,10 @@
 		<div id="page-content" class="layout layout--flush layout--rev layout--spacehack">
 			<main class="layout__item u-3/4-desk u-3/4-lap" role="main">
 		
-		
-				<div class="wrapper wrapper--paddingless">
-					<?php get_template_part( 'templates/content', 'embed' ); ?>
-				</div><!-- /.wrapper -->
+
 				<div class="wrapper">
-					<?php get_template_part( 'templates/content', 'lesson' ); ?>
+
+					<?php var_dump($post); ?>
 		
 					<hr>
 					

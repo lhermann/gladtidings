@@ -153,10 +153,12 @@
  * OOCSS and Framework
  * no cometics (except framework)
  */
+@import	"objects.container";
 		$inuit-enable-layout--center:   true;
 		$inuit-enable-layout--rev:		true;
 		$inuit-enable-layout--middle:	true;
 		$inuit-enable-layout--auto:     true;
+		$inuit-enable-layout--flush:	true;
 @import "inuit-layout/objects.layout";
 @import "objects.layout";
 
@@ -164,9 +166,9 @@
 		$inuit-enable-btn--full:	true;
 		$inuit-btn-radius: 			$default-border-radius;
 		$inuit-btn-border-width:	1px;
-		$inuit-btn-background:		#fff;
-		$inuit-btn-color:			$color-primary;
-		$inuit-btn-border-color:	$inuit-btn-color;
+		$inuit-btn-background:		$color-primary;
+		$inuit-btn-color:			#fff;
+		$inuit-btn-border-color:	darken( $inuit-btn-background, 10% );
 @import "inuit-buttons/objects.buttons";
 		// Extend Inuit Buttons Object
 @import	"objects.buttons";
@@ -226,6 +228,7 @@
 @import	"components.progress-bar";
 @import	"components.embed";
 @import	"components.breadcrumbs";
+@import	"components.flyout";
 
 /*
  * ITCSS Stage 7: Trumps
@@ -249,6 +252,12 @@
 		.pull {
 			&--left { float: left; }
 			&--right { float: right; }
+		}
+
+		.t-spacing {
+			&--top {
+				margin-top: px-to-em($inuit-base-spacing-unit);
+			}
 		}
 
 		.t-margin-reset {

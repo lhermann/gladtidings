@@ -21,8 +21,8 @@ $btn-border-bottom-width: 0px;
 // }
 .btn {
 	&:hover {
-		color: $inuit-btn-background;
-		background-color: $inuit-btn-color;
+		// color: $inuit-btn-border-color;
+		background-color: $inuit-btn-border-color;
 	}
 }
 
@@ -37,21 +37,22 @@ $btn-border-bottom-width: 0px;
 		box-shadow: 0 -15px 30px rgba(0,0,0,.30) inset;
 	}
 }
-@mixin btn-color( $color ) {
+@mixin btn-color( $color, $darken: 10% ) {
 	background-color: $color;
-	border-color: darken( $color, 10% );
+	border-color: darken( $color, $darken );
 	&:hover {
 		background-color: $color;
 	}
 }
 .btn {
-	&--simple-dark {
-		color: $color-body;
-		border-color: $color-body;
-		&:hover {
-			background-color: $color-body;
-		}
-	}
+	// &--simple-dark {
+	// 	background-color: $color-body;
+	// 	border-color: $color-body;
+	// 	&:hover {
+	// 		color: $color-body;
+	// 		background-color: $inuit-btn-color;
+	// 	}
+	// }
 	&--primary {
 		@extend %btn-3d;
 		@include btn-color( $color-primary );
@@ -70,7 +71,10 @@ $btn-border-bottom-width: 0px;
 	}
 	&--dark {
 		@extend %btn-3d;
-		@include btn-color( rgba( black, .75 ) );
+		@include btn-color( lighten( $color-body, 20% ), 30% );
+		&:hover {
+			background-color: $color-body;
+		}
 	}
 }
 

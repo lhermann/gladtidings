@@ -118,6 +118,24 @@ function my_tweaked_admin_bar() {
 }
 add_action( 'wp_before_admin_bar_render', 'my_tweaked_admin_bar' );
 
+/**
+ * Print classes for html element
+ */
+function html_class( $value = '' ) {
+    $classes = array( 'no-js' );
+    $classes = apply_filters( 'html_class', $classes );
+    print( implode( $classes, ' ' ) );
+}
+
+/**
+ * Print classes for container div
+ */
+function container_class( $value = '' ) {
+    $classes = array( );
+    $classes = apply_filters( 'container_class', $classes );
+    print( implode( $classes, ' ' ) );
+}
+
 /*------------------------------------*\
 	Actions + Filters
 \*------------------------------------*/

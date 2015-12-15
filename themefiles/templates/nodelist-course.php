@@ -19,13 +19,13 @@ $output = array();
  */
 $status = 0;
 switch ( $post['unit_status'] ) {
-	case 'success':		$status++;
-	case 'active':		$status++;
-	case 'public':		$status++;
-	case 'locked':		$status++;
-	case 'scheduled':	$status++; break;
+	case 'success':		$status++;			// 5
+	case 'active':		$status++;			// 4
+	case 'public':		$status++;			// 3
+	case 'locked':		$status++;			// 2
+	case 'scheduled':	$status++; break;	// 1
 	case 'disabled':
-	default:			return; break;
+	default:			return; break;		// 0
 }
 
 
@@ -52,7 +52,7 @@ $output['status'];
 switch ( $status ) {
 	case 1: $output['status'] = '<span class="color--primary">Scheduled for '.$post['unit_release_date'].'</span>'; break;
 	case 2: $output['status'] = '<span class="color--locked">Locked: Complete Unit '.($unit->unit_order - 1).' to unlock</span>'; break;
-	case 3: $output['status'] = '<span class="color--success">Completed</span>'; break;
+	case 5: $output['status'] = '<span class="color--success">Completed</span>'; break;
 }
 
 $output['meta'] = sprintf( 'Unit %s %s',
