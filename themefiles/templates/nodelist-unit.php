@@ -30,7 +30,7 @@ switch ( $post->post_type ) {
 	default:
 		
 		$title = sprintf( '<h4 class="nl__article__title">%s <a class="a--bodycolor" href="%s" title="Permanent Link to %s">%s</a></h4>',
-			'<span class="label label--small label--fixed">'.$unit->unit_order.'.'.$post->order_nr.'</span>',
+			'<span class="label label--small label--fixed">'.$post->order_nr.'</span>',
 			get_the_permalink(),
 			the_title_attribute( array( 'echo' => false ) ),
 			$post->post_title

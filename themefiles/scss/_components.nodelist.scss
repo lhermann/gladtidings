@@ -106,17 +106,12 @@ $node-margin: $size-node/15;
 		margin-left: -1px;
 		border: 1px solid $color-border;
 		height: 400%;
-		top: -100%;
+		top: 50%;
 		
-		.nl__item:first-child & {
-			height: 200%; top: 50%;
+		.nl__item:nth-last-child(2) & {
+			height: 200%;
 		}
-		
 		.nl__item:last-child & {
-			height: 100%;
-		}
-		
-		.nl__item:first-child:last-child & {
 			display: none;
 		}
 	}
@@ -381,6 +376,16 @@ $node-marging--bigger: $size-node--bigger/15;
 	}
 }
 
+/* a simple divider between list items, this item has no visible content */
+.nl__item--divider {
+	background-color: $color-body;
+	padding: 1px;
+
+	&:first-child,
+	> * {
+		display: none;
+	}
+}
 
 /*
  * Nodelist Item States
@@ -416,7 +421,9 @@ $node-marging--bigger: $size-node--bigger/15;
 // Public
 .nl__item--public {
 	.nl__node__inner {
+		color: $color-primary;
 		border-color: $color-primary;
+		&:after { content: "\f11d"; }
 	}
 }
 
@@ -451,6 +458,9 @@ $node-marging--bigger: $size-node--bigger/15;
 
 // Success
 .nl__item--success {
+	.nl__node__link {
+		border-color: $color-success;
+	}
 	.nl__node__link-inner,
 	.nl__node--small .nl__node__inner {
 		background-color: $color-success;
@@ -459,7 +469,8 @@ $node-marging--bigger: $size-node--bigger/15;
 		border-color: $color-success;
 	}
 	.nl__node__inner {
-		@include nl__node__icon ( "\f126", $color-success );
+		background-color: $color-success;
+		@include nl__node__icon ( "\f126", #fff );
 	}
 	.nl__node--bigger .nl__node__inner:after {
 		font-size: 4rem;

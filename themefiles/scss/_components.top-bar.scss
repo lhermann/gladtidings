@@ -57,6 +57,7 @@ $top-bar-avatar-size:	36px;
 .top-bar--overlay {
 	position: absolute;
 	width: 100%;
+	background-color: transparent;
 
 	.top-bar__item--title {
 		display: none;

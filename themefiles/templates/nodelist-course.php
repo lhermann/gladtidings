@@ -76,7 +76,7 @@ $output['button'] = '';
 switch ( $status ) {
 	case 1: $output['button'] = '<span class="label label--small">Scheduled</span>'; break;
 	case 2: $output['button'] = '<span class="label label--small label--unstress">Locked</span>'; break;
-	case 3: $output['button'] = '<span class="btn btn--primary btn--tiny">Start Lesson</span>'; break;
+	case 3: $output['button'] = '<span class="btn btn--primary btn--tiny">Start Learning</span>'; break;
 	case 4: $output['button'] = '<span class="btn btn--success btn--tiny">Continue</span>'; break;
 	case 5: $output['button'] = '<span class="btn btn--unstress btn--tiny">Review</span>'; break;
 }

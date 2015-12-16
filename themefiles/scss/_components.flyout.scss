@@ -7,12 +7,10 @@
  */
 
 $color-flyout:			$color-theme;
-// $color-flyout-bg:		desaturate( lighten( $color-flyout, 60% ), 60%);
-// $color-flyout-text:		darken( $color-flyout, 12% );
 $color-flyout-bg:		#1b592e;
 $color-flyout-bg-alt:	desaturate( lighten( $color-flyout-bg, 10% ), 30%);
 $color-flyout-text:		#ffffe5;
-$color-flyout-alt:		desaturate( darken($color-flyout-text, 20%), 30%);
+$color-flyout-text-alt:	desaturate( darken($color-flyout-text, 20%), 30%);
 
 
 $flyout-width:			90%;
@@ -83,7 +81,7 @@ $flyout-width:			90%;
 		float: right;
 
 		.btn {
-			@include btn-color( $color-flyout-text, 80% );
+			@include btn-color( $color-flyout-text, 78% );
 			color: $color-flyout-bg;
 			&:hover {
 				background-color: darken($color-flyout-text, 10%);
@@ -112,15 +110,12 @@ $flyout-width:			90%;
 
 	color: $color-flyout-text;
 
-	// Recolor several elements
-	.nl__item--active {
-		background-color: darken($color-flyout, 5%);
-	}
-	.nl__article__header {
-		color: $color-flyout-alt;
-	}
+	// Theming
+	.nl__item--active { background-color: darken($color-flyout, 5%); }
+	.nl__item--divider { background-color: darken($color-flyout-bg, 10%); }
+	.nl__article__header { color: $color-flyout-text-alt; }
 	.nl__node {
-		&__link { border-color: $color-flyout-alt; }
+		&__link { border-color: $color-flyout-text-alt; }
 		&__border { 
 			border-color: $color-flyout-text;
 			background-color: $color-flyout-text;
@@ -134,11 +129,11 @@ $flyout-width:			90%;
 		color: $color-flyout-text;
 		border-color: $color-flyout-text;
 		&:hover {
-			color: $color-flyout-alt;
+			color: $color-flyout-text-alt;
 		}
 	}
 	.label {
-		color: $color-flyout-alt;
-		border-color: $color-flyout-alt;
+		color: $color-flyout-text-alt;
+		border-color: $color-flyout-text-alt;
 	}
 }

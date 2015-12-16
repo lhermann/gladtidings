@@ -6,7 +6,7 @@
  * a default label is equivalent with a btn--small
  */
 
-$label-padding:         quarter($inuit-base-spacing-unit) !default;
+$label-padding:         quarter($base-spacing-unit) !default;
 $label-padding--large:  double($label-padding) !default;
 $label-padding--small:  halve($label-padding) !default;
 $label-border-width:	1px !default;
@@ -58,11 +58,11 @@ $enable-label--small:	true !default;
 
 // Fixed Width
 .label--fixed {
-	width: 3em;
+	width: px-to-em($base-spacing-unit * 2);
 	padding: 0;
 	text-align: center;
 	&.label--small {
-		width: 2.6em;
+		width: px-to-em($base-spacing-unit * 1.2);
 	}
 }
 
