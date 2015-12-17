@@ -9,7 +9,7 @@
 		
 		<?php get_template_part( 'templates/navigation', 'unit' ); ?>
 
-		<div class="page-hero page-hero--skinny shaddow--receive u-header-image u-header-color">
+		<div class="page-hero page-hero--skinny shaddow--receive t-header-image">
 			<div class="wrapper">
 			
 				<?php get_template_part( 'templates/nodelist', 'hero' ); ?>

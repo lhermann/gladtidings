@@ -6,7 +6,7 @@
 //var_dump($userdata);
 ?>
 
-	<header id="page-header" class="page-hero u-header-image u-header-color">
+	<header id="page-header" class="page-hero t-header-image">
 
 		<?php 
 			global $nav_overlay;
@@ -15,10 +15,11 @@
 		?>
 
 		<div class="wrapper">
-			<div class="page-hero__frame">
-				<h1 class="page-hero__title">The Glad Tidings</h1>
-				<div class="page-hero__hr u-header-color"></div>
-				<p class="page-hero__subtitle">What the Prophets of old want you to know</p>
+			<div class="hero-frame hero-frame--box owl--narrow">
+				<h1 class="hero-frame__title">The Glad Tidings</h1>
+				<hr class="hero-frame__hr">
+				<!-- <div class="ero-frame__hr u-header-color"></div> -->
+				<p class="ero-frame__subtitle">What the Prophets of old want you to know</p>
 			</div>
 		</div><!-- /.wrapper -->
 

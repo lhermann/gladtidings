@@ -22,7 +22,8 @@ $btn-border-bottom-width: 0px;
 .btn {
 	&:hover {
 		// color: $inuit-btn-border-color;
-		background-color: $inuit-btn-border-color;
+		// background-color: $inuit-btn-border-color;
+		box-shadow: 0 0 20px 20px rgba(0,0,0,.20) inset;
 	}
 }
 
@@ -40,9 +41,9 @@ $btn-border-bottom-width: 0px;
 @mixin btn-color( $color, $darken: 10% ) {
 	background-color: $color;
 	border-color: darken( $color, $darken );
-	&:hover {
-		background-color: $color;
-	}
+	// &:hover {
+	// 	background-color: $color;
+	// }
 }
 .btn {
 	// &--simple-dark {
@@ -53,24 +54,19 @@ $btn-border-bottom-width: 0px;
 	// 		background-color: $inuit-btn-color;
 	// 	}
 	// }
-	&--primary {
-		@extend %btn-3d;
-		@include btn-color( $color-primary );
-	}
-	&--suppl {
-		@extend %btn-3d;
-		@include btn-color( $color-suppl );
-	}
-	&--success {
-		@extend %btn-3d;
-		@include btn-color( $color-success );
-	}
-	&--unstress {
-		@extend %btn-3d;
-		@include btn-color( lighten($color-unstress, 10%) );
-	}
+	&--theme,
+	&--primary,
+	&--suppl,
+	&--success,
+	&--unstress,
 	&--dark {
 		@extend %btn-3d;
+	}
+	&--primary { 	@include btn-color( $color-primary ); }
+	&--suppl { 		@include btn-color( $color-suppl ); }
+	&--success {	@include btn-color( $color-success ); }
+	&--unstress {	@include btn-color( lighten($color-unstress, 10%) ); }
+	&--dark {
 		@include btn-color( lighten( $color-body, 20% ), 30% );
 		&:hover {
 			background-color: $color-body;

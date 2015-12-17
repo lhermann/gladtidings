@@ -6,12 +6,6 @@
  * Color Scheme & Settings
  */
 
-$color-flyout:			$color-theme;
-$color-flyout-bg:		#1b592e;
-$color-flyout-bg-alt:	desaturate( lighten( $color-flyout-bg, 10% ), 30%);
-$color-flyout-text:		#ffffe5;
-$color-flyout-text-alt:	desaturate( darken($color-flyout-text, 20%), 30%);
-
 
 $flyout-width:			90%;
 
@@ -26,7 +20,7 @@ $flyout-width:			90%;
 	z-index: -1;
 	top: 0;
 	height: 100%;
-	background-color: $color-flyout-bg;
+	background-color: $color-panel-bg;
 }
 @include media-query(palm) {
 	.flyout:before {
@@ -64,7 +58,6 @@ $flyout-width:			90%;
 
 		.top-bar__item--title {
 			font-size: halve($top-bar-height);
-			color: darken($color-flyout-text, 10%);
 		}
 	}
 
@@ -77,16 +70,7 @@ $flyout-width:			90%;
 	
 	// Close Flyout Button
 	&__close {
-
 		float: right;
-
-		.btn {
-			@include btn-color( $color-flyout-text, 78% );
-			color: $color-flyout-bg;
-			&:hover {
-				background-color: darken($color-flyout-text, 10%);
-			}
-		}
 	}
 
 }
@@ -107,33 +91,68 @@ $flyout-width:			90%;
 		width: $flyout-width;
 		height: 100%;
 	}
+}
 
-	color: $color-flyout-text;
+/**
+ * Theming
+ */
+$color-flyout:			$color-theme;
+$color-flyout-bg:		#1b592e;
+$color-flyout-bg-alt:	desaturate( lighten( $color-flyout-bg, 10% ), 30%);
+$color-flyout-text:		#ffffe5;
+$color-flyout-text-alt:	desaturate( darken($color-flyout-text, 20%), 30%);
 
-	// Theming
-	.nl__item--active { background-color: darken($color-flyout, 5%); }
-	.nl__item--divider { background-color: darken($color-flyout-bg, 10%); }
-	.nl__article__header { color: $color-flyout-text-alt; }
-	.nl__node {
-		&__link { border-color: $color-flyout-text-alt; }
-		&__border { 
-			border-color: $color-flyout-text;
-			background-color: $color-flyout-text;
+.t-theme1 {
+	
+	.flyout:before,
+	.flyout>.wrapper:before {
+		background-color: $color-flyout-bg;
+	}
+
+	.flyout {
+		&__top-bar {
+			.top-bar__item--title {
+				color: darken($color-flyout-text, 10%);
+			}
 		}
-		&__inner { color: $color-flyout-bg;	}
-		&--small {
-			.nl__node__inner { background-color: $color-flyout-bg; }
+		&__close {
+			.btn {
+				@include btn-color( $color-flyout-text, 78% );
+				color: $color-flyout-bg;
+				&:hover {
+					background-color: darken($color-flyout-text, 10%);
+				}
+			}
 		}
 	}
-	.a--bodycolor {
+
+	.u-flyout-palm {
 		color: $color-flyout-text;
-		border-color: $color-flyout-text;
-		&:hover {
-			color: $color-flyout-text-alt;
+
+		.nl__item--active { background-color: darken($color-flyout, 5%); }
+		.nl__item--divider { background-color: darken($color-flyout-bg, 10%); }
+		.nl__article__header { color: $color-flyout-text-alt; }
+		.nl__node {
+			&__link { border-color: $color-flyout-text-alt; }
+			&__border { 
+				border-color: $color-flyout-text;
+				background-color: $color-flyout-text;
+			}
+			&__inner { color: $color-flyout-bg;	}
+			&--small {
+				.nl__node__inner { background-color: $color-flyout-bg; }
+			}
 		}
-	}
-	.label {
-		color: $color-flyout-text-alt;
-		border-color: $color-flyout-text-alt;
+		.a--bodycolor {
+			color: $color-flyout-text;
+			border-color: $color-flyout-text;
+			&:hover {
+				color: $color-flyout-text-alt;
+			}
+		}
+		.label {
+			color: $color-flyout-text-alt;
+			border-color: $color-flyout-text-alt;
+		}
 	}
 }

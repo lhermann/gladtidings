@@ -17,6 +17,7 @@ define( THEMEVERSION, '0.2.0-beta.1' );
 \*------------------------------------*/
 
 require_once ( "inc/functions-course.php" );
+require_once ( "inc/functions-adjust-color.php" );
 
 /*------------------------------------*\
 	Theme Setup
@@ -124,6 +125,7 @@ add_action( 'wp_before_admin_bar_render', 'my_tweaked_admin_bar' );
 function html_class( $value = '' ) {
     $classes = array( 'no-js' );
     $classes = apply_filters( 'html_class', $classes );
+    if( $value ) $classes[] = $value;
     print( implode( $classes, ' ' ) );
 }
 
@@ -133,7 +135,24 @@ function html_class( $value = '' ) {
 function container_class( $value = '' ) {
     $classes = array( );
     $classes = apply_filters( 'container_class', $classes );
+    if( $value ) $classes[] = $value;
     print( implode( $classes, ' ' ) );
+}
+
+/**
+ * Print theme inline css
+ */
+function theme_css() {
+    $css = array();
+    $css['t-header-image'] = array( 'background-image' => 'url('.get_header_image().')' );
+    $css = apply_filters( 'theme_css', $css );
+    foreach( $css as $class => $values ) {
+        print( '.'.$class.' { ' );
+        foreach ( $values as $option => $value) {
+            print( $option.': '.$value.' !important;' );
+        }
+        print( " }\n" );
+    }
 }
 
 /*------------------------------------*\

@@ -9,7 +9,7 @@
 }
 
 // Positioning
-@mixin absolute($z) {
+@mixin absolute($z: false) {
 	position: absolute;
 	@if($z != false) {
 		z-index: $z;
@@ -19,13 +19,13 @@
 	left: 50%;
 	margin-left: $width;
 }
-@mixin v-center( $width ) {
+@mixin v-center( $height ) {
 	top: 50%;
-	margin-top: $width;
+	margin-top: halve(-$height);
 }
 
 // Shadow
-@mixin std-box-shadow( $opac:0.3 ) {
+@mixin std-box-shadow( $opac: 0.3 ) {
 	box-shadow: 0 1px 1px rgba(0,0,0,$opac);
 }
 

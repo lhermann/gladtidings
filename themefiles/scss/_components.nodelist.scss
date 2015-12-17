@@ -19,7 +19,7 @@ $size-node--bigger:	$size-node * 4;
 	position: absolute;
 	font-size: 20px;
 	line-height: 1;
-	@include v-center( -10px );
+	@include v-center( 20px );
 	left: 45px;
 	color: $color-unstress;
 }
@@ -93,7 +93,7 @@ $node-margin: $size-node/15;
 
 	position: absolute;
 	@include width-height( $size-node );
-	@include v-center( halve(-$size-node) );
+	@include v-center( $size-node );
 
 	> div {
 		position: absolute;
@@ -162,9 +162,6 @@ $node-margin: $size-node/15;
 
 // mixins
 @mixin nl__node__icon ( $icon, $color: false ) {
-	@if ($color) {
-		border-color: $color;
-	}
 	&:after {
 		content: $icon;
 		@if ($color) {
@@ -209,7 +206,7 @@ $node-margin: $size-node/15;
 		margin-top: px-to-em( quarter($inuit-base-spacing-unit) );
 	}
 	.nl__item--active {
-		background-color: $color-secondary;
+		background-color: darken($color-panel-bg, 10%);
 	}
 	.nl__article__title {
 		font-size: 100%;
@@ -219,27 +216,27 @@ $node-margin: $size-node/15;
 	}
 }
 
-.nodelist--horizontal {
-	text-align: justify;
-	line-height: 0;
-	font-size: 0;
-	&:after {
-		display: inline-block;
-		position: relative;
-		content: '';
-		width: 100%;
-		// Horizontal node2link
-		border: 1px solid $color-border;
-		bottom: 1rem;
-		z-index: 1;
-	}
-	> li {
-		display: inline-block;
-		position: relative;
-		z-index: 2;
-		font-size: 1rem;
-	}
-}
+// .nodelist--horizontal {
+// 	text-align: justify;
+// 	line-height: 0;
+// 	font-size: 0;
+// 	&:after {
+// 		display: inline-block;
+// 		position: relative;
+// 		content: '';
+// 		width: 100%;
+// 		// Horizontal node2link
+// 		border: 1px solid $color-border;
+// 		bottom: 1rem;
+// 		z-index: 1;
+// 	}
+// 	> li {
+// 		display: inline-block;
+// 		position: relative;
+// 		z-index: 2;
+// 		font-size: 1rem;
+// 	}
+// }
 
 /* === ul li.nl__item === */
 
@@ -308,7 +305,7 @@ $node-margin: $size-node/15;
 $node-marging--big: $size-node--big/12;
 .nl__node--big {
 	@include width-height( $size-node--big );
-	@include v-center( -(halve($size-node--big)) );
+	@include v-center( $size-node--big );
 	margin-left: 10px;
 	.nl__node__link,
 	.nl__node__link-inner {
@@ -347,7 +344,7 @@ $node-marging--big: $size-node--big/12;
 $node-marging--bigger: $size-node--bigger/15;
 .nl__node--bigger {
 	@include width-height( $size-node--bigger );
-	@include v-center( -(halve($size-node--bigger)) );
+	@include v-center( $size-node--bigger );
 	.nl__node__border {
 		border: none;
 	}
@@ -378,7 +375,7 @@ $node-marging--bigger: $size-node--bigger/15;
 
 /* a simple divider between list items, this item has no visible content */
 .nl__item--divider {
-	background-color: $color-body;
+	background-color: darken($color-panel-bg, 10%);
 	padding: 1px;
 
 	&:first-child,
@@ -430,12 +427,8 @@ $node-marging--bigger: $size-node--bigger/15;
 // Active
 .nl__item--active {
 	:not(.nl__node--big) { 
-		.nl__node__border {
-			border-color: $color-success;
-		}
-		.nl__node__inner {
-			color: $color-success;
-		}
+		.nl__node__border { border-color: $color-success; }
+		.nl__node__inner { color: $color-success; }
 	}
 	.nl__node--big .nl__node__inner,
 	.nl__node--bigger .nl__node__inner {
@@ -458,18 +451,18 @@ $node-marging--bigger: $size-node--bigger/15;
 
 // Success
 .nl__item--success {
-	.nl__node__link {
-		border-color: $color-success;
+	:not(.nl__node--big) {
+		.nl__node__link,
+		.nl__node__border {	
+			border-color: $color-success;
+		}
 	}
 	.nl__node__link-inner,
-	.nl__node--small .nl__node__inner {
-		background-color: $color-success;
-	}
-	:not(.nl__node--big) .nl__node__border {
-		border-color: $color-success;
-	}
 	.nl__node__inner {
 		background-color: $color-success;
+	}
+	.nl__node__inner {
+		border-color: $color-success;
 		@include nl__node__icon ( "\f126", #fff );
 	}
 	.nl__node--bigger .nl__node__inner:after {

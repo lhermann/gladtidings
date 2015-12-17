@@ -1,7 +1,16 @@
-@mixin panel {
+/*------------------------------------*\
+    #PANEL
+\*------------------------------------*/
+
+@mixin panel( $border-width: 1px, $border-color: $color-border, $shadow: true ) {
 	background-color: $color-panel-bg;
-	border-radius: 3px;
-	@include std-box-shadow;
+	border: $border-width solid $border-color;
+	@if($inuit-btn-radius != 0) {
+	    border-radius: $inuit-btn-radius;
+	}
+	@if($shadow) {
+		@include std-box-shadow;
+	}
 }
 .panel {
 	@include panel;

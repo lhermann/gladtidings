@@ -50,12 +50,13 @@ $output['link'] = ( $status >= 3 ? '<a href="'.get_term_link( $unit ).'">' : '' 
  */
 $output['status'];
 switch ( $status ) {
-	case 1: $output['status'] = '<span class="color--primary">Scheduled for '.$post['unit_release_date'].'</span>'; break;
-	case 2: $output['status'] = '<span class="color--locked">Locked: Complete Unit '.($unit->unit_order - 1).' to unlock</span>'; break;
-	case 5: $output['status'] = '<span class="color--success">Completed</span>'; break;
+	case 1: $output['status'] = '<span class="color--primary t-comp-text">'.sprintf( __('Coming up for %s', 'gladtidings'), $post['unit_release_date'] ).'</span>'; break;
+	case 2: $output['status'] = '<span class="color--locked">'.sprintf( __('Locked: Complete Unit %s to unlock', 'gladtidings'), $unit->unit_order - 1 ).'</span>'; break;
+	case 5: $output['status'] = '<span class="color--success">'.__('Completed', 'gladtidings').'</span>'; break;
 }
 
-$output['meta'] = sprintf( 'Unit %s %s',
+$output['meta'] = sprintf( '%s %s %s',
+	__( 'Unit', 'gladtidings'),
 	$unit->unit_order,
 	$output['status'] ? '&bull; '.$output['status'] : ''
 );
@@ -65,8 +66,8 @@ $output['meta'] = sprintf( 'Unit %s %s',
  * -> get number of videos and lessons
  */
 $output['footer'] = sprintf( '%s %s',
-	( $unit->num_lessons == 1 ? '<span class="fi fi-video"></span> 1 Lesson' : '<span class="fi fi-video"></span> '.$unit->num_lessons.' Lessons' ),
-	( $unit->num_quizzes ? '&nbsp; '.( $unit->num_quizzes == 1 ? '<span class="fi fi-clipboard-pencil"></span> 1 Quizz' : '<span class="fi fi-clipboard-pencil"></span> '.$unit->num_quizzes.' Quizzes' ) : '' )
+	( $unit->num_lessons == 1 ? '<span class="fi fi-video"></span> 1 '.__( 'Lesson', 'gladtidings') : '<span class="fi fi-video"></span> '.$unit->num_lessons.' '.__( 'Lessons', 'gladtidings') ),
+	( $unit->num_quizzes ? '&nbsp; '.( $unit->num_quizzes == 1 ? '<span class="fi fi-clipboard-pencil"></span> 1 '.__( 'Quizz', 'gladtidings') : '<span class="fi fi-clipboard-pencil"></span> '.$unit->num_quizzes.' '.__( 'Quizzes', 'gladtidings') ) : '' )
 );
 
 /**
@@ -74,11 +75,11 @@ $output['footer'] = sprintf( '%s %s',
  */
 $output['button'] = '';
 switch ( $status ) {
-	case 1: $output['button'] = '<span class="label label--small">Scheduled</span>'; break;
-	case 2: $output['button'] = '<span class="label label--small label--unstress">Locked</span>'; break;
-	case 3: $output['button'] = '<span class="btn btn--primary btn--tiny">Start Learning</span>'; break;
-	case 4: $output['button'] = '<span class="btn btn--success btn--tiny">Continue</span>'; break;
-	case 5: $output['button'] = '<span class="btn btn--unstress btn--tiny">Review</span>'; break;
+	case 1: $output['button'] = '<span class="label label--small t-comp-text t-comp-border">'.__('Coming Soon', 'gladtidings').'</span>'; break;
+	case 2: $output['button'] = '<span class="label label--small label--unstress">'.__('Locked', 'gladtidings').'</span>'; break;
+	case 3: $output['button'] = '<span class="btn btn--theme btn--tiny">'.__('Start Unit', 'gladtidings').'</span>'; break;
+	case 4: $output['button'] = '<span class="btn btn--success btn--tiny">'.__('Continue', 'gladtidings').'</span>'; break;
+	case 5: $output['button'] = '<span class="btn btn--unstress btn--tiny">'.__('Review', 'gladtidings').'</span>'; break;
 }
 
 ?>
@@ -87,10 +88,10 @@ switch ( $status ) {
 		<article class="nl__article">
 			<header class="nl__article__header">
 				<h4 class="nl__article__title"><?= $unit->name ?></h4>
-				<small class="nl__article__meta"><?= $output['meta'] ?></small>
+				<small class="nl__article__meta t-second-text"><?= $output['meta'] ?></small>
 			</header>
 			<footer class="nl__article__footer">
-				<p><?= $output['footer'] ?></p>
+				<p class="t-comp-text"><?= $output['footer'] ?></p>
 				<?= $output['button'] ?>
 			</footer>
 		</article>
@@ -99,6 +100,6 @@ switch ( $status ) {
 		<div class="nl__node__link"></div>
 		<div class="nl__node__border"></div>
 		<div class="nl__node__link-inner"></div>
-		<div class="nl__node__inner"></div>
+		<div class="nl__node__inner <?= $status == 3 ? 't-main-text t-main-border' : '' ?>"></div>
 	</div>
 </li>

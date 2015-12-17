@@ -4,7 +4,7 @@
 //var_dump($userdata);
 ?>
 
-	<header id="page-header" class="page-hero u-header-image u-header-color">
+	<header id="page-header" class="page-hero t-header-image">
 
 		<nav class="top-bar top-bar--layover owl--off">
 			<ul class="top-bar__right">

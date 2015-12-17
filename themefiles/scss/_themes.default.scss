@@ -1,0 +1,34 @@
+/*------------------------------------*\
+    #DEFAULT THEME
+\*------------------------------------*/
+/**
+ * Default Theme Overwites
+ * This should serve as a pattern for the inline course theming
+ */
+
+/*
+ * Necessary colors:
+ * - main color
+ * - main color darker
+ * - 
+ */
+$t-color-main:		$color-primary;
+$t-color-second:	$color-unstress;
+$t-color-comp:		$color-suppl;
+
+.t-main-text 	{ color: $t-color-main; }
+.t-main-border 	{ border-color: $t-color-main }
+.t-main-bg 		{ background-color: $t-color-main }
+
+.t-second-text 	{ color: $t-color-second; }
+.t-second-border{ border-color: $t-color-second }
+.t-second-bg 	{ background-color: $t-color-second }
+
+.t-comp-text 	{ color: $t-color-comp; }
+.t-comp-border	{ border-color: $t-color-comp }
+.t-comp-bg		{ background-color: $t-color-comp }
+
+.btn--theme {
+	background-color: $t-color-main;
+	border-color: darken($t-color-main, 20%);
+}

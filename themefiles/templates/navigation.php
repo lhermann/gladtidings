@@ -22,9 +22,9 @@
 
 			if( $user->ID ) {
 				print( '<li class="top-bar__item top-bar__item--avatar"><a class="tb__avatar__link" href="#" title="Your Profile"><span class="tb__avatar__name">Hello '.$user->data->display_name.'</span> <img class="tb__avatar__img" src="'.get_bloginfo('template_directory').'/img/avatar-300.jpg" alt="User Avatar" height="36" width="36"></a></li>' );
-				print( '<li class="top-bar__item top-bar__item--menu-icon"><a class="btn btn--simple-dark btn--small" href="#">Menu</a></li>' );
+				print( '<li class="top-bar__item top-bar__item--button"><button id="flyout-button" class="btn btn--dark btn--small">Menu</button></li>' );
 			} else {
-				print( '<li class="top-bar__item top-bar__item--btn"><a class="top-bar__btn btn btn--small btn--suppl" href="'.wp_login_url( $_SERVER['REQUEST_URI'] ).'">Log In</a></li>' );
+				print( '<li class="top-bar__item top-bar__item--button"><a class="top-bar__btn btn btn--small btn--suppl" href="'.wp_login_url( $_SERVER['REQUEST_URI'] ).'">Log In</a></li>' );
 			}
 		?>
 

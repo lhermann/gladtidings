@@ -13,12 +13,7 @@
 	<!--<script src="js/modernizr.js"></script>-->
 	<?php wp_head(); ?>
 	<style>
-		.u-header-image { background-image: url( "<?= get_header_image(); ?>" ); }
-		.u-header-color {
-			color: #<?= get_header_textcolor() ?>;
-			border-color: #<?= get_header_textcolor() ?>;
-		}
-		.u-nodelist-progress:before { width: 31%; }
+		<?php theme_css(); ?>
 	</style>
 </head>
 <body <?php body_class(); ?>>
