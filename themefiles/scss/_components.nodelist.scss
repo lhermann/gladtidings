@@ -71,12 +71,11 @@ $size-node--bigger:	$size-node * 4;
 	}
 
 	&__footer {
-		margin: 0;
-		p {
-			margin: 0;
-			font-size: 80%;
-			color: $color-suppl;
-		}
+		
+		margin-top: 0;
+		font-size: 80%;
+		color: $color-suppl;
+
 		.btn, .label { // I should make my own button class to avoid specificity wars
 			@include absolute(false);
 			right: 4px;
@@ -245,23 +244,24 @@ $node-margin: $size-node/15;
 
 	.nl__article {
 
-		background-color: rgba(0,0,0,$title-frame-alpha);
-		border-radius: $default-border-radius;
+		// background-color: rgba( black, $title-frame-alpha );
+		// border-radius: $default-border-radius;
 
 		margin-left: $size-node--bigger/2;
 		padding-left: $size-node--bigger/2 + 20px;
 		// min-height: $size-node--bigger;
 		
-		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.65);
+		text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 
 		font-size: 1.3rem;
+
 		@include media-query(palm) {
 			font-size: 1.2rem;
 		}
 
 		&__title {
-			color: #fff;
-			margin: 0.2em 0;
+			color: $color-body;
+			margin-top: 0.1em;
 			font-weight: 700;
 			@include media-query(palm) {
 				font-size: 1.5rem;
@@ -345,9 +345,6 @@ $node-marging--bigger: $size-node--bigger/15;
 .nl__node--bigger {
 	@include width-height( $size-node--bigger );
 	@include v-center( $size-node--bigger );
-	.nl__node__border {
-		border: none;
-	}
 	.nl__node__inner {
 		@include width-height( $size-node--bigger - $node-marging--bigger*2 );
 		margin: $node-marging--bigger;

@@ -16,7 +16,7 @@
 
 		<?php get_template_part( 'templates/navigation', 'course' ); ?>
 
-		<div class="page-hero shaddow--receive t-header-image">
+		<div class="page-hero shadow--receive t-header-image">
 			<div class="wrapper">
 				<div class="hero-frame hero-frame--course">
 					<div class="hero-frame__badge">
@@ -75,8 +75,8 @@
 						<a href="lesson.html" class="btn btn--theme btn--full">Start Course</a>
 					</div>
 
-					<div class="panel t-light-bg t-main-border">
-						<h5 class="t-second-text">Description</h5>
+					<div class="panel">
+						<h5 class="t-second-text"><?= __( 'Description', 'gladtidings' ) ?></h5>
 						<?= $fields['course_description'] ?>
 					</div>
 

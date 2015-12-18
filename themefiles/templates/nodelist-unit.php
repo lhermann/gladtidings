@@ -18,7 +18,7 @@ $li_classes = sprintf( 'nl__item %s %s',
 switch ( $post->post_type ) {
 	case 'headline':
 		
-		$title = sprintf( '<h3>%s</h3>',
+		$title = sprintf( '<h3 class="t-main-text">%s</h3>',
 			$post->post_title
 		);
 
@@ -30,7 +30,7 @@ switch ( $post->post_type ) {
 	default:
 		
 		$title = sprintf( '<h4 class="nl__article__title">%s <a class="a--bodycolor" href="%s" title="Permanent Link to %s">%s</a></h4>',
-			'<span class="label label--small label--fixed">'.$post->order_nr.'</span>',
+			'<span class="label label--small label--fixed label--theme">'.$post->order_nr.'</span>',
 			get_the_permalink(),
 			the_title_attribute( array( 'echo' => false ) ),
 			$post->post_title
@@ -50,8 +50,8 @@ switch ( $post->post_type ) {
 		</header>
 	</article>
 	<div class="nl__node <?= $node_class; ?>">
-		<div class="nl__node__link"></div>
-		<div class="nl__node__border"></div>
-		<div class="nl__node__inner"></div>
+		<div class="nl__node__link t-second-border"></div>
+		<div class="nl__node__border t-second-border"></div>
+		<div class="nl__node__inner t-second-text"></div>
 	</div>
 </li>

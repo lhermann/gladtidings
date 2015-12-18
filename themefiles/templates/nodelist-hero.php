@@ -8,7 +8,7 @@
 global $unit;
 
 // Unit number
-$number = 'Unit '.$unit->unit_order;
+$unit_number = 'Unit '.$unit->unit_order;
 
 // Footer
 $footer = sprintf( '%s &nbsp; %s',
@@ -18,17 +18,17 @@ $footer = sprintf( '%s &nbsp; %s',
 ?>
 
 <div class="nl__item nl__item--hero nl__item--active">
-	<article class="nl__article">
+	<article class="nl__article panel">
 		<header class="nl__article__header owl--off">
-			<p><?= $number ?></p>
+			<p class="t-second-text"><?= $unit_number ?></p>
 			<h1 class="nl__article__title"><?= $unit->name ?></h1>
 		</header>
-		<footer class="nl__article__footer">
+		<footer class="nl__article__footer t-comp-text">
 			<p><?= $footer ?></p>
 		</footer>
 	</article>
 	<div class="nl__node nl__node--bigger">
-		<div class="nl__node__border"></div>
+		<div class="nl__node__border t-second-border"></div>
 		<?php
 		// <style>
 		// 	.nl__node__inner:before {

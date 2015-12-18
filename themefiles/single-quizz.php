@@ -12,7 +12,7 @@
 	// var_dump($GLOBALS);
 ?>
 
-	<header id="page-header" class="shaddow--drop">
+	<header id="page-header" class="shadow--drop">
 		
 		<?php get_template_part( 'templates/navigation', 'lesson' ); ?>
 

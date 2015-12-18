@@ -12,7 +12,7 @@
 	// var_dump($GLOBALS);
 ?>
 
-	<header id="page-header" class="shaddow--drop">
+	<header id="page-header" class="shadow--drop">
 		
 		<?php get_template_part( 'templates/navigation', 'lesson' ); ?>
 
@@ -27,17 +27,14 @@
 					<?php get_template_part( 'templates/content', 'embed' ); ?>
 				</div><!-- /.wrapper -->
 				<div class="wrapper">
-					<?php get_template_part( 'templates/content', 'lesson' ); ?>
 		
-					<hr>
+					<?php get_template_part( 'templates/content', 'lesson' ); ?>
+
+				</div>
+				<div class="wrapper t-text--right">
 					
-					<div class="layout layout--middle layout--rev">
-						<div class="layout__item u-1/3-lap-and-up t-text--right">
-							<?php get_template_part( 'templates/continue', 'lesson' ); ?>
-						</div><div class="layout__item u-2/3-lap-and-up">
-							<?php get_template_part( 'templates/breadcrumbs', 'lesson' ); ?>
-						</div>
-					</div>
+					<?php get_template_part( 'templates/continue', 'lesson' ); ?>
+
 				</div><!-- /.wrapper -->
 			
 		

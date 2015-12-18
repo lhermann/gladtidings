@@ -51,7 +51,7 @@ $output['link'] = ( $status >= 3 ? '<a href="'.get_term_link( $unit ).'">' : '' 
 $output['status'];
 switch ( $status ) {
 	case 1: $output['status'] = '<span class="color--primary t-comp-text">'.sprintf( __('Coming up for %s', 'gladtidings'), $post['unit_release_date'] ).'</span>'; break;
-	case 2: $output['status'] = '<span class="color--locked">'.sprintf( __('Locked: Complete Unit %s to unlock', 'gladtidings'), $unit->unit_order - 1 ).'</span>'; break;
+	case 2: $output['status'] = '<span class="color--locked t-comp-text">'.sprintf( __('Locked: Complete Unit %s to unlock', 'gladtidings'), $unit->unit_order - 1 ).'</span>'; break;
 	case 5: $output['status'] = '<span class="color--success">'.__('Completed', 'gladtidings').'</span>'; break;
 }
 
@@ -75,8 +75,8 @@ $output['footer'] = sprintf( '%s %s',
  */
 $output['button'] = '';
 switch ( $status ) {
-	case 1: $output['button'] = '<span class="label label--small t-comp-text t-comp-border">'.__('Coming Soon', 'gladtidings').'</span>'; break;
-	case 2: $output['button'] = '<span class="label label--small label--unstress">'.__('Locked', 'gladtidings').'</span>'; break;
+	case 1: $output['button'] = '<span class="label label--small label--theme">'.__('Coming Soon', 'gladtidings').'</span>'; break;
+	case 2: $output['button'] = '<span class="label label--small label--theme">'.__('Locked', 'gladtidings').'</span>'; break;
 	case 3: $output['button'] = '<span class="btn btn--theme btn--tiny">'.__('Start Unit', 'gladtidings').'</span>'; break;
 	case 4: $output['button'] = '<span class="btn btn--success btn--tiny">'.__('Continue', 'gladtidings').'</span>'; break;
 	case 5: $output['button'] = '<span class="btn btn--unstress btn--tiny">'.__('Review', 'gladtidings').'</span>'; break;

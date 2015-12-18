@@ -205,9 +205,11 @@ function add_theme_color( $css ) {
         't-comp-bg'         => array( 'background-color' => $comp_hex                   ),
         't-light-bg'        => array( 'background-color' => $second_light_hex           ),
         'btn--theme'        => array( 'background-color' => $main_hex,
-                                          'border-color' => $main_dark_hex              ),
+                                       'border-color'     => $main_dark_hex              ),
+        'label--theme'      => array( 'color'            => textsave_hex( $comp_hex ),
+                                       'border-color'     => textsave_hex( $comp_hex )   ),
         'panel'             => array( 'background-color' => $second_light_hex,
-                                          'border-color' => $second_hex                 )
+                                       'border-color'     => $second_hex                 )
     );
     return array_merge( $css, $temp_css );
 }
