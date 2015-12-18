@@ -24,7 +24,6 @@ function adjust_color($color_code,$percentage_adjuster = 0) {
         $r = round($r - ($r*$percentage_adjuster));
         $g = round($g - ($g*$percentage_adjuster));
         $b = round($b - ($b*$percentage_adjuster));
-
         return "#".str_pad(dechex( max(0,min(255,$r)) ),2,"0",STR_PAD_LEFT)
             .str_pad(dechex( max(0,min(255,$g)) ),2,"0",STR_PAD_LEFT)
             .str_pad(dechex( max(0,min(255,$b)) ),2,"0",STR_PAD_LEFT);

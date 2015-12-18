@@ -12,9 +12,7 @@
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
 	<!--<script src="js/modernizr.js"></script>-->
 	<?php wp_head(); ?>
-	<style>
-		<?php theme_css(); ?>
-	</style>
+	<?php theme_css(); ?>
 </head>
 <body <?php body_class(); ?>>
 

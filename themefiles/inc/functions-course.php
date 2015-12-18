@@ -341,7 +341,6 @@ function update_course_and_unit_tax( $post_id, $post_object ) {
 	if( $post_object->post_type !== 'course' ) return; // escape if it is not a course object
 	if( $post_object->post_status == 'auto-draft' ) return; // escape if it is an automatic save
 	if( !isset($_POST['acf']) || !reset($_POST['acf']) ) return; // escape if there are no units
-	//var_dump( $post_id, $post_object, $_POST['acf'] ); die();
 
 	//get the repeater field key and populate the unit slug field					/* 1 */
 	$r_key = key( $_POST['acf'] );
@@ -361,7 +360,6 @@ function update_course_and_unit_tax( $post_id, $post_object ) {
 	 */
 	$course_counter = array( 'item_lesson' => 0, 'item_quizz' => 0 ); 				/* 3 */
 	foreach ( reset($_POST['acf']) as $u_key => $unit ) { 							/* 4 */
-		//var_dump( '=== unit ===', $unit );
 		$unit_title = reset($unit); // first index: the title
 		$unit_id = next($unit); // second index: the id
 		$objects = next($unit); // third index: unit array
@@ -439,8 +437,12 @@ function update_course_and_unit_tax( $post_id, $post_object ) {
 
 
 	// update the tax-course term meta with the numbers								/* 9 */
-	update_term_meta( $course_term_id, 'num_lessons', $course_counter['item_lesson'] );
-	update_term_meta( $course_term_id, 'num_quizzes', $course_counter['item_quizz'] );
+	// update_term_meta( $course_term_id, 'num_lessons', $course_counter['item_lesson'] );
+	// update_term_meta( $course_term_id, 'num_quizzes', $course_counter['item_quizz'] );
+
+	// update the course object meta with the numbers								/* 9 */
+	update_post_meta( $post_id, 'num_lessons', $course_counter['item_lesson'] );
+	update_post_meta( $post_id, 'num_quizzes', $course_counter['item_quizz'] );
 
 	//remove the term from each object that has been removed from the course list
 	foreach ( $course_objects_array as $object_id ) {								/* 8 */

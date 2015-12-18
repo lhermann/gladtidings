@@ -32,7 +32,7 @@ switch ( $post['unit_status'] ) {
 /**
  * CSS classes
  */
-$output['li_classes'] = sprintf( 'nl__item %s %s',
+$output['li_classes'] = sprintf( 'nl__item %s %s panel',
 	'nl__item--'.$unit->unit_order,
 	'nl__item--'.$post['unit_status']
 );
@@ -97,8 +97,8 @@ switch ( $status ) {
 		</article>
 	<?= $output['link'] ? '</a>' : '' ?>
 	<div class="nl__node nl__node--big">
-		<div class="nl__node__link"></div>
-		<div class="nl__node__border"></div>
+		<div class="nl__node__link t-second-border"></div>
+		<div class="nl__node__border t-second-border"></div>
 		<div class="nl__node__link-inner"></div>
 		<div class="nl__node__inner <?= $status == 3 ? 't-main-text t-main-border' : '' ?>"></div>
 	</div>

@@ -227,6 +227,11 @@
 		// 	}
 		// }
 
+		.colorbg {
+			background-color: $color-panel-bg;
+			padding: $base-spacing-unit 0;
+		}
+
 
 /*
  * ITCSS Stage 7: Themes
@@ -255,15 +260,25 @@
 		.t-text--right {
 			text-align: right !important;
 		}
+		.t-text--inline {
+			display: inline;
+		}
 
 		.pull {
 			&--left { float: left; }
 			&--right { float: right; }
 		}
-
-		.t-spacing {
+		
+		// Owl spacing on individual elements
+		.u-spacing {
 			&--top {
-				margin-top: px-to-em($inuit-base-spacing-unit);
+				margin-top: px-to-em($base-spacing-unit) !important;
+			}
+			&--narrow {
+				margin-top: px-to-em( quarter($base-spacing-unit) ) !important;
+			}
+			&--off {
+				margin-top: 0 !important;
 			}
 		}
 
@@ -271,6 +286,9 @@
 			&--top {
 				margin-top: 0 !important;
 			}
+		}
+		.u-screen-reader-only {
+			display: none;
 		}
 
 		// The Lesson Page Nodelist Hack

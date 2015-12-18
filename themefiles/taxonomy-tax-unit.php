@@ -1,8 +1,13 @@
 <?php 
-	get_header();
-
 	global $unit;
 	$unit = get_unit_meta( get_queried_object() );
+
+	// var_dump($unit);
+
+	// Built Inline Theme CSS Styles
+	add_filter( 'theme_css', 'add_theme_color', 10 );
+
+	get_header();
 ?>
 
 	<header id="page-header">

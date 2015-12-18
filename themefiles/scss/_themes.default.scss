@@ -28,6 +28,8 @@ $t-color-comp:		$color-suppl;
 .t-comp-border	{ border-color: $t-color-comp }
 .t-comp-bg		{ background-color: $t-color-comp }
 
+.t-light-bg		{ background-color: $color-panel-bg }
+
 .btn--theme {
 	background-color: $t-color-main;
 	border-color: darken($t-color-main, 20%);

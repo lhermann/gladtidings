@@ -176,7 +176,7 @@ $node-margin: $size-node/15;
 	the individual elements are units */
 .nodelist--course {
 	.nl__item {
-		@include panel;
+		// @include panel;
 		// color: $color-body;
 		transition: background-color .3s;
 		&:hover {

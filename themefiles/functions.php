@@ -17,7 +17,9 @@ define( THEMEVERSION, '0.2.0-beta.1' );
 \*------------------------------------*/
 
 require_once ( "inc/functions-course.php" );
-require_once ( "inc/functions-adjust-color.php" );
+// require_once ( "inc/functions-adjust-color.php" );
+require_once ( "inc/color-converter/rgb_hsl_converter.inc.php" );
+require_once ( "inc/color-converter/custom-functions.inc.php" );
 
 /*------------------------------------*\
 	Theme Setup
@@ -144,8 +146,19 @@ function container_class( $value = '' ) {
  */
 function theme_css() {
     $css = array();
-    $css['t-header-image'] = array( 'background-image' => 'url('.get_header_image().')' );
+
+    // Add WP theme header on the home page
+    if( is_home() ) {
+        $css['t-header-image'] = array( 'background-image' => 'url('.get_header_image().')' );
+    } else {
+        $css['t-header-image'] = array( 'background-image' => 'url('.get_template_directory_uri().'/img/course-header-placeholder.jpg'.')' );
+    }
+
+    // Apply the filter so css can be added via teh 'theme_css' hook
     $css = apply_filters( 'theme_css', $css );
+
+    // Print the nested array as inline css
+    print( '<style type="text/css" media="screen">' );
     foreach( $css as $class => $values ) {
         print( '.'.$class.' { ' );
         foreach ( $values as $option => $value) {
@@ -153,6 +166,50 @@ function theme_css() {
         }
         print( " }\n" );
     }
+    print( '</style>' );
+
+    return;
+}
+
+/**
+ * Add the course colors to the theme_css filter
+ */
+function add_theme_color( $css ) {
+    global $fields, $unit;
+
+    // var_dump( get_field( 'img_course_header', $unit->course_object_id ) );
+
+    // get and cache variables
+    $header     = isset( $fields['img_course_header'] ) ? $fields['img_course_header'] : get_field( 'img_course_header', $unit->course_object_id );
+    $main_hex   = isset( $fields['color_main'] )        ? $fields['color_main']        : get_field( 'color_main', $unit->course_object_id );
+    $second_hex = isset( $fields['color_secondary'] )   ? $fields['color_secondary']   : get_field( 'color_secondary', $unit->course_object_id );
+    $comp_hex   = isset( $fields['color_comp'] )        ? $fields['color_comp']        : get_field( 'color_comp', $unit->course_object_id );
+
+    // create hues
+    $main_hsl = hex2hsl( $main_hex );
+    $main_dark_hex = hsl2hex( array( $main_hsl[0], $main_hsl[1], $main_hsl[2]*0.60 ) ); // darker version of the main color
+    $second_hsl = hex2hsl( $second_hex );
+    $second_light_hex = hsl2hex( array( $second_hsl[0], ($second_hsl[1] > 0.4 ? 0.4 : $second_hsl[1]), 0.96 ) ); // very light version fo the secondary color
+
+    // modify and add css
+    if( $header ) $css['t-header-image']['background-image'] = 'url('.$header.')';
+    $temp_css = array(
+        't-main-text'       => array( 'color'            => textsave_hex( $main_hex )   ),
+        't-main-border'     => array( 'border-color'     => $main_hex                   ),
+        't-main-bg'         => array( 'background-color' => $main_hex                   ),
+        't-second-text'     => array( 'color'            => textsave_hex( $second_hex ) ),
+        't-second-border'   => array( 'border-color'     => $second_hex                 ),
+        't-second-bg'       => array( 'background-color' => $second_hex                 ),
+        't-comp-text'       => array( 'color'            => textsave_hex( $comp_hex )   ),
+        't-comp-border'     => array( 'border-color'     => $comp_hex                   ),
+        't-comp-bg'         => array( 'background-color' => $comp_hex                   ),
+        't-light-bg'        => array( 'background-color' => $second_light_hex           ),
+        'btn--theme'        => array( 'background-color' => $main_hex,
+                                          'border-color' => $main_dark_hex              ),
+        'panel'             => array( 'background-color' => $second_light_hex,
+                                          'border-color' => $second_hex                 )
+    );
+    return array_merge( $css, $temp_css );
 }
 
 /*------------------------------------*\

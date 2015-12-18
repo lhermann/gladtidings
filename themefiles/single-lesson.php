@@ -44,7 +44,7 @@
 			</main>
 			<aside class="layout__item u-1/4-lap-and-up u-flyout-palm" role="complementary">
 				
-				<div class="wrapper t-spacing--top">
+				<div class="wrapper u-spacing--top">
 					
 					<h5><span class="label label--small"><?= __( 'Unit', 'gladtidings' ).' '.$unit->unit_order ?></span> <?= $unit->name ?></h5>
 					<nav role="navigation">
