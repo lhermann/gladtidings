@@ -55,13 +55,6 @@
 
 		</div><!-- /.wrapper -->
 
-		<div class="wrapper">
-			<hr>
-			<div class="breadcrumb">
-				<?php get_template_part( 'templates/breadcrumbs', 'unit' ); ?>
-			</div>
-		</div><!-- /.wrapper -->
-
 	</main>
 
 <?php get_footer(); ?>

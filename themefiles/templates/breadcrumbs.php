@@ -1,4 +1,20 @@
 <?php
+/**
+ * Outputs the breadcrumbs
+ *
+ * Possible implementtions:
+ * 
+ * 	<nav class="breadcrumbs breadcrumbs--full">
+ *			<?php get_template_part( 'templates/breadcrumbs' ); ?>
+ *	</nav>
+ *
+ * 	<nav class="breadcrumbs breadcrumbs--inline panel">
+ *			<?php get_template_part( 'templates/breadcrumbs' ); ?>
+ *	</nav>
+ */
+
+
+
 global $post, $meta, $unit;
 
 // create $crumbs array
@@ -39,7 +55,4 @@ if( !function_exists('print_crumbs') ) {
 }
 
 // print breadcrump list
-?>
-<nav class="breadcrumbs">
-	<?php array_walk( $crumbs, 'print_crumbs' ); ?>
-</nav>
+array_walk( $crumbs, 'print_crumbs' );

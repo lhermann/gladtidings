@@ -4,6 +4,15 @@
  */
 ?>
 		<footer id="page-footer" class="page-footer">
+			
+			<?php if( !is_home() ): ?>
+				<nav class="breadcrumbs breadcrumbs--full t-light-bg t-main-border">
+					<div class="wrapper">
+						<?php get_template_part( 'templates/breadcrumbs' ); ?>
+					</div>
+				</nav>
+			<?php endif; ?>
+
 			<div class="wrapper">
 				<p class="t-text--center">
 					Copyright 2015 The Glad Tidings, Inc. &bull; <?php wp_loginout( $_SERVER['REQUEST_URI'], true ); ?>

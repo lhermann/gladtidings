@@ -2,7 +2,13 @@
     #PAGE-FOOTER
 \*------------------------------------*/
 .page-footer {
-	padding: 1.5rem 0;
+	padding-bottom: px-to-rem($base-spacing-unit);
 	background-color: $color-dark-bg;
 	color: #ccc;
+	
+	// Maintain padding if breadcrumbs are missing
+	> .wrapper:first-child {
+		padding-top: px-to-rem($base-spacing-unit);
+	}
+
 }

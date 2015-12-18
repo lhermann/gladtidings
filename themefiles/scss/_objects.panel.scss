@@ -14,5 +14,6 @@
 }
 .panel {
 	@include panel;
-	padding: 10px;
+	padding: quarter($base-spacing-unit) halve($base-spacing-unit);
+	padding: px-to-rem( quarter($base-spacing-unit) ) px-to-rem( halve($base-spacing-unit) );
 }

@@ -83,10 +83,6 @@
 				</aside>
 			</div>
 		
-			<hr>
-		
-			<?php get_template_part( 'templates/breadcrumbs', 'course' ); ?>
-		
 		</div><!-- /.wrapper -->
 
 	</main>
