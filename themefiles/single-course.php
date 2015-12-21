@@ -42,7 +42,10 @@
 			<div class="layout layout--spacehack">
 				<section id="units" class="layout__item u-2/3-desk">
 		
-					<h2 class="t-second-text"><?= __( 'Units', 'gladtidings' ); ?></h2>
+					<div class="layout layout--auto">
+						<h2 class="layout__item t-second-text"><?= __( 'Units', 'gladtidings' ); ?></h2>
+						<a class="layout__item u-pull--right btn btn--theme" href="lesson.html">Start Course</a>
+					</div>
 		
 					<?php
 						//get all the units
@@ -65,20 +68,20 @@
 							// restore the original post
 							wp_reset_postdata();
 		
+						} else {
+
+							_e( 'No Units!' );
+
 						}
 					?>
 			
 				</section>
-				<aside class="layout__item u-1/3-desk">
-
-					<div>
-						<a href="lesson.html" class="btn btn--theme btn--full">Start Course</a>
-					</div>
-
-					<div class="panel">
-						<h5 class="t-second-text"><?= __( 'Description', 'gladtidings' ) ?></h5>
+				<aside class="layout__item no-owl-desk u-1/3-desk">
+					
+					<?php if( $fields['course_description'] ): ?>
+						<h2 class="t-second-text"><?= __( 'Description', 'gladtidings' ) ?></h2>
 						<?= $fields['course_description'] ?>
-					</div>
+					<?php endif; ?>
 
 				</aside>
 			</div>

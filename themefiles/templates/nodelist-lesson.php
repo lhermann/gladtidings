@@ -9,19 +9,23 @@ global $lesson, $post;
 $type = end(explode( '_', reset($lesson) ));
 $ID = end($lesson);
 
+// is active?
+$a = $ID == $post->ID;
+
 // CSS classes
 $li_classes = array(
 	'nl__item',
 	'nl__item--'.$type,
-	$ID == $post->ID ? 'nl__item--active' : ''
+	$a ? 'nl__item--active' : ''
 );
 
 switch ( $type ) {
 	case 'headline':
 		
-		$title = "<h5>$ID</h5>";
+		$title = "<h3 class=\"u-screen-reader-text\">$ID</h3>";
 
-		$li_classes[] = 'nl__item--divider'
+		$li_classes[] = 'nl__item--divider';
+		$li_classes[] = 't-second-bg';
 
 		?>
 			<li class="<?= implode( ' ', $li_classes ) ?>">
@@ -49,6 +53,8 @@ switch ( $type ) {
 			$type_string.' '.get_post_meta($ID, 'order_nr')[0]
 		);
 
+		if( $a ) $li_classes[] = 't-second-border';
+
 		?>
 			<li class="<?= implode( ' ', $li_classes ) ?>">
 				<article class="nl__article">
@@ -58,9 +64,9 @@ switch ( $type ) {
 				</article>
 				<?= $permalink_attr ? '<a '.$permalink_attr.'>' : '' ?>
 					<div class="nl__node">
-						<div class="nl__node__link"></div>
-						<div class="nl__node__border"></div>
-						<div class="nl__node__inner"></div>
+						<div class="nl__node__link t-second-border"></div>
+						<div class="nl__node__border <?= !$a ? 't-second-border' : '' ?>"></div>
+						<div class="nl__node__inner <?= !$a ? 't-second-text' : '' ?>"></div>
 					</div>
 				<?= $permalink_attr ? '</a>' : '' ?>
 			</li>

@@ -15,7 +15,7 @@
 	</header>
 
 
-	<main id="page-content">
+	<main id="content">
 
 		<div class="wrapper">
 

@@ -14,7 +14,7 @@ $button_attachment = 	( $url = wp_get_attachment_url( $meta['video_attachment'][
 ?>
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'h-entry' ); ?>>
 	<header>
-		<h4 class="p-name"><?= $label_order ?> <?php the_title(); ?></h4>
+		<h1 class="p-name u-h--80"><?= $label_order ?> <?php the_title(); ?></h1>
 	</header>
 	<div class="e-content">
 		<p><?= $meta['video_description'][0] ?></p>

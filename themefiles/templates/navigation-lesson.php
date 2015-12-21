@@ -2,9 +2,12 @@
 	global $nav_overlay;
 ?>
 <nav class="top-bar <?php if( isset( $nav_overlay ) ) echo 'top-bar--overlay'; ?> owl--off" role="navigation">
+	
+	<a class="skip-link u-screen-reader-text" href="#content"><?= __('Skip to content', 'gladtidings') ?></a>
+
 	<ul class="top-bar__left flyout__top-bar">
-		<li class="top-bar__item top-bar__item--title">Unit Overview</li>
-		<li class="top-bar__item top-bar__item--button flyout__close"><button id="flyout-close" class="btn btn--small" title="<?= __( 'Close', 'gladtidings' ) ?>"><span class="fi fi-x"></span></button></li>
+		<li class="top-bar__item top-bar__item--title t-main-text"><?= __('Unit Overview', 'gladtidings') ?></li>
+		<li class="top-bar__item top-bar__item--button flyout__close"><button id="flyout-close" class="btn btn--small btn--theme" title="<?= __( 'Close', 'gladtidings' ) ?>"><span class="fi fi-x"></span></button></li>
 	</ul>
 
 	<ul class="top-bar__left">

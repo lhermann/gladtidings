@@ -87,7 +87,7 @@ switch ( $status ) {
 	<?= $output['link'] ?>
 		<article class="nl__article">
 			<header class="nl__article__header">
-				<h4 class="nl__article__title"><?= $unit->name ?></h4>
+				<h3 class="nl__article__title"><?= $unit->name ?></h3>
 				<small class="nl__article__meta t-second-text"><?= $output['meta'] ?></small>
 			</header>
 			<footer class="nl__article__footer">

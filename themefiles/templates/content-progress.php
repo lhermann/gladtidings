@@ -18,7 +18,7 @@ $quizzes_passed = sprintf( '&bull; %s <strong class="t-comp-text">%d/%d</strong>
 $progress_width = 0;
 
 ?>
-<h2 class="u-screen-reader-only"><?= __( 'Progress', 'gladtidings' ) ?></h2>
+<h2 class="u-screen-reader-text"><?= __( 'Progress', 'gladtidings' ) ?></h2>
 <div class="progress">
 	<span class="progress__meter t-comp-bg" style="width: <?= $progress_width.'%' ?>"><?= $progress_width.'%' ?></span>
 </div>

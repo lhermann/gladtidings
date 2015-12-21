@@ -2,6 +2,9 @@
 	global $nav_overlay;
 ?>
 <nav class="top-bar <?php if( isset( $nav_overlay ) ) echo 'top-bar--overlay'; ?> owl--off" role="navigation">
+
+	<a class="skip-link u-screen-reader-text" href="#content">Skip to content</a>
+
 	<ul class="top-bar__left">
 		
 		<li class="top-bar__item top-bar__item--title">

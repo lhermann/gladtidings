@@ -10,10 +10,40 @@
 	margin-top: px-to-em($base-spacing-unit);
 }
 
+// All children will have an owl with only halve the margin
 .owl--narrow * + * {
 	margin-top: px-to-em( halve($base-spacing-unit) );
 }
 
-.owl--off * + * {
-	margin-top: 0;
+// Turn owl off for all children
+.owl--off {
+	
+	* + * {
+		margin-top: 0;
+	}
+	
+
+	&-desk * + * {
+		@include media-query( desk ) {
+			margin-top: 0;		
+		}
+	}
 }
+
+// Turn owl off for this element
+.no-owl {
+
+	margin-top: 0;
+
+	&-desk {
+		@include media-query( desk ) {
+			margin-top: 0;		
+		}
+	}
+	&-lap-and-up {
+		@include media-query( lap-and-up ) {
+			margin-top: 0;		
+		}
+	}
+}
+

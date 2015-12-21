@@ -13,7 +13,7 @@ $bc-padding:			quarter($base-spacing-unit) !default;
 		padding: px-to-rem($base-spacing-unit) 0;
 		
 		border-top: 3px solid $color-primary;
-		box-shadow: inset 0 6px 6px -6px rgba( 0, 0, 0, 0.5 );
+		// box-shadow: inset 0 6px 6px -6px rgba( 0, 0, 0, 0.5 );
 
 	}
 

@@ -205,7 +205,9 @@ $node-margin: $size-node/15;
 		margin-top: px-to-em( quarter($inuit-base-spacing-unit) );
 	}
 	.nl__item--active {
-		background-color: darken($color-panel-bg, 10%);
+		border: 1px solid $color-border;
+		padding: $size-node/10 -  1px;
+		// background-color: darken($color-panel-bg, 10%);
 	}
 	.nl__article__title {
 		font-size: 100%;
@@ -374,10 +376,8 @@ $node-marging--bigger: $size-node--bigger/15;
 .nl__item--divider {
 	background-color: darken($color-panel-bg, 10%);
 	padding: 1px;
-
-	&:first-child,
-	> * {
-		display: none;
+	&:first-child { // make the first divider invisible (but not to screen readers)
+		padding: 0;
 	}
 }
 
