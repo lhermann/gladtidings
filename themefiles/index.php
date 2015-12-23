@@ -27,6 +27,7 @@
 
 
 	<main id="page-content">
+
 		<div class="wrapper">
 			<div class="layout layout--center">
 				<div class="layout__item u-2/3-lap-and-up">
@@ -37,13 +38,14 @@
 
 		<div class="wrapper">
 			<div class="layout layout--center layout--spacehack">
-				<section class="layout__item u-2/3-lap-and-up">
 					
 					<?php
 						if ( have_posts() ) :
 							while ( have_posts() ) : the_post();
 
+								print( '<div class="layout__item u-1/3-lap-and-up no-owl-lap-and-up">' );
 								get_template_part( 'templates/teaser', $post->post_type );
+								print( '</div>' );
 
 							endwhile;
 						else :
@@ -51,14 +53,9 @@
 						endif;
 					?>
 
-				</section>
-				<aside class="layout__item u-1/3-lap-and-up">
-					
-
-
-				</aside>
 			</div>
 		</div><!-- /.wrapper -->
+
 	</main>
 
 <?php get_footer(); ?>

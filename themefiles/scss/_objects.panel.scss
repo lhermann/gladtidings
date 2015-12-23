@@ -2,6 +2,8 @@
     #PANEL
 \*------------------------------------*/
 
+$panel-padding: halve($base-spacing-unit);
+
 @mixin panel( $border-width: 1px, $border-color: $color-border, $shadow: true ) {
 	background-color: $color-panel-bg;
 	border: $border-width solid $border-color;
@@ -14,6 +16,6 @@
 }
 .panel {
 	@include panel;
-	padding: quarter($base-spacing-unit) halve($base-spacing-unit);
-	padding: px-to-rem( quarter($base-spacing-unit) ) px-to-rem( halve($base-spacing-unit) );
+	padding: halve($panel-padding) $panel-padding;
+	padding: px-to-rem( halve($panel-padding) ) px-to-rem( $panel-padding );
 }

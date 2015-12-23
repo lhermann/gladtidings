@@ -56,25 +56,25 @@
 	padding: px-to-rem(halve($base-spacing-unit)) px-to-rem($base-spacing-unit);
 }
 
-$hero-batch-size:	172px;
-$hero-batch-border:	6px;
+$hero-badge-border:	6px;
+$hero-badge-size:	160px + double($hero-badge-border);
 .hero-frame--course {
 	
 	position: relative;
-	padding-left: $hero-batch-size + $base-spacing-unit;
+	padding-left: $hero-badge-size + $base-spacing-unit;
 
 	.hero-frame__badge {
 		background-color: rgba( 0, 0, 0, $title-frame-alpha );
 		border-radius: 50%;
-		padding: $hero-batch-border;
+		padding: $hero-badge-border;
 		line-height: 0;
 		@include absolute;
 		left: 0;
-		@include v-center( $hero-batch-size );
+		@include v-center( $hero-badge-size );
 
 		img {
-			width: $hero-batch-size - double( $hero-batch-border );
-			// height: $hero-batch-size - double( $hero-batch-border );
+			width: $hero-badge-size - double( $hero-badge-border );
+			// height: $hero-badge-size - double( $hero-badge-border );
 		}
 	}
 }

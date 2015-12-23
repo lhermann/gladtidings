@@ -34,7 +34,7 @@
 					
 					<div class="layout layout--auto">
 						<h2 class="layout__item t-second-text"><?= __( 'Lessons', 'gladtidings' ); ?></h2>
-						<a class="layout__item u-pull--right btn btn--theme" href="lesson.html"><?= __( 'Continue Lesson', 'gladtidings' ); ?></a>
+						<a class="layout__item u-pull--right btn btn--success" href="lesson.html"><?= __( 'Continue Lesson', 'gladtidings' ); ?></a>
 					</div>
 
 					<?php

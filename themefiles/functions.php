@@ -142,6 +142,7 @@ function container_class( $value = '' ) {
 }
 
 /**
+ * theme_css Filter Function
  * Print theme inline css
  */
 function theme_css() {
@@ -214,6 +215,13 @@ function add_theme_color( $css ) {
                                       'background-color' => $second_light_hex           )
     );
     return array_merge( $css, $temp_css );
+}
+
+/**
+ * Replace the input with the default course batch if $src = false
+ */
+function default_course_batch( $src ) {
+    return $src ? $src : get_template_directory_uri().'/img/course-batch-placeholder.png';
 }
 
 /*------------------------------------*\

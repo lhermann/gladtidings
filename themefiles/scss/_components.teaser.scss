@@ -1,0 +1,44 @@
+/*------------------------------------*\
+    #TEASER
+\*------------------------------------*/
+
+$teaser-badge-size:		120px;
+$teaser-badge-border:	8px;
+
+.teaser {
+	
+	margin-top: halve($teaser-badge-size) + $teaser-badge-border;
+
+	text-align: center;
+	// background-color: transparent;
+
+	padding-bottom: 1.5rem;
+
+	&__badge {
+		
+		display: inline-block;
+		margin-top: -( halve($teaser-badge-size) + $teaser-badge-border + halve($panel-padding) + 2px ); // 2px to account for borders
+		padding: $teaser-badge-border;
+		line-height: 0;
+		border-radius: $teaser-badge-size;
+		// border-color: $color-primary;
+
+		background-color: #fff;
+		
+		img {
+			width: $teaser-badge-size;
+			height: $teaser-badge-size;
+		}
+	}
+
+	&__title {
+		margin-top: quarter( $base-spacing-unit );
+		border-bottom: none;
+	}
+
+	&__description {
+		font-weight: 300;
+		min-height: 6rem;
+	}
+
+}

@@ -7,7 +7,7 @@
 	add_filter( 'theme_css', 'add_theme_color', 10 );
 
 	// Default course batch
-	$fields['img_course_badge'] = $fields['img_course_badge'] ? $fields['img_course_badge'] : get_template_directory_uri().'/img/course-batch-placeholder.png';
+	$fields['img_course_badge'] = default_course_batch( $fields['img_course_badge'] );
 
 	get_header();
 ?>
@@ -20,7 +20,7 @@
 			<div class="wrapper">
 				<div class="hero-frame hero-frame--course">
 					<div class="hero-frame__badge">
-						<img src="<?= $fields['img_course_badge'] ?>" alt="<?= get_the_title().' '.__( 'Batch', 'gladtidings' ); ?>">
+						<img src="<?= $fields['img_course_badge'] ?>" alt="<?= get_the_title().' '.__( 'Badge', 'gladtidings' ); ?>">
 					</div>
 					<h1 class="hero-frame__title"><?php the_title(); ?></h1>
 				</div>
@@ -44,7 +44,7 @@
 		
 					<div class="layout layout--auto">
 						<h2 class="layout__item t-second-text"><?= __( 'Units', 'gladtidings' ); ?></h2>
-						<a class="layout__item u-pull--right btn btn--theme" href="lesson.html">Start Course</a>
+						<a class="layout__item u-pull--right btn btn--success" href="lesson.html">Start or Continue Course</a>
 					</div>
 		
 					<?php
