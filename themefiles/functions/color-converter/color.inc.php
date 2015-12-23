@@ -1,4 +1,9 @@
 <?php
+
+// Require color manipulation library
+require_once ( "rgb_hsl_converter.inc.php" );
+
+
 /**
  * Some custom addition to make a color text-save
  * That means: the text should have enough contrast to white

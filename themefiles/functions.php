@@ -16,10 +16,15 @@ define( THEMEVERSION, '0.2.0-beta.1' );
 	External Modules/Files
 \*------------------------------------*/
 
-require_once ( "inc/functions-course.php" );
-// require_once ( "inc/functions-adjust-color.php" );
-require_once ( "inc/color-converter/rgb_hsl_converter.inc.php" );
-require_once ( "inc/color-converter/custom-functions.inc.php" );
+/**
+ * (1) Register Custom Posts and Taxonomies
+ * (2) Custom user roles and capabilities
+ * (3) Color manipulation functions
+ */
+
+require_once ( "functions/course-register.inc.php" );       /* (1) */
+require_once ( "functions/users.inc.php" );                 /* (2) */
+require_once ( "functions/color-converter/color.inc.php" ); /* (3) */
 
 /*------------------------------------*\
 	Theme Setup
