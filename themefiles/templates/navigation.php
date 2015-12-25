@@ -21,9 +21,9 @@
 		<?php //echo '<li class="top-bar__item top-bar__item--link"><a href="index.html" title="Course Overview">Course</a></li>' ?>
 
 		<?php
-			$user = wp_get_current_user();
+			// $user = wp_get_current_user();
 
-			if( $user->ID ) {
+			if( is_user_logged_in() ) {
 				print( '<li class="top-bar__item top-bar__item--avatar"><a class="tb__avatar__link" href="#" title="Your Profile"><span class="tb__avatar__name">Hello '.$user->data->display_name.'</span> <img class="tb__avatar__img" src="'.get_bloginfo('template_directory').'/img/avatar-300.jpg" alt="User Avatar" height="36" width="36"></a></li>' );
 				print( '<li class="top-bar__item top-bar__item--button"><button id="flyout-button" class="btn btn--dark btn--small">Menu</button></li>' );
 			} else {

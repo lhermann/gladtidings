@@ -183,8 +183,6 @@ function theme_css() {
 function add_theme_color( $css ) {
     global $fields, $unit;
 
-    // var_dump( get_field( 'img_course_header', $unit->course_object_id ) );
-
     // get and cache variables
     $header     = isset( $fields['img_course_header'] ) ? $fields['img_course_header'] : get_field( 'img_course_header', $unit->course_object_id );
     $main_hex   = isset( $fields['color_main'] )        ? $fields['color_main']        : get_field( 'color_main', $unit->course_object_id );
@@ -198,7 +196,7 @@ function add_theme_color( $css ) {
     $second_light_hex = hsl2hex( array( $second_hsl[0], ($second_hsl[1] > 0.4 ? 0.4 : $second_hsl[1]), 0.96 ) ); // very light version fo the secondary color
 
     // modify and add css
-    if( $header ) $css['t-header-image']['background-image'] = 'url('.$header.')';
+    if( $header ) $css['t-header-image'] = array( 'background-image' => 'url('.$header.')' );
     $temp_css = array(
         't-main-text'       => array( 'color'            => textsave_hex( $main_hex )   ),
         't-main-border'     => array( 'border-color'     => $main_hex                   ),
@@ -278,28 +276,6 @@ add_action( 'pre_get_posts', 'alter_query_home' );
     Theme Activation / Deactivation
 \*------------------------------------*/
 
-function gladtidings_activation() {
-    // Add new User Role 'student'
-    // with custom capability 'study'
-    add_role( 
-        'student',
-        __( 'Student', 'gladtidings' ),
-        array(
-            'study' => true
-        )
-    );
-
-    // Set 'studnet' as new default user role
-    update_option( 'default_role', 'student', true );
-}
-add_action( 'after_switch_theme', 'gladtidings_activation' );
-
-
-function gladtidings_deactivation () {
-    // Delete user role 'student'
-    remove_role( 'student' );
-}
-add_action('switch_theme', 'gladtidings_deactivation');
 
 
 

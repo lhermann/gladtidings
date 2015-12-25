@@ -1,8 +1,10 @@
 <?php 
-	global $unit;
-	$unit = get_unit_meta( get_queried_object() );
+	global $unit, $_gt;
 
-	// var_dump($unit);
+	$_gt->unit_setup( get_queried_object() );
+	// var_dump( $_gt );
+
+	$unit = get_unit_meta( get_queried_object() );
 
 	// Built Inline Theme CSS Styles
 	add_filter( 'theme_css', 'add_theme_color', 10 );

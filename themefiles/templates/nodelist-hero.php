@@ -5,7 +5,12 @@
 */
 
 // Get term and meta information
-global $unit;
+global $unit, $_gt;
+
+$progress = $_gt->unit_progress();
+
+// Status
+$class = $progress === 100 ? 'nl__item--success' : 'nl__item--active';
 
 // Unit number
 $unit_number = 'Unit '.$unit->unit_order;
@@ -17,7 +22,7 @@ $footer = sprintf( '%s &nbsp; %s',
 );
 ?>
 
-<div class="nl__item nl__item--hero nl__item--active">
+<div class="nl__item nl__item--hero <?= $class ?>">
 	<article class="nl__article panel">
 		<header class="nl__article__header owl--off">
 			<p class="t-second-text"><?= $unit_number ?></p>
@@ -36,6 +41,11 @@ $footer = sprintf( '%s &nbsp; %s',
 		// 	}
 		// </style>
 		?>
-		<div class="nl__node__inner">0%</div>
+		<div class="nl__node__inner">
+			<?php if( $progress !== 100 ): ?>
+				<div class="nl__node__progress" style="width: <?= $progress ?>%"></div>
+				<div class="nl__node__progress-text"><?= $progress ?>%</div>
+			<?php endif; ?>
+		</div>
 	</div>
 </div>	

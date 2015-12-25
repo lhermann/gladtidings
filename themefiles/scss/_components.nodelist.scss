@@ -94,7 +94,7 @@ $node-margin: $size-node/15;
 	@include width-height( $size-node );
 	@include v-center( $size-node );
 
-	> div {
+	div {
 		position: absolute;
 		margin-top: 0;
 	}
@@ -147,6 +147,19 @@ $node-margin: $size-node/15;
 			font-family: "foundation-icons";
 			margin-left: 1px;
 		}
+	}
+
+	&__progress {
+		height: 100%;
+		width: 0%;
+		max-width: 100% !important;
+		background-color: rgba( $color-success, .4 );
+	}
+
+	&__progress-text {
+		width: 100%;
+		text-align: center;
+		color: $color-body;
 	}
 
 }
@@ -351,7 +364,6 @@ $node-marging--bigger: $size-node--bigger/15;
 		@include width-height( $size-node--bigger - $node-marging--bigger*2 );
 		margin: $node-marging--bigger;
 		border: $node-marging--bigger * 3/4 solid $color-border;
-		background-color: #fff;
 		font-size: $base-font-size * 2;
 		line-height: $size-node--bigger - $node-marging--bigger * 3.5;
 		font-weight: bold;
@@ -431,14 +443,6 @@ $node-marging--bigger: $size-node--bigger/15;
 	.nl__node--bigger .nl__node__inner {
 		border-color: $color-success;
 		overflow: hidden;
-		color: $color-body;
-		&:before {
-			content:"";
-			position: absolute;
-			height: 100%;
-			background-color: rgba( $color-success, .4 );
-			left: 0;
-		}
 	}
 	.nl__node--big .nl__node__inner {
 		font-size: $base-font-size;

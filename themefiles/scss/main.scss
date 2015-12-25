@@ -131,7 +131,6 @@
  * type selectors, no .classes or #ids
  * no cosmetics
  */
-@import "base.main";
 @import	"inuit-page/base.page";
 		html {
 			@include media-query(palm) {
@@ -141,6 +140,7 @@
 		}
 
 		$inuit-lede-size: 1.2;
+@import "base.main";
 @import	"inuit-paragraphs/base.paragraphs";
 		// .lede {
 		// 	color: $color-unstress;

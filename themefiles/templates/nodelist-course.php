@@ -4,12 +4,26 @@
  * Render each unit of a course
  * $post represents the post-type 'course' object containing the custom fields
  */
-global $post;
+global $post, $_gt;
 
 $unit = get_term_by( 'slug', $post['unit_id'], TAX_UNIT );
 $unit = get_unit_meta( $unit );
 
+$_gt->unit_setup( $unit );
+$progress = $_gt->unit_progress();
+
+// var_dump($progress);
+
 $output = array();
+
+/**
+ * Alter Status if Unit is active or completed
+ */
+if( $progress == 100 ) {
+	$post['unit_status'] = 'success';
+} elseif( $progress > 0 ) {
+	$post['unit_status'] = 'active';
+}
 
 /**
  * Get Status
@@ -82,6 +96,17 @@ switch ( $status ) {
 	case 5: $output['button'] = '<span class="btn btn--unstress btn--tiny">'.__('Review', 'gladtidings').'</span>'; break;
 }
 
+/**
+ * Show Progress percentage
+ */
+$output['progress'] = '';
+if( $status === 4 ) {
+	$output['progress'] = sprintf( '<div class="nl__node__progress" style="%s"></div><div class="nl__node__progress-text">%s</div>',
+		"width: {$progress}%",
+		"{$progress}%"
+	);
+}
+
 ?>
 <li class="<?= $output['li_classes'] ?>">
 	<?= $output['link'] ?>
@@ -100,6 +125,6 @@ switch ( $status ) {
 		<div class="nl__node__link t-second-border"></div>
 		<div class="nl__node__border t-second-border"></div>
 		<div class="nl__node__link-inner"></div>
-		<div class="nl__node__inner <?= $status == 3 ? 't-main-text t-main-border' : '' ?>"></div>
+		<div class="nl__node__inner <?= $status == 3 ? 't-main-text t-main-border' : '' ?>"><?= $output['progress'] ?></div>
 	</div>
 </li>
