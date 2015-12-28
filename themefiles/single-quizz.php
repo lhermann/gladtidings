@@ -1,5 +1,7 @@
 <?php 
-	global $meta, $unit;
+	global $meta, $unit, $_gt;
+
+	$_gt->quizz_init( $post );
 	
 	// get variables
 	$meta 	= get_post_meta( $post->ID, '', true );
@@ -42,7 +44,7 @@
 				
 				<div class="wrapper u-spacing--top">
 					
-					<h5><span class="label label--small"><?= __( 'Unit', 'gladtidings' ).' '.$unit->unit_order ?></span> <?= $unit->name ?></h5>
+					<h5><span class="label label--small"><?= __( 'Unit', 'gladtidings' ).' '.$unit->unit_order ?></span> <a class="a--bodycolor" href="<?= get_term_link( $unit ) ?>" title="<?= __('Unit Overview', 'gladtidings') ?>"><?= $unit->name ?></a></h5>
 					<nav role="navigation">
 						<ul class="nodelist nodelist--lesson">
 							<?php

@@ -1,8 +1,9 @@
 <?php 
 	global $meta, $unit, $_gt;
-	
-	$_gt->lesson_setup( get_queried_object() );
-	// var_dump( $_gt );
+
+	$_gt->lesson_init( $post );
+
+	// var_dump($_gt);
 
 	// get variables
 	$meta 	= get_post_meta( $post->ID, '', true );
@@ -50,7 +51,7 @@
 				
 				<div class="wrapper u-spacing--top">
 					
-					<h2 class="u-h--60"><span class="label label--small label--theme"><?= __( 'Unit', 'gladtidings' ).' '.$unit->unit_order ?></span> <?= $unit->name ?></h2>
+					<h2 class="u-h--60"><span class="label label--small label--theme"><?= __( 'Unit', 'gladtidings' ).' '.$unit->unit_order ?></span> <a class="a--bodycolor" href="<?= get_term_link( $unit ) ?>" title="<?= __('Unit Overview', 'gladtidings') ?>"><?= $unit->name ?></a></h2>
 					<nav role="navigation">
 						<ul class="nodelist nodelist--lesson">
 							<?php

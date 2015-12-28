@@ -3,7 +3,7 @@
 	global $fields, $_gt;
 	$fields = get_fields();
 
-	$_gt->course_setup( get_queried_object() );
+	$_gt->course_init( get_queried_object() );
 	// var_dump( $_gt );
 
 	// Built Inline Theme CSS Styles
@@ -53,7 +53,6 @@
 			
 						<div class="layout layout--auto">
 							<h2 class="layout__item t-second-text"><?= __( 'Units', 'gladtidings' ); ?></h2>
-							<!-- <a class="layout__item u-pull--right btn btn--success" href="lesson.html">Start or Continue Course</a> -->
 						</div>
 			
 						<?php
@@ -102,10 +101,7 @@
 				
 				<div class="wrapper t-text--center">
 					<p>Please Log In to study</p>
-					<?php
-					// add_filter( 'loginout', function($html) { return '<a class="btn"'.substr($html, 3); } );
-					wp_loginout( $_SERVER['REQUEST_URI'], true );
-					?>
+					<?php wp_loginout( $_SERVER['REQUEST_URI'], true ); ?>
 				</div>
 				
 				<?php

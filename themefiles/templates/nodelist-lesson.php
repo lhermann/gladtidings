@@ -4,20 +4,23 @@
  * This template works inside The Loop
  */
 
-global $lesson, $post;
+global $lesson, $post, $_gt;
 
 $type = end(explode( '_', reset($lesson) ));
 $ID = end($lesson);
 
 // is active?
-$a = $ID == $post->ID;
+$active = $ID == $post->ID;
 
 // CSS classes
 $li_classes = array(
 	'nl__item',
-	'nl__item--'.$type,
-	$a ? 'nl__item--active' : ''
+	'nl__item--'.$type
 );
+if( $active ) $li_classes[] = 'nl__item--active';
+if( $_gt->item_done( $type, $ID ) ) $li_classes[] = 'nl__item--success';
+
+// var_dump( $type, $_gt->lesson_done() );
 
 switch ( $type ) {
 	case 'headline':
@@ -48,12 +51,13 @@ switch ( $type ) {
 			)
 		);
 
-		$title = sprintf( '<h4 class="nl__article__title"><a %s>%s</a></h4>',
+		$title = sprintf( '<h4 class="nl__article__title"><a %s>%s. %s</a></h4>',
 			$permalink_attr,
-			$type_string.' '.get_post_meta($ID, 'order_nr')[0]
+			get_post_meta($ID, 'order_nr', true),
+			$type_string
 		);
 
-		if( $a ) $li_classes[] = 't-second-border';
+		if( $active ) $li_classes[] = 't-second-border';
 
 		?>
 			<li class="<?= implode( ' ', $li_classes ) ?>">
@@ -65,8 +69,8 @@ switch ( $type ) {
 				<?= $permalink_attr ? '<a '.$permalink_attr.'>' : '' ?>
 					<div class="nl__node">
 						<div class="nl__node__link t-second-border"></div>
-						<div class="nl__node__border <?= !$a ? 't-second-border' : '' ?>"></div>
-						<div class="nl__node__inner <?= !$a ? 't-second-text' : '' ?>"></div>
+						<div class="nl__node__border <?= !$active ? 't-second-border' : '' ?>"></div>
+						<div class="nl__node__inner <?= !$active ? 't-second-text' : '' ?>"></div>
 					</div>
 				<?= $permalink_attr ? '</a>' : '' ?>
 			</li>

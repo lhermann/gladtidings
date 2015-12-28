@@ -305,14 +305,17 @@ $node-margin: $size-node/15;
 		@include width-height( $size-node--small );
 	}
 	.nl__node__inner {
-		@include width-height( floor($size-node--small/2) );
-		top: $size-node * 2/5;
-		left: $size-node * 2/5;
-		background-color: $color-border;
-		&:after {
-			display: none;
-		}
+		display: none;
 	}
+	// .nl__node__inner {
+	// 	@include width-height( floor($size-node--small/2) );
+	// 	top: $size-node * 2/5;
+	// 	left: $size-node * 2/5;
+	// 	background-color: $color-border;
+	// 	&:after {
+	// 		display: none;
+	// 	}
+	// }
 }
 
 /* bog node dot providing broader information,

@@ -4,53 +4,33 @@
     Save Progress
 \*------------------------------------*/
 
-/*
-Dummy user meta array
-
-$course = array(
-	'ID' => 0,
-	'slug' => '',
-	'units' => array (
-		1 => array (
-			'term_id' =>
-			'name' =>
-			'items' => array(
-				0 => array(
-					'type' => 'lesson|quizz',
-					'ID' => 0,
-					'passed' => true|false
-				)
-			)
-		)
-	)
-);
-
-
-*/
-
-$test = 'some sentence';
-
 class GladTidings
 {
 	
 	private $course;
 	private $unit;
 	private $lesson;
+	private $quizz;
 	// private $user;
 
+	private $first_touch;
+
 	public $user_id;
+	public $user_name;
 	public $user_meta;
 
 	function __construct( $wp )
 	{	
-		
+		$this->first_touch = false;
+
 		$this->user_id = wp_get_current_user() ? (int)wp_get_current_user()->data->ID : false;
+		$this->user_name = wp_get_current_user() ? wp_get_current_user()->data->display_name : false;
 		$this->user_meta = $this->get_user_meta();
 
 	}
 
 	/*=======================*\
-		Global Functions
+		Private Functions
 	\*=======================*/
 
 	private function get_user_meta()
@@ -59,10 +39,10 @@ class GladTidings
 		$query_str = "SELECT meta_key, meta_value 
 						FROM $wpdb->usermeta 
 						WHERE user_id = $this->user_id
-							AND meta_key LIKE 'course_%'
+						AND ( meta_key LIKE 'course_%'
 							OR meta_key LIKE 'unit_%'
 							OR meta_key LIKE 'lesson_%'
-							OR meta_key LIKE 'quizz_%'";
+							OR meta_key LIKE 'quizz_%' )";
 		$rows = $wpdb->get_results( $query_str, OBJECT );
 		$return = new stdClass();
 		foreach ( $rows as $row ) {
@@ -91,6 +71,78 @@ class GladTidings
 		}
 	}
 
+	// Get number of completed lessons|quizzes for course|unit
+	private function get_num_items_done( $scope, $type = 'all' )
+	{
+
+		try {
+			if( $this->{$scope} === null ) throw new Exception("Call {$scope}_setup() first!");
+
+			$ID = $scope == 'course' ? $this->course->ID : $this->unit->term_id;
+
+			switch ($type) {
+				case 'lessons':
+				case 'quizzes':
+					return (int)$this->get_item_value( $scope, $ID, "{$type}_done" );
+					break;
+				case 'all':
+				default:
+					return (int)$this->get_item_value( $scope, $ID, "lessons_done" ) + (int)$this->get_item_value( $scope, $ID, "quizzes_done" );
+					break;
+			}
+
+		} catch (Exception $e) {
+			echo 'Line '.__LINE__.': Caught exception: ',  $e->getMessage(), "\n";
+			return false;
+		}
+
+	}
+
+	// Get total number of lessons|quizzes
+	private function get_num_items_total( $scope, $type = 'all' )
+	{
+		try {
+			if( $this->{$scope} === null ) throw new Exception("Call {$scope}_setup() first!");
+
+			$ID = $scope == 'course' ? $this->course->ID : $this->unit->term_id;
+
+			switch ($type) {
+				case 'lessons':
+				case 'quizzes':
+					return (int)$this->{$scope}->{"num_{$type}"};
+					break;
+				case 'all':
+				default:
+					return (int)$this->{$scope}->{"num_lessons"} + (int)$this->{$scope}->{"num_quizzes"};
+					break;
+			}
+
+			// return (int)get_post_meta( $this->course->ID, "num_$type", true );
+
+		} catch (Exception $e) {
+			echo 'Line '.__LINE__.': Caught exception: ',  $e->getMessage(), "\n";
+			return false;
+		}
+	}
+
+
+	/**
+	 * INPUT: 
+	 *	$scope = 'course'|'unit'|'lesson'|'quizz'
+	 * 	$ID
+	 *	$name
+	 * 	$value = new value
+	 * OUTPUt: DB entry existed true|false
+	 */
+	private function update_value( $scope, $ID, $name, $value )
+	{
+		$key = "{$scope}_{$ID}_{$name}";
+		$isset = isset($this->user_meta->{$key});
+		$this->user_meta->{$key} = $value;
+		update_user_meta( $this->user_id, $key, (int)$value );
+		return $isset;
+	}
+
 	/**
 	 * INPUT: 
 	 *	$scope = 'course'|'unit'|'lesson'|'quizz'
@@ -102,10 +154,8 @@ class GladTidings
 	{	
 		$key = "{$scope}_{$ID}_{$type}_done";
 		$value = isset($this->user_meta->{$key}) ? $this->user_meta->{$key} + 1 : 1;
-		update_user_meta( $this->user_id, "{$scope}_{$ID}_{$type}_done", $value );
-		$this->user_meta->{$key} = $value;
 
-		return $new_value === 1 ? false : true;
+		return $this->update_value( $scope, $ID, "{$type}_done", $value );
 	}
 
 	/**
@@ -116,12 +166,31 @@ class GladTidings
 	 */
 	private function touch( $scope, $ID )
 	{
-		$key = "{$scope}_{$ID}_touched";
-		$isset = isset($this->user_meta->{$key});
-		update_user_meta( $this->user_id, $key, time() );
-		$this->user_meta->{$key} = time();
+		return $this->update_value( $scope, $ID, 'touched', time() );
+	}
 
-		return $isset;
+	/**
+	 * OUTPUT: first item (lesson|quizz) of a unit that has not yet been touched
+	 */
+	private function find_first_undone_item()
+	{
+		foreach ( $this->unit->lesson_order as $key => $item ) {
+			$type = explode( '_', reset($item) )[1];
+			switch ($type) {
+				case 'lesson':
+					if( $this->get_item_value( 'lesson', (int)end($item), 'touched' ) ) continue;
+					break;
+				case 'quizz':
+					if( $this->get_item_value( 'quizz', (int)end($item), 'passed' ) ) continue;
+					break;
+				case 'headline':
+				default:
+					continue;
+					break;
+			}
+			return (int)end($item);
+		}
+		return false;
 	}
 
 
@@ -137,7 +206,6 @@ class GladTidings
 	{
 		return is_user_logged_in() && ( current_user_can( 'study' ) || current_user_can( 'edit_post' ) ) ? true : fale;
 	}
-
 
 
 	/*=======================*\
@@ -156,7 +224,7 @@ class GladTidings
 	// Initiate course
 	public function course_init( $object )
 	{
-		// init $course
+		// setup $course
 		$this->course_setup( $object );
 		// touch
 		$existed = $this->touch( 'course', $this->course->ID );
@@ -168,40 +236,23 @@ class GladTidings
 		$this->course = $course;
 	}
 
+	// Get total number of lessons|quizzes
+	public function course_lessons_total() { return $this->get_num_items_total( 'course', 'lessons' ); }
+	public function course_quizzes_total() { return $this->get_num_items_total( 'course', 'quizzes' ); }
 
-
-	// Retrieve total number of lessons|quizzes
-	private function course_item_total( $type )
-	{
-		try {
-			if( $this->course === null ) throw new Exception('Call course_setup() first!');
-			return (int)get_post_meta( $this->course->ID, "num_$type", true );
-		} catch (Exception $e) {
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
-		}
-	}
-	public function course_lessons_total() { return $this->course_item_total( 'lessons' ); }
-	public function course_quizzes_total() { return $this->course_item_total( 'quizzes' ); }
-
-	// Retrieve number of completed lessons|quizzes
-	private function course_item_done( $type ) {
-		return (int)get_user_meta( $this->user_id, "course_{$this->course->ID}_{$type}_done", true );
-	}
-	public function course_lessons_done() { return $this->course_item_done( 'lessons' ); }
-	public function course_quizzes_done() {	return $this->course_item_done( 'quizzes' ); }
+	// Get number of completed lessons|quizzes
+	public function course_lessons_done() { return $this->get_num_items_done( 'course', 'lessons' ); }
+	public function course_quizzes_done() { return $this->get_num_items_done( 'course', 'quizzes' ); }
 
 	// Get course progress percentage
 	public function course_progress()
 	{
-		$total = $this->course_lessons_total() + $this->course_quizzes_total();
-		$done = $this->course_lessons_done() + $this->course_quizzes_done();
+		$total = $this->get_num_items_total( 'course' );
+		$done = $this->get_num_items_done( 'course' );
 		return $done == 0 ? $done : round( ( $done / $total ) * 100 );
 	}
 
-	public function course_increase_lessons_done()
-	{
-		$this->increase_items_done( 'course', $this->course->ID, 'lessons' );
-	}
+	// public function course_increase_lessons_done() { $this->increase_items_done( 'course', $this->course->ID, 'lessons' ); }
 
 	/*=======================*\
 		Unit Functions
@@ -219,10 +270,10 @@ class GladTidings
 	// Initiate unit
 	public function unit_init( $term )
 	{
-		// init $unit
+		// setup $unit
 		$unit = get_unit_meta( $term );
 		$this->unit_setup( $unit );
-		// init $course
+		// setup $course
 		$course = new stdClass();
 		$course->ID = (int)$this->unit->course_object_id;
 		$this->course_setup( $course );
@@ -236,31 +287,45 @@ class GladTidings
 		$this->unit = $unit;
 	}
 
-	public function unit_increase_lessons_done()
-	{
-		$this->increase_items_done( 'unit', $this->unit->term_id, 'lessons' );
-	}
+	// public function unit_increase_lessons_done() { $this->increase_items_done( 'unit', $this->unit->term_id, 'lessons' ); }
 
-	// Retrieve total number of lessons|quizzes
-	private function unit_item_total( $type )
-	{
-		try {
-			if( $this->unit === null ) throw new Exception('Call unit_setup() first!');
-			return (int)$this->unit->{'num_'.$type};
-		} catch (Exception $e) {
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
-		}
-	}
+	// Get total number of lessons|quizzes
+	// public function unit_lessons_total() { return $this->get_num_items_total( 'unit', 'lessons' ); }
+	// public function unit_quizzes_total() { return $this->get_num_items_total( 'unit', 'quizzes' ); }
 
-	public function unit_lessons_total() { return $this->unit_item_total( 'lessons' ); }
-	public function unit_quizzes_total() { return $this->unit_item_total( 'quizzes' ); }
+	// Get number of completed lessons|quizzes
+	// public function unit_lessons_done() { return $this->get_num_items_done( 'unit', 'lessons' ); }
+	// public function unit_quizzes_done() { return $this->get_num_items_done( 'unit', 'quizzes' ); }
 
+	/**
+	 * OUTPUT: (int) Unit Progress in percentage
+	 */
 	public function unit_progress()
 	{
-		$items_total = $this->unit_lessons_total() + $this->unit_quizzes_total();
-		$items_done = $this->get_item_value( 'unit', $this->unit->term_id, 'lessons_done' ) + $this->get_item_value( 'unit', $this->unit->term_id, 'quizzes_done' );
+		$items_total = $this->get_num_items_total( 'unit' );
+		$items_done = $this->get_num_items_done( 'unit' );
+
 		if( !$items_total || !$items_done ) return 0;
 		return (int)round( $items_done / $items_total * 100 );
+	}
+
+	/**
+	 * OUTPUT: (string) html to print the continue button, empty string if unit is finidhed
+	 */
+	public function unit_continue_btn()
+	{
+		$items_total = $this->get_num_items_total( 'unit' );
+		$items_done = $this->get_num_items_done( 'unit' );
+
+		// bail earlu
+		if( $items_total === $items_done ) return '';
+
+		$btn_label = $items_done ? __( 'Continue learning', 'gladtidings' ) : __( 'Start learning', 'gladtidings' );
+
+		$item_id = $this->find_first_undone_item();
+
+		print( '<a class="layout__item u-pull--right btn btn--success" href="'.get_permalink($item_id).'">'.$btn_label.'</a>' );
+		return;
 	}
 
 	/*=======================*\
@@ -274,27 +339,131 @@ class GladTidings
 	 * lesson_{ID}_touched			timestamp
 	 */
 
-	public function lesson_setup( $object )
+
+	// Initiate lesson
+	public function lesson_init( $post )
 	{
-		// init $lesson
-		$this->lesson = $object;
-		// init $unit
-		$this->unit = get_unit( $object->ID );
-		// init $course
-		$this->course = new stdClass();
-		$this->course->ID = (int)$this->unit->course_object_id;
+		// setup $lesson
+		$this->lesson_setup( $post );
+		// setup $unit
+		$unit = get_unit( $post->ID );
+		$this->unit_setup( $unit );
+		// setup $course
+		$course = new stdClass();
+		$course->ID = (int)$this->unit->course_object_id;
+		$this->course_setup( $course );
 
 		// touch
-		$existed = $this->touch( 'lesson', $this->lesson->ID );
+		$this->first_touch = !$this->touch( 'lesson', $this->lesson->ID );
 
 		/*
 		 * if $return is an integer, then the row didn't exist before
 		 * --> increase 'course_lessons_done' and 'unit_lessons_done'
 		 */
-		if( !$existed ) {
+		if( $this->first_touch ) {
 			// increase 'course_lessons_done' and 'unit_lessons_done'
-			$this->course_increase_lessons_done();
-			$this->unit_increase_lessons_done();
+			$this->increase_items_done( 'course', $this->course->ID, 'lessons' );
+			$this->increase_items_done( 'unit', $this->unit->term_id, 'lessons' );
+
+		}
+	}
+
+	// Setup lesson variable
+	public function lesson_setup( $lesson )
+	{
+		$this->lesson = $lesson;
+	}
+
+	/**
+	 * OUTPUT: true|false
+	 */
+	// public function lesson_done()
+	// {
+	// 	try {
+	// 		if( $this->lesson === null ) throw new Exception('Call lesson_setup() first!');
+	// 		return $this->get_item_value( 'lesson', $this->lesson->ID, 'touched' ) ? true : false;
+	// 	} catch (Exception $e) {
+	// 		echo 'Caught exception: ',  $e->getMessage(), "\n";
+	// 	}
+	// }
+
+	/*=======================*\
+		Quizz Functions
+	\*=======================*/
+
+	/**
+	 * Lesson User Meta Entries
+	 * 
+	 * Meta Key 					Meta Value
+	 * quizz_{ID}_touched			timestamp
+	 * quizz_{ID}_passed			bool as int (1|0)
+	 */
+
+
+	// Initiate quizz
+	public function quizz_init( $post )
+	{
+		// setup $quizz
+		$this->quizz_setup( $post );
+		// setup $unit
+		$unit = get_unit( $post->ID );
+		$this->unit_setup( $unit );
+		// setup $course
+		$course = new stdClass();
+		$course->ID = (int)$this->unit->course_object_id;
+		$this->course_setup( $course );
+
+		// touch
+		$this->first_touch = !$this->touch( 'quizz', $this->quizz->ID );
+
+		/*
+		 * if $return is an integer, then the row didn't exist before
+		 * --> increase 'course_quizzes_done' and 'unit_quizzes_done'
+		 */
+		if( $this->first_touch ) {
+			// set 'passed' to false
+			$this->update_value( 'quizz', $this->quizz->ID, 'passed', false );
+		}
+	}
+
+	// Setup quizz variable
+	public function quizz_setup( $quizz )
+	{
+		$this->quizz = $quizz;
+	}
+
+	public function quizz_passed( $quizz )
+	{
+		$this->update_value( 'quizz', $this->quizz->ID, 'passed', true );
+		// increase 'course_quizzes_done' and 'unit_quizzes_done'
+		$this->increase_items_done( 'course', $this->course->ID, 'quizzes' );
+		$this->increase_items_done( 'unit', $this->unit->term_id, 'quizzes' );
+	}
+
+	/*=======================*\
+		Global Functions
+	\*=======================*/
+
+	/**
+	 * OUTPUT: true|false
+	 *
+	 * (1) return false for items that weren't touched before
+	 */
+	public function item_done( $type, $ID )
+	{
+		switch ($type) {
+			case 'lesson':
+				if( $this->lesson->ID == $ID && $this->first_touch ) return false;		/* (1) */
+				return $this->get_item_value( $type, $ID, 'touched' ) ? true : false;
+				break;
+
+			case 'quizz':
+				return $this->get_item_value( $type, $ID, 'passed' ) ? true : false;
+				break;
+
+			default:
+				return false;
+				break;
 		}
 	}
 

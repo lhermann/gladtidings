@@ -3,11 +3,6 @@
 \*------------------------------------*/
 .page-footer {
 
-	// stick footer to the bottom of the page
-	position: absolute;
-	width: 100%;
-	bottom: 0;
-
 	// footer cosmetics
 	padding-bottom: px-to-rem($base-spacing-unit);
 	background-color: $color-dark-bg;
@@ -19,3 +14,14 @@
 	}
 
 }
+
+// Stick the footer to the bottom with position: absolute
+// .page-footer {
+// 	position: absolute;
+// 	width: 100%;
+// 	bottom: 0;
+// }
+// .container {
+// 	// give space to the footer
+// 	padding-bottom: 260px;
+// }

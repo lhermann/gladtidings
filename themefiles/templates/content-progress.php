@@ -1,9 +1,6 @@
 <?php
 global $_gt;
 
-$num_lessons = (int)get_post_meta( $post->ID, 'num_lessons', true );
-$num_quizzes = (int)get_post_meta( $post->ID, 'num_quizzes', true );
-
 $lessons_watched = sprintf( '%s <strong class="t-comp-text">%d/%d</strong> ',
 	__( 'Lessons watched:', 'gladtidings' ),
 	$_gt->course_lessons_done(), // number of lessons watched
@@ -26,5 +23,5 @@ $progress_width = $_gt->course_progress();
 <p class="u-spacing--narrow t-second-text">
 	<strong class="t-comp-text"><?= __( 'Progress', 'gladtidings' ) ?>:</strong> 
 	<?= $lessons_watched ?>
-	<?= $num_quizzes ? $quizzes_passed : '' ?>
+	<?= $_gt->course_quizzes_total() ? $quizzes_passed : '' ?>
 </p>

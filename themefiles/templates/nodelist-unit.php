@@ -4,15 +4,20 @@
  * This template works inside The Loop
  */
 
-global $unit;
+global $unit, $_gt;
 
+// $_gt->lesson_setup( $post );
 // var_dump($unit);
 
 // CSS classes
-$li_classes = sprintf( 'nl__item %s %s',
-	'nl__item--'.$post->ID,
-	'nl__item--'.$post->post_type
+$li_classes = array(
+	"nl__item",
+	"nl__item--{$post->ID}",
+	"nl__item--{$post->post_type}"
 );
+if( $_gt->item_done( $post->post_type, $post->ID ) ) $li_classes[] = "nl__item--success";
+// if( $_gt->lesson_done() ) $li_classes[] = "nl__item--success";
+// var_dump( $_gt->item_done( $post->post_type, $post->ID ) );
 
 
 switch ( $post->post_type ) {
@@ -43,7 +48,7 @@ switch ( $post->post_type ) {
 
 ?>
 
-<li class="<?= $li_classes ?>">
+<li class="<?= implode( $li_classes, ' ' ); ?>">
 	<article class="nl__article">
 		<header class="nl__article__header">
 			<?= $title; ?>
