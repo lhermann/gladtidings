@@ -19,3 +19,7 @@ $panel-padding: halve($base-spacing-unit);
 	padding: halve($panel-padding) $panel-padding;
 	padding: px-to-rem( halve($panel-padding) ) px-to-rem( $panel-padding );
 }
+
+.panel--higher {
+	padding: $panel-padding;
+}

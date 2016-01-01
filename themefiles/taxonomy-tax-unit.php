@@ -36,7 +36,7 @@
 					
 					<div class="layout layout--auto">
 						<h2 class="layout__item t-second-text"><?= __( 'Lessons', 'gladtidings' ); ?></h2>
-						<?= $_gt->unit_continue_btn() ?>
+						<?= $_gt->unit_print_continue_btn() ?>
 					</div>
 
 					<?php
@@ -49,6 +49,8 @@
 							echo '<ul class="nodelist nodelist--unit">';
 
 							while ( have_posts() ) : the_post();
+
+								// var_dump($post);
 
 								get_template_part( 'templates/nodelist', 'unit' );
 

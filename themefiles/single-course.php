@@ -99,7 +99,7 @@
 			else:
 				?>
 				
-				<div class="wrapper t-text--center">
+				<div class="wrapper u-text--center">
 					<p>Please Log In to study</p>
 					<?php wp_loginout( $_SERVER['REQUEST_URI'], true ); ?>
 				</div>

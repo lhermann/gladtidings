@@ -35,7 +35,8 @@
     "inuit-widths-responsive": "~0.2.2",
     "inuit-list-ui": "~0.4.1",
     "foundation-icon-fonts": "*",
-    "inuit-reset": "~0.1.1"
+    "inuit-reset": "~0.1.1",
+    "inuit-tables": "~0.2.1"
   },
   "private": true,
   "devDependencies": {

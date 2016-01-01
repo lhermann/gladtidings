@@ -39,19 +39,14 @@
 					<?php get_template_part( 'templates/content', 'lesson' ); ?>
 
 				</div>
-				<div class="wrapper t-text--right">
-					
-					<?php get_template_part( 'templates/continue', 'lesson' ); ?>
-
-				</div><!-- /.wrapper -->
 			
 		
 			</main>
-			<aside class="layout__item u-1/4-lap-and-up no-owl u-flyout-palm" role="complementary">
+			<aside class="layout__item u-1/4-lap-and-up u-spacing--off u-flyout-palm" role="complementary">
 				
 				<div class="wrapper u-spacing--top">
 					
-					<h2 class="u-h--60"><span class="label label--small label--theme"><?= __( 'Unit', 'gladtidings' ).' '.$unit->unit_order ?></span> <a class="a--bodycolor" href="<?= get_term_link( $unit ) ?>" title="<?= __('Unit Overview', 'gladtidings') ?>"><?= $unit->name ?></a></h2>
+					<h2 class="u-text--1rem"><span class="label label--small label--theme"><?= __( 'Unit', 'gladtidings' ).' '.$unit->unit_order ?></span> <a class="a--bodycolor" href="<?= get_term_link( $unit ) ?>" title="<?= __('Unit Overview', 'gladtidings') ?>"><?= $unit->name ?></a></h2>
 					<nav role="navigation">
 						<ul class="nodelist nodelist--lesson">
 							<?php

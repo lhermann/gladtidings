@@ -3,7 +3,7 @@
  * Display the lesson content
  * This template should be called inside the loop of post_type 'lesson'
  */
-global $meta, $unit;
+global $meta, $unit, $_gt;
 
 // prepare elements
 // $label_order = 			sprintf( '<span class="label label--small">%s %s</span>', __( 'Lesson', 'gladtidings' ), $meta['order_nr'][0] );
@@ -13,8 +13,8 @@ $button_attachment = 	( $url = wp_get_attachment_url( $meta['video_attachment'][
 //print
 ?>
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'h-entry' ); ?>>
-	<header>
-		<h1 class="p-name u-h--80"><?= $label_order ?> <?php the_title(); ?></h1>
+	<header class="hgroup">
+		<h1 class="hgroup__title"><?= $label_order ?> <?php the_title(); ?></h1>
 	</header>
 	<div class="e-content">
 		<p><?= $meta['video_description'][0] ?></p>
@@ -22,4 +22,7 @@ $button_attachment = 	( $url = wp_get_attachment_url( $meta['video_attachment'][
 			<?= $button_attachment ?>
 		</p>
 	</div>
+	<footer class="u-text--right">
+		<?php $_gt->lesson_print_continue_btn(); ?>
+	</footer>
 </article>

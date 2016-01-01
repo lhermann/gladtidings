@@ -39,7 +39,7 @@ $size-node--bigger:	$size-node * 4;
 .nl__item {
 	position: relative;
 
-	border-radius: $default-border-radius;
+	border-radius: $base-border-radius;
 	padding: $size-node/10;
 }
 
@@ -260,7 +260,7 @@ $node-margin: $size-node/15;
 	.nl__article {
 
 		// background-color: rgba( black, $title-frame-alpha );
-		// border-radius: $default-border-radius;
+		// border-radius: $base-border-radius;
 
 		margin-left: $size-node--bigger/2;
 		padding-left: $size-node--bigger/2 + 20px;

@@ -14,10 +14,10 @@
 			<?php endif; ?>
 
 			<div class="wrapper">
-				<p class="t-text--center">
+				<p class="u-text--center">
 					Copyright 2015 The Glad Tidings, Inc. &bull; <?php wp_loginout( $_SERVER['REQUEST_URI'], true ); ?>
 				</p>
-				<p class="t-text--center">
+				<p class="u-text--center">
 					<?php
 						// display execution time
 						if( true ) {

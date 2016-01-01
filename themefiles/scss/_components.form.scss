@@ -1,0 +1,49 @@
+/*------------------------------------*\
+    #FORM
+\*------------------------------------*/
+
+.form {
+	fieldset {
+		border-radius: $base-border-radius;
+	}
+}
+
+.form__radio-to-btn {
+	
+	// [type="radio"] {
+	// 	// @include hide-screen-reader-friendly;
+	// 	position: relative;
+	// }
+	
+	// .btn {
+	// 	text-align: left;
+	// }
+
+	// input:checked + .btn {
+	// 	background-color: $color-unstress !important;
+	// 	color: white;
+	// }
+
+}
+
+.form__radiobtn {
+
+	position: relative;
+
+	[type="radio"] {
+		position: absolute;
+		top: 50%;
+		margin-top: px-to-rem( halve(-$base-font-size) );
+		left: $base-spacing-unit;
+	}
+	
+	.btn {
+		text-align: left;
+		padding-left: $base-spacing-unit + $base-font-size + halve($base-spacing-unit);
+	}
+
+	input:checked + .btn {
+		background-color: darken( white, 5% );
+	}
+
+}

@@ -1,0 +1,19 @@
+/*------------------------------------*\
+    #TEXT
+\*------------------------------------*/
+
+/**
+ * Overwriting the inuit-font-size mixin to include '!important'
+ */
+@mixin utilities-font-size( $font-size ) {
+    font-size: $font-size !important;
+    font-size: ($font-size / $base-font-size) * 1rem !important;
+    line-height: 1.5 !important;
+}
+
+.u-text--center { text-align: center !important; }
+.u-text--right { text-align: right !important; }
+
+.u-text--inline { display: inline; }
+
+.u-text--1rem { @include utilities-font-size( $base-font-size ); }

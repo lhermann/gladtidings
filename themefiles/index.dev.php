@@ -37,7 +37,7 @@
 		<div class="wrapper">
 			<div class="layout layout--center">
 				<div class="layout__item u-2/3-lap-and-up">
-					<p class="lede t-text--center">A short description of the course so people know what this website is about. This is a course about the ancient writings of the prophets and applicability today.</p>
+					<p class="lede u-text--center">A short description of the course so people know what this website is about. This is a course about the ancient writings of the prophets and applicability today.</p>
 				</div>
 			</div>
 		</div><!-- /.wrapper -->

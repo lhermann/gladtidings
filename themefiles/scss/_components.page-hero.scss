@@ -52,7 +52,7 @@
 	margin: 0 auto;
 	text-align: center;
 	background-color: rgba( 0, 0, 0, $title-frame-alpha );
-	border-radius: $default-border-radius;
+	border-radius: $base-border-radius;
 	padding: px-to-rem(halve($base-spacing-unit)) px-to-rem($base-spacing-unit);
 }
 

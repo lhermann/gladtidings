@@ -102,7 +102,7 @@
 		// Misc
 		// there is no special file for this as of yet
 		$title-frame-alpha:		0.4;
-		$default-border-radius:	3px;
+		$base-border-radius:	3px;
 
 /*
  * ITCSS Stage 2: Tools
@@ -154,6 +154,7 @@
  * no cometics
  */
 @import	"objects.container";
+
 		$inuit-enable-layout--center:   true;
 		$inuit-enable-layout--rev:		true;
 		$inuit-enable-layout--middle:	true;
@@ -164,22 +165,31 @@
 
 		$inuit-enable-btn--small:   true;
 		$inuit-enable-btn--full:	true;
-		$inuit-btn-radius: 			$default-border-radius;
+		$inuit-btn-radius: 			$base-border-radius;
 		$inuit-btn-border-width:	1px;
 		$inuit-btn-background:		$color-primary;
 		$inuit-btn-color:			#fff;
 		$inuit-btn-border-color:	darken( $inuit-btn-background, 10% );
 @import "inuit-buttons/objects.buttons";
 @import	"objects.buttons"; // Extend Inuit Buttons Object
-		$enable-badge--small:	true;
-		$enable-badge--tiny:	true;
+
+		$enable-badge--small:		true;
+		$enable-badge--tiny:		true;
 @import	"objects.labels";
 
+// 		$inuit-enable-table--rows:		true;
+// 		$inuit-enable-table--compact:	true;
+// @import	"inuit-tables/objects.tables";
+
 @import	"inuit-list-inline/objects.list-inline";
+
+		// $inuit-enable-list-ui--small:	true;
+@import	"inuit-list-ui/objects.list-ui";
 @import	"objects.wrapper";
 @import	"objects.text";
 @import	"objects.whitespace";
 @import	"objects.panel";
+@import	"objects.hgroup";
 		
 		// Misc
 		// there is no special file for this as of yet
@@ -213,11 +223,12 @@
 
 @import	"components.foundation-icons";
 @import	"components.nodelist";
-@import	"components.progress-bar";
+@import	"components.progress";
 @import	"components.embed";
 @import	"components.breadcrumbs";
 @import	"components.flyout";
 @import	"components.teaser";
+@import	"components.form";
 
 		// I don't know what this one is used for
 		// .progress--panel {
@@ -251,34 +262,10 @@
  */
 @import	"inuit-widths/trumps.widths";
 @import	"inuit-widths-responsive/trumps.widths-responsive";
-@import	"utilities.headings";
+@import	"utilities.text";
 		
 		// Misc
 		// there is no special file for this as of yet
-		.t-text--center {
-			text-align: center !important;
-		}
-
-		.t-text--right {
-			text-align: right !important;
-		}
-		.t-text--inline {
-			display: inline;
-		}
-		// Alter Headline Sizes
-		// h1 {
-		// 	.u-h--80 {
-		// 		@include inuit-font-size($inuit-heading-size-1 * 0.8);
-		// 	}
-		// }
-		// .u-h {
-		// 	// alter font sizes
-		// 	&--80 {
-		// 		h1& {
-		// 			@include inuit-font-size($inuit-heading-size-1 * 0.8);
-		// 		}
-		// 	}
-		// }
 
 		.u-pull {
 			&--left { float: left; }
@@ -298,17 +285,24 @@
 			}
 		}
 
+		.u-owl {
+
+			* + * {
+				margin-top: px-to-em($base-spacing-unit) !important;
+			}
+
+			&--narrow * + * {
+				margin-top: px-to-em( halve($base-spacing-unit) ) !important;
+			}
+		}
+
 		.t-margin-reset {
 			&--top {
 				margin-top: 0 !important;
 			}
 		}
 		.u-screen-reader-text {
-			position: absolute !important;
-			height: 1px;
-			width: 1px;
-			overflow: hidden;
-			clip: rect(1px, 1px, 1px, 1px);
+			@include hide-screen-reader-friendly;
 		}
 
 		// The Lesson Page Nodelist Hack

@@ -17,11 +17,11 @@ $progress_width = $_gt->course_progress();
 
 ?>
 <h2 class="u-screen-reader-text"><?= __( 'Progress', 'gladtidings' ) ?></h2>
-<div class="progress">
-	<span class="progress__meter t-comp-bg" style="width: <?= $progress_width.'%' ?>"><?= $progress_width.'%' ?></span>
+<div class="progress progress--meter" title="<?= __( 'Progress:', 'gladtidings' ).' '.$progress_width.'%' ?>">
+	<span class="progress__item t-comp-bg" style="width: <?= $progress_width.'%' ?>"><?= $progress_width.'%' ?></span>
 </div>
 <p class="u-spacing--narrow t-second-text">
-	<strong class="t-comp-text"><?= __( 'Progress', 'gladtidings' ) ?>:</strong> 
+	<strong class="t-comp-text"><?= __( 'Progress:', 'gladtidings' ) ?></strong> 
 	<?= $lessons_watched ?>
 	<?= $_gt->course_quizzes_total() ? $quizzes_passed : '' ?>
 </p>

@@ -4,25 +4,13 @@
 /**
  * Extending InuitCSS btn object
  */
-$btn-padding--tiny:  	quarter($inuit-btn-padding);
+$btn-padding:			$inuit-btn-padding;
+$btn-padding--tiny:  	quarter($btn-padding);
 $btn-border-width:		$inuit-btn-border-width;
 $btn-border-bottom-width: 0px;
 
-// .btn {
-// 	//box-shadow: 0 -15px 30px rgba(0,0,0,.15) inset, 0 -1px 0px rgba(0,0,0,.3) inset;
-// 	box-shadow: 0 -15px 30px rgba(0,0,0,.15) inset;
-// 	// border-bottom: $btn-border-bottom-width solid rgba(0, 0, 0, .8);
-// 	// padding-bottom: $inuit-btn-padding - $btn-border-bottom-width;
-// 	// transition: box-shadow 0.2s;
-// 	&:hover {
-// 		//box-shadow: 0 -15px 30px rgba(0,0,0,.25) inset, 0 -1px 0px rgba(0,0,0,.3) inset;
-// 		box-shadow: 0 -15px 30px rgba(0,0,0,.30) inset;
-// 	}
-// }
 .btn {
 	&:hover {
-		// color: $inuit-btn-border-color;
-		// background-color: $inuit-btn-border-color;
 		box-shadow: 0 0 20px 20px rgba(0,0,0,.20) inset;
 	}
 }
@@ -38,38 +26,40 @@ $btn-border-bottom-width: 0px;
 		box-shadow: 0 -15px 30px rgba(0,0,0,.30) inset;
 	}
 }
+
 @mixin btn-color( $color, $darken: 10% ) {
 	background-color: $color;
 	border-color: darken( $color, $darken );
-	// &:hover {
-	// 	background-color: $color;
-	// }
 }
+
 .btn {
-	// &--simple-dark {
-	// 	background-color: $color-body;
-	// 	border-color: $color-body;
-	// 	&:hover {
-	// 		color: $color-body;
-	// 		background-color: $inuit-btn-color;
-	// 	}
+
+	// &--theme,
+	// &--primary,
+	// &--second,
+	// &--success,
+	// &--unstress,
+	// &--dark {
+	// 	@extend %btn-3d;
 	// }
-	&--theme,
-	&--primary,
-	&--suppl,
-	&--success,
-	&--unstress,
-	&--dark {
-		@extend %btn-3d;
-	}
-	&--primary { 	@include btn-color( $color-primary ); }
-	&--suppl { 		@include btn-color( $color-suppl ); }
-	&--success {	@include btn-color( $color-success ); }
+
+	&--primary 	{ 	@include btn-color( $color-primary ); }
+	&--suppl 	{ 	@include btn-color( $color-suppl ); }
+	&--success 	{	@include btn-color( $color-success ); }
+	&--gray 	{	@include btn-color( $color-unstress ); }
 	&--unstress {	@include btn-color( lighten($color-unstress, 10%) ); }
-	&--dark {
+	&--dark 	{
 		@include btn-color( lighten( $color-body, 20% ), 30% );
 		&:hover {
 			background-color: $color-body;
+		}
+	}
+	&--white	{
+		@include btn-color( #fff, 80% );
+		color: $color-body;
+		&:hover {
+			box-shadow: 0 0 20px 20px rgba(0,0,0,.05) inset;
+			color: $color-body;
 		}
 	}
 }
@@ -78,10 +68,19 @@ $btn-border-bottom-width: 0px;
  * Additional Sizes
  */
 .btn {
-	// &--small {
-	// 	padding-bottom: $inuit-btn-padding--small - $btn-border-bottom-width;
-	// }
 	&--tiny {
 		padding: 1px - $btn-border-width  quadruple($btn-padding--tiny) - $btn-border-width 1px - $btn-border-width - $btn-border-bottom-width;
+	}
+}
+
+/**
+ * Disabled State
+ */
+.btn[disabled] {
+	opacity: .6;
+	pointer-events: none;
+	cursor: not-allowed;
+	&:hover {
+		box-shadow: none;
 	}
 }

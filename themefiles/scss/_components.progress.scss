@@ -1,0 +1,61 @@
+/*------------------------------------*\
+    #PROGRESS
+\*------------------------------------*/
+
+.progress {
+	
+	&__item {
+		border-radius: $base-border-radius;
+		min-height: $base-font-size;
+		
+		color: #fff;
+		font-size: 80%;
+		text-align: center;
+		text-shadow: 0 1px 0 rgba( black, .8 ), 0 0 15px black;
+
+		opacity: 0.8;
+	}
+
+	&:hover .progress__item {
+		opacity: 1;
+	}
+}
+
+
+.progress--meter {
+
+	border-radius: $base-border-radius;
+	background-color: $color-secondary;
+	overflow: hidden;
+
+	.progress__item {
+		background-color: $color-success;
+		display: block;
+		
+		width: 0%;
+		max-width: 100% !important;
+	}
+}
+
+.progress--pills {
+	
+	display: flex;
+	
+	> * {
+		margin-top: 0;
+	}
+
+	.progress__item {
+		flex-grow: 1;
+		
+		background-color: $color-secondary;
+	}
+
+	.progress__item:not(:first-child) {
+		margin-left: quarter($base-spacing-unit);
+	}
+}
+
+
+
+

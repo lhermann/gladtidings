@@ -611,13 +611,14 @@ function sort_objects_inside_unit() {
 
 	// loop through the item_order array (containing all headlines, videos and quizzes in right order)
 	$i = 0;
-	foreach ( $unit->lesson_order as $lesson ) {
+	foreach ( $unit->lesson_order as $item ) {
+
 		// switch by lesson type (headline, video, quizz)
-		switch ( reset($lesson) ) {
+		switch ( reset($item) ) {
 			case 'item_headline':
 
 				$posts[$i] = new stdClass();
-				$posts[$i]->post_title = end($lesson);
+				$posts[$i]->post_title = end($item);
 				$posts[$i]->post_type = 'headline';
 
 				break;
@@ -626,7 +627,7 @@ function sort_objects_inside_unit() {
 			default:
 
 				foreach ( $posts_copy as $object ) {
-					if( (int)end($lesson) == $object->ID ) {
+					if( (int)end($item) == $object->ID ) {
 						$posts[$i] = $object;
 					}
 				}
@@ -689,6 +690,24 @@ function get_course( $post_id ) {
 function spaces_to_nbsp( $string ) {
 	return str_replace( ' ', '&nbsp;', $string);
 }
+
+/**
+ * Remove the posts_per_page limit for the unit screen
+ */
+function unit_remove_post_per_page_limit( $limit, $query ) {
+	if ( $query->is_tax( TAX_UNIT ) ) return '';
+	return $limit;
+}
+add_filter( 'post_limits', 'unit_remove_post_per_page_limit', 10, 2 );
+
+
+
+function gladtidings_query_vars( $qvars ) {
+  $qvars[] = 'view';
+  return $qvars;
+}
+add_filter( 'query_vars', 'gladtidings_query_vars' , 10, 1 );
+
 
 
 

@@ -27,6 +27,28 @@ $fi-path: "../fonts/";
   font-style: normal;
 }
 
+/**
+ * Variations in Color and Form
+ */
+.fi--square {
+  border: 2px solid $color-body;
+  border-radius: $base-border-radius;
+  padding: 0 quarter($base-font-size);
+  font-size: 1.5em;
+  vertical-align: middle;
+}
+
+.fi--success {
+  color: $color-success;
+  border-color: $color-success;
+}
+
+.fi--error {
+  color: $color-error;
+  border-color: $color-error;
+}
+
+
 .fi:before {
   font-family: "foundation-icons";
   font-style: normal;
@@ -36,7 +58,7 @@ $fi-path: "../fonts/";
   -webkit-font-smoothing: antialiased;
   display: inline-block;
   text-decoration: inherit;
-  vertical-align: bottom;
+  // vertical-align: bottom;
 }
 
 // .fi-address-book:before { content: "\f100"; }
@@ -77,7 +99,7 @@ $fi-path: "../fonts/";
 // .fi-burst:before { content: "\f123"; }
 // .fi-calendar:before { content: "\f124"; }
 // .fi-camera:before { content: "\f125"; }
-// .fi-check:before { content: "\f126"; }
+.fi-check:before { content: "\f126"; }
 // .fi-checkbox:before { content: "\f127"; }
 // .fi-clipboard-notes:before { content: "\f128"; }
 .fi-clipboard-pencil:before { content: "\f129"; }
@@ -204,7 +226,7 @@ $fi-path: "../fonts/";
 // .fi-puzzle:before { content: "\f1a2"; }
 // .fi-quote:before { content: "\f1a3"; }
 // .fi-record:before { content: "\f1a4"; }
-// .fi-refresh:before { content: "\f1a5"; }
+.fi-refresh:before { content: "\f1a5"; }
 // .fi-results-demographics:before { content: "\f1a6"; }
 // .fi-results:before { content: "\f1a7"; }
 // .fi-rewind-ten:before { content: "\f1a8"; }

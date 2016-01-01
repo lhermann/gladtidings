@@ -4,8 +4,7 @@
 	$_gt->quizz_init( $post );
 	
 	// get variables
-	$meta 	= get_post_meta( $post->ID, '', true );
-	$unit 	= get_unit( $post->ID );
+	$unit = get_unit( $post->ID );
 
 	// Built Inline Theme CSS Styles
 	add_filter( 'theme_css', 'add_theme_color', 10 );
@@ -28,23 +27,22 @@
 			
 				<div class="wrapper">
 					
-					<?php var_dump($post); ?>
-					<?php //get_template_part( 'templates/content', 'quizz' ); ?>
+					<?php get_template_part( 'templates/content', 'quizz' ); ?>
 
 				</div>
-				<div class="wrapper t-text--right">
+				<!-- <div class="wrapper u-text--right">
 					
 					<?php get_template_part( 'templates/continue', 'quizz' ); ?>
 
-				</div><!-- /.wrapper -->
+				</div> -->
 			
 			
 			</main>
-			<aside class="layout__item u-1/4-lap-and-up u-flyout-palm" role="complementary">
+			<aside class="layout__item u-1/4-lap-and-up u-spacing--off u-flyout-palm" role="complementary">
 				
 				<div class="wrapper u-spacing--top">
 					
-					<h5><span class="label label--small"><?= __( 'Unit', 'gladtidings' ).' '.$unit->unit_order ?></span> <a class="a--bodycolor" href="<?= get_term_link( $unit ) ?>" title="<?= __('Unit Overview', 'gladtidings') ?>"><?= $unit->name ?></a></h5>
+					<h2 class="u-text--1rem"><span class="label label--small label--theme"><?= __( 'Unit', 'gladtidings' ).' '.$unit->unit_order ?></span> <a class="a--bodycolor" href="<?= get_term_link( $unit ) ?>" title="<?= __('Unit Overview', 'gladtidings') ?>"><?= $unit->name ?></a></h2>
 					<nav role="navigation">
 						<ul class="nodelist nodelist--lesson">
 							<?php

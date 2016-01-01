@@ -10,7 +10,7 @@ global $unit, $_gt;
 $progress = $_gt->unit_progress();
 
 // Status
-$class = $progress === 100 ? 'nl__item--success' : 'nl__item--active';
+$class = $progress >= 100 ? 'nl__item--success' : 'nl__item--active';
 
 // Unit number
 $unit_number = 'Unit '.$unit->unit_order;

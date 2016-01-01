@@ -1,3 +1,7 @@
+/*------------------------------------*\
+    #MIXINS
+\*------------------------------------*/
+
 // Size
 @mixin grow {
 	width: 100%;
@@ -38,4 +42,13 @@
 @mixin heading-reset {
 	line-height: 1;
 	margin: 0;
+}
+
+// Visibility
+@mixin hide-screen-reader-friendly {
+	position: absolute !important;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+	clip: rect(1px, 1px, 1px, 1px);
 }

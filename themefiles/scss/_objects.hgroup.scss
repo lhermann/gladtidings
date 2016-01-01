@@ -1,0 +1,28 @@
+/*------------------------------------*\
+    #BUTTONS
+\*------------------------------------*/
+/**
+ * .hgroup is a <header> element used inside <article> for lessons and quizzes
+ */
+
+.hgroup {
+
+	> * {
+		display: inline;
+	}
+
+	&__title {
+		@include font-size( $inuit-heading-size-1 * 0.8, 1.5 );
+	}
+
+	&__subtitle {
+		@include font-size( $base-font-size * 1.2, 1.5 );
+		color: $color-unstress;
+
+		&:before {
+			content: "\2022\00a0"; // &bull; &nbsp;
+		}
+	}
+
+
+}
