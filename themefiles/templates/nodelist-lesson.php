@@ -18,7 +18,7 @@ $li_classes = array(
 	'nl__item--'.$type
 );
 if( $active ) $li_classes[] = 'nl__item--active';
-if( $_gt->item_done( $type, $ID ) ) $li_classes[] = 'nl__item--success';
+if( $_gt->is_done( $type, $ID ) ) $li_classes[] = 'nl__item--success';
 
 // var_dump( $type, $_gt->lesson_done() );
 

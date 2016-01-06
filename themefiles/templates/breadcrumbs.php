@@ -24,23 +24,23 @@ $crumbs = array(
 		'url' => home_url(), 
 		'text' => __( 'Home', 'gladtidings' ) 
 	),
-	array( 
-		'url' => ( $unit ? get_permalink( $unit->course_object_id ) : get_permalink() ), 
-		'text' => ( $unit ? $unit->course_title : $post->post_title )
-	),
+	// array( 
+	// 	'url' => ( $unit ? get_permalink( $unit->course_object_id ) : get_permalink() ), 
+	// 	'text' => ( $unit ? $unit->course_title : $post->post_title )
+	// ),
 );
-if( $unit ) $crumbs[] = array(
-		'url' => get_term_link( $unit, TAX_UNIT ), 
-		'text' => __('Unit','gladtidings').' '.$unit->unit_order 
-	);
-if( !is_tax() && $post->post_type == 'lesson' ) $crumbs[] = array(
-		'url' => get_permalink(), 
-		'text' => __('Lesson','gladtidings').' '.$meta['order_nr'][0] 
-	);
-if( !is_tax() && $post->post_type == 'quizz' ) $crumbs[] = array(
-		'url' => get_permalink(), 
-		'text' => __('Quizz','gladtidings')
-	);
+// if( $unit ) $crumbs[] = array(
+// 		'url' => get_term_link( $unit, TAX_UNIT ), 
+// 		'text' => __('Unit','gladtidings').' '.$unit->unit_order 
+// 	);
+// if( !is_tax() && $post->post_type == 'lesson' ) $crumbs[] = array(
+// 		'url' => get_permalink(), 
+// 		'text' => __('Lesson','gladtidings').' '.$meta['order_nr'][0] 
+// 	);
+// if( !is_tax() && $post->post_type == 'quizz' ) $crumbs[] = array(
+// 		'url' => get_permalink(), 
+// 		'text' => __('Quizz','gladtidings')
+// 	);
 
 // Function for Array Walker
 if( !function_exists('print_crumbs') ) {

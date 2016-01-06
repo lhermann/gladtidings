@@ -1,17 +1,7 @@
 <?php
-	// Get Fields
-	global $fields, $_gt;
-	$fields = get_fields();
-
-	$_gt->course_init( get_queried_object() );
+	global $_gt;
 	// var_dump( $_gt );
-
-	// Built Inline Theme CSS Styles
-	add_filter( 'theme_css', 'add_theme_color', 10 );
-
-	// Default course batch
-	$fields['img_course_badge'] = default_course_batch( $fields['img_course_badge'] );
-
+	// var_dump( $_gt->print_progress_message() );
 	get_header();
 ?>
 
@@ -23,7 +13,7 @@
 			<div class="wrapper">
 				<div class="hero-frame hero-frame--course">
 					<div class="hero-frame__badge">
-						<img src="<?= $fields['img_course_badge'] ?>" alt="<?= get_the_title().' '.__( 'Badge', 'gladtidings' ); ?>">
+						<img src="<?= $_gt->get_course_badge_url() ?>" alt="<?= get_the_title().' '.__( 'Badge', 'gladtidings' ); ?>">
 					</div>
 					<h1 class="hero-frame__title"><?php the_title(); ?></h1>
 				</div>
@@ -43,7 +33,12 @@
 		
 			<section id="progress" class="wrapper">
 
-					<?php get_template_part( 'templates/content', 'progress' ); ?>
+					<?php //get_template_part( 'templates/content', 'progress' ); ?>
+					<h2 class="u-screen-reader-text"><?= __( 'Progress', 'gladtidings' ) ?></h2>
+					<div class="progress progress--meter" title="<?= __( 'Progress:', 'gladtidings' ).' '.$_gt->get_progress_width() ?>">
+						<span class="progress__item t-comp-bg" style="width: <?= $_gt->get_progress_width() ?>"><?= $_gt->get_progress_width() ?></span>
+					</div>
+					<p class="u-spacing--narrow t-second-text"><?php $_gt->print_progress_message() ?></p>
 			
 			</section>
 
@@ -51,13 +46,13 @@
 				<div class="layout layout--spacehack">
 					<section id="units" class="layout__item u-2/3-desk">
 			
-						<div class="layout layout--auto">
-							<h2 class="layout__item t-second-text"><?= __( 'Units', 'gladtidings' ); ?></h2>
-						</div>
+						<!-- <div class="layout layout--auto"> -->
+							<h2 class="t-second-text"><?= __( 'Units', 'gladtidings' ); ?></h2>
+						<!-- </div> -->
 			
 						<?php
 							//get all the units
-							$units = $fields['units_repeater'];
+							$units = $_gt->get_units();
 			
 							// check if the repeater field has rows of data
 							if( $units ) {
@@ -67,7 +62,7 @@
 								// llop through the units
 								foreach ( $units as $key => $post ) {
 			
-									get_template_part( 'templates/nodelist', 'course' );
+									get_template_part( 'templates/node', 'unit' );
 									
 								}
 			
@@ -86,9 +81,13 @@
 					</section>
 					<aside class="layout__item no-owl-desk u-1/3-desk">
 						
-						<?php if( $fields['course_description'] ): ?>
+						<?php 
+							$description = $_gt->get_description();
+							if( $description ): ?>
+
 							<h2 class="t-second-text"><?= __( 'Description', 'gladtidings' ) ?></h2>
-							<?= $fields['course_description'] ?>
+							<p><?= $description ?></p>
+
 						<?php endif; ?>
 
 					</aside>

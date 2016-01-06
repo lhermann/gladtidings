@@ -398,16 +398,16 @@ $node-marging--bigger: $size-node--bigger/15;
 
 /*
  * Nodelist Item States
- * 0 => 'disabled'
+ * 0 => 'draft'
  * 1 => 'scheduled'
  * 2 => 'locked'
- * 3 => 'public'
+ * 3 => 'publish'
  * 4 => 'active'
  * 5 => 'success'
  */
 
 // Disabled
-.nl__item--disabled {
+.nl__item--draft {
 	.nl__node__inner:after {
 		content: "\f217";
 	}
@@ -428,7 +428,7 @@ $node-marging--bigger: $size-node--bigger/15;
 }
 
 // Public
-.nl__item--public {
+.nl__item--publish {
 	.nl__node__inner {
 		color: $color-primary;
 		border-color: $color-primary;
