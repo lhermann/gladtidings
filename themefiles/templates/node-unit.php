@@ -12,7 +12,7 @@ global $_gt;
  *       then write the information into the unit_status, so it is available in this loop
  */
 $status = 0;
-switch ( $post->post_status ) {
+switch ( $_gt->get_status( $post ) ) {
 	case 'success':		$status++;			// 5
 	case 'active':		$status++;			// 4
 	case 'publish':		$status++;			// 3
@@ -27,13 +27,13 @@ switch ( $post->post_status ) {
  */
 $output['li_classes'] = sprintf( 'nl__item %s %s panel',
 	'nl__item--'.$post->order,
-	'nl__item--'.$post->post_status
+	'nl__item--'.$_gt->get_status( $post )
 );
 
 /**
  * Unit Link
  */
-$output['link'] = ( $status >= 3 ? '<a href="'.get_permalink( $unit ).'">' : '' );
+$output['link'] = ( $status >= 3 ? '<a href="'.gt_get_permalink( $unit ).'">' : '' );
 
 /**
  * Meta States:

@@ -5,8 +5,6 @@
 
 /**
  * TODO:
- * - when a course|unit|lesson|quizz is done, set its post_status to 'success'
- * - when a course|unit has been started, set its post_status to 'active'
  */
 
 
@@ -18,6 +16,8 @@ class GladTidingsMasterController
 	protected $lesson;
 	protected $quizz;
 
+	public $this_type;
+
 	protected $first_touch;
 
 	public $user_id;
@@ -26,6 +26,8 @@ class GladTidingsMasterController
 
 	function __construct( $post )
 	{	
+		$this->this_type = $post->post_type;
+
 		$this->first_touch = false;
 
 		$this->user_id = wp_get_current_user() ? (int)wp_get_current_user()->data->ID : false;
@@ -293,6 +295,36 @@ class GladTidingsMasterController
 				return false;
 				break;
 		}
+	}
+
+
+	/**
+	 * Return the current user specific status
+	 *  - 'success' - the object is sucessfully finished
+	 *  - 'active'  - the object was started, but is not finished (user specific)
+	 *  - otherwise return $object->post_status
+	 */
+	public function get_status( $object )
+	{
+		switch ( $object->post_type ) {
+			case 'unit':
+				switch ( $this->get_progress( $object ) ) {
+					case 100: return 'success';            break;
+					case 0:   return $object->post_status; break;
+					default:  return 'active';             break;
+				}
+				break;
+			
+			case 'lesson':
+			case 'quizz':
+				if( $this->is_done( $object->post_type, $post->ID ) ) return 'success';
+				return $object->post_status;
+				break;
+
+			default:
+				break;
+		}
+		return $object->post_status;
 	}
 
 

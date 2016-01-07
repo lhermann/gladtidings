@@ -25,8 +25,8 @@ function gladtidings_theme_activation() {
 	  child_id bigint(20) unsigned NOT NULL,
 	  order int(11) NOT NULL DEFAULT '0',
 	  position int(11) NOT NULL DEFAULT '0',
-	  PRIMARY KEY (object_id, child_object_id),
-	  KEY child_object_id (child_object_id)
+	  PRIMARY KEY (parent_id, child_id),
+	  KEY parent (parent_id)
 	) $charset_collate;";
 
 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );

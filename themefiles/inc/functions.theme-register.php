@@ -95,15 +95,15 @@ function add_post_types_and_taxonomies() {
 
 	/**
 	 * Add custom post status for unit
-	 *  - 'success' - the unit is sucessfully finished
-	 *  - 'active'  - the unit was started, but is not finished
+	 *  - 'success' - the unit is sucessfully finished (user specific)
+	 *  - 'active'  - the unit was started, but is not finished (user specific)
 	 *  - 'publish' - the unit is open, but not yet started (wp builtin)
 	 *  - 'locked'  - the unit is visible, but not accessible
-	 *  - 'coming'  - the unit is anounced for a future date, but visible (other than 'future')
+	 *  - 'coming'  - the unit is anounced for a future date, but visible (other than builtin 'future')
 	 *  - 'draft'   - the unit is not visible (wp builtin)
 	 */
-	register_post_status( 'success', array( 'public' => true, 'label' => __( 'Completed', 'gladtidings' ) ) );
-	register_post_status( 'active',  array( 'public' => true, 'label' => __( 'Active', 'gladtidings' ) ) );
+	// register_post_status( 'success', array( 'public' => true, 'label' => __( 'Completed', 'gladtidings' ) ) ); // user specific
+	// register_post_status( 'active',  array( 'public' => true, 'label' => __( 'Active', 'gladtidings' ) ) ); // user specific
 	register_post_status( 'locked',  array( 'public' => true, 'label' => __( 'Locked', 'gladtidings' ) ) );
 	register_post_status( 'coming',  array( 'public' => true, 'label' => __( 'Coming soon', 'gladtidings' ) ) );
 
