@@ -5,6 +5,8 @@
 
 global $_gt;
 
+$_gt->setup_context( $post );
+
 /**
  * Get Status
  *
@@ -53,8 +55,8 @@ switch ( $status ) {
  * -> get number of videos and lessons
  */
 $output['footer'] = sprintf( '%s %s',
-	( $_gt->num_lessons( $post ) == 1 ? '<span class="fi fi-video"></span> 1 '._x( 'Lesson', 'Post Type Singular Name', 'gladtidings' ) : '<span class="fi fi-video"></span> '.$_gt->num_lessons( $post ).' '._x( 'Lessons', 'Post Type General Name', 'gladtidings' ) ),
-	( $_gt->num_quizzes( $post ) ? '&nbsp; '.( $_gt->num_quizzes( $post ) == 1 ? '<span class="fi fi-clipboard-pencil"></span> 1 '._x( 'Quizz', 'Post Type Singular Name', 'gladtidings' ) : '<span class="fi fi-clipboard-pencil"></span> '.$_gt->num_quizzes( $post ).' '._x( 'Quizzes', 'Post Type General Name', 'gladtidings' ) ) : '' )
+	( $_gt->num_lessons() == 1 ? '<span class="fi fi-video"></span> 1 '._x( 'Lesson', 'Post Type Singular Name', 'gladtidings' ) : '<span class="fi fi-video"></span> '.$_gt->num_lessons().' '._x( 'Lessons', 'Post Type General Name', 'gladtidings' ) ),
+	( $_gt->num_quizzes() ? '&nbsp; '.( $_gt->num_quizzes() == 1 ? '<span class="fi fi-clipboard-pencil"></span> 1 '._x( 'Quizz', 'Post Type Singular Name', 'gladtidings' ) : '<span class="fi fi-clipboard-pencil"></span> '.$_gt->num_quizzes().' '._x( 'Quizzes', 'Post Type General Name', 'gladtidings' ) ) : '' )
 );
 
 /**
@@ -75,7 +77,7 @@ switch ( $status ) {
 $output['progress'] = '';
 if( $status === 4 ) {
 	$output['progress'] = sprintf( '<div class="nl__node__progress" style="width: %1$s%%"></div><div class="nl__node__progress-text">%1$s</div>',
-		$_gt->get_progress( $post )
+		$_gt->get_progress()
 	);
 }
 

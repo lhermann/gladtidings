@@ -16,7 +16,8 @@ class GladTidingsMasterController
 	protected $lesson;
 	protected $quizz;
 
-	public $this_type;
+	protected $parent_context;
+	protected $current_context;
 
 	protected $first_touch;
 
@@ -24,9 +25,9 @@ class GladTidingsMasterController
 	public $user_name;
 	protected $user_meta;
 
-	function __construct( $post )
+	function __construct( $object )
 	{	
-		$this->this_type = $post->post_type;
+		$this->setup_context( $object );
 
 		$this->first_touch = false;
 
@@ -275,6 +276,30 @@ class GladTidingsMasterController
 	\*=======================*/
 
 	/**
+	 * Set up a context
+	 * INPUT: a post object
+	 */
+	public function setup_context( $object )
+	{
+		try {
+
+			if( !is_object($object) ) throw new Exception('$object is not an object.');
+			if( $object->post_type == $this->parent_context ) throw new Exception('Cannot overwrite parent context.');
+
+			$this->{$object->post_type} = $object;
+
+			if( empty($this->parent_context) ) {
+				$this->parent_context = $object->post_type;
+			} else {
+				$this->current_context = $object->post_type;
+			}
+			
+		} catch (Exception $e) {
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
+		}
+	}
+
+	/**
 	 * OUTPUT: true|false
 	 *
 	 * (1) return false for items that weren't touched before
@@ -304,8 +329,9 @@ class GladTidingsMasterController
 	 *  - 'active'  - the object was started, but is not finished (user specific)
 	 *  - otherwise return $object->post_status
 	 */
-	public function get_status( $object )
+	public function get_status( $object = null )
 	{
+		$object = $object ? $object : $this->{$this->current_context};
 		switch ( $object->post_type ) {
 			case 'unit':
 				switch ( $this->get_progress( $object ) ) {
@@ -317,7 +343,7 @@ class GladTidingsMasterController
 			
 			case 'lesson':
 			case 'quizz':
-				if( $this->is_done( $object->post_type, $post->ID ) ) return 'success';
+				if( $this->is_done( $object->post_type, $object->ID ) ) return 'success';
 				return $object->post_status;
 				break;
 
@@ -333,18 +359,16 @@ class GladTidingsMasterController
 	 * INPUT: post object
 	 * OUTPUT: total number of lessons|quizzes for that object
 	 */
-	protected function num_items( $object, $type )
+	protected function num_items( $type, $object = null )
 	{
-		$temp = $this->{$object->post_type};
 		
-		$this->{$object->post_type} = $object;
+		$object = $object ? $object : $this->{$this->current_context};
 		$return = $this->get_num_items_total( $object->post_type, $type, $object->ID );
 		
-		$this->{$object->post_type} = $temp;
 		return $return;
 	}
-	public function num_lessons( $object ) { return $this->num_items( $object, 'lesson' ); }
-	public function num_quizzes( $object ) { return $this->num_items( $object, 'quizz' ); }
+	public function num_lessons( $object = null ) { return $this->num_items( 'lesson', $object ); }
+	public function num_quizzes( $object = null ) { return $this->num_items( 'quizz', $object ); }
 
 
 	/**
@@ -352,15 +376,13 @@ class GladTidingsMasterController
 	 * INPUT: post object
 	 * OUTPUT:
 	 */
-	public function get_progress( $object )
+	public function get_progress( $object = null )
 	{
-		$temp = $this->{$object->post_type};
+		$object = $object ? $object : $this->{$this->current_context};
 
-		$this->{$object->post_type} = $object;
 		$total = $this->get_num_items_total( $object->post_type );
 		$done = $this->get_num_items_done( $object->post_type );
 		
-		$this->{$object->post_type} = $temp;
 		return $done == 0 ? $done : round( ( $done / $total ) * 100 );
 	}
 

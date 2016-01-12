@@ -46,7 +46,7 @@ function instantiate_GladTidings( $wp ) {
 
 		$class = 'Single' . ucfirst( $wp->query_vars['post_type'] );
 		require_once ( "inc/controller.single-".get_post_type().".php" );
-		$_gt = new GTSingleController( $post );
+		$_gt = new GTSingleController( get_queried_object() );
 
 	} else {
 
@@ -77,7 +77,7 @@ function theme_setup() {
 
 	// Add Support for Custom Header - Uncomment below if you're going to use
 	$args = array(
-		'default-image'				=> get_template_directory_uri().'/img/header-bg2.jpg',
+		'default-image'				=> get_template_directory_uri().'/img/home-header.jpg',
 		'uploads'       			=> true,
 		'flex-width'    			=> true,
 		'flex-height'   			=> true,
@@ -211,7 +211,7 @@ function theme_css() {
  * Add the course colors to the theme_css filter
  */
 function add_theme_color( $css ) {
-	global $fields, $unit;
+	global $fields;
 
 	// get and cache variables
 	$header     = isset( $fields['img_course_header'] ) ? $fields['img_course_header'] : get_field( 'img_course_header', $unit->course_object_id );

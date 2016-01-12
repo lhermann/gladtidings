@@ -9,13 +9,11 @@
 class GTSingleController extends GladTidingsMasterController
 {
 
-	function __construct( $post )
+	function __construct( $object )
 	{
 
 		// call parent __contruct
-		parent::__construct( $post );
-
-		$this->course = get_queried_object();
+		parent::__construct( $object );
 
 		$existed = $this->touch( 'course', $this->course->ID );
 

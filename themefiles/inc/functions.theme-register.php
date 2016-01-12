@@ -217,6 +217,12 @@ function add_post_types_and_taxonomies() {
 	);
 	register_post_type( 'headline', $args );
 
+	/**
+	 * Create a variable in $wpdb fpr the wp_gt_relationships table
+	 */
+	global $wpdb;
+	$wpdb->gt_relationships = $wpdb->prefix . "gt_relationships";
+
 
 }
 add_action( 'init', 'add_post_types_and_taxonomies', 0 );
