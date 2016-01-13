@@ -83,7 +83,7 @@ function gt_get_permalink( $post = 0 ) {
 	// get post object
 	if( empty($post) ) {
 		$post = $GLOBALS['post'];
-	} elseif( is_numerical($post) ) {
+	} elseif( is_numeric($post) ) {
 		$post = get_post( $post );
 	} elseif( !is_object($post) ) {
 		return false;
@@ -100,6 +100,12 @@ function gt_get_permalink( $post = 0 ) {
 			/* structure: http://gladtidings:8888/course/course-slug/unit/1 */
 			$parent = gt_get_parent_object( $post );
 			$permalink = $url . 'course/' . $parent->post_name . '/unit/' . $parent->order;
+			break;
+
+		case 'exam':
+			/* structure: http://gladtidings:8888/course/course-slug/exam/quizz-slug */
+			$parent = gt_get_parent_object( $post );
+			$permalink = $url . 'course/' . $parent->post_name . '/unit/' . $post->post_name;
 			break;
 
 		case 'lesson':

@@ -41,6 +41,14 @@ $size-node--bigger:	$size-node * 4;
 
 	border-radius: $base-border-radius;
 	padding: $size-node/10;
+
+	+ .nl__item:before {
+		content: "";
+		display: block;
+		border-top: 1px solid $color-border;
+		position: relative;
+		top: -$size-node/10 + -$base-spacing-unit/2;
+	}
 }
 
 /* === ul li article.nl__article === */
@@ -54,13 +62,17 @@ $size-node--bigger:	$size-node * 4;
 	// }
 
 	&__header {
-
 	}
 
 	&__title {
 		font-weight: 200;
 		margin: 0.3em 0;
 		color: $color-body;
+
+		.btn, .label {
+			font-size: 1rem;
+			vertical-align: $base-font-size / 6;
+		}
 	}
 
 	&__meta {
@@ -76,11 +88,11 @@ $size-node--bigger:	$size-node * 4;
 		font-size: 80%;
 		color: $color-suppl;
 
-		.btn, .label { // I should make my own button class to avoid specificity wars
-			@include absolute(false);
-			right: 4px;
-			bottom: 4px;
-		}
+		// .btn, .label { // I should make my own button class to avoid specificity wars
+		// 	@include absolute(false);
+		// 	right: 4px;
+		// 	bottom: 4px;
+		// }
 	}
 
 
@@ -104,11 +116,11 @@ $node-margin: $size-node/15;
 		z-index: 1;
 		margin-left: -1px;
 		border: 1px solid $color-border;
-		height: 400%;
+		height: $base-font-size * 16;
 		top: 50%;
 		
 		.nl__item:nth-last-child(2) & {
-			height: 200%;
+			height: $base-font-size * 8;
 		}
 		.nl__item:last-child & {
 			display: none;
@@ -197,9 +209,6 @@ $node-margin: $size-node/15;
 	}
 	.nl__article {
 		margin-left: 80px;
-		&__header {
-			padding-top: 1rem;
-		}
 	}
 
 }
@@ -229,28 +238,6 @@ $node-margin: $size-node/15;
 		height: 300%;
 	}
 }
-
-// .nodelist--horizontal {
-// 	text-align: justify;
-// 	line-height: 0;
-// 	font-size: 0;
-// 	&:after {
-// 		display: inline-block;
-// 		position: relative;
-// 		content: '';
-// 		width: 100%;
-// 		// Horizontal node2link
-// 		border: 1px solid $color-border;
-// 		bottom: 1rem;
-// 		z-index: 1;
-// 	}
-// 	> li {
-// 		display: inline-block;
-// 		position: relative;
-// 		z-index: 2;
-// 		font-size: 1rem;
-// 	}
-// }
 
 /* === ul li.nl__item === */
 
@@ -290,12 +277,15 @@ $node-margin: $size-node/15;
 	}
 }
 
-/* this nodelist item is a headline */
-// .nl__item--headline {
-// }
-
 
 /* === ul li div.nl__node === */
+
+/**
+ * Nodelist Item Sizes
+ * .nl__node--small
+ * .nl__node--big
+ * .nl__node--bigger
+ */
 
 /* small node dot to unstress it's importance,
 	used for headlines */
@@ -307,15 +297,6 @@ $node-margin: $size-node/15;
 	.nl__node__inner {
 		display: none;
 	}
-	// .nl__node__inner {
-	// 	@include width-height( floor($size-node--small/2) );
-	// 	top: $size-node * 2/5;
-	// 	left: $size-node * 2/5;
-	// 	background-color: $color-border;
-	// 	&:after {
-	// 		display: none;
-	// 	}
-	// }
 }
 
 /* bog node dot providing broader information,
@@ -328,7 +309,7 @@ $node-marging--big: $size-node--big/12;
 	.nl__node__link,
 	.nl__node__link-inner {
 		top: 50%;
-		height: 200%;
+		height: $base-font-size * 8;
 		background-color: #fff;
 		.nl__item:last-child & {
 			display: none;
@@ -351,7 +332,7 @@ $node-marging--big: $size-node--big/12;
 		margin: $node-marging--big;
 		border: $node-marging--big * 3/4 solid $color-border;
 		background-color: #fff;
-		font-size: $base-font-size * 2;
+		font-size: $size-node--big * 8/15;
 		line-height: $size-node--big - $node-marging--big * 3.5;
 		color: $color-border;
 	}
@@ -370,6 +351,34 @@ $node-marging--bigger: $size-node--bigger/15;
 		font-size: $base-font-size * 2;
 		line-height: $size-node--bigger - $node-marging--bigger * 3.5;
 		font-weight: bold;
+	}
+}
+
+/**
+ * Nodelist Item Types
+ * # Unit Level
+ *     .nl__item--unit
+ *     .nl__item--exam
+ *
+ * # Item Level
+ *     .nl__item--headline
+ *     .nl__item--lesson
+ *     .nl__item--quizz
+ *     .nl__item--divider
+ */
+
+.nl__item--unit {
+	.nl__article__header {
+		padding-top: 1rem;
+	}
+	.nl__node__inner {
+		&:after { content: "\f11d"; }
+	}
+}
+
+.nl__item--exam {
+	.nl__node__inner {
+		&:after { content: "\f184"; }
 	}
 }
 
@@ -396,7 +405,7 @@ $node-marging--bigger: $size-node--bigger/15;
 	}
 }
 
-/*
+/**
  * Nodelist Item States
  * 0 => 'draft'
  * 1 => 'scheduled'
@@ -432,7 +441,7 @@ $node-marging--bigger: $size-node--bigger/15;
 	.nl__node__inner {
 		color: $color-primary;
 		border-color: $color-primary;
-		&:after { content: "\f11d"; }
+		// &:after { content: "\f11d"; }
 	}
 }
 

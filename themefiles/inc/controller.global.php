@@ -13,6 +13,7 @@ class GladTidingsMasterController
 
 	protected $course;
 	protected $unit;
+	protected $exam;
 	protected $lesson;
 	protected $quizz;
 
@@ -283,8 +284,8 @@ class GladTidingsMasterController
 	{
 		try {
 
-			if( !is_object($object) ) throw new Exception('$object is not an object.');
-			if( $object->post_type == $this->parent_context ) throw new Exception('Cannot overwrite parent context.');
+			if( !is_object($object) ) throw new Exception("$object is not an object.");
+			if( $object->post_type == $this->parent_context ) throw new Exception("Cannot overwrite parent context.");
 
 			$this->{$object->post_type} = $object;
 

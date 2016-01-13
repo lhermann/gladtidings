@@ -34,8 +34,10 @@ function gt_establish_relationships( $post_id, $post_object ) {
 	 */
 	$k = new StdClass ();
 	$k->units_repeater = 'field_56539b37b0c0b';
+	$k->unit_type      = 'field_56956e20f28a2';
 	$k->unit_title	   = 'field_56539b37b40ed';
 	$k->unit_items     = 'field_56539b37b4115';
+	$k->exam_id        = 'field_56956e73f28a3';
 	$k->unit_status    = 'field_5653a2b5b8dda';
 
 	/**
@@ -54,16 +56,16 @@ function gt_establish_relationships( $post_id, $post_object ) {
 
 	$query = "SELECT u.child_id item, i.post_type
 		FROM $wpdb->gt_relationships c
-		LEFT JOIN $wpdb->gt_relationships u
+		RIGHT JOIN $wpdb->gt_relationships u
 		ON c.child_id = u.parent_id
-		LEFT JOIN $wpdb->posts i
+		RIGHT JOIN $wpdb->posts i
 		ON u.child_id = i.ID
 		WHERE c.parent_id = $post_id;
 	";
 	$item_rem = $wpdb->get_results( $query, ARRAY_A );
 	$item_rem = array_column( $item_rem, 'post_type', 'item');
 
-	// var_dump( $unit_rem, $item_rem ); die();
+	// var_dump( $unit_rem, $query, $item_rem ); die();
 
 	/**
 	 * Loop through the units
@@ -72,84 +74,130 @@ function gt_establish_relationships( $post_id, $post_object ) {
 	$units = array_values( $_POST['acf'][ $k->units_repeater ] ); // new units get really weird array indexes, so we reasign them
 	foreach ( $units as $u_key => $unit ) {
 
-		/**
-		 * For each unit:
-		 *  (1) create a post object of type 'unit'
-		 *  (2) update unit_id field
-		 *  (3) establish the relationships with course
-		 *  (4) unset unit_id from the unit_array
-		 */
-		// (1)
-		// $unit_id = $unit['field_568c2e3389878'];
-		$unit_id = gt_update_virtual_object( $unit[ $k->unit_title ], 'unit', $unit[ $k->unit_status ] );
-
-		// (2)
-		gt_update_field_unit_id( $unit_id, $u_key, $post_id );
 		
-		// (3)
-		gt_update_relationship( $post_id, $unit_id, $unit_order, $u_key );
+		switch ( $unit[ $k->unit_type ] ) {
+			case 'exam':
+				
+				/**
+				 * For each exam:
+				 *  (1) get exam_id
+				 *  (2) establish the relationships with course
+				 */
+				// (1)
+				$exam_id = $unit[ $k->exam_id ];
 
-		// (4)
-		if( $unit_rem[ $unit_id ] == 'unit' ) unset( $unit_rem[ $unit_id ] );
+				// (2)
+				gt_update_relationship( $post_id, $exam_id, -1, $u_key );
 
+				break;
+			case 'unit':
+			default:
+				
+				/**
+				 * For each unit:
+				 *  (1) create a virtual post object of type 'unit'
+				 *  (2) establish the relationships with course
+				 *  (3) increase unit order number
+				 *  (4) loop through the items (headline, lesson, quizz)
+				 */
+				// (1)
+				$unit_id = gt_update_virtual_object( $unit[ $k->unit_title ], 'unit', $unit[ $k->unit_status ] );
+				
+				// (3)
+				gt_update_relationship( $post_id, $unit_id, $unit_order, $u_key );
 
+				// (4)
+				$unit_order++;
+
+				// (5)
+				if( !$unit[ $k->unit_items ] ) continue;
+				$item_order = 1;
+				$items = array_values( $unit[ $k->unit_items ] );
+				foreach ( $items as $i_key => $item ) {
+					
+					/**
+					 * reset indexes (because the acf field keys are relly long)
+					 * $item[0] = item type
+					 * $item[1] = object_id | headline_title
+					 */
+					$item = array_values( $item );
+
+					/**
+					 * There are 3 types of items: item_headline, item_lesson and item_quizz
+					 */
+					switch ( explode( '_', $item[0] )[1] ) {
+						case 'headline':
+
+							// create a post object of type 'headline'
+							$item_id = gt_update_virtual_object( $item[1], 'headline' );
+
+							// establish the relationships with unit
+							gt_update_relationship( $unit_id, $item_id, -1, $i_key );
+
+							break;
+
+						case 'lesson':
+						case 'quizz':
+
+							// establish the relationships with unit
+							$item_id = $item[1];
+							gt_update_relationship( $unit_id, $item_id, $item_order, $i_key );
+
+							// increase order
+							$item_order++;
+
+							break;
+
+					}
+
+					// unset item_id from the $item_rem array
+					if( $item_id ) unset( $item_rem[ $item_id ] );
+
+					// reset ids
+					$item_id = false;
+
+				} // end item loop
+
+				break;
+		}
+
+		// get object_id of unit | exam
+		$temp_id = $unit_id ? $unit_id : $exam_id;
+		
 		/**
-		 * Loop through the items (headline, lesson, quizz)
+		 * Save Unit | Exam meta
 		 */
-		if( !$unit[ $k->unit_items ] ) continue;
-		$item_order = 1;
-		$items = array_values( $unit[ $k->unit_items ] );
-		foreach ( $items as $i_key => $item ) {
-			
-			$item = array_values( $item );
+		switch ( $unit[ $k->unit_status ] ) {
+			case 'coming':
 
-			/**
-			 * For each item:
-			 */
-			switch ( explode( '_', $item[0] )[1] ) {
-				case 'headline':
+				update_post_meta( $temp_id, 'release_date', $unit['field_5653a3a235e26'] );
 
-					// create a post object of type 'headline'
-					$item_id = gt_update_virtual_object( $item[1], 'headline' );
+				break;
+			case 'locked':
+				
+				update_post_meta( $temp_id, 'unlock_dependency', $unit['field_5695710055ed1'] );
 
-					// establish the relationships with unit
-					gt_update_relationship( $unit_id, $item_id, -1, $i_key );
+				break;
+		}
 
-					break;
+		// unset unit_id from the $unit_rem array
+		if( $temp_id ) unset( $unit_rem[ $temp_id ] );
+		
+		// reset ids
+		$temp_id = $unit_id = $exam_id = false;
 
-				case 'lesson':
-				case 'quizz':
-
-					// establish the relationships with unit
-					$item_id = $item[1];
-					gt_update_relationship( $unit_id, $item_id, $item_order, $i_key );
-
-					// increase order
-					$item_order++;
-
-					break;
-
-			}
-
-			// unset unit_id from the unit_array
-			if( $item_id ) unset( $item_rem[ $item_id ] );
-
-
-		} // end item loop
-
-		// increase order
-		$unit_order++;
 
 	} // end unit loop
 
-	// TODO: remove course-unit-relationships and the unit objects of all units listet in $unit_rem
+	// remove course-unit-relationships and the unit objects of all units listet in $unit_rem
 	array_walk( $unit_rem, 'gt_remove_relationship' );
 
-	// TODO: remove unit-item-relationships (and the headline objects) of all items listet in $item_rem
+	// remove unit-item-relationships (and the headline objects) of all items listet in $item_rem
 	array_walk( $item_rem, 'gt_remove_relationship' );
 	array_walk( $item_rem, function( $item_type, $item_id ) {
 		if( $item_type == 'headline' ) gt_remove_virtual_object( $item_id );
 	});
+
 }
 
 
@@ -180,12 +228,12 @@ function gt_update_virtual_object( $title, $post_type, $status = '', $content = 
 			'post_content' => $content,
 			'post_status'  => $status ? $status : 'publish',
 			'post_type'    => $post_type
-		);  
+		); 
 		$ID = wp_insert_post( $object );
 
 	}
 
-	return $ID;
+	return (int)$ID;
 }
 
 /**
@@ -230,7 +278,6 @@ function gt_update_field_unit_id( $unit_id, $unit_key, $post_id ) {
 function gt_update_relationship( $parent_id, $child_id, $order, $position = 0 ) {
 	
 	global $wpdb;
-	$table_name = $wpdb->prefix . "gt_relationships";
 
 	$relationship = $wpdb->get_row( "SELECT parent_id, child_id FROM $wpdb->gt_relationships WHERE parent_id = $parent_id AND child_id = $child_id" );
 	// var_dump( $relationship ); die();
@@ -238,7 +285,7 @@ function gt_update_relationship( $parent_id, $child_id, $order, $position = 0 ) 
 	if ( $relationship ) {
 
 		$wpdb->update( 
-			$table_name,
+			$wpdb->gt_relationships,
 			array( 
 				'order'     => $order,
 				'position'	=> $position
@@ -260,7 +307,7 @@ function gt_update_relationship( $parent_id, $child_id, $order, $position = 0 ) 
 	} else {
 
 		$wpdb->insert( 
-			$table_name,
+			$wpdb->gt_relationships,
 			array( 
 				'parent_id' => $parent_id, 
 				'child_id'  => $child_id,

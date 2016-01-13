@@ -90,6 +90,8 @@
 
 		$base-font-size: 			16px;
 		$base-line-height:			24px;
+		// $base-font-size: 			30px;
+		// $base-line-height:			45px;
 		$inuit-base-font-size: 		$base-font-size;
 		$inuit-base-line-height:	$base-line-height;
 		$mobile-font-size:			14px;
@@ -142,9 +144,13 @@
 		$inuit-lede-size: 1.2;
 @import "base.main";
 @import	"inuit-paragraphs/base.paragraphs";
-		// .lede {
-		// 	color: $color-unstress;
-		// }
+		
+		$inuit-heading-size-1:  $base-font-size * 2.25;
+		$inuit-heading-size-2:  $base-font-size * 1.8;
+		$inuit-heading-size-3:  $base-font-size * 1.5;
+		$inuit-heading-size-4:  $base-font-size * 1.2;
+		$inuit-heading-size-5:  $base-font-size * 1;
+		$inuit-heading-size-6:  $base-font-size * 0.8;
 @import	"inuit-headings/base.headings";
 @import	"base.links";
 

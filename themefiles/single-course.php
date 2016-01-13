@@ -46,9 +46,7 @@
 				<div class="layout layout--spacehack">
 					<section id="units" class="layout__item u-2/3-desk">
 			
-						<!-- <div class="layout layout--auto"> -->
-							<h2 class="t-second-text"><?= __( 'Units', 'gladtidings' ); ?></h2>
-						<!-- </div> -->
+						<h2 class="t-second-text"><?= __( 'Units', 'gladtidings' ); ?></h2>
 			
 						<?php
 							//get all the units
@@ -61,8 +59,8 @@
 			
 								// llop through the units
 								foreach ( $units as $key => $post ) {
-			
-									get_template_part( 'templates/node', 'unit' );
+									
+									get_template_part( 'templates/node', get_post_type() );
 									
 								}
 			
