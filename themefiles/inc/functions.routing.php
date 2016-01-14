@@ -105,7 +105,7 @@ function gt_get_permalink( $post = 0 ) {
 		case 'exam':
 			/* structure: http://gladtidings:8888/course/course-slug/exam/quizz-slug */
 			$parent = gt_get_parent_object( $post );
-			$permalink = $url . 'course/' . $parent->post_name . '/unit/' . $post->post_name;
+			$permalink = $url . 'course/' . $parent->post_name . '/exam/' . $post->post_name;
 			break;
 
 		case 'lesson':

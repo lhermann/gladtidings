@@ -42,16 +42,29 @@ function instantiate_GladTidings( $wp ) {
 	
 	global $post, $_gt;
 
+	$root = dirname( __FILE__ ).'/inc/controller';
+
 	if( is_single() ) {
 
-		$class = 'Single' . ucfirst( $wp->query_vars['post_type'] );
-		require_once ( "inc/controller.single-".get_post_type().".php" );
-		$_gt = new GTSingleController( get_queried_object() );
+		$view = 'single';
+		$type = get_post_type();
 
 	} else {
 
+	}
 
+	// include controller
+	if( file_exists( "{$root}.{$view}-{$type}.php" ) ) {
+		require_once ( "{$root}.{$view}-{$type}.php" );
+	} elseif( file_exists( "{$root}.{$view}.php" ) ) {
+		require_once ( "{$root}.{$view}.php" );
+	}
 
+	// instantiate controller
+	if ( class_exists('GTView') ) {
+		$_gt = new GTView( get_queried_object() );
+	} else {
+		$_gt = new GTGlobal( get_queried_object() );
 	}
 
 }

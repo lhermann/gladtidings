@@ -8,7 +8,7 @@
  */
 
 
-class GladTidingsMasterController
+class GTGlobal
 {
 
 	protected $course;
@@ -28,14 +28,17 @@ class GladTidingsMasterController
 
 	function __construct( $object )
 	{	
+		// setupt context
 		$this->setup_context( $object );
 
-		$this->first_touch = false;
-
+		// setup user variables
 		$this->user_id = wp_get_current_user() ? (int)wp_get_current_user()->data->ID : false;
 		$this->user_name = wp_get_current_user() ? wp_get_current_user()->data->display_name : false;
 		$this->user_meta = $this->get_user_meta();
 
+		// touch
+		$existed = $this->touch( $object->post_type, $object->ID );
+		$this->first_touch = $existed ? false : true;
 	}
 
 	/*=======================*\

@@ -3,10 +3,7 @@
     Single Course Controller
 \*------------------------------------*/
 
-/**
- * 
- */
-class GTSingleController extends GladTidingsMasterController
+class GTView extends GTGlobal
 {
 
 	function __construct( $object )
@@ -14,9 +11,6 @@ class GTSingleController extends GladTidingsMasterController
 
 		// call parent __contruct
 		parent::__construct( $object );
-
-		// touch course
-		$existed = $this->touch( 'course', $this->course->ID );
 
 		// Built Inline Theme CSS Styles
 		add_filter( 'theme_css', 'add_theme_color', 10 );
@@ -97,15 +91,7 @@ class GTSingleController extends GladTidingsMasterController
 		}
 		return $object;
 	}
-
-
-	// Get total number of lessons|quizzes
-	// public function course_lessons_total() { return $this->get_num_items_total( 'course', 'lessons' ); }
-	// public function course_quizzes_total() { return $this->get_num_items_total( 'course', 'quizzes' ); }
-
-	// Get number of completed lessons|quizzes
-	// public function course_lessons_done() { return $this->get_num_items_done( 'course', 'lessons' ); }
-	// public function course_quizzes_done() { return $this->get_num_items_done( 'course', 'quizzes' ); }
+	
 
 	// Get course progress percentage
 	public function course_progress()
