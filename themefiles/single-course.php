@@ -51,6 +51,7 @@
 						<?php
 							//get all the units
 							$units = $_gt->get_units();
+							// var_dump( $units );
 			
 							// check if the repeater field has rows of data
 							if( $units ) {

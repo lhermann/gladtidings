@@ -147,19 +147,21 @@ class GladTidingsMasterController
 			$type = explode( '_', reset($item) )[1];
 			if( $type === 'headline' ) continue;
 			$ID = (int)end($item);
-			if( !$this->is_done( $type, $ID ) ) return $ID;
+			if( !$this->is_done( $this->unit ) ) return $ID;
 		}
 		return false;
 	}
 
 	// Get number of completed lessons|quizzes for course|unit
-	protected function get_num_items_done( $scope, $type = 'all' )
+	protected function get_num_items_done( $object, $type = 'all' )
 	{
 
 		try {
-			if( $this->{$scope} === null ) throw new Exception("\$this->{$scope} is NULL!");
+			if( $object === null ) throw new Exception("\$object is NULL!");
 
-			$ID = $scope == 'course' ? $this->course->ID : $this->unit->term_id;
+			// prepare variables
+			$scope = $object->post_type;
+			$ID    = $object->ID;
 
 			switch ($type) {
 				case 'lessons':
@@ -180,15 +182,15 @@ class GladTidingsMasterController
 	}
 
 	// Get total number of lessons|quizzes
-	protected function get_num_items_total( $scope, $type = 'all', $ID = false )
+	protected function get_num_items_total( $object, $type = 'all' )
 	{
-		// var_dump($this->{$scope});
 		try {
-			if( $this->{$scope} == null ) throw new Exception("\$this->{$scope} is NULL!");
+			if( $object == null ) throw new Exception("\$object is NULL!");
 
 			// prepare variables
-			$ID = $ID ? $ID : $this->{$scope}->ID;
-			$type = $this->get_singular( $type );
+			$scope = $object->post_type;
+			$ID    = $object->ID;
+			$type  = $this->get_singular( $type );
 
 			// see if there is a cached value
 			$key = "num_{$type}_total";
@@ -197,7 +199,6 @@ class GladTidingsMasterController
 			
 			// do a database query
 			global $wpdb;
-			$table_name = $wpdb->prefix . "gt_relationships";
 
 			// built query
 			$query = "SELECT COUNT(p.ID) AS num";
@@ -205,8 +206,8 @@ class GladTidingsMasterController
 			switch ( $scope ) {
 				case 'course':
 					$query .= "
-						FROM $table_name c
-						INNER JOIN $table_name u
+						FROM $wpdb->gt_relationships c
+						INNER JOIN $wpdb->gt_relationships u
 						ON c.child_id = u.parent_id
 						INNER JOIN $wpdb->posts p
 						ON u.child_id = p.ID
@@ -215,7 +216,7 @@ class GladTidingsMasterController
 					break;
 				case 'unit':
 					$query .= "
-						FROM $table_name u
+						FROM $wpdb->gt_relationships u
 						INNER JOIN $wpdb->posts p
 						ON u.child_id = p.ID
 						WHERE u.parent_id = $ID
@@ -236,13 +237,15 @@ class GladTidingsMasterController
 
 			// get value
 			$result = $wpdb->get_var( $query );
+
 			// chache value
 			$this->user_meta->{$key} = (int)$result;
+
 			// return value
 			return (int)$result;
 
 		} catch (Exception $e) {
-			echo 'Line '.__LINE__.': Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Global Controller Line '.__LINE__.': Caught exception: ',  $e->getMessage(), "\n";
 			return false;
 		}
 	}
@@ -305,21 +308,22 @@ class GladTidingsMasterController
 	 *
 	 * (1) return false for items that weren't touched before
 	 */
-	public function is_done( $type, $ID )
+	public function is_done( $object )
 	{
-		switch ( $type ) {
-			case 'lesson':
-				if( $this->lesson->ID == $ID && $this->first_touch ) return false;		/* (1) */
-				return $this->get_value( 'lesson', $ID, 'touched' ) ? true : false;
-				break;
+		switch ( $object->post_type ) {
+			case 'unit':
+				return $this->get_progress( $object ) === 100 ? true : false;
 
+			case 'lesson':
+				if( $this->lesson->ID == $object->ID && $this->first_touch ) return false;		/* (1) */
+				return $this->get_value( 'lesson', $object->ID, 'touched' ) ? true : false;
+
+			case 'exam':
 			case 'quizz':
-				return $this->get_value( 'quizz', $ID, 'passed' ) ? true : false;
-				break;
+				return $this->get_value( 'quizz', $object->ID, 'passed' ) ? true : false;
 
 			default:
 				return false;
-				break;
 		}
 	}
 
@@ -360,16 +364,16 @@ class GladTidingsMasterController
 	 * INPUT: post object
 	 * OUTPUT: total number of lessons|quizzes for that object
 	 */
-	protected function num_items( $type, $object = null )
+	protected function num_items( $object = null, $type )
 	{
 		
 		$object = $object ? $object : $this->{$this->current_context};
-		$return = $this->get_num_items_total( $object->post_type, $type, $object->ID );
+		$return = $this->get_num_items_total( $object, $type );
 		
 		return $return;
 	}
-	public function num_lessons( $object = null ) { return $this->num_items( 'lesson', $object ); }
-	public function num_quizzes( $object = null ) { return $this->num_items( 'quizz', $object ); }
+	public function num_lessons( $object = null ) { return $this->num_items( $object, 'lesson' ); }
+	public function num_quizzes( $object = null ) { return $this->num_items( $object, 'quizz' ); }
 
 
 	/**
@@ -381,10 +385,12 @@ class GladTidingsMasterController
 	{
 		$object = $object ? $object : $this->{$this->current_context};
 
-		$total = $this->get_num_items_total( $object->post_type );
-		$done = $this->get_num_items_done( $object->post_type );
+		$total = $this->get_num_items_total( $object );
+		$done = $this->get_num_items_done( $object );
+
+		if( !$total || !$done ) return 0;
 		
-		return $done == 0 ? $done : round( ( $done / $total ) * 100 );
+		return (int)round( ( $done / $total ) * 100 );
 	}
 
 

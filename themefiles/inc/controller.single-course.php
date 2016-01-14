@@ -29,11 +29,9 @@ class GTSingleController extends GladTidingsMasterController
 	public function get_units()
 	{
 		global $wpdb;
-		$table_name = $wpdb->prefix . "gt_relationships";
-
 		$query = "SELECT *
 				  FROM $wpdb->posts p
-				  INNER JOIN $table_name r
+				  INNER JOIN $wpdb->gt_relationships r
 				  ON r.child_id = p.ID
 				  WHERE r.parent_id = {$this->course->ID}
 				  AND p.post_status IN ('publish', 'coming', 'locked')
@@ -46,7 +44,58 @@ class GTSingleController extends GladTidingsMasterController
 			if( $unit->post_type == 'quizz' ) $unit->post_type = 'exam';
 		});
 
+		// update status
+		// array_walk( $units, 'GTSingleController::update_status' );
+		foreach ( $units as $key => &$unit) {
+			$unit = $this->update_status( $unit, $units );
+		}
+
 		return $units;
+	}
+
+
+	/**
+	 * Update the status of an object and return the updated object
+	 * If the status is ...
+	 *  - 'coming'  = date has passed ? set to 'publish' (also update post object and acf field)
+	 *                note: change from 'coming' to 'publish' should only happen once
+	 *  - 'locked'  = unlock condition has been met ? fall through to 'publish' : don't change
+	 *  - 'publish' = user has started ? (active) or finished ? (success) the object : don't change
+	 */
+	public function update_status( $object, $units = null )
+	{
+		switch ( $object->post_status ) {
+			case 'coming':
+				$date = strtotime( get_post_meta( $object->ID, 'release_date', true ) );
+				if( $date < time() ) {
+					// update post_status to 'publish'
+					$object->post_status = 'publish';
+					wp_publish_post( $object->ID );
+					update_sub_field( array('units_repeater', $object->position + 1, 'status'), 'publish', $this->course->ID );
+				} else {
+					$object->release_date = date( "F j, Y", $date );
+				}
+				break;
+
+			case 'locked':
+				$dependency_object = $units[ (int)get_post_meta( $object->ID, 'unlock_dependency', true ) - 1 ];
+				if( $this->is_done( $dependency_object ) ) {
+					$object->post_status = 'publish'; // fall through
+				} else {
+					$object->unlock_dependency_title = $dependency_object->post_title;
+					break;
+				}
+
+			case 'publish':
+				$progress = $this->get_progress( $object );
+				if( $progress === 100 ) {
+					$object->post_status = 'success';
+				} elseif( $progress > 0 ) {
+					$object->post_status = 'active';
+				}
+				break;
+		}
+		return $object;
 	}
 
 
@@ -61,10 +110,7 @@ class GTSingleController extends GladTidingsMasterController
 	// Get course progress percentage
 	public function course_progress()
 	{
-		$total = $this->get_num_items_total( 'course' );
-		$done = $this->get_num_items_done( 'course' );
-		if( !$total || !$done ) return 0; 
-		return round( ( $done / $total ) * 100 );
+		return $this->get_progress( $this->course );
 	}
 
 
@@ -92,15 +138,15 @@ class GTSingleController extends GladTidingsMasterController
 	{
 		$message = sprintf( '%s <strong class="t-comp-text">%d/%d</strong> ',
 			__( 'Lessons watched:', 'gladtidings' ),
-			$this->get_num_items_done( 'course', 'lessons' ), // number of lessons watched
-			$this->get_num_items_total( 'course', 'lessons' ) // total number of lessons in the course
+			$this->get_num_items_done( $this->course, 'lessons' ), // number of lessons watched
+			$this->get_num_items_total( $this->course, 'lessons' ) // total number of lessons in the course
 		);
 
-		if( $this->get_num_items_total( 'course', 'quizzes' ) ) {
+		if( $this->get_num_items_total( $this->course, 'quizzes' ) ) {
 			$message .= sprintf( '&bull; %s <strong class="t-comp-text">%d/%d</strong> ',
 				__( 'Quizzes passed:', 'gladtidings' ),
-				$this->get_num_items_done( 'course', 'quizzes' ), // number of quizzes passed
-				$this->get_num_items_total( 'course', 'quizzes' ) // total number of quizzes in the course
+				$this->get_num_items_done( $this->course, 'quizzes' ), // number of quizzes passed
+				$this->get_num_items_total( $this->course, 'quizzes' ) // total number of quizzes in the course
 			);
 		}
 
@@ -111,7 +157,7 @@ class GTSingleController extends GladTidingsMasterController
 	}
 
 	/**
-	 * 
+	 * Get the course description
 	 */
 	public function get_description()
 	{
@@ -126,6 +172,10 @@ class GTSingleController extends GladTidingsMasterController
 	public $node;
 	public $node_status_num;
 
+	/**
+	 * Setup for the node context
+	 *  eg. the parent context migth be 'course', then the node context is 'unit' or 'exam'
+	 */
 	public function setup_node( $post )
 	{
 		$this->setup_context( $post );
@@ -139,7 +189,7 @@ class GTSingleController extends GladTidingsMasterController
 		 *       then write the information into the unit_status, so it is available in this loop
 		 */
 		$status = 0;
-		switch ( $this->get_status( $post ) ) {
+		switch ( $post->post_status ) {
 			case 'success':		$status++;			// 5
 			case 'active':		$status++;			// 4
 			case 'publish':		$status++;			// 3
@@ -160,7 +210,7 @@ class GTSingleController extends GladTidingsMasterController
 		return sprintf( 'nl__item %s %s %s',
 			'nl__item--'.$this->node->position,
 			'nl__item--'.$this->node->post_type,
-			'nl__item--'.$this->get_status( $this->node )
+			'nl__item--'.$this->node->post_status
 		);
 	}
 
@@ -199,8 +249,8 @@ class GTSingleController extends GladTidingsMasterController
 	public function node_meta()
 	{
 		switch ( $this->node_status_num ) {
-			case 1:  $output = '&bull; <span class="color--primary t-comp-text">' .          __('Coming soon', 'gladtidings') . ': ' . date( "F j, Y", strtotime( get_post_meta( $this->node->ID, 'release_date', true ) ) ) . '</span>'; break;
-			case 2:  $output = '&bull; <span class="color--locked t-comp-text">'  . sprintf( __('Locked: Complete "%s" first', 'gladtidings'), $this->get_unlock_dependancy_title( $this->node->ID ) ) . '</span>'; break;
+			case 1:  $output = '&bull; <span class="color--primary t-comp-text">' .          __('Coming soon', 'gladtidings') . ': ' . $this->node->release_date . '</span>'; break;
+			case 2:  $output = '&bull; <span class="color--locked t-comp-text">'  . sprintf( __('Locked: Complete "%s" first', 'gladtidings'), $this->node->unlock_dependency_title ) . '</span>'; break;
 			case 5:  $output = '&bull; <span class="color--success">'             .          __('Completed', 'gladtidings') . '</span>'; break;
 			default: $output = '';
 		}
@@ -215,8 +265,8 @@ class GTSingleController extends GladTidingsMasterController
 	{
 		if( $this->node_status_num >= 2 ) {
 			return sprintf( '%s %s',
-				( $this->num_lessons() == 1 ? '<span class="fi fi-video"></span> 1 '._x( 'Lesson', 'Post Type Singular Name', 'gladtidings' ) : '<span class="fi fi-video"></span> '.$this->num_lessons().' '._x( 'Lessons', 'Post Type General Name', 'gladtidings' ) ),
-				( $this->num_quizzes() ? '&nbsp; '.( $this->num_quizzes() == 1 ? '<span class="fi fi-clipboard-pencil"></span> 1 '._x( 'Quizz', 'Post Type Singular Name', 'gladtidings' ) : '<span class="fi fi-clipboard-pencil"></span> '.$this->num_quizzes().' '._x( 'Quizzes', 'Post Type General Name', 'gladtidings' ) ) : '' )
+				( $this->num_lessons( $this->node ) == 1 ? '<span class="fi fi-video"></span> 1 '._x( 'Lesson', 'Post Type Singular Name', 'gladtidings' ) : '<span class="fi fi-video"></span> '.$this->num_lessons( $this->node ).' '._x( 'Lessons', 'Post Type General Name', 'gladtidings' ) ),
+				( $this->num_quizzes( $this->node ) ? '&nbsp; '.( $this->num_quizzes( $this->node ) == 1 ? '<span class="fi fi-clipboard-pencil"></span> 1 '._x( 'Quizz', 'Post Type Singular Name', 'gladtidings' ) : '<span class="fi fi-clipboard-pencil"></span> '.$this->num_quizzes( $this->node ).' '._x( 'Quizzes', 'Post Type General Name', 'gladtidings' ) ) : '' )
 			);
 		}
 		return '';
@@ -228,30 +278,12 @@ class GTSingleController extends GladTidingsMasterController
 	public function node_progress()
 	{
 		if( $this->node_status_num === 4 ) {
-			return sprintf( '<div class="nl__node__progress" style="width: %1$s%%"></div><div class="nl__node__progress-text">%1$s</div>',
-				$this->get_progress()
+			return sprintf( '<div class="nl__node__progress" style="width: %1$s%%"></div><div class="nl__node__progress-text">%1$s%%</div>',
+				$this->get_progress( $this->node )
 			);
 		} else {
 			return '';
 		}
-	}
-
-	/**
-	 * Returns the title of the 'unlock_dependancy'
-	 * that is, the unit | exam that needs to be completed before this one unlocks
-	 */
-	public function get_unlock_dependancy_title( $object_id )
-	{
-		global $wpdb;
-		$pos = get_post_meta( $object_id, 'unlock_dependency', true ) - 1;
-		$query = "SELECT post_title
-				  FROM $wpdb->posts p
-				  INNER JOIN $wpdb->gt_relationships r
-				  ON r.child_id = p.ID
-				  WHERE r.parent_id = {$this->course->ID}
-				  AND r.position = $pos;
-				 ";
-		return $wpdb->get_var( $query );
 	}
 
 }
