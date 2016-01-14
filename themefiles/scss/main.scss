@@ -144,14 +144,7 @@
 		$inuit-lede-size: 1.2;
 @import "base.main";
 @import	"inuit-paragraphs/base.paragraphs";
-		
-		$inuit-heading-size-1:  $base-font-size * 2.25;
-		$inuit-heading-size-2:  $base-font-size * 1.8;
-		$inuit-heading-size-3:  $base-font-size * 1.5;
-		$inuit-heading-size-4:  $base-font-size * 1.2;
-		$inuit-heading-size-5:  $base-font-size * 1;
-		$inuit-heading-size-6:  $base-font-size * 0.8;
-@import	"inuit-headings/base.headings";
+@import	"base.headings";
 @import	"base.links";
 
 /*
@@ -193,7 +186,7 @@
 @import	"inuit-list-ui/objects.list-ui";
 @import	"objects.wrapper";
 @import	"objects.text";
-@import	"objects.whitespace";
+// @import	"objects.whitespace";
 @import	"objects.panel";
 @import	"objects.hgroup";
 		

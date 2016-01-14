@@ -41,14 +41,6 @@ $size-node--bigger:	$size-node * 4;
 
 	border-radius: $base-border-radius;
 	padding: $size-node/10;
-
-	+ .nl__item:before {
-		content: "";
-		display: block;
-		border-top: 1px solid $color-border;
-		position: relative;
-		top: -$size-node/10 + -$base-spacing-unit/2;
-	}
 }
 
 /* === ul li article.nl__article === */
@@ -116,11 +108,13 @@ $node-margin: $size-node/15;
 		z-index: 1;
 		margin-left: -1px;
 		border: 1px solid $color-border;
-		height: $base-font-size * 16;
+		// height: $base-font-size * 16;
+		height: 400%;
 		top: 50%;
 		
 		.nl__item:nth-last-child(2) & {
-			height: $base-font-size * 8;
+			// height: $base-font-size * 8;
+			height: 200%;
 		}
 		.nl__item:last-child & {
 			display: none;
@@ -171,6 +165,7 @@ $node-margin: $size-node/15;
 	&__progress-text {
 		width: 100%;
 		text-align: center;
+		font-weight: bold;
 		color: $color-body;
 	}
 
@@ -200,11 +195,19 @@ $node-margin: $size-node/15;
 	the individual elements are units */
 .nodelist--course {
 	.nl__item {
-		// @include panel;
-		// color: $color-body;
+
 		transition: background-color .3s;
 		&:hover {
 			background-color: darken($color-panel-bg, 2%);
+		}
+		
+		/* Seperation line between nodelist items */
+		+ .nl__item:before {
+			content: "";
+			display: block;
+			border-top: 1px solid $color-border;
+			position: relative;
+			top: -$size-node/10 + -$base-spacing-unit/2;
 		}
 	}
 	.nl__article {
@@ -459,6 +462,9 @@ $node-marging--bigger: $size-node--bigger/15;
 	.nl__node--big .nl__node__inner {
 		font-size: $base-font-size;
 		font-weight: 200;
+		&:after {
+			content: "";
+		}
 	}
 }
 

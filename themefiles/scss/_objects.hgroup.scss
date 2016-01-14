@@ -12,7 +12,7 @@
 	}
 
 	&__title {
-		@include font-size( $inuit-heading-size-1 * 0.8, 1.5 );
+		@include font-size( $heading-size-1 * 0.8, 1.5 );
 	}
 
 	&__subtitle {
