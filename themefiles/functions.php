@@ -39,7 +39,8 @@ add_action( 'wp', 'instantiate_GladTidings', 10, 1 );
 function instantiate_GladTidings( $wp ) {
 
 	if( is_admin() ) return;
-	
+	if( !is_single() ) return;
+		
 	global $post, $_gt;
 
 	$root = dirname( __FILE__ ).'/inc/controller';

@@ -3,15 +3,13 @@
 ?>
 
 <?php
-global $wp_query;
-var_dump( $wp_query );
+// global $wp_query;
+// var_dump( $wp_query );
 ?>
 
 	<header id="page-header" class="page-hero t-header-image">
 
-		<?php 
-			global $nav_overlay;
-			$nav_overlay = true;
+		<?php
 			get_template_part( 'templates/navigation', 'home' );
 		?>
 

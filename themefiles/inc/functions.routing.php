@@ -21,14 +21,15 @@
 
 /**
  * Add a query variables
- * 	'view' 		introduction|question|evaluation
- *	'of-course'	slug
- * 	'of-unit'	int
+ * 	'view' 			introduction|question|evaluation
+ *	'course-name'	slug
+ * 	'unit-position'	int
  */
 function gladtidings_get_variables() {
 	add_rewrite_tag('%view%', '([^&]+)');
-	add_rewrite_tag('%of-course%', '([^&]+)');
-	add_rewrite_tag('%of-unit%', '([0-9]{1,})');
+	add_rewrite_tag('%course-name%', '([^&]+)');
+	add_rewrite_tag('%unit-position%', '([0-9]{1,})');
+	// flush_rewrite_rules();
 }
 add_action('init', 'gladtidings_get_variables', 10, 0);
 
@@ -44,13 +45,13 @@ function gladtidings_rewrite_rules() {
 	// add rules
 	$new_rules = array(
 		// lesson
-		"course/(.?.+?)/unit/([0-9]{1,})/lesson/([^/]+)/?$" => "index.php?lesson=".$wp_rewrite->preg_index(3)."&of-course=".$wp_rewrite->preg_index(1)."&of-unit=".$wp_rewrite->preg_index(2),
+		"course/(.?.+?)/unit/([0-9]{1,})/lesson/([^/]+)/?$" => "index.php?lesson=".$wp_rewrite->preg_index(3)."&course-name=".$wp_rewrite->preg_index(1)."&unit-position=".$wp_rewrite->preg_index(2),
 		//quizz
-		"course/(.?.+?)/unit/([0-9]{1,})/quizz/([^/]+)(?:/(introduction|question|evaluation))?/?$" => "index.php?quizz=".$wp_rewrite->preg_index(3)."&of-course=".$wp_rewrite->preg_index(1)."&of-unit=".$wp_rewrite->preg_index(2)."&view=".$wp_rewrite->preg_index(4),
+		"course/(.?.+?)/unit/([0-9]{1,})/quizz/([^/]+)(?:/(introduction|question|evaluation))?/?$" => "index.php?quizz=".$wp_rewrite->preg_index(3)."&course-name=".$wp_rewrite->preg_index(1)."&unit-position=".$wp_rewrite->preg_index(2)."&view=".$wp_rewrite->preg_index(4),
 		// unit
-		"course/(.?.+?)/unit/([0-9]{1,})/?$" => "index.php?unit=".$wp_rewrite->preg_index(2)."&of-course=".$wp_rewrite->preg_index(1),
+		"course/(.?.+?)/unit/([0-9]{1,})/?$" => "index.php?unit=".$wp_rewrite->preg_index(2)."&course-name=".$wp_rewrite->preg_index(1),
 		// exam
-		"course/(.?.+?)/exam/([^/]+)(?:/(introduction|question|evaluation))?/?$" => "index.php?quizz=".$wp_rewrite->preg_index(2)."&of-course=".$wp_rewrite->preg_index(1)."&view=".$wp_rewrite->preg_index(3)
+		"course/(.?.+?)/exam/([^/]+)(?:/(introduction|question|evaluation))?/?$" => "index.php?quizz=".$wp_rewrite->preg_index(2)."&course-name=".$wp_rewrite->preg_index(1)."&view=".$wp_rewrite->preg_index(3)
 		// course
 		// "(.?.+?)(?:/([0-9]+))?/?$" => "index.php?course=".$wp_rewrite->preg_index(1)."&page=".$wp_rewrite->preg_index(2)
 	);
@@ -63,16 +64,32 @@ add_action( 'generate_rewrite_rules', 'gladtidings_rewrite_rules' );
 
 
 /**
- * Manipulate query before it is executed
+ * Manipulate WP query before it is executed to interpret the unit routing
  */
-function your_function_name( $query ) {
-	// var_dump( $query ); die();
-	// b23d68cc
-	$slug = 'my-first-unit';
-	$query->query_vars['unit'] = $slug;
-	$query->query_vars['name'] = $slug;
+function gt_unit_routing( $query ) {
+	if( $query->is_singular && $query->query_vars['post_type'] == 'unit' ) {
+				
+		global $wpdb;
+		$sql = $wpdb->prepare( 
+			"SELECT u.post_name
+			 FROM $wpdb->posts c
+			 LEFT JOIN $wpdb->gt_relationships r
+			 ON c.ID = r.parent_id
+			 LEFT JOIN $wpdb->posts u
+			 ON r.child_id = u.ID
+			 WHERE c.post_name = %s
+			 AND r.position = %d;
+			", 
+			$query->query['course-name'], 
+			$query->query['unit'] - 1 
+		);
+		$slug = $wpdb->get_var( $sql );
+		$query->query_vars['unit'] = $slug;
+		$query->query_vars['name'] = $slug;
+		
+	}
 }
-// add_action( 'pre_get_posts', 'your_function_name' );
+add_action( 'pre_get_posts', 'gt_unit_routing' );
 
 
 /**
