@@ -199,9 +199,9 @@ function theme_css() {
 
 	// Add WP theme header on the home page
 	if( is_home() ) {
-		$css['t-header-image'] = array( 'background-image' => 'url('.get_header_image().')' );
+		$css['.t-header-image'] = array( 'background-image' => 'url('.get_header_image().')' );
 	} else {
-		$css['t-header-image'] = array( 'background-image' => 'url('.get_template_directory_uri().'/img/course-header-placeholder.jpg'.')' );
+		$css['.t-header-image'] = array( 'background-image' => 'url('.get_template_directory_uri().'/img/course-header-placeholder.jpg'.')' );
 	}
 
 	// Apply the filter so css can be added via teh 'theme_css' hook
@@ -210,7 +210,7 @@ function theme_css() {
 	// Print the nested array as inline css
 	print( '<style type="text/css" media="screen">' );
 	foreach( $css as $class => $values ) {
-		print( '.'.$class.' { ' );
+		print( $class.' { ' );
 		foreach ( $values as $option => $value) {
 			print( $option.': '.$value.' !important;' );
 		}
@@ -225,13 +225,13 @@ function theme_css() {
  * Add the course colors to the theme_css filter
  */
 function add_theme_color( $css ) {
-	global $fields;
+	global $_gt;
 
 	// get and cache variables
-	$header     = isset( $fields['img_course_header'] ) ? $fields['img_course_header'] : get_field( 'img_course_header', $unit->course_object_id );
-	$main_hex   = isset( $fields['color_main'] )        ? $fields['color_main']        : get_field( 'color_main', $unit->course_object_id );
-	$second_hex = isset( $fields['color_secondary'] )   ? $fields['color_secondary']   : get_field( 'color_secondary', $unit->course_object_id );
-	$comp_hex   = isset( $fields['color_comp'] )        ? $fields['color_comp']        : get_field( 'color_comp', $unit->course_object_id );
+	$header     = get_field( 'img_course_header' , $_gt->get_course_id() );
+	$main_hex   = get_field( 'color_main'        , $_gt->get_course_id() );
+	$second_hex = get_field( 'color_secondary'   , $_gt->get_course_id() );
+	$comp_hex   = get_field( 'color_comp'        , $_gt->get_course_id() );
 
 	// create hues
 	$main_hsl = hex2hsl( $main_hex );
@@ -240,25 +240,25 @@ function add_theme_color( $css ) {
 	$second_light_hex = hsl2hex( array( $second_hsl[0], ($second_hsl[1] > 0.4 ? 0.4 : $second_hsl[1]), 0.96 ) ); // very light version fo the secondary color
 
 	// modify and add css
-	if( $header ) $css['t-header-image'] = array( 'background-image' => 'url('.$header.')' );
+	if( $header ) $css['.t-header-image'] = array( 'background-image' => 'url('.$header.')' );
 	$theme_css = array(
-		't-main-text'       => array( 'color'            => textsave_hex( $main_hex )   ),
-		't-main-border'     => array( 'border-color'     => $main_hex                   ),
-		't-main-bg'         => array( 'background-color' => $main_hex                   ),
-		't-second-text'     => array( 'color'            => textsave_hex( $second_hex ) ),
-		't-second-border'   => array( 'border-color'     => $second_hex                 ),
-		't-second-bg'       => array( 'background-color' => $second_hex                 ),
-		't-comp-text'       => array( 'color'            => textsave_hex( $comp_hex )   ),
-		't-comp-border'     => array( 'border-color'     => $comp_hex                   ),
-		't-comp-bg'         => array( 'background-color' => $comp_hex                   ),
-		't-light-bg'        => array( 'background-color' => $second_light_hex           ),
-		'btn--theme'        => array( 'background-color' => $main_hex,
+		'.t-main-text'       => array( 'color'            => textsave_hex( $main_hex )   ),
+		'.t-main-border'     => array( 'border-color'     => $main_hex                   ),
+		'.t-main-bg'         => array( 'background-color' => $main_hex                   ),
+		'.t-second-text'     => array( 'color'            => textsave_hex( $second_hex ) ),
+		'.t-second-border'   => array( 'border-color'     => $second_hex                 ),
+		'.t-second-bg'       => array( 'background-color' => $second_hex                 ),
+		'.t-comp-text'       => array( 'color'            => textsave_hex( $comp_hex )   ),
+		'.t-comp-border'     => array( 'border-color'     => $comp_hex                   ),
+		'.t-comp-bg'         => array( 'background-color' => $comp_hex                   ),
+		'.t-light-bg'        => array( 'background-color' => $second_light_hex           ),
+		'.btn--theme'        => array( 'background-color' => $main_hex,
 									  'border-color'     => $main_dark_hex              ),
-		'label--theme'      => array( 'color'            => textsave_hex( $comp_hex ),
+		'.label--theme'      => array( 'color'            => textsave_hex( $comp_hex ),
 									  'border-color'     => textsave_hex( $comp_hex )   ),
-		'panel'             => array( 'background-color' => $second_light_hex,
-									  'border-color'     => $second_hex                 ),
-		'flyout:before, .flyout > .wrapper:before' => array( 
+		// 'panel'             => array( 'background-color' => $second_light_hex,
+		// 							  'border-color'     => $second_hex                 ),
+		'.flyout:before, .flyout > .wrapper:before' => array( 
 									  'background-color' => $second_light_hex           )
 	);
 	return array_merge( $css, $theme_css );
