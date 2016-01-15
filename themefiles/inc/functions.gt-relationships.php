@@ -101,7 +101,7 @@ function gt_establish_relationships( $post_id, $post_object ) {
 				 *  (4) loop through the items (headline, lesson, quizz)
 				 */
 				// (1)
-				$unit_id = gt_update_virtual_object( $unit[ $k->unit_title ], 'unit', $unit[ $k->unit_status ] );
+				$unit_id = gt_update_virtual_object( $post_id, $unit[ $k->unit_title ], 'unit', $unit[ $k->unit_status ] );
 				
 				// (3)
 				gt_update_relationship( $post_id, $unit_id, $unit_order, $u_key );
@@ -129,7 +129,7 @@ function gt_establish_relationships( $post_id, $post_object ) {
 						case 'headline':
 
 							// create a post object of type 'headline'
-							$item_id = gt_update_virtual_object( $item[1], 'headline' );
+							$item_id = gt_update_virtual_object( $post_id, $item[1], 'headline' );
 
 							// establish the relationships with unit
 							gt_update_relationship( $unit_id, $item_id, -1, $i_key );
@@ -191,6 +191,9 @@ function gt_establish_relationships( $post_id, $post_object ) {
 
 	// remove course-unit-relationships and the unit objects of all units listet in $unit_rem
 	array_walk( $unit_rem, 'gt_remove_relationship' );
+	array_walk( $unit_rem, function( $unit_type, $unit_id ) {
+		if( $unit_type == 'unit' ) gt_remove_virtual_object( $unit_id );
+	});
 
 	// remove unit-item-relationships (and the headline objects) of all items listet in $item_rem
 	array_walk( $item_rem, 'gt_remove_relationship' );
@@ -205,11 +208,11 @@ function gt_establish_relationships( $post_id, $post_object ) {
  * Helper function to update a virtual post object
  * or create it, if it doesn't exist
  */
-function gt_update_virtual_object( $title, $post_type, $status = '', $content = '' ) {
+function gt_update_virtual_object( $parent_id, $title, $post_type, $status = '', $content = '' ) {
 
 	// get ID of object with slug and post-type
 	global $wpdb;
-	$slug = sanitize_title( $title );
+	$slug = sanitize_title( $parent_id.'-'.$title );
 	$ID = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_name = '$slug' AND post_type = '$post_type'" );
 
 
@@ -225,6 +228,7 @@ function gt_update_virtual_object( $title, $post_type, $status = '', $content = 
 
 		$object = array(
 			'post_title'   => $title,
+			'post_name'    => $slug,
 			'post_content' => $content,
 			'post_status'  => $status ? $status : 'publish',
 			'post_type'    => $post_type
@@ -332,9 +336,14 @@ function gt_update_relationship( $parent_id, $child_id, $order, $position = 0 ) 
  *  - $type is not necessary, but is passed as first argument by array_walk and the id as the second
  *    because the id is the index of the individual array vars
  */
-function gt_remove_relationship( $type = null, $child_id ) {
+function gt_remove_relationship( $type, $ID ) {
 	global $wpdb;
-	$wpdb->delete( $wpdb->gt_relationships, array( 'child_id' => $child_id ), array( '%d' ) );
+	switch ($type) {
+		case 'unit':
+			$wpdb->delete( $wpdb->gt_relationships, array( 'parent_id' => $ID ), array( '%d' ) );
+		default:
+			$wpdb->delete( $wpdb->gt_relationships, array( 'child_id' => $ID ), array( '%d' ) );
+	}
 }
 
 

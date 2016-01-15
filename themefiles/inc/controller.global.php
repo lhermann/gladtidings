@@ -120,7 +120,7 @@ class GTGlobal
 				  WHERE r.child_id = $object->ID;";
 		$result = $wpdb->get_row( $query );
 		if( $result ) {
-			$object->parent_id = $result->parent_id;
+			$object->parent_id = (int)$result->parent_id;
 			$object->order     = $result->order;
 			$object->position  = $result->position;
 		}
