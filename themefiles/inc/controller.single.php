@@ -1,6 +1,6 @@
 <?php
 /*------------------------------------*\
-    Single Course Controller
+    Single Controller
 \*------------------------------------*/
 
 class GTView extends GTGlobal
@@ -17,7 +17,7 @@ class GTView extends GTGlobal
 	}
 
 	/*=======================*\
-		Course Functions
+		Functions
 	\*=======================*/
 
 

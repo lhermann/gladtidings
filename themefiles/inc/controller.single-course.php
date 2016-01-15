@@ -46,51 +46,6 @@ class GTView extends GTGlobal
 
 		return $units;
 	}
-
-
-	/**
-	 * Update the status of an object and return the updated object
-	 * If the status is ...
-	 *  - 'coming'  = date has passed ? set to 'publish' (also update post object and acf field)
-	 *                note: change from 'coming' to 'publish' should only happen once
-	 *  - 'locked'  = unlock condition has been met ? fall through to 'publish' : don't change
-	 *  - 'publish' = user has started ? (active) or finished ? (success) the object : don't change
-	 */
-	public function update_status( $object, $units = null )
-	{
-		switch ( $object->post_status ) {
-			case 'coming':
-				$date = strtotime( get_post_meta( $object->ID, 'release_date', true ) );
-				if( $date < time() ) {
-					// update post_status to 'publish'
-					$object->post_status = 'publish';
-					wp_publish_post( $object->ID );
-					update_sub_field( array('units_repeater', $object->position + 1, 'status'), 'publish', $this->course->ID );
-				} else {
-					$object->release_date = date( "F j, Y", $date );
-				}
-				break;
-
-			case 'locked':
-				$dependency_object = $units[ (int)get_post_meta( $object->ID, 'unlock_dependency', true ) - 1 ];
-				if( $this->is_done( $dependency_object ) ) {
-					$object->post_status = 'publish'; // fall through
-				} else {
-					$object->unlock_dependency_title = $dependency_object->post_title;
-					break;
-				}
-
-			case 'publish':
-				$progress = $this->get_progress( $object );
-				if( $progress === 100 ) {
-					$object->post_status = 'success';
-				} elseif( $progress > 0 ) {
-					$object->post_status = 'active';
-				}
-				break;
-		}
-		return $object;
-	}
 	
 
 	// Get course progress percentage

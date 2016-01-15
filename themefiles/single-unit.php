@@ -1,26 +1,20 @@
 <?php 
+	global $_gt;
 	get_header(); 
+	// var_dump($_gt);
 ?>
 
-<?php
-// global $wp_query;
-// var_dump( $wp_query );
-?>
+	<header id="page-header">
+		
+		<?php get_template_part( 'templates/navigation', 'unit' ); ?>
 
-	<header id="page-header" class="page-hero t-header-image">
+		<div class="page-hero page-hero--skinny shadow--receive t-header-image">
+			<div class="wrapper">
+			
+				<?php get_template_part( 'templates/node', 'hero' ); ?>
 
-		<?php
-			get_template_part( 'templates/navigation', 'home' );
-		?>
-
-		<div class="wrapper">
-			<div class="hero-frame hero-frame--box owl--narrow">
-				<h1 class="hero-frame__title">The Glad Tidings</h1>
-				<hr class="hero-frame__hr">
-				<!-- <div class="ero-frame__hr u-header-color"></div> -->
-				<p class="ero-frame__subtitle">What the Prophets of old want you to know</p>
-			</div>
-		</div><!-- /.wrapper -->
+			</div><!-- /.wrapper -->
+		</div>
 
 	</header>
 
