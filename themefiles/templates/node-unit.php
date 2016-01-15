@@ -23,6 +23,11 @@ $_gt->setup_node( $post );
 		<div class="nl__node__link t-second-border"></div>
 		<div class="nl__node__border t-second-border"></div>
 		<div class="nl__node__link-inner"></div>
-		<div class="nl__node__inner <?= $_gt->node_status_num == 3 ? 't-main-text t-main-border' : '' ?>"><?= $_gt->node_progress() ?></div>
+		<div class="nl__node__inner <?= $post->post_status == 'publish' ? 't-main-text t-main-border' : '' ?>">
+			<?php if( isset($post->progress) ): ?>
+				<div class="nl__node__progress" style="width: <?= $post->progress ?>%"></div>
+				<div class="nl__node__progress-text"><?= $post->progress ?>%</div>
+			<?php endif; ?>
+		</div>
 	</div>
 </li>

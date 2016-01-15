@@ -106,6 +106,7 @@ class GTGlobal
 					$object->post_status = 'success';
 				} elseif( $this->get_progress( $object ) > 0 ) {
 					$object->post_status = 'active';
+					$object->progress = $this->get_progress( $object );
 				}
 				break;
 		}

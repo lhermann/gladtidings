@@ -46,13 +46,6 @@ class GTView extends GTGlobal
 
 		return $units;
 	}
-	
-
-	// Get course progress percentage
-	public function course_progress()
-	{
-		return $this->get_progress( $this->course );
-	}
 
 
 	/**
@@ -68,7 +61,7 @@ class GTView extends GTGlobal
 	 */
 	public function get_progress_width()
 	{
-		return $this->course_progress().'%';
+		return $this->get_progress( $this->course ).'%';
 	}
 
 	/**
@@ -211,20 +204,6 @@ class GTView extends GTGlobal
 			);
 		}
 		return '';
-	}
-
-	/**
-	 * Show Node Progress percentage
-	 */
-	public function node_progress()
-	{
-		if( $this->node_status_num === 4 ) {
-			return sprintf( '<div class="nl__node__progress" style="width: %1$s%%"></div><div class="nl__node__progress-text">%1$s%%</div>',
-				$this->get_progress( $this->node )
-			);
-		} else {
-			return '';
-		}
 	}
 
 }

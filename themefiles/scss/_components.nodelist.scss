@@ -165,7 +165,8 @@ $node-margin: $size-node/15;
 	&__progress-text {
 		width: 100%;
 		text-align: center;
-		font-weight: bold;
+		font-size: $base-font-size;
+		font-weight: 200;
 		color: $color-body;
 	}
 
@@ -351,7 +352,7 @@ $node-marging--bigger: $size-node--bigger/15;
 		@include width-height( $size-node--bigger - $node-marging--bigger*2 );
 		margin: $node-marging--bigger;
 		border: $node-marging--bigger * 3/4 solid $color-border;
-		font-size: $base-font-size * 2;
+		font-size: quadruple($base-font-size);
 		line-height: $size-node--bigger - $node-marging--bigger * 3.5;
 		font-weight: bold;
 	}
@@ -373,9 +374,6 @@ $node-marging--bigger: $size-node--bigger/15;
 .nl__item--unit {
 	.nl__article__header {
 		padding-top: 1rem;
-	}
-	.nl__node__inner {
-		&:after { content: "\f11d"; }
 	}
 }
 
@@ -444,7 +442,7 @@ $node-marging--bigger: $size-node--bigger/15;
 	.nl__node__inner {
 		color: $color-primary;
 		border-color: $color-primary;
-		// &:after { content: "\f11d"; }
+		&:after { content: "\f11d"; }
 	}
 }
 
@@ -459,12 +457,9 @@ $node-marging--bigger: $size-node--bigger/15;
 		border-color: $color-success;
 		overflow: hidden;
 	}
-	.nl__node--big .nl__node__inner {
-		font-size: $base-font-size;
-		font-weight: 200;
-		&:after {
-			content: "";
-		}
+	.nl__node--bigger .nl__node__progress-text {
+		font-size: double($base-font-size);
+		font-weight: bold;
 	}
 }
 
@@ -483,8 +478,5 @@ $node-marging--bigger: $size-node--bigger/15;
 	.nl__node__inner {
 		border-color: $color-success;
 		@include nl__node__icon ( "\f126", #fff );
-	}
-	.nl__node--bigger .nl__node__inner:after {
-		font-size: 4rem;
 	}
 }
