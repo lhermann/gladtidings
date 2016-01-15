@@ -6,9 +6,8 @@
 class GTView extends GTGlobal
 {
 
-	function __construct( $object )
+	function __construct( &$object )
 	{
-		$object = $this->update_status( $object );
 
 		// call parent __contruct
 		parent::__construct( $object );
@@ -29,13 +28,7 @@ class GTView extends GTGlobal
 		Hero Functions
 	\*=======================*/
 
-	/**
-	 * CSS classes
-	 */
-	public function hero_classes()
-	{
-		return "nl__item nl__item--hero {$this->unit->post_status}"
-	}
+	
 
 
 }

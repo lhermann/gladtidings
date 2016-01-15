@@ -78,10 +78,10 @@ function gt_unit_routing( $query ) {
 			 LEFT JOIN $wpdb->posts u
 			 ON r.child_id = u.ID
 			 WHERE c.post_name = %s
-			 AND r.position = %d;
+			 AND r.order = %d;
 			", 
 			$query->query['course-name'], 
-			$query->query['unit'] - 1 
+			$query->query['unit']
 		);
 		$slug = $wpdb->get_var( $sql );
 		$query->query_vars['unit'] = $slug;

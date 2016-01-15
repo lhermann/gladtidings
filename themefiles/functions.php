@@ -37,9 +37,10 @@ require_once ( "inc/controller.global.php" );
  */
 add_action( 'wp', 'instantiate_GladTidings', 10, 1 );
 function instantiate_GladTidings( $wp ) {
-
 	if( is_admin() ) return;
 	if( !is_single() ) return;
+
+	global $post;
 		
 	global $post, $_gt;
 
@@ -256,7 +257,7 @@ function add_theme_color( $css ) {
 									  'border-color'     => $main_dark_hex              ),
 		'.label--theme'      => array( 'color'            => textsave_hex( $comp_hex ),
 									  'border-color'     => textsave_hex( $comp_hex )   ),
-		// 'panel'             => array( 'background-color' => $second_light_hex,
+		// '.panel'             => array( 'background-color' => $second_light_hex,
 		// 							  'border-color'     => $second_hex                 ),
 		'.flyout:before, .flyout > .wrapper:before' => array( 
 									  'background-color' => $second_light_hex           )

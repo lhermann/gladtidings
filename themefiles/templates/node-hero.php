@@ -6,14 +6,6 @@
 
 global $_gt;
 
-$progress = $_gt->get_progress( $post );
-
-// Status
-$class = $progress >= 100 ? 'nl__item--success' : 'nl__item--active';
-
-// Unit number
-$unit_number = 'Unit '.$unit->unit_order;
-
 // Footer
 $footer = sprintf( '%s &nbsp; %s',
 	( $unit->num_lessons ? '<i class="fi fi-video"></i> '.$unit->num_lessons.' Lesson Videos' : '' ),
@@ -21,10 +13,10 @@ $footer = sprintf( '%s &nbsp; %s',
 );
 ?>
 
-<div class="nl__item nl__item--hero <?= $class ?>">
-	<article class="nl__article panel">
+<div class="nl__item nl__item--hero nl__item--<?= $post->post_status ?>">
+	<article class="nl__article panel t-second-border">
 		<header class="nl__article__header owl--off">
-			<p class="t-second-text"><?= $unit_number ?></p>
+			<p class="t-second-text"><?= __( 'Unit', 'gladtidings').' '.$_gt->get_order_num().' '.$_gt->node_meta() ?></p>
 			<h1 class="nl__article__title"><?= $unit->name ?></h1>
 		</header>
 		<footer class="nl__article__footer t-comp-text">

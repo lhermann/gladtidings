@@ -41,7 +41,7 @@ class GTView extends GTGlobal
 		// update status
 		// array_walk( $units, 'GTSingleController::update_status' );
 		foreach ( $units as $key => &$unit) {
-			$unit = $this->update_status( $unit, $units );
+			$unit = $this->object_status( $unit, $units );
 		}
 
 		return $units;

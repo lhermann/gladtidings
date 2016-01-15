@@ -1,7 +1,7 @@
 <?php 
 	global $_gt;
 	get_header(); 
-	// var_dump($_gt);
+	var_dump($post,$_gt);
 ?>
 
 	<header id="page-header">

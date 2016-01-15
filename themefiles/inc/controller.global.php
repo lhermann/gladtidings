@@ -17,8 +17,7 @@ class GTGlobal
 	protected $lesson;
 	protected $quizz;
 
-	protected $parent_context;
-	protected $current_context;
+	protected $context;
 
 	protected $first_touch;
 
@@ -26,29 +25,33 @@ class GTGlobal
 	public $user_name;
 	protected $user_meta;
 
-	function __construct( $object )
+	function __construct( &$object )
 	{	
-		// setupt context
-		$this->setup_context( $object );
-
 		// setup user variables
 		$this->user_id = wp_get_current_user() ? (int)wp_get_current_user()->data->ID : false;
 		$this->user_name = wp_get_current_user() ? wp_get_current_user()->data->display_name : false;
 		$this->user_meta = $this->get_user_meta();
+
+		// update object status
+		$object = $this->object_status( $object );
+		$object = $this->object_relationship( $object );
+
+		// setupt context
+		$this->setup_context( $object );
 
 		// touch
 		$existed = $this->touch( $object->post_type, $object->ID );
 		$this->first_touch = $existed ? false : true;
 	}
 
-	/*=======================*\
-		Private Functions
-	\*=======================*/
+	/*===========================*\
+		Object Setup Functiuons
+	\*===========================*/
 
 	/**
 	 * OUTPUT: object with all the user meta
 	 */
-	protected function get_user_meta()
+	private function get_user_meta()
 	{
 		global $wpdb;
 		$query_str = "SELECT meta_key, meta_value 
@@ -65,6 +68,68 @@ class GTGlobal
 		}
 		return $return;
 	}
+
+	/**
+	 * Update the status of an object and return the updated object
+	 * If the status is ...
+	 *  - 'coming'  = date has passed ? set to 'publish' (also update post object and acf field)
+	 *                note: change from 'coming' to 'publish' should only happen once
+	 *  - 'locked'  = unlock condition has been met ? fall through to 'publish' : don't change
+	 *  - 'publish' = user has started ? (active) or finished ? (success) the object : don't change
+	 */
+	protected function object_status( $object, $object_array = null )
+	{
+		switch ( $object->post_status ) {
+			case 'coming':
+				$date = strtotime( get_post_meta( $object->ID, 'release_date', true ) );
+				if( $date < time() ) {
+					// update post_status to 'publish'
+					$object->post_status = 'publish';
+					wp_publish_post( $object->ID );
+					update_sub_field( array('units_repeater', $object->position + 1, 'status'), 'publish', $this->course->ID );
+				} else {
+					$object->release_date = date( "F j, Y", $date );
+				}
+				break;
+
+			case 'locked':
+				$dependency_object = $object_array[ (int)get_post_meta( $object->ID, 'unlock_dependency', true ) - 1 ];
+				if( $this->is_done( $dependency_object ) ) {
+					$object->post_status = 'publish'; // fall through
+				} else {
+					$object->unlock_dependency_title = $dependency_object->post_title;
+					break;
+				}
+
+			case 'publish':
+				if( $this->is_done( $object ) ) {
+					$object->post_status = 'success';
+				} elseif( $this->get_progress( $object ) > 0 ) {
+					$object->post_status = 'active';
+				}
+				break;
+		}
+		return $object;
+	}
+
+	protected function object_relationship( $object )
+	{
+		global $wpdb;
+		$query = "SELECT r.parent_id, r.order, r.position
+				  FROM $wpdb->gt_relationships r
+				  WHERE r.child_id = $object->ID;";
+		$result = $wpdb->get_row( $query );
+		if( $result ) {
+			$object->parent_id = $result->parent_id;
+			$object->order     = $result->order;
+			$object->position  = $result->position;
+		}
+		return $object;
+	}
+
+	/*=======================*\
+		Protexted Functions
+	\*=======================*/
 
 	/**
 	 * INPUT: 
@@ -178,7 +243,7 @@ class GTGlobal
 			}
 
 		} catch (Exception $e) {
-			echo 'Line '.__LINE__.': Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Line '.__LINE__.': Caught exception: ', $e->getMessage(), "\n";
 			return false;
 		}
 
@@ -265,50 +330,6 @@ class GTGlobal
 		}
 	}
 
-	/**
-	 * Update the status of an object and return the updated object
-	 * If the status is ...
-	 *  - 'coming'  = date has passed ? set to 'publish' (also update post object and acf field)
-	 *                note: change from 'coming' to 'publish' should only happen once
-	 *  - 'locked'  = unlock condition has been met ? fall through to 'publish' : don't change
-	 *  - 'publish' = user has started ? (active) or finished ? (success) the object : don't change
-	 */
-	public function update_status( $object, $object_array = null )
-	{
-		switch ( $object->post_status ) {
-			case 'coming':
-				$date = strtotime( get_post_meta( $object->ID, 'release_date', true ) );
-				if( $date < time() ) {
-					// update post_status to 'publish'
-					$object->post_status = 'publish';
-					wp_publish_post( $object->ID );
-					update_sub_field( array('units_repeater', $object->position + 1, 'status'), 'publish', $this->course->ID );
-				} else {
-					$object->release_date = date( "F j, Y", $date );
-				}
-				break;
-
-			case 'locked':
-				$dependency_object = $object_array[ (int)get_post_meta( $object->ID, 'unlock_dependency', true ) - 1 ];
-				if( $this->is_done( $dependency_object ) ) {
-					$object->post_status = 'publish'; // fall through
-				} else {
-					$object->unlock_dependency_title = $dependency_object->post_title;
-					break;
-				}
-
-			case 'publish':
-				$progress = $this->get_progress( $object );
-				if( $progress === 100 ) {
-					$object->post_status = 'success';
-				} elseif( $progress > 0 ) {
-					$object->post_status = 'active';
-				}
-				break;
-		}
-		return $object;
-	}
-
 
 	/*=======================*\
 		User Functions
@@ -334,19 +355,14 @@ class GTGlobal
 	{
 		try {
 
-			if( !is_object($object) ) throw new Exception("$object is not an object.");
-			if( $object->post_type == $this->parent_context ) throw new Exception("Cannot overwrite parent context.");
+			if( !is_object($object) || !isset($object->ID) ) throw new Exception("Input has to be a post object.");
+			if( $object->post_type == $this->parent_context ) throw new Exception("Cannot overwrite context.");
 
+			$this->context = $object->post_type;
 			$this->{$object->post_type} = $object;
-
-			if( empty($this->parent_context) ) {
-				$this->parent_context = $object->post_type;
-			} else {
-				$this->current_context = $object->post_type;
-			}
 			
 		} catch (Exception $e) {
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'GTGlobal '.__LINE__.' - Caught exception: ', $e->getMessage(), "\n";
 		}
 	}
 
@@ -384,34 +400,15 @@ class GTGlobal
 
 
 	/**
-	 * Return the current user specific status
-	 *  - 'success' - the object is sucessfully finished
-	 *  - 'active'  - the object was started, but is not finished (user specific)
-	 *  - otherwise return $object->post_status
+	 * Return the current post status
+	 * wrapper for $this->{context}->post_status
+	 * OBSOLETE: should be accessed through $post->post_status
 	 */
-	public function get_status( $object = null )
-	{
-		$object = $object ? $object : $this->{$this->current_context};
-		switch ( $object->post_type ) {
-			case 'unit':
-				switch ( $this->get_progress( $object ) ) {
-					case 100: return 'success';            break;
-					case 0:   return $object->post_status; break;
-					default:  return 'active';             break;
-				}
-				break;
-			
-			case 'lesson':
-			case 'quizz':
-				if( $this->is_done( $object->post_type, $object->ID ) ) return 'success';
-				return $object->post_status;
-				break;
-
-			default:
-				break;
-		}
-		return $object->post_status;
-	}
+	// public function get_status( $context = null )
+	// {
+	// 	if( !$context ) $context = $this->context;
+	// 	return $this->{$context}->post_status;
+	// }
 
 
 	/**
@@ -422,7 +419,7 @@ class GTGlobal
 	protected function num_items( $object = null, $type )
 	{
 		
-		$object = $object ? $object : $this->{$this->current_context};
+		$object = $object ? $object : $this->{$this->context};
 		$return = $this->get_num_items_total( $object, $type );
 		
 		return $return;
@@ -438,7 +435,7 @@ class GTGlobal
 	 */
 	public function get_progress( $object = null )
 	{
-		$object = $object ? $object : $this->{$this->current_context};
+		$object = $object ? $object : $this->{$this->context};
 
 		$total = $this->get_num_items_total( $object );
 		$done = $this->get_num_items_done( $object );
