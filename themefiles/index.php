@@ -43,7 +43,7 @@
 						if ( have_posts() ) :
 							while ( have_posts() ) : the_post();
 
-								print( '<div class="layout__item u-1/3-lap-and-up no-owl-lap-and-up">' );
+								print( '<div class="layout__item u-1/2-lap u-1/3-desk no-owl">' );
 								get_template_part( 'templates/teaser', $post->post_type );
 								print( '</div>' );
 

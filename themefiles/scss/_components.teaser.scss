@@ -10,18 +10,18 @@ $teaser-badge-border:	8px;
 	margin-top: halve($teaser-badge-size) + $teaser-badge-border;
 
 	text-align: center;
-	// background-color: transparent;
 
 	padding-bottom: 1.5rem;
 
+	margin-bottom: 1.5em;
+
 	&__badge {
-		
+
 		display: inline-block;
 		margin-top: -( halve($teaser-badge-size) + $teaser-badge-border + halve($panel-padding) + 2px ); // 2px to account for borders
 		padding: $teaser-badge-border;
 		line-height: 0;
 		border-radius: $teaser-badge-size;
-		// border-color: $color-primary;
 
 		background-color: #fff;
 		
@@ -38,7 +38,9 @@ $teaser-badge-border:	8px;
 
 	&__description {
 		font-weight: 300;
-		min-height: 6rem;
+		@include media-query( lap-and-up ) {
+			min-height: 6rem;
+		}
 	}
 
 }
