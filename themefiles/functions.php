@@ -265,13 +265,6 @@ function add_theme_color( $css ) {
 	return array_merge( $css, $theme_css );
 }
 
-/**
- * Replace the input with the default course batch if $src = false
- */
-function default_course_batch( $src ) {
-	return $src ? $src : get_template_directory_uri().'/img/course-batch-placeholder.png';
-}
-
 /*------------------------------------*\
 	Actions + Filters
 \*------------------------------------*/

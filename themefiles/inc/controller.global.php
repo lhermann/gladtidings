@@ -371,9 +371,10 @@ class GTGlobal
 	/**
 	 * Return an object. E.g. 'course'
 	 */
-	public function get_object( $post_type = null )
+	public function get_object( $post_type = null, $value = null )
 	{
-		return $post_type ? $this->{$post_type} : $this->{$this->context};
+		$object = $post_type ? $this->{$post_type} : $this->{$this->context};
+		return $value ? $object->{$value} : $object;
 	}
 
 	/**
@@ -472,6 +473,19 @@ class GTGlobal
 		if( !$total || !$done ) return 0;
 		
 		return (int)round( ( $done / $total ) * 100 );
+	}
+
+	/**
+	 * 
+	 */
+	public function get_link_to( $type = null )
+	{
+		$object = $type ? $this->{$type} : $this->{$this->context};
+		return sprintf( '<a class="a--bodycolor" href="%1$s" title="%2$s">%3$s</a>',
+			gt_get_permalink( $object ),
+			the_title_attribute( array( 'before' => __('Permalink to: ', 'gladtidings'), 'echo' => false, 'post' => $object ) ),
+			$object->post_title
+		);
 	}
 
 }

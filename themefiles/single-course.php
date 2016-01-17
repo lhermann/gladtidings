@@ -13,7 +13,7 @@
 			<div class="wrapper">
 				<div class="hero-frame hero-frame--course">
 					<div class="hero-frame__badge">
-						<img src="<?= $_gt->get_course_badge_url() ?>" alt="<?= get_the_title().' '.__( 'Badge', 'gladtidings' ); ?>">
+						<img src="<?= gt_get_course_batch( $post ) ?>" alt="<?= get_the_title().' '.__( 'Badge', 'gladtidings' ); ?>">
 					</div>
 					<h1 class="hero-frame__title"><?php the_title(); ?></h1>
 				</div>

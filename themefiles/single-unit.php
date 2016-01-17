@@ -24,7 +24,7 @@
 		<div class="wrapper">
 
 			<div class="layout layout--spacehack">
-				<section class="layout__item u-2/3-lap-and-up">
+				<section class="layout__item">
 					
 					<div class="layout layout--auto">
 						<h2 class="layout__item t-second-text"><?= __( 'Lessons', 'gladtidings' ); ?></h2>
@@ -60,19 +60,6 @@
 					?>
 					
 				</section>
-				<aside class="layout__item no-owl-lap-and-up u-1/3-lap-and-up">
-
-					<h2 class="t-second-text"><?= __( 'Part of ...', 'gladtidings' ) ?></h2>
-
-					<?php
-						$post = $_gt->get_object( 'course' );
-						
-						get_template_part( 'templates/teaser', $post->post_type );
-
-						wp_reset_postdata();
-					?>
-
-				</aside>
 			</div>
 
 		</div><!-- /.wrapper -->
