@@ -133,7 +133,7 @@ class GTView extends GTGlobal
 	 */
 	public function node_link()
 	{
-		return $this->node_status_num >= 3 ? '<a href="'.gt_get_permalink( $this->node ).'">' : '';
+		return $this->node_status_num >= 3 ? '<a href="'.gt_get_permalink( $this->node, $this->course ).'">' : '';
 	}
 
 	/**

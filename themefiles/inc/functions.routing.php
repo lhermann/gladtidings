@@ -95,7 +95,7 @@ add_action( 'pre_get_posts', 'gt_unit_routing' );
 /**
  * My very own get_permalink function!
  */
-function gt_get_permalink( $post = 0 ) {
+function gt_get_permalink( $post = 0, $parent_course = null, $parent_unit = null ) {
 	
 	// get post object
 	if( empty($post) ) {
@@ -115,18 +115,21 @@ function gt_get_permalink( $post = 0 ) {
 
 		case 'unit':
 			/* structure: http://gladtidings:8888/course/course-slug/unit/1 */
-			$parent = gt_get_parent_object( $post );
-			$permalink = $url . 'course/' . $parent->post_name . '/unit/' . $parent->order;
+			if( !$parent_course ) $parent_course = gt_get_parent_object( $post );
+			$permalink = $url . 'course/' . $parent_course->post_name . '/unit/' . ( $post->order ? $post->order : $parent_course->child_order );
 			break;
 
 		case 'exam':
 			/* structure: http://gladtidings:8888/course/course-slug/exam/quizz-slug */
-			$parent = gt_get_parent_object( $post );
-			$permalink = $url . 'course/' . $parent->post_name . '/exam/' . $post->post_name;
+			if( !$parent_course ) $parent_course = gt_get_parent_object( $post );
+			$permalink = $url . 'course/' . $parent_course->post_name . '/exam/' . $post->post_name;
 			break;
 
 		case 'lesson':
-			$permalink = get_permalink( $post );
+			/* structure: http://gladtidings:8888/course/course-slug/unit/1/lesson/lesson-slug */
+			if( !$parent_unit ) $parent_unit = gt_get_parent_object( $post );
+			if( !$parent_course ) $parent_course = gt_get_parent_object( $parent_unit );
+			$permalink = $url . 'course/' . $parent_course->post_name . '/unit/' . ( $parent_unit->order ? $parent_unit->order : $parent_course->child_order ) . '/lesson/' . $post->post_name;
 			break;
 
 		case 'quizz':
@@ -142,11 +145,16 @@ function gt_get_permalink( $post = 0 ) {
 }
 
 
+/**
+ * Returns the parent post object. E.g. Course pertaining to the unit.
+ * CAUTON: 'order' and 'position' do not belong to the queried object, but to it's child, 
+ *         hence it's renamed 'child_order' and 'child_position'.
+ */
 function gt_get_parent_object( $post ) {
 	global $wpdb;
 	$table_name = $wpdb->prefix . "gt_relationships";
 
-	$query = "SELECT *
+	$query = "SELECT p.*, r.order child_order, r.position child_position
 		FROM $wpdb->posts p
 		INNER JOIN $table_name r
 		ON r.parent_id = p.ID

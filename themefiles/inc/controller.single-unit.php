@@ -50,7 +50,7 @@ class GTView extends GTGlobal
 			} 
 		}
 
-		print( '<a class="layout__item u-pull--right btn btn--success" href="'.gt_get_permalink( $next_item ).'">'.$btn_label.'</a>' );
+		print( '<a class="layout__item u-pull--right btn btn--success" href="'.gt_get_permalink( $next_item, $this->course, $this->unit ).'">'.$btn_label.'</a>' );
 		return;
 	}
 
@@ -87,7 +87,15 @@ class GTView extends GTGlobal
 			( $this->num_quizzes( $this->unit ) ? '&nbsp; '.( $this->num_quizzes( $this->unit ) == 1 ? '<span class="fi fi-clipboard-pencil"></span> 1 '._x( 'Quizz', 'Post Type Singular Name', 'gladtidings' ) : '<span class="fi fi-clipboard-pencil"></span> '.$this->num_quizzes( $this->unit ).' '._x( 'Quizzes', 'Post Type General Name', 'gladtidings' ) ) : '' )
 		);
 	}
+
+	/*=======================*\
+		Node Functions
+	\*=======================*/
 	
+	public function item_permalink( $post )
+	{
+		return gt_get_permalink( $post, $this->course, $this->unit );
+	}
 
 
 }

@@ -10,7 +10,7 @@ global $_gt;
 		<header class="nl__article__header">
 			<h4 class="nl__article__title">
 				<span class="label label--small label--fixed label--theme"><?= $post->order ?></span> 
-				<a class="a--bodycolor" href="<?= get_the_permalink() ?>" title="<?= the_title_attribute( array( 'before' => __('Permalink to: '), 'echo' => false ) ) ?>"><?php the_title(); ?></a>
+				<a class="a--bodycolor" href="<?= $_gt->item_permalink( $post ) ?>" title="<?= the_title_attribute( array( 'before' => __('Permalink to: '), 'echo' => false ) ) ?>"><?php the_title(); ?></a>
 			</h4>
 		</header>
 	</article>
