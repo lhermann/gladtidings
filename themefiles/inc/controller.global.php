@@ -18,6 +18,7 @@ class GTGlobal
 	protected $quizz;
 
 	protected $context;
+	protected $children;
 
 	protected $first_touch;
 
@@ -33,8 +34,8 @@ class GTGlobal
 		$this->user_meta = $this->get_user_meta();
 
 		// update object status
-		$object = $this->object_status( $object );
-		$object = $this->object_relationship( $object );
+		$object = $this->update_object_status( $object );
+		$object = $this->get_object_relationship( $object );
 
 		// setupt context
 		$this->setup_context( $object );
@@ -70,6 +71,39 @@ class GTGlobal
 	}
 
 	/**
+	 * Get the children for a given parent. E.g. get the units of a course
+	 * OUTPUT: Array of post objects
+	 */
+	protected function get_children( $parent = null )
+	{
+		global $wpdb;
+		$parent = $parent ? $parent : $this->{$this->context};
+		$query = "SELECT *
+				  FROM $wpdb->posts p
+				  INNER JOIN $wpdb->gt_relationships r
+				  ON r.child_id = p.ID
+				  WHERE r.parent_id = {$parent->ID}
+				  AND p.post_status IN ('publish', 'coming', 'locked')
+				  ORDER BY r.position;
+				 ";
+		$children = $wpdb->get_results( $query, OBJECT );
+
+		// replace post_type 'quizz' with 'exam' in the 'course' context
+		if( $this->context == 'course' ) {
+			array_walk( $children, function(&$child) {
+				if( $child->post_type == 'quizz' ) $child->post_type = 'exam';
+			});
+		}
+
+		// update status
+		foreach ( $children as $key => &$child) {
+			$child = $this->update_object_status( $child, $children );
+		}
+
+		return $children;
+	}
+
+	/**
 	 * Update the status of an object and return the updated object
 	 * If the status is ...
 	 *  - 'coming'  = date has passed ? set to 'publish' (also update post object and acf field)
@@ -77,7 +111,7 @@ class GTGlobal
 	 *  - 'locked'  = unlock condition has been met ? fall through to 'publish' : don't change
 	 *  - 'publish' = user has started ? (active) or finished ? (success) the object : don't change
 	 */
-	protected function object_status( $object, $object_array = null )
+	protected function update_object_status( $object, $object_array = null )
 	{
 		switch ( $object->post_status ) {
 			case 'coming':
@@ -113,7 +147,7 @@ class GTGlobal
 		return $object;
 	}
 
-	protected function object_relationship( $object )
+	protected function get_object_relationship( $object )
 	{
 		global $wpdb;
 		$query = "SELECT r.parent_id, r.order, r.position
@@ -205,20 +239,6 @@ class GTGlobal
 	protected function touch( $scope, $ID )
 	{
 		return $this->update_value( $scope, $ID, 'touched', time() );
-	}
-
-	/**
-	 * OUTPUT: first item (lesson|quizz) of a unit that has not yet been touched
-	 */
-	protected function find_first_undone_item()
-	{
-		foreach ( $this->unit->lesson_order as $key => $item ) {
-			$type = explode( '_', reset($item) )[1];
-			if( $type === 'headline' ) continue;
-			$ID = (int)end($item);
-			if( !$this->is_done( $this->unit ) ) return $ID;
-		}
-		return false;
 	}
 
 	// Get number of completed lessons|quizzes for course|unit

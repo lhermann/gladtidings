@@ -58,7 +58,7 @@
 			
 								print( '<ul class="nodelist nodelist--course">' );
 			
-								// llop through the units
+								// loop through the units
 								foreach ( $units as $key => $post ) {
 									
 									get_template_part( 'templates/node', get_post_type() );

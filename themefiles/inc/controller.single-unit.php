@@ -16,6 +16,8 @@ class GTView extends GTGlobal
 		// $this->course = get_posts( array( 'name' => get_query_var( 'course-name' ), 'post_type' => 'course' ) )[0];
 		$this->course = get_post( $object->parent_id );
 
+		$this->children = $this->get_children( $object );
+
 		// Built Inline Theme CSS Styles
 		add_filter( 'theme_css', 'add_theme_color', 10 );
 	}
@@ -23,6 +25,34 @@ class GTView extends GTGlobal
 	/*=======================*\
 		Unit Functions
 	\*=======================*/
+
+	public function get_items()
+	{
+		return $this->children;
+	}
+
+
+	public function print_continue_btn()
+	{
+		$progress = $this->get_progress( $this->unit );
+
+		// bail early
+		if( $progress === 100 ) return;
+
+		$btn_label = $progress ? __( 'Continue learning', 'gladtidings' ) : __( 'Start learning', 'gladtidings' );
+
+		// find the first item that is not done
+		foreach ( $this->children as $key => $child ) {
+			if( $child->post_type == 'headline' ) continue;
+			if( $child->post_status == 'publish' ) {
+				$next_item = $child;
+				break;
+			} 
+		}
+
+		print( '<a class="layout__item u-pull--right btn btn--success" href="'.gt_get_permalink( $next_item ).'">'.$btn_label.'</a>' );
+		return;
+	}
 
 
 	/*=======================*\

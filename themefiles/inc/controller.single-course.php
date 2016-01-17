@@ -12,6 +12,8 @@ class GTView extends GTGlobal
 		// call parent __contruct
 		parent::__construct( $object );
 
+		$this->children = $this->get_children( $object );
+
 		// Built Inline Theme CSS Styles
 		add_filter( 'theme_css', 'add_theme_color', 10 );
 	}
@@ -22,29 +24,7 @@ class GTView extends GTGlobal
 
 	public function get_units()
 	{
-		global $wpdb;
-		$query = "SELECT *
-				  FROM $wpdb->posts p
-				  INNER JOIN $wpdb->gt_relationships r
-				  ON r.child_id = p.ID
-				  WHERE r.parent_id = {$this->course->ID}
-				  AND p.post_status IN ('publish', 'coming', 'locked')
-				  ORDER BY r.position;
-				 ";
-		$units = $wpdb->get_results( $query, OBJECT );
-
-		// replace post_type 'quizz' with 'exam'
-		array_walk( $units, function(&$unit) {
-			if( $unit->post_type == 'quizz' ) $unit->post_type = 'exam';
-		});
-
-		// update status
-		// array_walk( $units, 'GTSingleController::update_status' );
-		foreach ( $units as $key => &$unit) {
-			$unit = $this->object_status( $unit, $units );
-		}
-
-		return $units;
+		return $this->children;
 	}
 
 
