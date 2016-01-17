@@ -1,7 +1,7 @@
 <?php
 
 // Require color manipulation library
-require_once ( "rgb_hsl_converter.inc.php" );
+require_once ( "color-converter/rgb_hsl_converter.inc.php" );
 
 
 /**

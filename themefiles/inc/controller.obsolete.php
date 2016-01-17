@@ -1,7 +1,6 @@
 <?php
-
 /*------------------------------------*\
-    Save Progress
+    Global Controller
 \*------------------------------------*/
 
 class GladTidings
@@ -135,7 +134,7 @@ class GladTidings
 			$type = explode( '_', reset($item) )[1];
 			if( $type === 'headline' ) continue;
 			$ID = (int)end($item);
-			if( !$this->item_done( $type, $ID ) ) return $ID;
+			if( !$this->is_done( $type, $ID ) ) return $ID;
 			// switch ($type) {
 			// 	case 'lesson':
 			// 		if( $this->get_value( 'lesson', (int)end($item), 'touched' ) ) continue;
@@ -741,7 +740,7 @@ class GladTidings
 	 *
 	 * (1) return false for items that weren't touched before
 	 */
-	public function item_done( $type, $ID )
+	public function is_done( $type, $ID )
 	{
 		switch ($type) {
 			case 'lesson':
@@ -763,41 +762,9 @@ class GladTidings
 }
 
 
-add_action( 'wp', 'instantiate_GladTidings', 10, 1 );
+add_action( 'init', 'instantiate_GladTidings', 10, 1 );
 
 function instantiate_GladTidings( $wp ) {
 	global $_gt;
 	$_gt = new GladTidings( $wp );
 }
-
-
-/*------------------------------------*\
-    Theme Activation / Deactivation
-\*------------------------------------*/
-
-/**
- * Add new user role 'student' on theme activation
- */
-
-function gladtidings_activation_user() {
-    // Add new User Role 'student'
-    // with custom capability 'study'
-    add_role( 
-        'student',
-        __( 'Student', 'gladtidings' ),
-        array(
-            'study' => true
-        )
-    );
-
-    // Set 'student' as new default user role
-    update_option( 'default_role', 'student', true );
-}
-add_action( 'after_switch_theme', 'gladtidings_activation_user' );
-
-
-function gladtidings_deactivation_user () {
-    // Delete user role 'student'
-    remove_role( 'student' );
-}
-add_action('switch_theme', 'gladtidings_deactivation_user');

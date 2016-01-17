@@ -3,7 +3,7 @@
 ?>
 
 <?php
-//var_dump($userdata);
+
 ?>
 
 	<header id="page-header" class="page-hero t-header-image">

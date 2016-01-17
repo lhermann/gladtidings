@@ -17,3 +17,8 @@
 <body <?php body_class(); ?>>
 
 	<div id="container" class="container <?php container_class(); ?>">
+
+	<?php
+	// global $wp_query;
+	// var_dump( $wp_query );
+	?>

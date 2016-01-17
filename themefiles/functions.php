@@ -16,15 +16,60 @@ define( THEMEVERSION, '0.2.0-beta.1' );
 	External Modules/Files
 \*------------------------------------*/
 
-/**
- * (1) Register Custom Posts and Taxonomies
- * (2) Custom user roles and capabilities
- * (3) Color manipulation functions
- */
+/* Functions */
+require_once ( "inc/functions.theme-activation.php" );
+require_once ( "inc/functions.theme-register.php" );
+require_once ( "inc/functions.gt-relationships.php" );
+require_once ( "inc/functions.routing.php" );
+// require_once ( "inc/functions.theme-acf.inc.php" );
+// require_once ( "inc/functions.user-register.inc.php" );
+require_once ( "inc/functions.color.php" );
+require_once ( "inc/functions.helpers.php" );
 
-require_once ( "functions/course-register.inc.php" );       /* (1) */
-require_once ( "functions/users.inc.php" );                 /* (2) */
-require_once ( "functions/color-converter/color.inc.php" ); /* (3) */
+/* Controllers */
+require_once ( "inc/controller.global.php" );
+
+
+/**
+ * Instantiate the Controller
+ * filename syntax: "inc/controller.single-{post_type}.php"
+ * class syntax: "Single{Post_type}"
+ */
+add_action( 'wp', 'instantiate_GladTidings', 10, 1 );
+function instantiate_GladTidings( $wp ) {
+	if( is_admin() ) return;
+	if( !is_single() ) return;
+
+	global $post;
+		
+	global $post, $_gt;
+
+	$root = dirname( __FILE__ ).'/inc/controller';
+
+	if( is_single() ) {
+
+		$view = 'single';
+		$type = get_post_type();
+
+	} else {
+
+	}
+
+	// include controller
+	if( file_exists( "{$root}.{$view}-{$type}.php" ) ) {
+		require_once ( "{$root}.{$view}-{$type}.php" );
+	} elseif( file_exists( "{$root}.{$view}.php" ) ) {
+		require_once ( "{$root}.{$view}.php" );
+	}
+
+	// instantiate controller
+	if ( class_exists('GTView') ) {
+		$_gt = new GTView( get_queried_object() );
+	} else {
+		$_gt = new GTGlobal( get_queried_object() );
+	}
+
+}
 
 /*------------------------------------*\
 	Theme Setup
@@ -39,29 +84,29 @@ if ( ! function_exists( 'theme_setup' ) ) :
  */
 function theme_setup() {
 
-    // Add Thumbnail Theme Support
-    add_theme_support('post-thumbnails');
-    // add_image_size('large', 700, '', true); // Large Thumbnail
-    // add_image_size('medium', 250, '', true); // Medium Thumbnail
-    // add_image_size('small', 120, '', true); // Small Thumbnail
+	// Add Thumbnail Theme Support
+	add_theme_support('post-thumbnails');
+	// add_image_size('large', 700, '', true); // Large Thumbnail
+	// add_image_size('medium', 250, '', true); // Medium Thumbnail
+	// add_image_size('small', 120, '', true); // Small Thumbnail
 
-    // Add Support for Custom Header - Uncomment below if you're going to use
-    $args = array(
-    	'default-image'				=> get_template_directory_uri().'/img/header-bg2.jpg',
-    	'uploads'       			=> true,
-    	'flex-width'    			=> true,
-    	'flex-height'   			=> true,
-    	'width'         			=> 1800,
-    	'height'        			=> 600,
-    	'default-text-color'     	=> 'FFF',
-    );
-    add_theme_support( 'custom-header', $args );
+	// Add Support for Custom Header - Uncomment below if you're going to use
+	$args = array(
+		'default-image'				=> get_template_directory_uri().'/img/home-header.jpg',
+		'uploads'       			=> true,
+		'flex-width'    			=> true,
+		'flex-height'   			=> true,
+		'width'         			=> 1800,
+		'height'        			=> 600,
+		'default-text-color'     	=> 'FFF',
+	);
+	add_theme_support( 'custom-header', $args );
 
-    // Enables post and comment RSS feed links to head
-    add_theme_support( 'automatic-feed-links' );
+	// Enables post and comment RSS feed links to head
+	add_theme_support( 'automatic-feed-links' );
 
-    // Localisation Support
-    load_theme_textdomain( 'gladtidings', get_template_directory().'/languages' );
+	// Localisation Support
+	load_theme_textdomain( 'gladtidings', get_template_directory().'/languages' );
 }
 endif; // theme_setup
 add_action( 'after_setup_theme', 'theme_setup' );
@@ -74,7 +119,7 @@ function scripts_and_styles() {
 	wp_enqueue_style( 'gladtidings-style', get_template_directory_uri().'/css/main.css', array(), THEMEVERSION );
 
 	// Add javascript
-    wp_enqueue_script( 'gladtidings-sript', get_template_directory_uri().'/js/main.js', array(), THEMEVERSION, ture );
+	wp_enqueue_script( 'gladtidings-sript', get_template_directory_uri().'/js/main.js', array(), THEMEVERSION, ture );
 }
 add_action( 'wp_enqueue_scripts', 'scripts_and_styles' );
 
@@ -119,10 +164,10 @@ add_action( 'admin_menu', 'remove_menus' );
  * (2) Remove 'Add Post' and 'Add Page'
  */
 function my_tweaked_admin_bar() {
-    global $wp_admin_bar;
-    $wp_admin_bar->remove_menu('comments'); // (1)
-    $wp_admin_bar->remove_menu('new-post'); // (2)
-    $wp_admin_bar->remove_menu('new-page'); // (2)
+	global $wp_admin_bar;
+	$wp_admin_bar->remove_menu('comments'); // (1)
+	$wp_admin_bar->remove_menu('new-post'); // (2)
+	$wp_admin_bar->remove_menu('new-page'); // (2)
 }
 add_action( 'wp_before_admin_bar_render', 'my_tweaked_admin_bar' );
 
@@ -130,20 +175,20 @@ add_action( 'wp_before_admin_bar_render', 'my_tweaked_admin_bar' );
  * Print classes for html element
  */
 function html_class( $value = '' ) {
-    $classes = array( 'no-js' );
-    $classes = apply_filters( 'html_class', $classes );
-    if( $value ) $classes[] = $value;
-    print( implode( $classes, ' ' ) );
+	$classes = array( 'no-js' );
+	$classes = apply_filters( 'html_class', $classes );
+	if( $value ) $classes[] = $value;
+	print( implode( $classes, ' ' ) );
 }
 
 /**
  * Print classes for container div
  */
 function container_class( $value = '' ) {
-    $classes = array( );
-    $classes = apply_filters( 'container_class', $classes );
-    if( $value ) $classes[] = $value;
-    print( implode( $classes, ' ' ) );
+	$classes = array( );
+	$classes = apply_filters( 'container_class', $classes );
+	if( $value ) $classes[] = $value;
+	print( implode( $classes, ' ' ) );
 }
 
 /**
@@ -151,80 +196,80 @@ function container_class( $value = '' ) {
  * Print theme inline css
  */
 function theme_css() {
-    $css = array();
+	$css = array();
 
-    // Add WP theme header on the home page
-    if( is_home() ) {
-        $css['t-header-image'] = array( 'background-image' => 'url('.get_header_image().')' );
-    } else {
-        $css['t-header-image'] = array( 'background-image' => 'url('.get_template_directory_uri().'/img/course-header-placeholder.jpg'.')' );
-    }
+	// Add WP theme header on the home page
+	if( is_home() ) {
+		$css['.t-header-image'] = array( 'background-image' => 'url('.get_header_image().')' );
+	} else {
+		$css['.t-header-image'] = array( 'background-image' => 'url('.get_template_directory_uri().'/img/course-header-placeholder.jpg'.')' );
+	}
 
-    // Apply the filter so css can be added via teh 'theme_css' hook
-    $css = apply_filters( 'theme_css', $css );
+	// Apply the filter so css can be added via teh 'theme_css' hook
+	$css = apply_filters( 'theme_css', $css );
 
-    // Print the nested array as inline css
-    print( '<style type="text/css" media="screen">' );
-    foreach( $css as $class => $values ) {
-        print( '.'.$class.' { ' );
-        foreach ( $values as $option => $value) {
-            print( $option.': '.$value.' !important;' );
-        }
-        print( " }\n" );
-    }
-    print( '</style>' );
+	// Print the nested array as inline css
+	print( '<style type="text/css" media="screen">' );
+	foreach( $css as $class => $values ) {
+		print( $class.' { ' );
+		foreach ( $values as $option => $value) {
+			print( $option.': '.$value.' !important;' );
+		}
+		print( " }\n" );
+	}
+	print( '</style>' );
 
-    return;
+	return;
 }
 
 /**
  * Add the course colors to the theme_css filter
  */
 function add_theme_color( $css ) {
-    global $fields, $unit;
+	global $_gt;
 
-    // get and cache variables
-    $header     = isset( $fields['img_course_header'] ) ? $fields['img_course_header'] : get_field( 'img_course_header', $unit->course_object_id );
-    $main_hex   = isset( $fields['color_main'] )        ? $fields['color_main']        : get_field( 'color_main', $unit->course_object_id );
-    $second_hex = isset( $fields['color_secondary'] )   ? $fields['color_secondary']   : get_field( 'color_secondary', $unit->course_object_id );
-    $comp_hex   = isset( $fields['color_comp'] )        ? $fields['color_comp']        : get_field( 'color_comp', $unit->course_object_id );
+	// get and cache variables
+	$header     = get_field( 'img_course_header' , $_gt->get_course_id() );
+	$main_hex   = get_field( 'color_main'        , $_gt->get_course_id() );
+	$second_hex = get_field( 'color_secondary'   , $_gt->get_course_id() );
+	$comp_hex   = get_field( 'color_comp'        , $_gt->get_course_id() );
 
-    // create hues
-    $main_hsl = hex2hsl( $main_hex );
-    $main_dark_hex = hsl2hex( array( $main_hsl[0], $main_hsl[1], $main_hsl[2]*0.60 ) ); // darker version of the main color
-    $second_hsl = hex2hsl( $second_hex );
-    $second_light_hex = hsl2hex( array( $second_hsl[0], ($second_hsl[1] > 0.4 ? 0.4 : $second_hsl[1]), 0.96 ) ); // very light version fo the secondary color
+	// create hues
+	$main_hsl = hex2hsl( $main_hex );
+	$main_dark_hex = hsl2hex( array( $main_hsl[0], $main_hsl[1], $main_hsl[2]*0.60 ) ); // darker version of the main color
+	$second_hsl = hex2hsl( $second_hex );
+	$second_light_hex = hsl2hex( array( $second_hsl[0], ($second_hsl[1] > 0.4 ? 0.4 : $second_hsl[1]), 0.96 ) ); // very light version fo the secondary color
 
-    // modify and add css
-    if( $header ) $css['t-header-image'] = array( 'background-image' => 'url('.$header.')' );
-    $temp_css = array(
-        't-main-text'       => array( 'color'            => textsave_hex( $main_hex )   ),
-        't-main-border'     => array( 'border-color'     => $main_hex                   ),
-        't-main-bg'         => array( 'background-color' => $main_hex                   ),
-        't-second-text'     => array( 'color'            => textsave_hex( $second_hex ) ),
-        't-second-border'   => array( 'border-color'     => $second_hex                 ),
-        't-second-bg'       => array( 'background-color' => $second_hex                 ),
-        't-comp-text'       => array( 'color'            => textsave_hex( $comp_hex )   ),
-        't-comp-border'     => array( 'border-color'     => $comp_hex                   ),
-        't-comp-bg'         => array( 'background-color' => $comp_hex                   ),
-        't-light-bg'        => array( 'background-color' => $second_light_hex           ),
-        'btn--theme'        => array( 'background-color' => $main_hex,
-                                      'border-color'     => $main_dark_hex              ),
-        'label--theme'      => array( 'color'            => textsave_hex( $comp_hex ),
-                                      'border-color'     => textsave_hex( $comp_hex )   ),
-        'panel'             => array( 'background-color' => $second_light_hex,
-                                      'border-color'     => $second_hex                 ),
-        'flyout:before, .flyout > .wrapper:before' => array( 
-                                      'background-color' => $second_light_hex           )
-    );
-    return array_merge( $css, $temp_css );
+	// modify and add css
+	if( $header ) $css['.t-header-image'] = array( 'background-image' => 'url('.$header.')' );
+	$theme_css = array(
+		'.t-main-text'       => array( 'color'            => textsave_hex( $main_hex )   ),
+		'.t-main-border'     => array( 'border-color'     => $main_hex                   ),
+		'.t-main-bg'         => array( 'background-color' => $main_hex                   ),
+		'.t-second-text'     => array( 'color'            => textsave_hex( $second_hex ) ),
+		'.t-second-border'   => array( 'border-color'     => $second_hex                 ),
+		'.t-second-bg'       => array( 'background-color' => $second_hex                 ),
+		'.t-comp-text'       => array( 'color'            => textsave_hex( $comp_hex )   ),
+		'.t-comp-border'     => array( 'border-color'     => $comp_hex                   ),
+		'.t-comp-bg'         => array( 'background-color' => $comp_hex                   ),
+		'.t-light-bg'        => array( 'background-color' => $second_light_hex           ),
+		'.btn--theme'        => array( 'background-color' => $main_hex,
+									  'border-color'     => $main_dark_hex              ),
+		'.label--theme'      => array( 'color'            => textsave_hex( $comp_hex ),
+									  'border-color'     => textsave_hex( $comp_hex )   ),
+		// '.panel'             => array( 'background-color' => $second_light_hex,
+		// 							  'border-color'     => $second_hex                 ),
+		'.flyout:before, .flyout > .wrapper:before' => array( 
+									  'background-color' => $second_light_hex           )
+	);
+	return array_merge( $css, $theme_css );
 }
 
 /**
  * Replace the input with the default course batch if $src = false
  */
 function default_course_batch( $src ) {
-    return $src ? $src : get_template_directory_uri().'/img/course-batch-placeholder.png';
+	return $src ? $src : get_template_directory_uri().'/img/course-batch-placeholder.png';
 }
 
 /*------------------------------------*\
@@ -251,12 +296,12 @@ remove_action( 'wp_print_styles', 'print_emoji_styles' ); // emoji styles printe
 
 // Remove Admin bar
 function remove_admin_bar() {
-    // Show Admin Bar only for privileged Users
-    if( current_user_can( 'edit_pages' ) ) {
-        return true;
-    } else {
-        return false;
-    }
+	// Show Admin Bar only for privileged Users
+	if( current_user_can( 'edit_pages' ) ) {
+		return true;
+	} else {
+		return false;
+	}
 }
 add_filter( 'show_admin_bar', 'remove_admin_bar' ); // Remove Admin bar
 
@@ -265,18 +310,20 @@ add_filter( 'show_admin_bar', 'remove_admin_bar' ); // Remove Admin bar
  * Alter the main wp_query on the home page to fetch 'course' instead of 'post'
  */
 function alter_query_home( $query ) {
-    if ( $query->is_home() && $query->is_main_query() ) {
-        $query->set( 'post_type', 'course' );
-    }
+	if ( $query->is_home() && $query->is_main_query() ) {
+		$query->set( 'post_type', 'course' );
+	}
 }
 add_action( 'pre_get_posts', 'alter_query_home' );
 
-
-/*------------------------------------*\
-    Theme Activation / Deactivation
-\*------------------------------------*/
-
-
+/**
+ * Remove the posts_per_page limit for the unit screen
+ */
+function unit_remove_post_per_page_limit( $limit, $query ) {
+	if ( $query->is_tax( TAX_UNIT ) ) return '';
+	return $limit;
+}
+add_filter( 'post_limits', 'unit_remove_post_per_page_limit', 10, 2 );
 
 
 

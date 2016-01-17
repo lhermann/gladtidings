@@ -9,7 +9,7 @@
 
 .whitespace {
 	&--h2 {
-		height: whitespace-height( $inuit-heading-size-2 );
-		height: px-to-rem( whitespace-height( $inuit-heading-size-2 ) );
+		height: whitespace-height( $heading-size-2 );
+		height: px-to-rem( whitespace-height( $heading-size-2 ) );
 	}
 }
