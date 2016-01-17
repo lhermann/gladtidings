@@ -369,6 +369,14 @@ class GTGlobal
 	\*=======================*/
 
 	/**
+	 * Return an object. E.g. 'course'
+	 */
+	public function get_object( $post_type = null )
+	{
+		return $post_type ? $this->{$post_type} : $this->{$this->context};
+	}
+
+	/**
 	 * Set up a context
 	 * INPUT: a post object
 	 */

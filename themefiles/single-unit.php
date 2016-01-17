@@ -61,13 +61,16 @@
 					
 				</section>
 				<aside class="layout__item no-owl-lap-and-up u-1/3-lap-and-up">
-					
-					<div class="panel">
-						<h2 class="t-second-text"><?= __( 'Progress', 'gladtidings' ) ?></h2>
-						<p><strong class="b--shout t-main-text">103 min</strong> of video lessons in total.</p>
-						<p>You completed 32 min and have <strong class="b--shout t-main-text">71 min</strong> left.</p>
-						<p>You have completed <strong class="b--shout t-main-text">31%</strong> of this lesson.</p>
-					</div>
+
+					<h2 class="t-second-text"><?= __( 'Part of ...', 'gladtidings' ) ?></h2>
+
+					<?php
+						$post = $_gt->get_object( 'course' );
+						
+						get_template_part( 'templates/teaser', $post->post_type );
+
+						wp_reset_postdata();
+					?>
 
 				</aside>
 			</div>
