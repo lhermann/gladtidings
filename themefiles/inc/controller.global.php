@@ -33,9 +33,12 @@ class GTGlobal
 		$this->user_name = wp_get_current_user() ? wp_get_current_user()->data->display_name : false;
 		$this->user_meta = $this->get_user_meta();
 
+		// get object status and relationship
+		$object = $this->setup_object( $object );
+
 		// update object status
-		$object = $this->get_object_relationship( $object );
-		$object = $this->update_object_status( $object );
+		// $object = $this->get_object_relationship( $object );
+		// $object = $this->update_object_status( $object );
 
 		// setupt context
 		$this->setup_context( $object );
@@ -68,6 +71,21 @@ class GTGlobal
 			$return->{$row->meta_key} = maybe_unserialize( $row->meta_value );
 		}
 		return $return;
+	}
+
+	/**
+	 * INPUT: ID or Post Object
+	 */
+	public function setup_object( $object )
+	{
+		if( is_numeric($object) ) {
+			$object = get_post( $object );
+		}
+		if( $object->post_type !== 'course' ) {
+			$object = $this->get_object_relationship( $object );
+			$object = $this->update_object_status( $object );
+		}
+		return $object;
 	}
 
 	/**
@@ -390,9 +408,9 @@ class GTGlobal
 		try {
 
 			if( !is_object($object) || !isset($object->ID) ) throw new Exception("Input has to be a post object.");
-			if( $object->post_type == $this->parent_context ) throw new Exception("Cannot overwrite context.");
+			if( $object->post_type == $this->context ) throw new Exception("Cannot overwrite context for '$object->post_type'.");
 
-			$this->context = $object->post_type;
+			if( !$this->context ) $this->context = $object->post_type;
 			$this->{$object->post_type} = $object;
 			
 		} catch (Exception $e) {

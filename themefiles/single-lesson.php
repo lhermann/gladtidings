@@ -1,9 +1,6 @@
 <?php 
-	global $meta, $unit, $_gt;
-
-	$_gt->lesson_init( $post );
-
-	// var_dump($_gt);
+	global $_gt;
+	var_dump($_gt);
 
 	// get variables
 	$meta 	= get_post_meta( $post->ID, '', true );

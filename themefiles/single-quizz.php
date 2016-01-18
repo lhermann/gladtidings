@@ -1,7 +1,6 @@
 <?php 
-	global $meta, $unit, $_gt;
-
-	$_gt->quizz_init( $post );
+	global $_gt;
+	var_dump( $_gt );
 	
 	// get variables
 	$unit = get_unit( $post->ID );
