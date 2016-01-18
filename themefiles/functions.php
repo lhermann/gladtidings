@@ -243,20 +243,20 @@ function add_theme_color( $css ) {
 	// modify and add css
 	if( $header ) $css['.t-header-image'] = array( 'background-image' => 'url('.$header.')' );
 	$theme_css = array(
-		'.t-main-text'       => array( 'color'            => textsave_hex( $main_hex )   ),
+		'.t-main-text'       => array( 'color'            => $main_hex   ),
 		'.t-main-border'     => array( 'border-color'     => $main_hex                   ),
 		'.t-main-bg'         => array( 'background-color' => $main_hex                   ),
-		'.t-second-text'     => array( 'color'            => textsave_hex( $second_hex ) ),
+		'.t-second-text'     => array( 'color'            => $second_hex ),
 		'.t-second-border'   => array( 'border-color'     => $second_hex                 ),
 		'.t-second-bg'       => array( 'background-color' => $second_hex                 ),
-		'.t-comp-text'       => array( 'color'            => textsave_hex( $comp_hex )   ),
+		'.t-comp-text'       => array( 'color'            => $comp_hex   ),
 		'.t-comp-border'     => array( 'border-color'     => $comp_hex                   ),
 		'.t-comp-bg'         => array( 'background-color' => $comp_hex                   ),
 		'.t-light-bg'        => array( 'background-color' => $second_light_hex           ),
 		'.btn--theme'        => array( 'background-color' => $main_hex,
 									  'border-color'     => $main_dark_hex              ),
-		'.label--theme'      => array( 'color'            => textsave_hex( $comp_hex ),
-									  'border-color'     => textsave_hex( $comp_hex )   ),
+		'.label--theme'      => array( 'color'            => $comp_hex,
+									  'border-color'     => $comp_hex   ),
 		// '.panel'             => array( 'background-color' => $second_light_hex,
 		// 							  'border-color'     => $second_hex                 ),
 		'.flyout:before, .flyout > .wrapper:before' => array( 

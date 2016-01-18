@@ -8,13 +8,12 @@ global $_gt;
 ?>
 
 <div class="nl__item nl__item--hero nl__item--<?= $post->post_status ?>">
-	<article class="nl__article panel t-second-border">
+	<article class="nl__article">
 		<header class="nl__article__header owl--off">
-			<p class="t-second-text"><?= $_gt->get_link_to( 'course' ); ?>: <span class="label label--small t-second-text t-second-border"><?= __( 'Unit', 'gladtidings').' '.$post->order ?></span> <?= $_gt->hero_meta() ?></p>
-			<h1 class="nl__article__title"><?php the_title() ?></h1>
+			<h1 class="nl__article__title"><span class="label label--small shadow--strong t-second-text"><?= __( 'Unit', 'gladtidings').' '.$post->order ?></span> <span class="shadow--strong-text"><?php the_title() ?></span></h1>
 		</header>
-		<footer class="nl__article__footer t-comp-text">
-			<p><?= $_gt->hero_footer() ?></p>
+		<footer class="nl__article__footer shadow--strong t-comp-text">
+			<p><?= $_gt->hero_footer() ?> &bull; <?= __( 'Course', 'gladtidings' ) ?>: <?= $_gt->get_link_to( 'course' ); ?> <?= $_gt->hero_meta() ?></p>
 		</footer>
 	</article>
 	<div class="nl__node nl__node--bigger">

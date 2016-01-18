@@ -8,14 +8,14 @@ class GTView extends GTGlobal
 
 	function __construct( &$object )
 	{
-
+		
 		// call parent __contruct
 		parent::__construct( $object );
 
 		// set up course
-		// $this->course = get_posts( array( 'name' => get_query_var( 'course-name' ), 'post_type' => 'course' ) )[0];
 		$this->course = get_post( $object->parent_id );
 
+		// get children
 		$this->children = $this->get_children( $object );
 
 		// Built Inline Theme CSS Styles
@@ -66,10 +66,10 @@ class GTView extends GTGlobal
 	 * <span class="color--primary">Coming soon: 01/01/2016</span>
 	 */
 	public function hero_meta()
-	{
+	{	
 		switch ( $this->unit->post_status ) {
-			case 'coming':  $output = '&bull; <span class="color--primary t-comp-text">' .          __('Coming soon', 'gladtidings') . ': ' . $this->node->release_date . '</span>'; break;
-			case 'locked':  $output = '&bull; <span class="color--locked t-comp-text">'  . sprintf( __('Locked: Complete "%s" first', 'gladtidings'), $this->node->unlock_dependency_title ) . '</span>'; break;
+			case 'coming':  $output = '&bull; <span class="color--primary t-comp-text">' .          __('Coming soon', 'gladtidings') . ': ' . $this->unit->release_date . '</span>'; break;
+			case 'locked':  $output = '&bull; <span class="color--locked t-comp-text">'  . sprintf( __('Locked: Complete "%s" first', 'gladtidings'), $this->get_link_to( $this->unit->unlock_dependency ) ) . '</span>'; break;
 			case 'success': $output = '&bull; <span class="color--success">'             .          __('Completed', 'gladtidings') . '</span>'; break;
 			default: $output = '';
 		}

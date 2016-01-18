@@ -12,6 +12,7 @@ class GTView extends GTGlobal
 		// call parent __contruct
 		parent::__construct( $object );
 
+		// get children
 		$this->children = $this->get_children( $object );
 
 		// Built Inline Theme CSS Styles
@@ -164,7 +165,7 @@ class GTView extends GTGlobal
 	{
 		switch ( $this->node_status_num ) {
 			case 1:  $output = '&bull; <span class="color--primary t-comp-text">' .          __('Coming soon', 'gladtidings') . ': ' . $this->node->release_date . '</span>'; break;
-			case 2:  $output = '&bull; <span class="color--locked t-comp-text">'  . sprintf( __('Locked: Complete "%s" first', 'gladtidings'), $this->node->unlock_dependency_title ) . '</span>'; break;
+			case 2:  $output = '&bull; <span class="color--locked t-comp-text">'  . sprintf( __('Locked: Complete "%s" first', 'gladtidings'), $this->node->unlock_dependency->post_title ) . '</span>'; break;
 			case 5:  $output = '&bull; <span class="color--success">'             .          __('Completed', 'gladtidings') . '</span>'; break;
 			default: $output = '';
 		}

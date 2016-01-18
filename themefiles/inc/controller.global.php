@@ -34,8 +34,8 @@ class GTGlobal
 		$this->user_meta = $this->get_user_meta();
 
 		// update object status
-		$object = $this->update_object_status( $object );
 		$object = $this->get_object_relationship( $object );
+		$object = $this->update_object_status( $object );
 
 		// setupt context
 		$this->setup_context( $object );
@@ -72,24 +72,27 @@ class GTGlobal
 
 	/**
 	 * Get the children for a given parent. E.g. get the units of a course
+	 * INPUT: ID or Post Object
 	 * OUTPUT: Array of post objects
 	 */
-	protected function get_children( $parent = null )
+	protected function get_children( $parent = null, $context = null )
 	{
 		global $wpdb;
-		$parent = $parent ? $parent : $this->{$this->context};
+		$parent_id = is_numeric($parent) ? $parent : ( is_object($parent) ? $parent->ID : $this->{$this->context}->ID );
+		$context = $context ? $context : $this->context;
+
 		$query = "SELECT *
 				  FROM $wpdb->posts p
 				  INNER JOIN $wpdb->gt_relationships r
 				  ON r.child_id = p.ID
-				  WHERE r.parent_id = {$parent->ID}
+				  WHERE r.parent_id = $parent_id
 				  AND p.post_status IN ('publish', 'coming', 'locked')
 				  ORDER BY r.position;
 				 ";
 		$children = $wpdb->get_results( $query, OBJECT );
 
 		// replace post_type 'quizz' with 'exam' in the 'course' context
-		if( $this->context == 'course' ) {
+		if( $context == 'course' ) {
 			array_walk( $children, function(&$child) {
 				if( $child->post_type == 'quizz' ) $child->post_type = 'exam';
 			});
@@ -111,7 +114,7 @@ class GTGlobal
 	 *  - 'locked'  = unlock condition has been met ? fall through to 'publish' : don't change
 	 *  - 'publish' = user has started ? (active) or finished ? (success) the object : don't change
 	 */
-	protected function update_object_status( $object, $object_array = null )
+	protected function update_object_status( $object, $siblings = null )
 	{
 		switch ( $object->post_status ) {
 			case 'coming':
@@ -127,11 +130,12 @@ class GTGlobal
 				break;
 
 			case 'locked':
-				$dependency_object = $object_array[ (int)get_post_meta( $object->ID, 'unlock_dependency', true ) - 1 ];
+				if( !$siblings ) $siblings = $this->get_children( $object->parent_id, 'course' );
+				$dependency_object = $siblings[ (int)get_post_meta( $object->ID, 'unlock_dependency', true ) - 1 ];
 				if( $this->is_done( $dependency_object ) ) {
 					$object->post_status = 'publish'; // fall through
 				} else {
-					$object->unlock_dependency_title = $dependency_object->post_title;
+					$object->unlock_dependency = $dependency_object;
 					break;
 				}
 
@@ -476,11 +480,11 @@ class GTGlobal
 	}
 
 	/**
-	 * 
+	 * INPUT: Type string (e.g. 'unit') or Post Object
 	 */
-	public function get_link_to( $type = null )
-	{
-		$object = $type ? $this->{$type} : $this->{$this->context};
+	public function get_link_to( $input = null )
+	{	
+		$object = is_object($input) ? $input : ( is_string($input) ? $this->{$input} : $this->{$this->context} );
 		return sprintf( '<a class="a--bodycolor" href="%1$s" title="%2$s">%3$s</a>',
 			gt_get_permalink( $object ),
 			the_title_attribute( array( 'before' => __('Permalink to: ', 'gladtidings'), 'echo' => false, 'post' => $object ) ),

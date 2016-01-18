@@ -2,6 +2,7 @@
 	$print = array();
 	$print['img_course_badge'] = gt_get_course_batch( $post, 'full' );
 	$print['course_description'] = get_field( 'course_description' );
+	// limit description leangth
 	if( strlen( $print['course_description'] ) > 140 ) {
 		preg_match( '/^[^\b]{1,140}(?=\b\s)/', $print['course_description'], $matches );
 		$print['course_description'] = $matches[0].' ...';
