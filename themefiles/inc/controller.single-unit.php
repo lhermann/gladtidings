@@ -91,10 +91,15 @@ class GTView extends GTGlobal
 	/*=======================*\
 		Node Functions
 	\*=======================*/
-	
-	public function item_permalink( $post )
+
+	public function current_node( $object )
 	{
-		return gt_get_permalink( $post, $this->course, $this->unit );
+		return false;
+	}
+
+	public function get_node_link_attr( $object )
+	{
+		$attr = array();
 	}
 
 

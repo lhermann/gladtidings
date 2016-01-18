@@ -231,7 +231,7 @@ $node-margin: $size-node/15;
 	.nl__item {
 		margin-top: px-to-em( quarter($inuit-base-spacing-unit) );
 	}
-	.nl__item--active {
+	.nl__item--current {
 		border: 1px solid $color-border;
 		padding: $size-node/10 -  1px;
 		// background-color: darken($color-panel-bg, 10%);
@@ -241,47 +241,6 @@ $node-margin: $size-node/15;
 	// }
 	.nl__node__link {
 		height: 300%;
-	}
-}
-
-/* === ul li.nl__item === */
-
-/* One prominent nodelist item in the header */
-.nl__item--hero {
-
-	.nl__article {
-
-		margin-left: $size-node--bigger/2;
-		padding-left: $size-node--bigger/2 + 20px;
-
-		@include media-query(palm) {
-			margin-left: $size-node--bigger * 1/3;
-			padding-left: $size-node--bigger * 1/3 + 20px;
-		}
-
-		&__title {
-			color: white;
-			// text-shadow: 0 1px 3px rgba(0, 0, 0, 0.65), 0 0 30px #000;
-			margin-top: 0;
-			@include font-size( $heading-size-2 );
-			.label {
-				font-size: 0.8em;
-				background-color: white;
-				border: none;
-			}
-			font-weight: 700;
-			@include media-query(palm) {
-				font-size: 1.3rem;
-			}
-		}
-
-		&__footer {
-			display: inline-block;
-			background-color: white;
-			border-radius: $base-border-radius;
-			padding: quarter($base-spacing-unit) halve($base-spacing-unit);
-		}
-
 	}
 }
 
@@ -377,6 +336,7 @@ $node-marging--bigger: $size-node--bigger/15;
  * # Unit Level
  *     .nl__item--unit
  *     .nl__item--exam
+ *     .nl__item--hero
  *
  * # Item Level
  *     .nl__item--headline
@@ -388,6 +348,9 @@ $node-marging--bigger: $size-node--bigger/15;
 .nl__item--unit {
 	.nl__article__header {
 		padding-top: 1rem;
+	}
+	.nl__node__inner {
+		@include nl__node__icon ( "\f11d" );
 	}
 }
 
@@ -417,6 +380,48 @@ $node-marging--bigger: $size-node--bigger/15;
 	padding: 1px;
 	&:first-child { // make the first divider invisible (but not to screen readers)
 		padding: 0;
+	}
+}
+
+/* One prominent nodelist item in the header */
+.nl__item--hero {
+
+	.nl__article {
+
+		margin-left: $size-node--bigger/2;
+		padding-left: $size-node--bigger/2 + 20px;
+
+		@include media-query(palm) {
+			margin-left: $size-node--bigger * 1/3;
+			padding-left: $size-node--bigger * 1/3 + 20px;
+		}
+
+		&__title {
+			color: white;
+			// text-shadow: 0 1px 3px rgba(0, 0, 0, 0.65), 0 0 30px #000;
+			margin-top: 0;
+			@include font-size( $heading-size-2 );
+			.label {
+				font-size: 0.8em;
+				background-color: white;
+				border: none;
+			}
+			font-weight: 700;
+			@include media-query(palm) {
+				font-size: 1.3rem;
+			}
+		}
+
+		&__footer {
+			display: inline-block;
+			background-color: white;
+			border-radius: $base-border-radius;
+			padding: quarter($base-spacing-unit) halve($base-spacing-unit);
+		}
+
+	}
+	.nl__node__inner {
+		@include nl__node__icon ( "\f11d" );
 	}
 }
 
@@ -456,7 +461,7 @@ $node-marging--bigger: $size-node--bigger/15;
 	.nl__node__inner {
 		color: $color-primary;
 		border-color: $color-primary;
-		&:after { content: "\f11d"; }
+		// &:after { content: "\f11d"; }
 	}
 }
 

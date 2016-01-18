@@ -24,12 +24,16 @@
 							$time = round( microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], 3 );
 							print( 'Execution Time: '.$time );
 						};
+						// display theme root php file
 						print( ' &bull; ');
 						foreach ( debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS ) as $value) {
 							if( $value['function'] == 'get_footer' ) {
 								print( basename( $value['file'] ) );
 							}
 						}
+						// display post ID
+						print( ' &bull; ');
+						print( 'Post ID: ' . get_the_ID() );
 					?>
 				</p>
 			</div><!-- /.wrapper -->

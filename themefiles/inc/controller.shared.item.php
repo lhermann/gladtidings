@@ -23,6 +23,7 @@ class GTItem extends GTGlobal
 
 		// Built Inline Theme CSS Styles
 		add_filter( 'theme_css', 'add_theme_color', 10 );
+
 	}
 
 	/*====================================*\
@@ -63,10 +64,15 @@ class GTItem extends GTGlobal
 		Node Functions
 	\*====================================*/
 
+	public function current_node( $object )
+	{
+		return $object->ID == $this->{$this->context}->ID;
+	}
+
 	/**
 	 * Used on print_link_to function to get the $attr because node_lesson and node_quizz share the same code
 	 */
-	public function get_node_title( $object )
+	public function get_node_link_attr( $object )
 	{
 		switch ( $object->post_type ) {
 			case 'lesson':

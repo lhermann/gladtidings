@@ -37,10 +37,6 @@ class GTGlobal
 		// get object status and relationship
 		$object = $this->setup_object( $object );
 
-		// update object status
-		// $object = $this->get_object_relationship( $object );
-		// $object = $this->update_object_status( $object );
-
 		// setupt context
 		$this->setup_context( $object );
 
