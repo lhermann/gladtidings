@@ -42,7 +42,7 @@ switch ( $type ) {
 	case 'quizz':
 		$type_string = $type_string ? $type_string : __('Quizz', 'gladtidings');
 
-		$permalink_attr = sprintf( '%s href="%s" title="Permanent Link to %s"',
+		$permalink_attr = sprintf( '%s href="%s" title="%s"',
 			'class="a--bodycolor"',
 			get_the_permalink( $ID ),
 			sprintf( __( 'Permanent Link to %s of %s', 'gladtidings' ),

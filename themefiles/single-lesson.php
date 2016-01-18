@@ -1,16 +1,6 @@
 <?php 
 	global $_gt;
-	var_dump($_gt);
-
-	// get variables
-	$meta 	= get_post_meta( $post->ID, '', true );
-	$unit 	= get_unit( $post->ID );
-
-	// Built Inline Theme CSS Styles
-	add_filter( 'theme_css', 'add_theme_color', 10 );
-	add_filter( 'container_class', function( $classes ){ $classes[] = 'flyout'; return $classes; } );
-
-	// var_dump($GLOBALS);
+	// var_dump($_gt);
 	
 	get_header();
 ?>
@@ -43,16 +33,14 @@
 				
 				<div class="wrapper u-spacing--top">
 					
-					<h2 class="u-text--1rem"><span class="label label--small label--theme"><?= __( 'Unit', 'gladtidings' ).' '.$unit->unit_order ?></span> <a class="a--bodycolor" href="<?= get_term_link( $unit ) ?>" title="<?= __('Unit Overview', 'gladtidings') ?>"><?= $unit->name ?></a></h2>
+					<h2 class="u-text--1rem">
+						<span class="label label--small label--theme"><?= __( 'Unit', 'gladtidings' ).' '.$_gt->unit( 'order' ) ?></span>
+						<?= $_gt->print_link_to( $_gt->unit(), array( 'title' => __('Unit Overview', 'gladtidings') ) ) ?>
+					</h2>
 					<nav role="navigation">
-						<ul class="nodelist nodelist--lesson">
-							<?php
-								foreach( $unit->lesson_order as $lesson ) {
-									global $lesson;
-									get_template_part( 'templates/nodelist', 'lesson' );
-								}
-							?>
-						</ul>
+
+						<?php get_template_part( 'templates/nodelist', 'item' ); ?>
+
 					</nav>
 		
 				</div><!-- /.wrapper -->

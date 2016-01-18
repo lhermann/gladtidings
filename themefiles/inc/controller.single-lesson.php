@@ -16,6 +16,34 @@ class GTView extends GTItem
 		// call parent __contruct
 		parent::__construct( $object );
 
+		// prepare flyout
+		add_filter( 'container_class', function( $classes ){ $classes[] = 'flyout'; return $classes; } );
+
+		// get siblings
+		$this->siblings = $this->get_children( $this->unit );
+
+	}
+
+	/*===========================*\
+		Lesson Functiuons
+	\*===========================*/
+
+	public function get_description()
+	{
+		return get_field( 'description', $this->lesson );
+	}
+
+	public function print_attachment_link()
+	{
+		$attachment = get_field( 'attachment', $this->lesson );
+
+		if( !$attachment ) return;
+
+		printf( '<a class="btn btn--small btn--primary" href="%1$s" target="_blank" title="%2$s"><span class="fi fi-download"></span> %3$s</a>',
+			$attachment['url'],
+			__( 'Download', 'gladtidings' ) . ' ' . $attachment['filename'],
+			__( 'Download Manuscript', 'gladtidings' ) . ' [' . gt_get_filesize( $attachment['url'] ) . ']'
+		);
 	}
 
 }

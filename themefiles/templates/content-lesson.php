@@ -14,15 +14,13 @@ $button_attachment = 	( $url = wp_get_attachment_url( $meta['video_attachment'][
 ?>
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'h-entry' ); ?>>
 	<header class="hgroup">
-		<h1 class="hgroup__title"><?= $label_order ?> <?php the_title(); ?></h1>
+		<h1 class="hgroup__title"><span class="label label--small label--theme"><?= $post->order ?></span> <?php the_title(); ?></h1>
 	</header>
 	<div class="e-content">
-		<p><?= $meta['video_description'][0] ?></p>
-		<p>
-			<?= $button_attachment ?>
-		</p>
+		<p><?= $_gt->get_description() ?></p>
+		<p><?php $_gt->print_attachment_link() ?></p>
 	</div>
 	<footer class="u-text--right">
-		<?php $_gt->lesson_print_continue_btn(); ?>
+		<?php //$_gt->print_continue_btn(); ?>
 	</footer>
 </article>

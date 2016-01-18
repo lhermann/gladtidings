@@ -1,7 +1,7 @@
 <?php
 	global $_gt;
 	// var_dump( $_gt );
-	// var_dump( $_gt->print_progress_message() );
+
 	get_header();
 ?>
 

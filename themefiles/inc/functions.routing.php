@@ -115,6 +115,7 @@ function gt_get_permalink( $post = 0, $parent_course = null, $parent_unit = null
 
 		case 'unit':
 			/* structure: http://gladtidings:8888/course/course-slug/unit/1 */
+			if( !isset($post->order) ) gt_get_object_order( $post );
 			if( !$parent_course ) $parent_course = gt_get_parent_object( $post );
 			$permalink = $url . 'course/' . $parent_course->post_name . '/unit/' . ( $post->order ? $post->order : $parent_course->child_order );
 			break;
@@ -127,9 +128,9 @@ function gt_get_permalink( $post = 0, $parent_course = null, $parent_unit = null
 
 		case 'lesson':
 			/* structure: http://gladtidings:8888/course/course-slug/unit/1/lesson/lesson-slug */
-			if( !$parent_unit ) $parent_unit = gt_get_parent_object( $post );
+			if( !isset($parent_unit->order) ) $parent_unit = gt_get_parent_object( $post );
 			if( !$parent_course ) $parent_course = gt_get_parent_object( $parent_unit );
-			$permalink = $url . 'course/' . $parent_course->post_name . '/unit/' . ( $parent_unit->order ? $parent_unit->order : $parent_course->child_order ) . '/lesson/' . $post->post_name;
+			$permalink = $url . 'course/' . $parent_course->post_name . '/unit/' . $parent_unit->order . '/lesson/' . $post->post_name;
 			break;
 
 		case 'quizz':
@@ -147,25 +148,40 @@ function gt_get_permalink( $post = 0, $parent_course = null, $parent_unit = null
 
 /**
  * Returns the parent post object. E.g. Course pertaining to the unit.
- * CAUTON: 'order' and 'position' do not belong to the queried object, but to it's child, 
- *         hence it's renamed 'child_order' and 'child_position'.
+ * CAUTON: 'order' and 'position' belong to the queried object,
+ *         while 'child_order' and 'child_position' belong to the child.
  */
 function gt_get_parent_object( $post ) {
 	global $wpdb;
-	$table_name = $wpdb->prefix . "gt_relationships";
 
-	$query = "SELECT p.*, r.order child_order, r.position child_position
+	$query = "SELECT p.*, r2.order, r2.position, r1.order child_order, r1.position child_position
 		FROM $wpdb->posts p
-		INNER JOIN $table_name r
-		ON r.parent_id = p.ID
-		WHERE r.child_id = $post->ID;
+		INNER JOIN $wpdb->gt_relationships r1
+		ON r1.parent_id = p.ID
+		INNER JOIN $wpdb->gt_relationships r2
+		ON r2.child_id = p.ID
+		WHERE r1.child_id = $post->ID;
 	";
 
 	return $wpdb->get_row( $query );
 }
 
+/**
+ * returns the post object with 'order' and 'position'
+ */
 
+function gt_get_object_order( $post ) {
+	global $wpdb;
 
+	$query = "SELECT r.order, r.position
+		FROM $wpdb->gt_relationships r
+		WHERE r.child_id = $post->ID;
+	";
 
+	$result = $wpdb->get_row( $query );
 
+	$post->order = $result->order;
+	$post->position = $result->position;
 
+	return $post;
+}

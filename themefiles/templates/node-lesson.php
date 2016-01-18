@@ -1,6 +1,6 @@
 <?php
 /*------------------------------------*\
-                NODE LESSON
+               NODE LESSON
 \*------------------------------------*/
 
 global $_gt;
@@ -9,8 +9,8 @@ global $_gt;
 	<article class="nl__article">
 		<header class="nl__article__header">
 			<h4 class="nl__article__title">
-				<span class="label label--small label--fixed label--theme"><?= $post->order ?></span> 
-				<a class="a--bodycolor" href="<?= $_gt->item_permalink( $post ) ?>" title="<?= the_title_attribute( array( 'before' => __('Permalink to: ', 'gladtidings'), 'echo' => false ) ) ?>"><?php the_title(); ?></a>
+				<span class="label label--small label--fixed label--theme"><?= $post->order ?></span>
+				<?php $_gt->print_link_to( $post, ( $_gt->get_context() == 'unit' ? array() : $_gt->get_node_title( $post ) ) ); ?>
 			</h4>
 		</header>
 	</article>

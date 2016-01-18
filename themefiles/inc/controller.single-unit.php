@@ -69,7 +69,7 @@ class GTView extends GTGlobal
 	{	
 		switch ( $this->unit->post_status ) {
 			case 'coming':  $output = '&bull; <span class="color--primary t-comp-text">' .          __('Coming soon', 'gladtidings') . ': ' . $this->unit->release_date . '</span>'; break;
-			case 'locked':  $output = '&bull; <span class="color--locked t-comp-text">'  . sprintf( __('Locked: Complete "%s" first', 'gladtidings'), $this->get_link_to( $this->unit->unlock_dependency ) ) . '</span>'; break;
+			case 'locked':  $output = '&bull; <span class="color--locked t-comp-text">'  . sprintf( __('Locked: Complete "%s" first', 'gladtidings'), $this->print_link_to( $this->unit->unlock_dependency ) ) . '</span>'; break;
 			case 'success': $output = '&bull; <span class="color--success">'             .          __('Completed', 'gladtidings') . '</span>'; break;
 			default: $output = '';
 		}

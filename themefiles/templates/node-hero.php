@@ -13,7 +13,7 @@ global $_gt;
 			<h1 class="nl__article__title"><span class="label label--small shadow--strong t-second-text"><?= __( 'Unit', 'gladtidings').' '.$post->order ?></span> <span class="shadow--strong-text"><?php the_title() ?></span></h1>
 		</header>
 		<footer class="nl__article__footer shadow--strong t-comp-text">
-			<p><?= $_gt->hero_footer() ?> &bull; <?= __( 'Course', 'gladtidings' ) ?>: <?= $_gt->get_link_to( 'course' ); ?> <?= $_gt->hero_meta() ?></p>
+			<p><?= $_gt->hero_footer() ?> &bull; <?= __( 'Course', 'gladtidings' ) ?>: <?= $_gt->print_link_to( 'course' ); ?> <?= $_gt->hero_meta() ?></p>
 		</footer>
 	</article>
 	<div class="nl__node nl__node--bigger">

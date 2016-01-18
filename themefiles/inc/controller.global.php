@@ -18,6 +18,7 @@ class GTGlobal
 	protected $quizz;
 
 	protected $context;
+	protected $siblings;
 	protected $children;
 
 	protected $first_touch;
@@ -419,6 +420,14 @@ class GTGlobal
 	}
 
 	/**
+	 * Wrapper for $this->context;
+	 */
+	public function get_context()
+	{
+		return $this->context;
+	}
+
+	/**
 	 * Wrapper for $this->course->ID
 	 */
 	public function get_course_id()
@@ -501,12 +510,42 @@ class GTGlobal
 	 * INPUT: Type string (e.g. 'unit') or Post Object
 	 */
 	public function get_link_to( $input = null )
+	{
+		$object = is_object($input) ? $input : ( is_string($input) ? $this->{$input} : $this->{$this->context} );
+
+		switch ($this->context) {
+			case 'lesson':
+				$parent_course = $this->course;
+				$parent_unit = $this->unit;
+				break;
+			case 'unit':
+				$parent_course = $this->course;
+				$parent_unit = $this->unit;
+				break;
+			case 'course':
+			default:
+				$parent_course = $this->course;
+				$parent_unit = null;
+				break;
+		}
+
+		// var_dump($object, $parent_course, $parent_unit);
+		$parent_unit = null;
+
+		return gt_get_permalink( $object, $parent_course, $parent_unit );
+	}
+
+	/**
+	 * INPUT: Type string (e.g. 'unit') or Post Object
+	 */
+	public function print_link_to( $input = null, $attr = array() )
 	{	
 		$object = is_object($input) ? $input : ( is_string($input) ? $this->{$input} : $this->{$this->context} );
-		return sprintf( '<a class="a--bodycolor" href="%1$s" title="%2$s">%3$s</a>',
-			gt_get_permalink( $object ),
-			the_title_attribute( array( 'before' => __('Permalink to: ', 'gladtidings'), 'echo' => false, 'post' => $object ) ),
-			$object->post_title
+		printf( '<a class="%1$s" href="%2$s" title="%3$s">%4$s</a>',
+			isset($attr['class']) ? $attr['class'] : 'a--bodycolor',
+			$this->get_link_to( $object ),
+			isset($attr['title']) ? $attr['title'] : the_title_attribute( array( 'before' => __('Permalink to: ', 'gladtidings'), 'echo' => false, 'post' => $object ) ),
+			isset($attr['display']) ? $attr['display'] : $object->post_title
 		);
 	}
 
