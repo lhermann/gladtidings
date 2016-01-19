@@ -30,9 +30,20 @@ class GTItem extends GTGlobal
 		Lesson & Quizz Functions
 	\*====================================*/
 
-	public function get_siblings()
+	/**
+	 * Get the sibling, optionally limit them by post type
+	 * INPUT: array of post types to limit by
+	 */
+	public function get_siblings( $limit = null )
 	{
-		return $this->siblings;
+		if( $limit ) {
+			$return = array();
+			foreach ( $this->siblings as $object) {
+				if( in_array( $object->post_type, $limit ) ) $return[] = $object;
+			}
+		}
+
+		return $return ? $return : $this->siblings;
 	}
 
 	public function unit( $value = null )
@@ -47,8 +58,10 @@ class GTItem extends GTGlobal
 	{
 		$object = $object ? $object : $this->{$this->context};
 
+
 		// get the next object
-		$next = $this->siblings[ array_search( $object->ID, array_column( $this->siblings, 'ID' ) ) + 1 ];
+		$items = $this->get_siblings( array( 'lesson', 'quizz' ) );
+		$next = $items[ array_search( $object->ID, array_column( $items, 'ID' ) ) + 1 ];
 
 		// print button
 		printf ( '<a class="btn btn--success" href="%1$s" title="%2$s">%2$s <span class="fi fi-arrow-right"></span></a>',
