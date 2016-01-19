@@ -21,6 +21,6 @@ $button_attachment = 	( $url = wp_get_attachment_url( $meta['video_attachment'][
 		<p><?php $_gt->print_attachment_link() ?></p>
 	</div>
 	<footer class="u-text--right">
-		<?php //$_gt->print_continue_btn(); ?>
+		<?php $_gt->print_continue_btn(); ?>
 	</footer>
 </article>

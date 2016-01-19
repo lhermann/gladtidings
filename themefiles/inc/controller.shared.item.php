@@ -43,18 +43,16 @@ class GTItem extends GTGlobal
 	/**
 	 * Return the continue button
 	 */
-	public function print_continue_btn()
+	public function print_continue_btn( $object = null, $attr = '' )
 	{
-		// get id of the next item
-		$item_ids = array();
-		foreach ($this->unit->lesson_order as $n) {
-			if( (int)end($n) > 0 ) $item_ids[] = (int)end($n);
-		}
-		$next_item_id = $item_ids[ array_search( $ID, $item_ids ) + 1 ];
+		$object = $object ? $object : $this->{$this->context};
+
+		// get the next object
+		$next = $this->siblings[ array_search( $object->ID, array_column( $this->siblings, 'ID' ) ) + 1 ];
 
 		// print button
 		printf ( '<a class="btn btn--success" href="%1$s" title="%2$s">%2$s <span class="fi fi-arrow-right"></span></a>',
-			esc_url( $next_item_id ? get_permalink( $next_item_id ) : get_term_link( $this->unit ).'?origin=continue' ),
+			esc_url( $next ? $this->get_link_to( $next ) : $this->get_link_to( $this->unit ).'?origin=continue' ),
 			__( 'Next', 'gladtidings' ),
 			$attr
 		);
