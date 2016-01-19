@@ -260,36 +260,31 @@ class GTGlobal
 		return $this->update_value( $scope, $ID, 'touched', time() );
 	}
 
-	// Get number of completed lessons|quizzes for course|unit
+	/**
+	 * Get number of completed items for a course|unit
+	 * INPUT: $object (for which to find the stats), $type to limit for only 'lessons'|'quizzes'
+	 * OUTPUT: (int) number of items done
+	 */
 	protected function get_num_items_done( $object, $type = 'all' )
 	{
 
-		try {
-			if( $object === null ) throw new Exception("\$object is NULL!");
+		// prepare variables
+		$counter = 0;
+		$iterator = $object->post_type == 'course' ? $this->children : array( $object );
 
-			// prepare variables
-			$scope = $object->post_type;
-			$ID    = $object->ID;
-
-			switch ($type) {
-				case 'lessons':
-				case 'quizzes':
-					return (int)$this->get_value( $scope, $ID, "{$type}_done" );
-					break;
-				case 'all':
-				default:
-					return (int)$this->get_value( $scope, $ID, "lessons_done" ) + (int)$this->get_value( $scope, $ID, "quizzes_done" );
-					break;
-			}
-
-		} catch (Exception $e) {
-			echo 'Line '.__LINE__.': Caught exception: ', $e->getMessage(), "\n";
-			return false;
+		foreach ( $iterator as $i) {
+			$counter += $type !== 'quizzes' ? (int)$this->get_value( $i->post_type, $i->ID, "lessons_done" ) : 0;
+			$counter += $type !== 'lessons' ? (int)$this->get_value( $i->post_type, $i->ID, "quizzes_done" ) : 0;
 		}
 
+		return $counter;
 	}
 
-	// Get total number of lessons|quizzes
+	/**
+	 * Get total number of items for a course|unit
+	 * INPUT: $object (for which to find the stats), $type to limit for only 'lessons'|'quizzes'
+	 * OUTPUT: (int) number of total items
+	 */
 	protected function get_num_items_total( $object, $type = 'all' )
 	{
 		try {
@@ -368,6 +363,24 @@ class GTGlobal
 			case 'quizzes': return 'quizz'; break;
 			default: return $type;
 		}
+	}
+
+	/**
+	 * Specifically calculate the progress percentage, to not use cached values,
+	 * if you call this outside the constructer consider using $this->get_progress instead
+	 * INPUT: post object
+	 * OUTPUT: (int) 0-100
+	 */
+	public function calculate_progress( $object = null )
+	{
+		$object = $object ? $object : $this->{$this->context};
+
+		$total = $this->get_num_items_total( $object );
+		$done = $this->get_num_items_done( $object );
+
+		if( !$total || !$done ) return 0;
+
+		return (int)round( ( $done / $total ) * 100 );
 	}
 
 
@@ -486,20 +499,13 @@ class GTGlobal
 
 
 	/**
-	 * 
+	 * Get the progress (to completion) of a course or unit in percent
 	 * INPUT: post object
-	 * OUTPUT:
+	 * OUTPUT: (int) 0-100
 	 */
 	public function get_progress( $object = null )
 	{
-		$object = $object ? $object : $this->{$this->context};
-
-		$total = $this->get_num_items_total( $object );
-		$done = $this->get_num_items_done( $object );
-
-		if( !$total || !$done ) return 0;
-		
-		return (int)round( ( $done / $total ) * 100 );
+		return (int)$this->get_value( $object->post_type, $object->ID, 'progress' );
 	}
 
 	/**

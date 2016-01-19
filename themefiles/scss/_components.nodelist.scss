@@ -475,6 +475,7 @@ $node-marging--bigger: $size-node--bigger/15;
 	.nl__node--bigger .nl__node__inner {
 		border-color: $color-success;
 		overflow: hidden;
+		&:after { content: "" }
 	}
 	.nl__node--bigger .nl__node__progress-text {
 		font-size: double($base-font-size);

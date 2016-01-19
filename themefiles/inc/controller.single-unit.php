@@ -20,11 +20,29 @@ class GTView extends GTGlobal
 
 		// Built Inline Theme CSS Styles
 		add_filter( 'theme_css', 'add_theme_color', 10 );
+
+		// recalculate 'unit_{ID}_lessons_done' and 'course_{ID}_quizzes_done'
+		$this->update_value( 'unit', $object->ID, 'lessons_done', $this->calculate_num_items_done( 'lesson' ) );
+		$this->update_value( 'unit', $object->ID, 'quizzes_done', $this->calculate_num_items_done( 'quizz' ) );
+
+		// recalculate 'unit_{ID}_progress'
+		$this->update_value( 'unit', $object->ID, 'progress', $this->calculate_progress( $object ) );
 	}
 
 	/*=======================*\
 		Unit Functions
 	\*=======================*/
+
+	public function calculate_num_items_done( $type = 'any' )
+	{
+		$counter = 0;
+		foreach ( $this->children as $item ) {
+			if( $item->post_type == $type || $type == 'any' ) {
+				if( $item->post_status == 'success' ) $counter++;
+			}
+		}
+		return $counter;
+	}
 
 	public function get_items()
 	{
