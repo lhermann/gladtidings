@@ -127,14 +127,12 @@ function gt_get_permalink( $post = 0, $parent_course = null, $parent_unit = null
 			break;
 
 		case 'lesson':
+		case 'quizz':
 			/* structure: http://gladtidings:8888/course/course-slug/unit/1/lesson/lesson-slug */
+			/* structure: http://gladtidings:8888/course/course-slug/unit/1/quizz/quizz-slug */
 			if( !isset($parent_unit->order) ) $parent_unit = gt_get_parent_object( $post );
 			if( !$parent_course ) $parent_course = gt_get_parent_object( $parent_unit );
-			$permalink = $url . 'course/' . $parent_course->post_name . '/unit/' . $parent_unit->order . '/lesson/' . $post->post_name;
-			break;
-
-		case 'quizz':
-			$permalink = get_permalink( $post );
+			$permalink = $url . "course/{$parent_course->post_name}/unit/{$parent_unit->order}/{$post->post_type}/{$post->post_name}";
 			break;
 
 		default:
