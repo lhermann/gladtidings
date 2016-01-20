@@ -14,10 +14,6 @@
  * - exam   - http://gladtidings:8888/course/course-slug/exam/quizz-slug
  */
 
-// http://gladtidings:8888/bible-basics/lesson/1
-
-// global $wp_rewrite;
-// var_dump( $wp_rewrite );
 
 /**
  * Add a query variables
@@ -25,20 +21,20 @@
  *	'course-name'	slug
  * 	'unit-position'	int
  */
+add_action('init', 'gladtidings_get_variables', 10, 0);
 function gladtidings_get_variables() {
 	add_rewrite_tag('%view%', '([^&]+)');
 	add_rewrite_tag('%course-name%', '([^&]+)');
 	add_rewrite_tag('%unit-position%', '([0-9]{1,})');
 	// flush_rewrite_rules();
 }
-add_action('init', 'gladtidings_get_variables', 10, 0);
-
 
 
 /**
  * Custom URL Routing
  * Tutorial: http://www.hongkiat.com/blog/wordpress-url-rewrite/ 
  */
+add_action( 'generate_rewrite_rules', 'gladtidings_rewrite_rules' );
 function gladtidings_rewrite_rules() {
 	global $wp_rewrite;
 
@@ -60,12 +56,12 @@ function gladtidings_rewrite_rules() {
 	// root to:
 	// $wp_rewrite->rules['(.?.+?)(?:/([0-9]+))?/?$'] = "index.php?course=".$wp_rewrite->preg_index(1)."&page=".$wp_rewrite->preg_index(2);
 }
-add_action( 'generate_rewrite_rules', 'gladtidings_rewrite_rules' );
 
 
 /**
  * Manipulate WP query before it is executed to interpret the unit routing
  */
+add_action( 'pre_get_posts', 'gt_unit_routing' );
 function gt_unit_routing( $query ) {
 	if( $query->is_singular && $query->query_vars['post_type'] == 'unit' ) {
 				
@@ -89,7 +85,6 @@ function gt_unit_routing( $query ) {
 		
 	}
 }
-add_action( 'pre_get_posts', 'gt_unit_routing' );
 
 
 /**
@@ -164,10 +159,10 @@ function gt_get_parent_object( $post ) {
 	return $wpdb->get_row( $query );
 }
 
+
 /**
  * returns the post object with 'order' and 'position'
  */
-
 function gt_get_object_order( $post ) {
 	global $wpdb;
 
@@ -183,3 +178,39 @@ function gt_get_object_order( $post ) {
 
 	return $post;
 }
+
+
+/**
+ * Exam Template redirect
+ * 'exam' is just an artificial name since it is really a quizz, but it still needs to load a different template
+ */
+add_filter( 'single_template', 'exam_template_redirect', 10, 1 );
+function exam_template_redirect( $single_template )
+{
+	$object = get_queried_object();
+
+	// bail early: skipp everything but quizzes that have no order
+	if( !( $object->post_type == 'quizz' && $object->order < 0 ) ) return $single_template;
+
+	// redirect to the single-exam.php template if existing
+	$exam_template = locate_template("single-exam.php");
+	if( $exam_template ) {
+		return $exam_template;
+	} else {
+		return $single_template;
+	}
+}
+
+
+/**
+ * Login Redirect
+ */
+// add_action( 'template_redirect', 'my_page_template_redirect' );
+// function my_page_template_redirect()
+// {
+//     if( is_page( 'goodies' ) && ! is_user_logged_in() )
+//     {
+//         wp_redirect( home_url( '/signup/' ) );
+//         exit();
+//     }
+// }

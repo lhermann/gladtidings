@@ -15,11 +15,13 @@ class GTItem extends GTGlobal
 		// call parent __contruct
 		parent::__construct( $object );
 
-		// set up unit
-		$this->unit = $this->setup_object( $object->parent_id );
+		// setup parent
+		$this->setup_object( $object->parent_id );
 
-		// set up course
-		$this->course = $this->setup_object( $this->unit->parent_id );
+		// if parent is unit: setup course
+		if( $this->unit ) {
+			$this->setup_object( $this->unit->parent_id );
+		}
 
 		// Built Inline Theme CSS Styles
 		add_filter( 'theme_css', 'add_theme_color', 10 );

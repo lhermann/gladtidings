@@ -96,8 +96,7 @@ class GTView extends GTGlobal
 	 */
 	public function setup_node( $post )
 	{
-		$this->setup_context( $post );
-
+		// Setup Node
 		$this->node = $post;
 
 		/**

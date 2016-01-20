@@ -10,6 +10,7 @@ require( 'controller.shared.item.php' );
 class GTView extends GTItem
 {
 
+	protected $is_exam = false;
 	public $required_questions;
 	public $all_questions;
 	public $current_question;
@@ -28,6 +29,9 @@ class GTView extends GTItem
 		if( $this->first_touch ) {
 			$this->update_value( 'quizz', $this->quizz->ID, 'passed', false );
 		}
+
+		// identify exam
+		if( $object->order < 0 ) $this->is_exam = true;
 
 		// Quizz specific object setup
 		$this->required_questions = $i = (int)get_field( 'required_questions', $post->ID );

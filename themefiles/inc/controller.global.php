@@ -13,7 +13,6 @@ class GTGlobal
 
 	protected $course;
 	protected $unit;
-	protected $exam;
 	protected $lesson;
 	protected $quizz;
 
@@ -37,8 +36,8 @@ class GTGlobal
 		// get object status and relationship
 		$object = $this->setup_object( $object );
 
-		// setupt context
-		$this->setup_context( $object );
+		// setup context
+		if( !$this->context ) $this->context = $object->post_type;
 
 		// touch
 		$existed = $this->touch( $object->post_type, $object->ID );
@@ -82,6 +81,7 @@ class GTGlobal
 			$object = $this->get_object_relationship( $object );
 			$object = $this->update_object_status( $object );
 		}
+		$this->{$object->post_type} = $object;
 		return $object;
 	}
 
@@ -412,21 +412,22 @@ class GTGlobal
 	/**
 	 * Set up a context
 	 * INPUT: a post object
+	 * OBSOLETE
 	 */
-	public function setup_context( $object )
-	{
-		try {
+	// public function setup_context( $object )
+	// {
+	// 	try {
 
-			if( !is_object($object) || !isset($object->ID) ) throw new Exception("Input has to be a post object.");
-			if( $object->post_type == $this->context ) throw new Exception("Cannot overwrite context for '$object->post_type'.");
+	// 		if( !is_object($object) || !isset($object->ID) ) throw new Exception("Input has to be a post object.");
+	// 		if( $object->post_type == $this->context ) throw new Exception("Cannot overwrite context for '$object->post_type'.");
 
-			if( !$this->context ) $this->context = $object->post_type;
-			$this->{$object->post_type} = $object;
+	// 		if( !$this->context ) $this->context = $object->post_type;
+	// 		$this->{$object->post_type} = $object;
 			
-		} catch (Exception $e) {
-			echo 'GTGlobal '.__LINE__.' - Caught exception: ', $e->getMessage(), "\n";
-		}
-	}
+	// 	} catch (Exception $e) {
+	// 		echo 'GTGlobal '.__LINE__.' - Caught exception: ', $e->getMessage(), "\n";
+	// 	}
+	// }
 
 	/**
 	 * Wrapper for $this->context;
