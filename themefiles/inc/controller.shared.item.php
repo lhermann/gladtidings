@@ -31,7 +31,7 @@ class GTItem extends GTGlobal
 	\*====================================*/
 
 	/**
-	 * Get the sibling, optionally limit them by post type
+	 * Get the siblings, optionally limit them by post type
 	 * INPUT: array of post types to limit by
 	 */
 	public function get_siblings( $limit = null )
@@ -45,6 +45,20 @@ class GTItem extends GTGlobal
 
 		return $return ? $return : $this->siblings;
 	}
+
+	/**
+	 * Get a sibling by ID
+	 * INPUT: object ID
+	 * OUPUT: post object | false
+	 */
+	// public function get_sibling( $ID )
+	// {
+	// 	array_walk( $this->siblings, function( $object, $key, $ID ) {
+	// 	var_dump( $object->ID, $ID );
+	// 		if( $object->ID == $ID ) return $object;
+	// 	}, $ID);
+	// 	return false;
+	// }
 
 	public function unit( $value = null )
 	{
@@ -64,7 +78,7 @@ class GTItem extends GTGlobal
 		$next = $items[ array_search( $object->ID, array_column( $items, 'ID' ) ) + 1 ];
 
 		// print button
-		printf ( '<a class="btn btn--success" href="%1$s" title="%2$s">%2$s <span class="fi fi-arrow-right"></span></a>',
+		printf ( '<a class="btn btn--success" href="%1$s" title="%2$s" %3$s>%2$s <span class="fi fi-arrow-right"></span></a>',
 			esc_url( $next ? $this->get_link_to( $next ) : $this->get_link_to( $this->unit ).'?origin=continue' ),
 			__( 'Next', 'gladtidings' ),
 			$attr

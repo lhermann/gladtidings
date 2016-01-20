@@ -1,27 +1,27 @@
 <?php
-global $_gt, $fields;
+global $_gt;
 
-$question = $_gt->quizz_get_question();
+// var_dump( $_gt->current_question );
+//$question = $_gt->quizz_get_question();
 
 ?>
 
-<?php $_gt->quizz_print_progress_bar() ?>
+<?php $_gt->print_progress_bar() ?>
 
-<p class="lede"><?= $question['question_text'] ?></p class="lede">
+<p class="lede"><?= $_gt->current_question['question_text'] ?></p class="lede">
 <form class="form" method="POST">
 	<fieldset class="form__radio-to-btn owl--narrow t-second-border">
-	  <legend>Answer</legend>
-	  <?php
+		<legend>Answer</legend>
 
-	  	foreach ( $question['answers'] as $key => $answer) {
-	  		printf( '<div class="form__radiobtn"><input type="radio" name="answer" id="%1$s" value="%2$s"><label class="btn btn--full btn--white" for="%1$s">%3$s</label></div>',
-	  			"answer".($key+1),
-	  			base64_encode ( $answer ),
-	  			$answer
-	  		);
-	  	}
+		<?php foreach ( $_gt->get_answers() as $key => $answer): ?>
 
-	  ?>
+			<div class="form__radiobtn">
+				<input type="radio" name="answer" id="<?= "answer".($key+1) ?>" value="<?= base64_encode ( $answer ) ?>" />
+				<label class="btn btn--full btn--white" for="<?= "answer".($key+1) ?>"><?= $answer ?></label>
+			</div>
+
+		<?php endforeach; ?>
+
 	</fieldset>
 	<div class="u-text--center">
 		<button class="btn btn--theme" type="submit">Submit</button>

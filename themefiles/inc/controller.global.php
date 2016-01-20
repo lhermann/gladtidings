@@ -449,8 +449,10 @@ class GTGlobal
 	 *
 	 * (1) return false for items that weren't touched before
 	 */
-	public function is_done( $object )
+	public function is_done( $object = null )
 	{
+		$object = $object ? $object : $this->{$this->context};
+
 		switch ( $object->post_type ) {
 			case 'unit':
 				return $this->get_progress( $object ) === 100 ? true : false;
