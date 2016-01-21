@@ -11,7 +11,7 @@ class GTItem extends GTGlobal
 
 	function __construct( &$object )
 	{
-		
+
 		// call parent __contruct
 		parent::__construct( $object );
 
@@ -22,6 +22,9 @@ class GTItem extends GTGlobal
 		if( $this->unit ) {
 			$this->setup_object( $this->unit->parent_id );
 		}
+
+		// get siblings
+		$this->siblings = $this->get_children( $object->parent_id );
 
 		// Built Inline Theme CSS Styles
 		add_filter( 'theme_css', 'add_theme_color', 10 );
@@ -69,22 +72,52 @@ class GTItem extends GTGlobal
 
 	/**
 	 * Return the continue button
+	 *
+	 * Labeling:
+	 *   sibling lesson|quizz -> 'Next'
+	 *   sibling unit|exam    -> 'Go to Unit %d' | 'Take the Exam'
+	 *   parent unit          -> 'Return to Unit Overview'
+	 *   parent course        -> 'Return to Course Overview'
 	 */
 	public function print_continue_btn( $object = null, $attr = '' )
 	{
 		$object = $object ? $object : $this->{$this->context};
 
+		if( isset($this->is_exam) && $this->is_exam ) {
 
-		// get the next object
-		$items = $this->get_siblings( array( 'lesson', 'quizz' ) );
-		$next = $items[ array_search( $object->ID, array_column( $items, 'ID' ) ) + 1 ];
+			// Determin next object
+			$next = $this->find_sibling( array( 'position' => $this->{$this->context}->position+1 ) );
+			if( !$next ) $next = $this->course;
 
-		// print button
-		printf ( '<a class="btn btn--success" href="%1$s" title="%2$s" %3$s>%2$s <span class="fi fi-arrow-right"></span></a>',
-			esc_url( $next ? $this->get_link_to( $next ) : $this->get_link_to( $this->unit ).'?origin=continue' ),
-			__( 'Next', 'gladtidings' ),
-			$attr
-		);
+			// Labeling
+			switch ( $next->post_type ) {
+				case 'unit'  : $label = sprintf( __( 'Go to Unit %d', 'gladtidings' ), $next->order ); break;
+				case 'quizz' : $label =          __( 'Take the Exam', 'gladtidings' ); break;
+				case 'course': $label =          __( 'Return to Course Overview', 'gladtidings' ); break;
+			}
+
+		} else {
+
+			// Determin next object
+			$next = $this->find_sibling( array( 'order' => $this->{$this->context}->order+1 ) );
+			if( !$next ) $next = $this->unit;
+
+			// Labeling
+			$label = __( 'Next', 'gladtidings' ) . ' <span class="fi fi-arrow-right"></span>';
+			switch ( $next->post_type ) {
+				case 'lesson':
+				case 'quizz' : $label = __( 'Next', 'gladtidings' ) . ' <span class="fi fi-arrow-right"></span>'; break;
+				case 'unit'  : $label = __( 'Return to Unit Overview', 'gladtidings' ); break;
+			}
+
+		}
+
+		$args = array();
+		                    $args['class']     = 'btn btn--success';
+		if( isset($label) ) $args['display']   = $label;
+		if( $attr )         $args['attribute'] = $attr;
+
+		$this->print_link_to( $next, $args );
 	}
 
 	/*====================================*\

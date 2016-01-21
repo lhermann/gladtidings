@@ -81,9 +81,6 @@ class GTView extends GTItem
 				break;
 		}
 
-		// get siblings
-		$this->siblings = $this->get_children( $this->unit );
-
 	}
 
 	/*===========================*\
@@ -265,7 +262,7 @@ class GTView extends GTItem
 
 		$object = $answer['related_lesson'];
 		printf( '<a class="btn btn--small btn--theme u-pull--right" href="%1$s" title="%2$s">%3$s</a>',
-			$this->get_link_to( $object ),
+			$this->get_url_to( $object ),
 			$object->post_title,
 			sprintf( __( 'Review Lesson %s', 'gladtidings' ), $object->order )
 		);

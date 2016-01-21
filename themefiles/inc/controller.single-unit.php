@@ -18,6 +18,9 @@ class GTView extends GTGlobal
 		// get children
 		$this->children = $this->get_children( $object );
 
+		// get siblings
+		$this->siblings = $this->get_children( $object->parent_id );
+
 		// Built Inline Theme CSS Styles
 		add_filter( 'theme_css', 'add_theme_color', 10 );
 
@@ -54,22 +57,43 @@ class GTView extends GTGlobal
 	{
 		$progress = $this->get_progress( $this->unit );
 
-		// bail early
-		if( $progress === 100 ) return;
+		if( $progress >= 100 ) {
 
-		$btn_label = $progress ? __( 'Continue learning', 'gladtidings' ) : __( 'Start learning', 'gladtidings' );
+			// Determin next object
+			$next = $this->find_sibling( array( 'position' => $this->unit->position+1 ) );
+			if( !$next ) $next = $this->course;
 
-		// find the first item that is not done
-		foreach ( $this->children as $key => $child ) {
-			if( $child->post_type == 'headline' ) continue;
-			if( $child->post_status == 'publish' ) {
-				$next_item = $child;
-				break;
+			// Labeling
+			switch ( $next->post_type ) {
+				case 'unit'  : $label = sprintf( __( 'Go to Unit %d', 'gladtidings' ), $next->order ); break;
+				case 'quizz' : $label =          __( 'Take the Exam', 'gladtidings' ); break;
+				case 'course': $label =          __( 'Return to Course Overview', 'gladtidings' ); break;
 			}
+
+		} else {
+
+			// find the first item that is not done
+			foreach ( $this->children as $key => $child ) {
+				if( $child->post_type == 'headline' ) continue;
+				if( $child->post_status == 'publish' ) {
+					$next = $child;
+					break;
+				}
+			}
+
+			// Labeling
+			$label = $progress ? __( 'Continue learning', 'gladtidings' ) : __( 'Start learning', 'gladtidings' );
 		}
 
-		print( '<a class="layout__item u-pull--right btn btn--success" href="'.gt_get_permalink( $next_item, $this->course, $this->unit ).'">'.$btn_label.'</a>' );
-		return;
+		if( !isset($next) ) return;
+
+
+		$args = array(
+			'class'   => 'layout__item u-pull--right btn btn--success',
+			'display' => $label
+		);
+
+		$this->print_link_to( $next, $args );
 	}
 
 
@@ -87,7 +111,7 @@ class GTView extends GTGlobal
 	{
 		switch ( $this->unit->post_status ) {
 			case 'coming':  $output = '&bull; <span class="color--primary t-comp-text">' .          __('Coming soon', 'gladtidings') . ': ' . $this->unit->release_date . '</span>'; break;
-			case 'locked':  $output = '&bull; <span class="color--locked t-comp-text">'  . sprintf( __('Locked: Complete "%s" first', 'gladtidings'), $this->print_link_to( $this->unit->unlock_dependency ) ) . '</span>'; break;
+			case 'locked':  $output = '&bull; <span class="color--locked t-comp-text">'  . sprintf( __('Locked: Complete "%s" first', 'gladtidings'), $this->get_link_to( $this->unit->unlock_dependency ) ) . '</span>'; break;
 			case 'success': $output = '&bull; <span class="color--success">'             .          __('Completed', 'gladtidings') . '</span>'; break;
 			default: $output = '';
 		}

@@ -133,6 +133,28 @@ class GTGlobal
 	}
 
 	/**
+	 * Returns the first object that maches all the search parameters, else returns false
+	 * INPUT: array with index => value pairs to search for in the object
+	 */
+	public function find_sibling( $search )
+	{
+		// $results = array();
+		// foreach ( $search as $index => $value ) {
+		// 	$results[] = array_keys( array_column( $this->siblings, $index ), $value );
+		// }
+		// $intersect = reset( array_intersect( $results[0], $results[1] ) );
+		// var_dump( $this->siblings[$intersect] );
+
+		foreach ( $this->siblings as $object ) {
+			foreach ( $search as $index => $value ) {
+				if( $object->{$index} != $value ) continue 2;
+			}
+			return $object;
+		}
+		return false;
+	}
+
+	/**
 	 * Update the status of an object and return the updated object
 	 * If the status is ...
 	 *  - 'coming'  = date has passed ? set to 'publish' (also update post object and acf field)
@@ -532,45 +554,38 @@ class GTGlobal
 	/**
 	 * INPUT: Type string (e.g. 'unit') or Post Object
 	 */
-	public function get_link_to( $input = null )
+	public function get_url_to( $input = null )
 	{
 		$object = is_object($input) ? $input : ( is_string($input) ? $this->{$input} : $this->{$this->context} );
-
-		switch ($this->context) {
-			case 'lesson':
-			case 'quizz':
-				$parent_course = $this->course;
-				$parent_unit = $this->unit;
-				break;
-			case 'unit':
-				$parent_course = $this->course;
-				$parent_unit = $this->unit;
-				break;
-			case 'course':
-			default:
-				$parent_course = $this->course;
-				$parent_unit = null;
-				break;
-		}
-
-		// var_dump($object, $parent_course, $parent_unit);
-		$parent_unit = null;
-
-		return gt_get_permalink( $object, $parent_course, $parent_unit );
+		return gt_get_permalink( $object, $this->course, $this->unit );
 	}
 
 	/**
-	 * INPUT: Type string (e.g. 'unit') or Post Object
+	 * INPUT:
+	 *   $input -> Type string (e.g. 'unit') or Post Object
+	 *   %args  -> possible arguments:
+	 *              'class'     = css class
+	 *              'title'     = link title="" attribute
+	 *              'attribute' = any attribute, eg. disabled
+	 *              'display'   = the link text or label (should be renamed label)
 	 */
-	public function print_link_to( $input = null, $attr = array() )
+	public function get_link_to( $input = null, $args = array() )
 	{
 		$object = is_object($input) ? $input : ( is_string($input) ? $this->{$input} : $this->{$this->context} );
-		printf( '<a class="%1$s" href="%2$s" title="%3$s">%4$s</a>',
-			isset($attr['class']) ? $attr['class'] : 'a--bodycolor',
-			$this->get_link_to( $object ),
-			isset($attr['title']) ? $attr['title'] : the_title_attribute( array( 'before' => __('Permalink to: ', 'gladtidings'), 'echo' => false, 'post' => $object ) ),
-			isset($attr['display']) ? $attr['display'] : $object->post_title
+		return sprintf( '<a class="%1$s" href="%2$s" title="%3$s" %4$s>%5$s</a>',
+			isset($args['class']) ? $args['class'] : 'a--bodycolor',
+			$this->get_url_to( $object ),
+			isset($args['title']) ? $args['title'] : the_title_attribute( array( 'before' => __('Permalink to: ', 'gladtidings'), 'echo' => false, 'post' => $object ) ),
+			isset($args['attribute']) ? $args['attribute'] : '',
+			isset($args['display']) ? $args['display'] : $object->post_title
 		);
+	}
+	/**
+	 * Wrapper to print get_link_to()
+	 */
+	public function print_link_to( $input = null, $args = array() )
+	{
+		print( $this->get_link_to( $input, $args ) );
 	}
 
 }

@@ -19,9 +19,6 @@ class GTView extends GTItem
 		// prepare flyout
 		add_filter( 'container_class', function( $classes ){ $classes[] = 'flyout'; return $classes; } );
 
-		// get siblings
-		$this->siblings = $this->get_children( $this->unit );
-
 		// on first touch: increment unit_{$ID}_lessons_done and recalculate progress
 		if( $this->first_touch ) {
 			$this->increment_items_done( 'unit', $this->unit->ID, 'lessons' );
