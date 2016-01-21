@@ -33,15 +33,23 @@ class GTGlobal
 		$this->user_name = wp_get_current_user() ? wp_get_current_user()->data->display_name : false;
 		$this->user_meta = $this->get_user_meta();
 
-		// get object status and relationship
-		$object = $this->setup_object( $object );
+		if( $object ) {
 
-		// setup context
-		if( !$this->context ) $this->context = $object->post_type;
+			// get object status and relationship
+			$object = $this->setup_object( $object );
 
-		// touch
-		$existed = $this->touch( $object->post_type, $object->ID );
-		$this->first_touch = $existed ? false : true;
+			// setup context
+			if( !$this->context ) $this->context = $object->post_type;
+
+			// touch
+			$existed = $this->touch( $object->post_type, $object->ID );
+			$this->first_touch = $existed ? false : true;
+
+		} else {
+
+			if( !$this->context ) $this->context = 'home';
+
+		}
 	}
 
 	/*===========================*\
