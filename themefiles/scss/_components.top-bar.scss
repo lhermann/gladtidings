@@ -21,7 +21,7 @@ $top-bar-avatar-size:	36px;
 	&__left {
 		@extend %top-bar-location-setup;
 	}
-	
+
 	&__center {
 		@extend %top-bar-location-setup;
 	}
@@ -67,11 +67,10 @@ $top-bar-avatar-size:	36px;
 /* the page title,
 	has a greater size */
 .top-bar__item--title {
-	
-	
+
+
 	.tb__title__link {
 		font-size: halve($top-bar-height);
-		// @include inuit-font-size( halve($top-bar-height), $top-bar-height );
 		color: $color-body;
 	}
 
@@ -90,7 +89,7 @@ $top-bar-avatar-size:	36px;
 		@extend %vertical-padding-reset;
 
 		&:hover {
-			.tb__avatar__img {
+			.avatar {
 				box-shadow: 0 0 3px $color-suppl;
 			}
 		}
@@ -106,7 +105,7 @@ $top-bar-avatar-size:	36px;
 		}
 	}
 
-	.tb__avatar__img {
+	.avatar {
 		border-radius: $base-border-radius;
 	}
 }

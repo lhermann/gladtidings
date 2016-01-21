@@ -1,27 +1,24 @@
 <?php
+	global $_gt;
+	// var_dump( $_gt );
+
 	get_header();
 ?>
 
-<?php
+	<header id="page-header">
 
-?>
+		<?php get_template_part( 'templates/navigation', 'home' ); ?>
 
-	<header id="page-header" class="page-hero t-header-image">
-
-		<?php
-			global $nav_overlay;
-			$nav_overlay = true;
-			get_template_part( 'templates/navigation', 'home' );
-		?>
-
-		<div class="wrapper">
-			<div class="hero-frame hero-frame--box owl--narrow">
-				<h1 class="hero-frame__title shadow--strong-text">The Glad Tidings</h1>
-				<hr class="hero-frame__hr">
-				<!-- <div class="ero-frame__hr u-header-color"></div> -->
-				<p class="ero-frame__subtitle shadow--strong-text">What the Prophets of old want you to know</p>
-			</div>
-		</div><!-- /.wrapper -->
+		<div class="page-hero shadow--receive t-header-image">
+			<div class="wrapper">
+				<div class="hero-frame hero-frame--box owl--narrow">
+					<h1 class="hero-frame__title shadow--strong-text">The Glad Tidings</h1>
+					<hr class="hero-frame__hr">
+					<!-- <div class="ero-frame__hr u-header-color"></div> -->
+					<p class="ero-frame__subtitle shadow--strong-text">What the Prophets of old want you to know</p>
+				</div>
+			</div><!-- /.wrapper -->
+		</div>
 
 	</header>
 
