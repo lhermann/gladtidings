@@ -495,6 +495,7 @@ class GTGlobal
 		$object = $object ? $object : $this->{$this->context};
 
 		switch ( $object->post_type ) {
+			case 'course':
 			case 'unit':
 				return $this->get_progress( $object ) === 100 ? true : false;
 
