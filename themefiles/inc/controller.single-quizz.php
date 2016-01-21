@@ -18,25 +18,27 @@ class GTView extends GTItem
 
 	function __construct( &$object )
 	{
-		
+
 		// call parent __contruct
 		parent::__construct( $object );
 
+		// identify exam
+		if( $object->order < 0 ) $this->is_exam = true;
+
 		// prepare flyout
-		add_filter( 'container_class', function( $classes ){ $classes[] = 'flyout'; return $classes; } );
+		if( !$this->is_exam ) {
+			add_filter( 'container_class', function( $classes ){ $classes[] = 'flyout'; return $classes; } );
+		}
 
 		// set 'passed' to false on first touch
 		if( $this->first_touch ) {
 			$this->update_value( 'quizz', $this->quizz->ID, 'passed', false );
 		}
 
-		// identify exam
-		if( $object->order < 0 ) $this->is_exam = true;
-
 		// Quizz specific object setup
 		$this->required_questions = $i = (int)get_field( 'required_questions', $post->ID );
 		$this->all_questions = get_field( 'questions_repeater', $post->ID );
-		
+
 		// savety measure against timing out while loops
 		$count = count( $this->all_questions );
 		$this->required_questions = $i > $count ? $count : $i;
@@ -63,11 +65,15 @@ class GTView extends GTItem
 					$this->update_value( 'quizz', $this->quizz->ID, 'step', 0 );
 					$this->purge_answers();
 				};
-				// setup current question
-				$this->current_question = $this->setup_current_question();
-				// if this was the answer to the last question: fall through to the evaluation
-				if( $this->get_step() < $this->required_questions ) break;
-				set_query_var( 'view', 'evaluation' );
+
+				if( $this->get_step() < $this->required_questions ) {
+					// setup current question
+					$this->current_question = $this->setup_current_question();
+					break;
+				} else {
+
+					set_query_var( 'view', 'evaluation' );
+				}
 
 			case 'evaluation':
 				$this->update_value( 'quizz', $this->quizz->ID, 'step', $this->required_questions );
@@ -186,13 +192,21 @@ class GTView extends GTItem
 		}
 		$this->mistakes = $this->required_questions - $score;
 
-		// Mark quizz as passed (if no mistakes and not yet passed)
-		if( !$this->mistakes && !$this->is_done() ) $this->update_value( 'quizz', $this->quizz->ID, 'passed', true );
+		/**
+		 * If no mistake was found, but the quizz was not yet marked as 'passed'
+		 * -> update value quizz_{$ID}_passed = true
+		 * -> update current post_status to 'success'
+		 */
+		if( !$this->mistakes && !$this->is_done() ) {
+			$this->update_value( 'quizz', $this->quizz->ID, 'passed', true );
+			$this->quizz->post_status = 'success';
+		}
+
 	}
 
 
 	/*===========================*\
-		Quizz Functions
+		Quizz & Exam Functions
 	\*===========================*/
 
 	public function get_answers()
@@ -247,7 +261,7 @@ class GTView extends GTItem
 
 	public function print_related_lesson_btn( $answer )
 	{
-		if( $answer['correct'] ) return '';
+		if( !$answer['related_lesson'] ) return '';
 
 		$object = $answer['related_lesson'];
 		printf( '<a class="btn btn--small btn--theme u-pull--right" href="%1$s" title="%2$s">%3$s</a>',
@@ -269,15 +283,37 @@ class GTView extends GTItem
 		$return = array();
 		foreach ($answers as $key => $answer) {
 			$correct = $answer['given_answer'] === $answer['correct_answer'];
+			$related_lesson_id = $questions[ $answer['key'] ]['related_lesson'];
 			$return[$key] = array(
 				'title' 		 => $questions[ $answer['key'] ]['question_text'],
 				'given_answer' 	 => $answer['given_answer'],
 				'correct'		 => $correct,
-				'related_lesson' => $correct ? '' : $this->setup_object( $questions[ $answer['key'] ]['related_lesson'] )
+				'related_lesson' => $correct ? '' : ( $related_lesson_id ? $this->get_object( $related_lesson_id ) : '' )
 			);
 		}
 
 		return $return;
+	}
+
+	/*===========================*\
+		Exam Functions
+	\*===========================*/
+
+	/**
+	 * Meta States:
+	 * <span class="color--success">Completed</span>
+	 * <span class="color--locked">Locked: Complete "%s" first</span>
+	 * <span class="color--primary">Coming soon: 01/01/2016</span>
+	 */
+	public function hero_meta()
+	{
+		switch ( $this->unit->post_status ) {
+			case 'coming':  $output = '&bull; <span class="color--primary t-comp-text">' .          __('Coming soon', 'gladtidings') . ': ' . $this->unit->release_date . '</span>'; break;
+			case 'locked':  $output = '&bull; <span class="color--locked t-comp-text">'  . sprintf( __('Locked: Complete "%s" first', 'gladtidings'), $this->print_link_to( $this->unit->unlock_dependency ) ) . '</span>'; break;
+			case 'success': $output = '&bull; <span class="color--success">'             .          __('Completed', 'gladtidings') . '</span>'; break;
+			default: $output = '';
+		}
+		return $output;
 	}
 
 }

@@ -27,7 +27,7 @@ class GTGlobal
 	protected $user_meta;
 
 	function __construct( &$object )
-	{	
+	{
 		// setup user variables
 		$this->user_id = wp_get_current_user() ? (int)wp_get_current_user()->data->ID : false;
 		$this->user_name = wp_get_current_user() ? wp_get_current_user()->data->display_name : false;
@@ -54,8 +54,8 @@ class GTGlobal
 	private function get_user_meta()
 	{
 		global $wpdb;
-		$query_str = "SELECT meta_key, meta_value 
-						FROM $wpdb->usermeta 
+		$query_str = "SELECT meta_key, meta_value
+						FROM $wpdb->usermeta
 						WHERE user_id = $this->user_id
 						AND ( meta_key LIKE 'course_%'
 							OR meta_key LIKE 'unit_%'
@@ -70,9 +70,10 @@ class GTGlobal
 	}
 
 	/**
+	 * Get object or complete missing information for a standard wp_post object
 	 * INPUT: ID or Post Object
 	 */
-	public function setup_object( $object )
+	protected function get_object( $object )
 	{
 		if( is_numeric($object) ) {
 			$object = get_post( $object );
@@ -81,6 +82,16 @@ class GTGlobal
 			$object = $this->get_object_relationship( $object );
 			$object = $this->update_object_status( $object );
 		}
+		return $object;
+	}
+
+	/**
+	 * A full object setup
+	 * INPUT: ID or Post Object
+	 */
+	protected function setup_object( $object )
+	{
+		$object = $this->get_object( $object );
 		$this->{$object->post_type} = $object;
 		return $object;
 	}
@@ -186,7 +197,7 @@ class GTGlobal
 	\*=======================*/
 
 	/**
-	 * INPUT: 
+	 * INPUT:
 	 *	$scope = 'course'|'unit'|'lesson'|'quizz'
 	 * 	$ID = object ID or term_id
 	 * 	$name =	name of the key
@@ -206,7 +217,7 @@ class GTGlobal
 	}
 
 	/**
-	 * INPUT: 
+	 * INPUT:
 	 *	$scope = 'course'|'unit'|'lesson'|'quizz'
 	 * 	$ID
 	 *	$name
@@ -223,14 +234,14 @@ class GTGlobal
 	}
 
 	/**
-	 * INPUT: 
+	 * INPUT:
 	 *	$scope = 'course'|'unit'|'lesson'|'quizz'
 	 * 	$ID
 	 *	$name
 	 * OUTPUt: DB entry existed true|false
 	 */
 	protected function increment_value( $scope, $ID, $name )
-	{	
+	{
 		$key = "{$scope}_{$ID}_{$name}";
 		$value = isset($this->user_meta->{$key}) ? $this->user_meta->{$key} + 1 : 1;
 
@@ -238,19 +249,19 @@ class GTGlobal
 	}
 
 	/**
-	 * INPUT: 
+	 * INPUT:
 	 *	$scope = 'course'|'unit'|'lesson'|'quizz'
 	 * 	$ID
 	 *	$type = 'lesson'|'quizz'
 	 * OUTPUt: DB entry existed true|false
 	 */
 	protected function increment_items_done( $scope, $ID, $type )
-	{	
+	{
 		return $this->increment_value( $scope, $ID, "{$type}_done" );
 	}
 
 	/**
-	 * INPUT: 
+	 * INPUT:
 	 *	$scope = 'course'|'unit'|'lesson'|'quizz'
 	 * 	$ID
 	 * OUTPUt: DB entry existed true|false
@@ -299,7 +310,7 @@ class GTGlobal
 			$key = "num_{$type}_total";
 			$value = $this->get_value( $scope, $ID, $key );
 			if( $value ) return (int)$value;
-			
+
 			// do a database query
 			global $wpdb;
 
@@ -401,12 +412,19 @@ class GTGlobal
 	\*=======================*/
 
 	/**
-	 * Return an object. E.g. 'course'
+	 * Return any protected or public variable
 	 */
-	public function get_object( $post_type = null, $value = null )
+	public function get_var( $var, $sub_var = null )
 	{
-		$object = $post_type ? $this->{$post_type} : $this->{$this->context};
-		return $value ? $object->{$value} : $object;
+		if( !isset($this->{$var}) ) return false;
+		$return = $this->{$var};
+
+		if( $sub_var ) {
+			if( !isset($return->{$sub_var}) ) return false;
+			$return = $return->{$sub_var};
+		}
+
+		return $return;
 	}
 
 	/**
@@ -423,7 +441,7 @@ class GTGlobal
 
 	// 		if( !$this->context ) $this->context = $object->post_type;
 	// 		$this->{$object->post_type} = $object;
-			
+
 	// 	} catch (Exception $e) {
 	// 		echo 'GTGlobal '.__LINE__.' - Caught exception: ', $e->getMessage(), "\n";
 	// 	}
@@ -491,10 +509,10 @@ class GTGlobal
 	 */
 	protected function num_items( $object = null, $type )
 	{
-		
+
 		$object = $object ? $object : $this->{$this->context};
 		$return = $this->get_num_items_total( $object, $type );
-		
+
 		return $return;
 	}
 	public function num_lessons( $object = null ) { return $this->num_items( $object, 'lesson' ); }
@@ -520,6 +538,7 @@ class GTGlobal
 
 		switch ($this->context) {
 			case 'lesson':
+			case 'quizz':
 				$parent_course = $this->course;
 				$parent_unit = $this->unit;
 				break;
@@ -544,7 +563,7 @@ class GTGlobal
 	 * INPUT: Type string (e.g. 'unit') or Post Object
 	 */
 	public function print_link_to( $input = null, $attr = array() )
-	{	
+	{
 		$object = is_object($input) ? $input : ( is_string($input) ? $this->{$input} : $this->{$this->context} );
 		printf( '<a class="%1$s" href="%2$s" title="%3$s">%4$s</a>',
 			isset($attr['class']) ? $attr['class'] : 'a--bodycolor',

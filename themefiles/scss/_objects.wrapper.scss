@@ -24,11 +24,13 @@
 /**
  * Variations
  */
+// Remove the warpper padding
 .wrapper--paddingless {
     padding-right: 0;
     padding-left:  0;
 }
 
+// Only apply the wrapper paddings on desk viewport
 .wrapper--desk {
     @include media-query(portable) {
        padding-right: 0;

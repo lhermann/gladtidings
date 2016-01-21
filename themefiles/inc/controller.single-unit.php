@@ -8,7 +8,7 @@ class GTView extends GTGlobal
 
 	function __construct( &$object )
 	{
-		
+
 		// call parent __contruct
 		parent::__construct( $object );
 
@@ -65,7 +65,7 @@ class GTView extends GTGlobal
 			if( $child->post_status == 'publish' ) {
 				$next_item = $child;
 				break;
-			} 
+			}
 		}
 
 		print( '<a class="layout__item u-pull--right btn btn--success" href="'.gt_get_permalink( $next_item, $this->course, $this->unit ).'">'.$btn_label.'</a>' );
@@ -84,7 +84,7 @@ class GTView extends GTGlobal
 	 * <span class="color--primary">Coming soon: 01/01/2016</span>
 	 */
 	public function hero_meta()
-	{	
+	{
 		switch ( $this->unit->post_status ) {
 			case 'coming':  $output = '&bull; <span class="color--primary t-comp-text">' .          __('Coming soon', 'gladtidings') . ': ' . $this->unit->release_date . '</span>'; break;
 			case 'locked':  $output = '&bull; <span class="color--locked t-comp-text">'  . sprintf( __('Locked: Complete "%s" first', 'gladtidings'), $this->print_link_to( $this->unit->unlock_dependency ) ) . '</span>'; break;

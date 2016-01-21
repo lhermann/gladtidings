@@ -103,6 +103,9 @@ function gt_get_permalink( $post = 0, $parent_course = null, $parent_unit = null
 
 	$url = esc_url( home_url( '/' ) );
 
+	// exam correction
+	if( $post->post_type == 'quizz' && $post->order < 0 ) $post->post_type = 'exam';
+
 	switch ( $post->post_type ) {
 		case 'course':
 			$permalink = get_permalink( $post );

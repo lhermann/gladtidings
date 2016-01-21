@@ -12,7 +12,7 @@ class GTView extends GTItem
 
 	function __construct( &$object )
 	{
-		
+
 		// call parent __contruct
 		parent::__construct( $object );
 
@@ -21,6 +21,12 @@ class GTView extends GTItem
 
 		// get siblings
 		$this->siblings = $this->get_children( $this->unit );
+
+		// on first touch: increment unit_{$ID}_lessons_done and recalculate progress
+		if( $this->first_touch ) {
+			$this->increment_items_done( 'unit', $this->unit->ID, 'lessons' );
+			$this->update_value( 'unit', $this->unit->ID, 'progress', $this->calculate_progress( $this->unit ) );
+		}
 
 	}
 
