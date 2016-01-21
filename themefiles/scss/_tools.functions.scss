@@ -17,7 +17,23 @@
 	@return $px / $base-font-size * 1em;
 }
 
-// Tripple a value
-@function tripple($number) {
-    @return round($number * 3);
+// Convert px to em
+@function px-to-percent( $px, $context ) {
+	@return $px / $context * 100%;
+}
+
+// Tripple / Third a value
+@function tripple( $number ) {
+    @return round( $number * 3 );
+}
+@function third($number) {
+    @return round( $number / 3 );
+}
+
+// Golden ratio to a value
+@function gold-more( $number ) {
+    @return round( $number * 8/5 );
+}
+@function gold-less( $number ) {
+    @return round( $number * 5/8 );
 }
