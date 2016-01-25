@@ -11,6 +11,8 @@ $color-primary: 		#4FA5B8;
 $color-suppl: 			#F2A200;
 $color-theme: 			#02944B;
 
+$color-primary-light: 	lighten( $color-primary, 40% );
+
 $color-secondary: 		#e7e7e7;
 $color-alert:			#f04124;
 $color-success: 		#02944B;

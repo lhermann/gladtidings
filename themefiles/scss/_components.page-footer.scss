@@ -4,13 +4,17 @@
 .page-footer {
 
 	// footer cosmetics
-	padding-bottom: px-to-rem($base-spacing-unit);
+	// padding-bottom: px-to-rem($base-spacing-unit);
 	background-color: $color-dark-bg;
 	color: #ccc;
-	
+
 	// Maintain padding if breadcrumbs are missing
 	> .wrapper:first-child {
 		padding-top: px-to-rem($base-spacing-unit);
+	}
+
+	> .wrapper:last-child {
+		padding: 1.5rem 0;
 	}
 
 }

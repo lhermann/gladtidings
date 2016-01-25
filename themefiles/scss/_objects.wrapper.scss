@@ -3,6 +3,12 @@
 \*------------------------------------*/
 
 /**
+ * Defaults
+ */
+$spacing-unit:        $base-line-height !default;
+$spacing-unit--small: round($spacing-unit / 2);
+
+/**
  * Standard Definitions
  * 1. do not break the owl by using "margin: 0 auto;"
  */
@@ -34,6 +40,6 @@
 .wrapper--desk {
     @include media-query(portable) {
        padding-right: 0;
-       padding-left:  0; 
+       padding-left:  0;
     }
 }
