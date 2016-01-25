@@ -28,86 +28,66 @@
 
 	<main id="page-content" role="main">
 
+		<section id="progress" class="wrapper">
 
-		<?php
-		// Show content if user is logged in
-		if( $_gt->user_can_study() ):
-			?>
+				<?php //get_template_part( 'templates/content', 'progress' ); ?>
+				<h2 class="u-screen-reader-text"><?= __( 'Progress', 'gladtidings' ) ?></h2>
+				<div class="progress progress--meter" title="<?= __( 'Progress:', 'gladtidings' ).' '.$_gt->get_progress_width() ?>">
+					<span class="progress__item t-comp-bg" style="width: <?= $_gt->get_progress_width() ?>"><?= $_gt->get_progress_width() ?></span>
+				</div>
+				<p class="u-spacing--narrow t-second-text"><?php $_gt->print_progress_message() ?></p>
 
-			<section id="progress" class="wrapper">
+		</section>
 
-					<?php //get_template_part( 'templates/content', 'progress' ); ?>
-					<h2 class="u-screen-reader-text"><?= __( 'Progress', 'gladtidings' ) ?></h2>
-					<div class="progress progress--meter" title="<?= __( 'Progress:', 'gladtidings' ).' '.$_gt->get_progress_width() ?>">
-						<span class="progress__item t-comp-bg" style="width: <?= $_gt->get_progress_width() ?>"><?= $_gt->get_progress_width() ?></span>
-					</div>
-					<p class="u-spacing--narrow t-second-text"><?php $_gt->print_progress_message() ?></p>
+		<div class="wrapper">
+			<div class="layout layout--spacehack">
+				<section id="units" class="layout__item u-2/3-desk">
 
-			</section>
+					<h2 class="t-second-text"><?= __( 'Units', 'gladtidings' ); ?></h2>
 
-			<div class="wrapper">
-				<div class="layout layout--spacehack">
-					<section id="units" class="layout__item u-2/3-desk">
+					<?php
+						//get all the units
+						$units = $_gt->get_units();
+						// var_dump( $units );
 
-						<h2 class="t-second-text"><?= __( 'Units', 'gladtidings' ); ?></h2>
+						// check if the repeater field has rows of data
+						if( $units ) {
 
-						<?php
-							//get all the units
-							$units = $_gt->get_units();
-							// var_dump( $units );
+							print( '<ul class="nodelist nodelist--course">' );
 
-							// check if the repeater field has rows of data
-							if( $units ) {
+							// loop through the units
+							foreach ( $units as $key => $post ) {
 
-								print( '<ul class="nodelist nodelist--course">' );
-
-								// loop through the units
-								foreach ( $units as $key => $post ) {
-
-									get_template_part( 'templates/node', get_post_type() );
-
-								}
-
-								print( '</ul><!-- /.nodelist -->' );
-
-								// restore the original post
-								wp_reset_postdata();
-
-							} else {
-
-								_e( 'No Units!' );
+								get_template_part( 'templates/node', get_post_type() );
 
 							}
-						?>
 
-					</section>
-					<aside class="layout__item no-owl-desk u-1/3-desk">
+							print( '</ul><!-- /.nodelist -->' );
 
-						<?php
-							$description = $_gt->get_description();
-							if( $description ): ?>
+							// restore the original post
+							wp_reset_postdata();
 
-							<h2 class="t-second-text"><?= __( 'Description', 'gladtidings' ) ?></h2>
-							<p><?= $description ?></p>
+						} else {
 
-						<?php endif; ?>
+							_e( 'No Units!' );
 
-					</aside>
-				</div>
+						}
+					?>
 
-				<?php
-			// Show login prompt if user is not logged in
-			else:
-				?>
+				</section>
+				<aside class="layout__item no-owl-desk u-1/3-desk">
 
-				<div class="wrapper u-text--center">
-					<p>Please Log In to study</p>
-					<?php wp_loginout( $_SERVER['REQUEST_URI'], true ); ?>
-				</div>
+					<?php
+						$description = $_gt->get_description();
+						if( $description ): ?>
 
-				<?php
-			endif;
-			?>
+						<h2 class="t-second-text"><?= __( 'Description', 'gladtidings' ) ?></h2>
+						<p><?= $description ?></p>
+
+					<?php endif; ?>
+
+				</aside>
+			</div>
 
 		</div><!-- /.wrapper -->
 

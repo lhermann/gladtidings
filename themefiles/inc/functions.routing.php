@@ -5,7 +5,7 @@
 
 /**
  * Permalink Structure for Glad Tidings
- * 
+ *
  * - course - http://gladtidings:8888/course/course-slug
  * - unit   - http://gladtidings:8888/course/course-slug/unit/1
  * - lesson - http://gladtidings:8888/course/course-slug/unit/1/lesson/lesson-slug
@@ -32,7 +32,7 @@ function gladtidings_get_variables() {
 
 /**
  * Custom URL Routing
- * Tutorial: http://www.hongkiat.com/blog/wordpress-url-rewrite/ 
+ * Tutorial: http://www.hongkiat.com/blog/wordpress-url-rewrite/
  */
 add_action( 'generate_rewrite_rules', 'gladtidings_rewrite_rules' );
 function gladtidings_rewrite_rules() {
@@ -64,9 +64,9 @@ function gladtidings_rewrite_rules() {
 add_action( 'pre_get_posts', 'gt_unit_routing' );
 function gt_unit_routing( $query ) {
 	if( $query->is_singular && $query->query_vars['post_type'] == 'unit' ) {
-				
+
 		global $wpdb;
-		$sql = $wpdb->prepare( 
+		$sql = $wpdb->prepare(
 			"SELECT u.post_name
 			 FROM $wpdb->posts c
 			 LEFT JOIN $wpdb->gt_relationships r
@@ -75,14 +75,14 @@ function gt_unit_routing( $query ) {
 			 ON r.child_id = u.ID
 			 WHERE c.post_name = %s
 			 AND r.order = %d;
-			", 
-			$query->query['course-name'], 
+			",
+			$query->query['course-name'],
 			$query->query['unit']
 		);
 		$slug = $wpdb->get_var( $sql );
 		$query->query_vars['unit'] = $slug;
 		$query->query_vars['name'] = $slug;
-		
+
 	}
 }
 
@@ -91,7 +91,7 @@ function gt_unit_routing( $query ) {
  * My very own get_permalink function!
  */
 function gt_get_permalink( $post = 0, $parent_course = null, $parent_unit = null ) {
-	
+
 	// get post object
 	if( empty($post) ) {
 		$post = $GLOBALS['post'];
@@ -184,6 +184,26 @@ function gt_get_object_order( $post ) {
 
 
 /**
+ * Builtin Login Redirect
+ */
+// add_filter( 'single_template', 'gt_login_redirect', 9, 1 );
+// function gt_login_redirect( $single_template )
+// {
+// 	if( is_user_logged_in() ) return $single_template;
+
+// 	$object = get_queried_object();
+// 	if( in_array( $object->post_type, array( 'course', 'unit', 'lesson', 'quizz' ) ) ) {
+
+// 		// redirect to the login.php template if existing
+// 		$login_template = locate_template("login.php");
+// 		if( $login_template ) return $login_template;
+
+// 	}
+// 	return $single_template;
+// }
+
+
+/**
  * Exam Template redirect
  * 'exam' is just an artificial name since it is really a quizz, but it still needs to load a different template
  */
@@ -208,12 +228,31 @@ function exam_template_redirect( $single_template )
 /**
  * Login Redirect
  */
-// add_action( 'template_redirect', 'my_page_template_redirect' );
-// function my_page_template_redirect()
-// {
-//     if( is_page( 'goodies' ) && ! is_user_logged_in() )
-//     {
-//         wp_redirect( home_url( '/signup/' ) );
-//         exit();
-//     }
-// }
+add_action( 'template_redirect', 'gt_login_redirect' );
+function gt_login_redirect()
+{
+
+	if( is_user_logged_in() ) return;
+
+	$object = get_queried_object();
+	if( in_array( $object->post_type, array( 'course', 'unit', 'lesson', 'quizz' ) ) ) {
+
+		wp_redirect( wp_login_url( $_SERVER['REQUEST_URI'] ) );
+		exit();
+
+	}
+}
+
+
+add_action( 'login_footer', 'gt_login_footer' );
+function gt_login_footer()
+{
+	get_footer();
+}
+
+function gt_login_stylesheet() {
+
+    wp_enqueue_style( 'gt-login', get_template_directory_uri() . '/css/login.css', array(), THEMEVERSION );
+
+}
+add_action( 'login_enqueue_scripts', 'gt_login_stylesheet' );

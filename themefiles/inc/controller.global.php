@@ -434,7 +434,7 @@ class GTGlobal
 	 */
 	public function user_can_study()
 	{
-		return is_user_logged_in() && ( current_user_can( 'study' ) || current_user_can( 'edit_post' ) ) ? true : fale;
+		return is_user_logged_in() && ( current_user_can( 'study' ) || current_user_can( 'edit_post' ) ) ? true : false;
 	}
 
 	/*=======================*\
