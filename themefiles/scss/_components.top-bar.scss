@@ -87,10 +87,14 @@ $top-bar-avatar-size:	36px;
 
 /* the username and user avatar */
 .top-bar__item--avatar {
+
 	.tb__avatar__link {
 		display: inline-block;
 		line-height: 0;
 		@extend %vertical-padding-reset;
+
+		// TEMPORARY
+		cursor: default;
 
 		&:hover {
 			.avatar {
