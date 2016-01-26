@@ -3,6 +3,12 @@
 \*------------------------------------*/
 
 /**
+ * Defaults
+ */
+$spacing-unit:        $base-line-height !default;
+$spacing-unit--small: round($spacing-unit / 2);
+
+/**
  * Standard Definitions
  * 1. do not break the owl by using "margin: 0 auto;"
  */
@@ -24,14 +30,16 @@
 /**
  * Variations
  */
+// Remove the warpper padding
 .wrapper--paddingless {
     padding-right: 0;
     padding-left:  0;
 }
 
+// Only apply the wrapper paddings on desk viewport
 .wrapper--desk {
     @include media-query(portable) {
        padding-right: 0;
-       padding-left:  0; 
+       padding-left:  0;
     }
 }

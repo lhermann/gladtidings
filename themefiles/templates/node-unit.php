@@ -12,7 +12,7 @@ $_gt->setup_node( $post );
 		<article class="nl__article">
 			<header class="nl__article__header">
 				<h3 class="nl__article__title"><?php the_title() ?> <?= $_gt->node_button() ?></h3>
-				<small class="nl__article__meta t-second-text"><span class="label label--small t-second-text t-second-border"><?= __( 'Unit', 'gladtidings').' '.$post->order ?></span> <?= $_gt->node_meta() ?></small>
+				<small class="nl__article__meta t-second-text"><?= __( 'Unit', 'gladtidings').' '.$post->order ?> <?= $_gt->node_meta() ?></small>
 			</header>
 			<footer class="nl__article__footer">
 				<p class="t-comp-text"><?= $_gt->node_footer() ?></p>

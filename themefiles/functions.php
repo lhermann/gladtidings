@@ -21,6 +21,7 @@ require_once ( "inc/functions.theme-activation.php" );
 require_once ( "inc/functions.theme-register.php" );
 require_once ( "inc/functions.gt-relationships.php" );
 require_once ( "inc/functions.routing.php" );
+require_once ( "inc/functions.login.php" );
 // require_once ( "inc/functions.theme-acf.inc.php" );
 // require_once ( "inc/functions.user-register.inc.php" );
 require_once ( "inc/functions.color.php" );
@@ -38,10 +39,7 @@ require_once ( "inc/controller.global.php" );
 add_action( 'wp', 'instantiate_GladTidings', 10, 1 );
 function instantiate_GladTidings( $wp ) {
 	if( is_admin() ) return;
-	if( !is_single() ) return;
 
-	global $post;
-		
 	global $post, $_gt;
 
 	$root = dirname( __FILE__ ).'/inc/controller';
@@ -143,7 +141,7 @@ add_action( 'admin_enqueue_scripts', 'admin_scripts_and_styles' );
  * Admin Menu tweaks
  */
 function remove_menus(){
-  
+
 //	remove_menu_page( 'index.php' );                  //Dashboard
 	remove_menu_page( 'edit.php' );                   //Posts
 //	remove_menu_page( 'upload.php' );                 //Media
@@ -154,7 +152,7 @@ function remove_menus(){
 //	remove_menu_page( 'users.php' );                  //Users
 //	remove_menu_page( 'tools.php' );                  //Tools
 //	remove_menu_page( 'options-general.php' );        //Settings
-  
+
 }
 add_action( 'admin_menu', 'remove_menus' );
 
@@ -259,7 +257,7 @@ function add_theme_color( $css ) {
 									  'border-color'     => $comp_hex   ),
 		// '.panel'             => array( 'background-color' => $second_light_hex,
 		// 							  'border-color'     => $second_hex                 ),
-		'.flyout:before, .flyout > .wrapper:before' => array( 
+		'.flyout:before, .flyout > .wrapper:before' => array(
 									  'background-color' => $second_light_hex           )
 	);
 	return array_merge( $css, $theme_css );

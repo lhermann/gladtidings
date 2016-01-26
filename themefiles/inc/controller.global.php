@@ -13,11 +13,12 @@ class GTGlobal
 
 	protected $course;
 	protected $unit;
-	protected $exam;
 	protected $lesson;
 	protected $quizz;
+	protected $is_exam = false;
 
 	protected $context;
+	protected $siblings;
 	protected $children;
 
 	protected $first_touch;
@@ -27,22 +28,29 @@ class GTGlobal
 	protected $user_meta;
 
 	function __construct( &$object )
-	{	
+	{
 		// setup user variables
 		$this->user_id = wp_get_current_user() ? (int)wp_get_current_user()->data->ID : false;
 		$this->user_name = wp_get_current_user() ? wp_get_current_user()->data->display_name : false;
 		$this->user_meta = $this->get_user_meta();
 
-		// update object status
-		$object = $this->get_object_relationship( $object );
-		$object = $this->update_object_status( $object );
+		if( $object ) {
 
-		// setupt context
-		$this->setup_context( $object );
+			// get object status and relationship
+			$object = $this->setup_object( $object );
 
-		// touch
-		$existed = $this->touch( $object->post_type, $object->ID );
-		$this->first_touch = $existed ? false : true;
+			// setup context
+			if( !$this->context ) $this->context = $object->post_type;
+
+			// touch
+			$existed = $this->touch( $object->post_type, $object->ID );
+			$this->first_touch = $existed ? false : true;
+
+		} else {
+
+			if( !$this->context ) $this->context = 'home';
+
+		}
 	}
 
 	/*===========================*\
@@ -55,8 +63,8 @@ class GTGlobal
 	private function get_user_meta()
 	{
 		global $wpdb;
-		$query_str = "SELECT meta_key, meta_value 
-						FROM $wpdb->usermeta 
+		$query_str = "SELECT meta_key, meta_value
+						FROM $wpdb->usermeta
 						WHERE user_id = $this->user_id
 						AND ( meta_key LIKE 'course_%'
 							OR meta_key LIKE 'unit_%'
@@ -68,6 +76,33 @@ class GTGlobal
 			$return->{$row->meta_key} = maybe_unserialize( $row->meta_value );
 		}
 		return $return;
+	}
+
+	/**
+	 * Get object or complete missing information for a standard wp_post object
+	 * INPUT: ID or Post Object
+	 */
+	protected function get_object( $object )
+	{
+		if( is_numeric($object) ) {
+			$object = get_post( $object );
+		}
+		if( $object->post_type !== 'course' ) {
+			$object = $this->get_object_relationship( $object );
+			$object = $this->update_object_status( $object );
+		}
+		return $object;
+	}
+
+	/**
+	 * A full object setup
+	 * INPUT: ID or Post Object
+	 */
+	protected function setup_object( $object )
+	{
+		$object = $this->get_object( $object );
+		$this->{$object->post_type} = $object;
+		return $object;
 	}
 
 	/**
@@ -104,6 +139,28 @@ class GTGlobal
 		}
 
 		return $children;
+	}
+
+	/**
+	 * Returns the first object that maches all the search parameters, else returns false
+	 * INPUT: array with index => value pairs to search for in the object
+	 */
+	public function find_sibling( $search )
+	{
+		// $results = array();
+		// foreach ( $search as $index => $value ) {
+		// 	$results[] = array_keys( array_column( $this->siblings, $index ), $value );
+		// }
+		// $intersect = reset( array_intersect( $results[0], $results[1] ) );
+		// var_dump( $this->siblings[$intersect] );
+
+		foreach ( $this->siblings as $object ) {
+			foreach ( $search as $index => $value ) {
+				if( $object->{$index} != $value ) continue 2;
+			}
+			return $object;
+		}
+		return false;
 	}
 
 	/**
@@ -167,11 +224,11 @@ class GTGlobal
 	}
 
 	/*=======================*\
-		Protexted Functions
+		Protected Functions
 	\*=======================*/
 
 	/**
-	 * INPUT: 
+	 * INPUT:
 	 *	$scope = 'course'|'unit'|'lesson'|'quizz'
 	 * 	$ID = object ID or term_id
 	 * 	$name =	name of the key
@@ -191,7 +248,7 @@ class GTGlobal
 	}
 
 	/**
-	 * INPUT: 
+	 * INPUT:
 	 *	$scope = 'course'|'unit'|'lesson'|'quizz'
 	 * 	$ID
 	 *	$name
@@ -208,14 +265,14 @@ class GTGlobal
 	}
 
 	/**
-	 * INPUT: 
+	 * INPUT:
 	 *	$scope = 'course'|'unit'|'lesson'|'quizz'
 	 * 	$ID
 	 *	$name
 	 * OUTPUt: DB entry existed true|false
 	 */
 	protected function increment_value( $scope, $ID, $name )
-	{	
+	{
 		$key = "{$scope}_{$ID}_{$name}";
 		$value = isset($this->user_meta->{$key}) ? $this->user_meta->{$key} + 1 : 1;
 
@@ -223,19 +280,19 @@ class GTGlobal
 	}
 
 	/**
-	 * INPUT: 
+	 * INPUT:
 	 *	$scope = 'course'|'unit'|'lesson'|'quizz'
 	 * 	$ID
 	 *	$type = 'lesson'|'quizz'
 	 * OUTPUt: DB entry existed true|false
 	 */
 	protected function increment_items_done( $scope, $ID, $type )
-	{	
+	{
 		return $this->increment_value( $scope, $ID, "{$type}_done" );
 	}
 
 	/**
-	 * INPUT: 
+	 * INPUT:
 	 *	$scope = 'course'|'unit'|'lesson'|'quizz'
 	 * 	$ID
 	 * OUTPUt: DB entry existed true|false
@@ -245,36 +302,31 @@ class GTGlobal
 		return $this->update_value( $scope, $ID, 'touched', time() );
 	}
 
-	// Get number of completed lessons|quizzes for course|unit
+	/**
+	 * Get number of completed items for a course|unit
+	 * INPUT: $object (for which to find the stats), $type to limit for only 'lessons'|'quizzes'
+	 * OUTPUT: (int) number of items done
+	 */
 	protected function get_num_items_done( $object, $type = 'all' )
 	{
 
-		try {
-			if( $object === null ) throw new Exception("\$object is NULL!");
+		// prepare variables
+		$counter = 0;
+		$iterator = $object->post_type == 'course' ? $this->children : array( $object );
 
-			// prepare variables
-			$scope = $object->post_type;
-			$ID    = $object->ID;
-
-			switch ($type) {
-				case 'lessons':
-				case 'quizzes':
-					return (int)$this->get_value( $scope, $ID, "{$type}_done" );
-					break;
-				case 'all':
-				default:
-					return (int)$this->get_value( $scope, $ID, "lessons_done" ) + (int)$this->get_value( $scope, $ID, "quizzes_done" );
-					break;
-			}
-
-		} catch (Exception $e) {
-			echo 'Line '.__LINE__.': Caught exception: ', $e->getMessage(), "\n";
-			return false;
+		foreach ( $iterator as $i) {
+			$counter += $type !== 'quizzes' ? (int)$this->get_value( $i->post_type, $i->ID, "lessons_done" ) : 0;
+			$counter += $type !== 'lessons' ? (int)$this->get_value( $i->post_type, $i->ID, "quizzes_done" ) : 0;
 		}
 
+		return $counter;
 	}
 
-	// Get total number of lessons|quizzes
+	/**
+	 * Get total number of items for a course|unit
+	 * INPUT: $object (for which to find the stats), $type to limit for only 'lessons'|'quizzes'
+	 * OUTPUT: (int) number of total items
+	 */
 	protected function get_num_items_total( $object, $type = 'all' )
 	{
 		try {
@@ -289,7 +341,7 @@ class GTGlobal
 			$key = "num_{$type}_total";
 			$value = $this->get_value( $scope, $ID, $key );
 			if( $value ) return (int)$value;
-			
+
 			// do a database query
 			global $wpdb;
 
@@ -355,6 +407,24 @@ class GTGlobal
 		}
 	}
 
+	/**
+	 * Specifically calculate the progress percentage, to not use cached values,
+	 * if you call this outside the constructer consider using $this->get_progress instead
+	 * INPUT: post object
+	 * OUTPUT: (int) 0-100
+	 */
+	public function calculate_progress( $object = null )
+	{
+		$object = $object ? $object : $this->{$this->context};
+
+		$total = $this->get_num_items_total( $object );
+		$done = $this->get_num_items_done( $object );
+
+		if( !$total || !$done ) return 0;
+
+		return (int)round( ( $done / $total ) * 100 );
+	}
+
 
 	/*=======================*\
 		User Functions
@@ -365,7 +435,7 @@ class GTGlobal
 	 */
 	public function user_can_study()
 	{
-		return is_user_logged_in() && ( current_user_can( 'study' ) || current_user_can( 'edit_post' ) ) ? true : fale;
+		return is_user_logged_in() && ( current_user_can( 'study' ) || current_user_can( 'edit_post' ) ) ? true : false;
 	}
 
 	/*=======================*\
@@ -373,32 +443,30 @@ class GTGlobal
 	\*=======================*/
 
 	/**
-	 * Return an object. E.g. 'course'
+	 * Return any protected or public variable
 	 */
-	public function get_object( $post_type = null, $value = null )
+	public function get_var( $var, $sub_var = null )
 	{
-		$object = $post_type ? $this->{$post_type} : $this->{$this->context};
-		return $value ? $object->{$value} : $object;
+		if( !isset($this->{$var}) ) return false;
+		$return = $this->{$var};
+
+		if( $sub_var ) {
+			if( !isset($return->{$sub_var}) ) return false;
+			$return = $return->{$sub_var};
+		}
+
+		return $return;
 	}
+
 
 	/**
-	 * Set up a context
-	 * INPUT: a post object
+	 * Wrapper for $this->context;
 	 */
-	public function setup_context( $object )
+	public function get_context()
 	{
-		try {
-
-			if( !is_object($object) || !isset($object->ID) ) throw new Exception("Input has to be a post object.");
-			if( $object->post_type == $this->parent_context ) throw new Exception("Cannot overwrite context.");
-
-			$this->context = $object->post_type;
-			$this->{$object->post_type} = $object;
-			
-		} catch (Exception $e) {
-			echo 'GTGlobal '.__LINE__.' - Caught exception: ', $e->getMessage(), "\n";
-		}
+		return $this->context;
 	}
+
 
 	/**
 	 * Wrapper for $this->course->ID
@@ -408,14 +476,18 @@ class GTGlobal
 		return $this->course->ID;
 	}
 
+
 	/**
 	 * OUTPUT: true|false
 	 *
 	 * (1) return false for items that weren't touched before
 	 */
-	public function is_done( $object )
+	public function is_done( $object = null )
 	{
+		$object = $object ? $object : $this->{$this->context};
+
 		switch ( $object->post_type ) {
+			case 'course':
 			case 'unit':
 				return $this->get_progress( $object ) === 100 ? true : false;
 
@@ -434,28 +506,16 @@ class GTGlobal
 
 
 	/**
-	 * Return the current post status
-	 * wrapper for $this->{context}->post_status
-	 * OBSOLETE: should be accessed through $post->post_status
-	 */
-	// public function get_status( $context = null )
-	// {
-	// 	if( !$context ) $context = $this->context;
-	// 	return $this->{$context}->post_status;
-	// }
-
-
-	/**
 	 * Wrapper function for $this->get_num_items_total() in a post object contect
 	 * INPUT: post object
 	 * OUTPUT: total number of lessons|quizzes for that object
 	 */
 	protected function num_items( $object = null, $type )
 	{
-		
+
 		$object = $object ? $object : $this->{$this->context};
 		$return = $this->get_num_items_total( $object, $type );
-		
+
 		return $return;
 	}
 	public function num_lessons( $object = null ) { return $this->num_items( $object, 'lesson' ); }
@@ -463,33 +523,107 @@ class GTGlobal
 
 
 	/**
-	 * 
+	 * Get the progress (to completion) of a course or unit in percent
 	 * INPUT: post object
-	 * OUTPUT:
+	 * OUTPUT: (int) 0-100
 	 */
 	public function get_progress( $object = null )
 	{
-		$object = $object ? $object : $this->{$this->context};
-
-		$total = $this->get_num_items_total( $object );
-		$done = $this->get_num_items_done( $object );
-
-		if( !$total || !$done ) return 0;
-		
-		return (int)round( ( $done / $total ) * 100 );
+		return (int)$this->get_value( $object->post_type, $object->ID, 'progress' );
 	}
+
 
 	/**
 	 * INPUT: Type string (e.g. 'unit') or Post Object
 	 */
-	public function get_link_to( $input = null )
-	{	
+	public function get_url_to( $input = null )
+	{
 		$object = is_object($input) ? $input : ( is_string($input) ? $this->{$input} : $this->{$this->context} );
-		return sprintf( '<a class="a--bodycolor" href="%1$s" title="%2$s">%3$s</a>',
-			gt_get_permalink( $object ),
-			the_title_attribute( array( 'before' => __('Permalink to: ', 'gladtidings'), 'echo' => false, 'post' => $object ) ),
-			$object->post_title
+		return gt_get_permalink( $object, $this->course, $this->unit );
+	}
+
+
+	/**
+	 * INPUT:
+	 *   $input -> Type string (e.g. 'unit') or Post Object
+	 *   %args  -> possible arguments:
+	 *              'class'     = css class
+	 *              'title'     = link title="" attribute
+	 *              'attribute' = any attribute, eg. disabled
+	 *              'display'   = the link text or label (should be renamed label)
+	 */
+	public function get_link_to( $input = null, $args = array() )
+	{
+		$object = is_object($input) ? $input : ( is_string($input) ? $this->{$input} : $this->{$this->context} );
+		return sprintf( '<a class="%1$s" href="%2$s" title="%3$s" %4$s>%5$s</a>',
+			isset($args['class']) ? $args['class'] : 'a--bodycolor',
+			$this->get_url_to( $object ),
+			isset($args['title']) ? $args['title'] : the_title_attribute( array( 'before' => __('Permalink to: ', 'gladtidings'), 'echo' => false, 'post' => $object ) ),
+			isset($args['attribute']) ? $args['attribute'] : '',
+			isset($args['display']) ? $args['display'] : $object->post_title
 		);
+	}
+
+
+	/**
+	 * Wrapper to print get_link_to()
+	 */
+	public function print_link_to( $input = null, $args = array() )
+	{
+		print( $this->get_link_to( $input, $args ) );
+	}
+
+
+	/*=======================*\
+		Breadcrumb Functions
+	\*=======================*/
+
+
+	/**
+	 * Get an array with all the breadcrumbs for the current site
+	 */
+	public function get_breadcrumbs()
+	{
+		// evaluate home redirect constant
+		$gt_home = defined( 'GT_HOME' ) ? explode( ':', GT_HOME )[0] : false;
+
+		$return = array();
+
+		switch ( $this->context ) {
+			case 'lesson':
+			case 'quizz':
+				$return[] = $this->{$this->context};
+			case 'unit':
+				if( !$this->is_exam ) $return[] = $this->unit;
+			case 'course':
+				if( !$gt_home ) $return[] = $this->course;
+			default:
+				$return[] = 'home';
+		}
+
+		return array_reverse( $return );
+
+	}
+
+
+	/**
+	 * Print the Link for one breadcrumb
+	 * Basically a fancy wrapper for print_link_to()
+	 */
+	public function print_crumb_link( $crumb )
+	{
+		$args = array();
+
+		switch ( $crumb->post_type ) {
+			case 'lesson':
+				$args['display'] = sprintf( __('Lesson %d', 'gladtidings'),  $crumb->order );
+				break;
+			case 'unit':
+				$args['display'] = sprintf( __('Unit %d', 'gladtidings'),  $crumb->order );
+				break;
+		}
+
+		$this->print_link_to( $crumb, $args );
 	}
 
 }

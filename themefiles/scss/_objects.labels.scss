@@ -88,4 +88,8 @@ $enable-label--small:	true !default;
 	&--dark {
 		@include label-color( rgba( black, .75 ) );
 	}
+	&--filled {
+		background-color: white;
+		border: none;
+	}
 }

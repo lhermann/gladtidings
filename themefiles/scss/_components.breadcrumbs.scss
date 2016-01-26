@@ -2,23 +2,22 @@
     #BREADCRUMBS
 \*------------------------------------*/
 
-$bc-padding:			quarter($base-spacing-unit) !default;
+$breadcrumb-padding:			$base-spacing-unit/8 !default;
 
 .breadcrumbs {
 
-	background-color: $color-primary;
+	background-color: $color-primary-light;
 
 	&--full {
-		
+
 		padding: px-to-rem($base-spacing-unit) 0;
-		
+
 		border-top: 3px solid $color-primary;
-		// box-shadow: inset 0 6px 6px -6px rgba( 0, 0, 0, 0.5 );
 
 	}
 
 	&--inline {
-		
+
 		display: inline-block;
 
 		@include media-query(palm) {
@@ -33,17 +32,18 @@ $bc-padding:			quarter($base-spacing-unit) !default;
 // List item styling
 .crumb__item {
 
-	border-bottom: 0;
-	
+	> a {
+		border-bottom: 0;
+	}
+
 	// Item sperator
 	& + &:before {
-		padding: 0 $base-spacing-unit/8;
+		padding: 0 $breadcrumb-padding;
 		color: $color-unstress;
 		content: "/\00a0";
 	}
 
-	&--current {
-		cursor: default;
-		color: $color-body;
-	}
+	// &--current {
+	// 	cursor: default;
+	// }
 }

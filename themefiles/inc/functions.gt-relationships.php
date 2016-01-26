@@ -283,29 +283,29 @@ function gt_update_relationship( $parent_id, $child_id, $order, $position = 0 ) 
 	
 	global $wpdb;
 
-	$relationship = $wpdb->get_row( "SELECT parent_id, child_id FROM $wpdb->gt_relationships WHERE parent_id = $parent_id AND child_id = $child_id" );
-	// var_dump( $relationship ); die();
+	$relationship = $wpdb->get_row( "SELECT parent_id, child_id FROM $wpdb->gt_relationships WHERE child_id = $child_id" );
 
 	if ( $relationship ) {
 
 		$wpdb->update( 
 			$wpdb->gt_relationships,
-			array( 
+			array(
+				'parent_id' => $parent_id,
 				'order'     => $order,
 				'position'	=> $position
-			), 
+			),
 			array(
-				'parent_id' => $parent_id, 
 				'child_id'  => $child_id
 			), 
-			array( 
+			array(
+				'%d',
 				'%d',
 				'%d'
-			), 
+			),
 			array(
 				'%d',
 				'%d'
-			) 
+			)
 		);
 
 	} else {

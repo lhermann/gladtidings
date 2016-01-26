@@ -21,7 +21,7 @@ $top-bar-avatar-size:	36px;
 	&__left {
 		@extend %top-bar-location-setup;
 	}
-	
+
 	&__center {
 		@extend %top-bar-location-setup;
 	}
@@ -66,16 +66,19 @@ $top-bar-avatar-size:	36px;
 
 /* the page title,
 	has a greater size */
-.top-bar__item--title {
-	
-	
-	.tb__title__link {
+.tb__title {
+
+	&__link {
 		font-size: halve($top-bar-height);
-		// @include inuit-font-size( halve($top-bar-height), $top-bar-height );
 		color: $color-body;
 	}
 
-	.tb__title__text {
+	&__logo {
+		height: $top-bar-height;
+		vertical-align: middle;
+	}
+
+	&__text {
 		@include media-query( palm ) {
 			display: none;
 		}
@@ -84,13 +87,17 @@ $top-bar-avatar-size:	36px;
 
 /* the username and user avatar */
 .top-bar__item--avatar {
+
 	.tb__avatar__link {
 		display: inline-block;
 		line-height: 0;
 		@extend %vertical-padding-reset;
 
+		// TEMPORARY
+		cursor: default;
+
 		&:hover {
-			.tb__avatar__img {
+			.avatar {
 				box-shadow: 0 0 3px $color-suppl;
 			}
 		}
@@ -106,7 +113,7 @@ $top-bar-avatar-size:	36px;
 		}
 	}
 
-	.tb__avatar__img {
+	.avatar {
 		border-radius: $base-border-radius;
 	}
 }
