@@ -16,7 +16,7 @@
 
 
 global $_gt;
-return;
+// return;
 // var_dump($_gt->get_breadcrumbs());
 ?>
 

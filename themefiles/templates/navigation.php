@@ -7,9 +7,9 @@
 
 	<ul class="top-bar__left">
 
-		<li class="top-bar__item top-bar__item--title">
+		<li class="top-bar__item tb__title">
 			<a class="tb__title__link" href="<?= esc_url( home_url( '/' ) ); ?>" rel="bookmark">
-				<span class="tb__title__icon fi fi-book-bookmark"></span>
+				<img class="tb__title__logo" src="<?= get_template_directory_uri() . '/img/gt-logo.svg' ?>" alt="Site Logo">
 				<span class="tb__title__text"><?php bloginfo( 'name' ); ?></span>
 			</a>
 		</li>

@@ -17,6 +17,11 @@ $base-spacing-unit:			$inuit-base-spacing-unit;
 @import	"tools.mixins";
 @import "tools.functions";
 
+@import	"base.links";
+
+@import	"inuit-list-inline/objects.list-inline";
+@import	"objects.wrapper";
+
 /**
  * Custom Login Styles
  */
@@ -34,7 +39,7 @@ body {
 
 .login-title__link {
 
-	text-decoration: none;
+	border-bottom: 0;
 	display: block;
 	text-align: center;
 
@@ -51,7 +56,6 @@ body {
 
 }
 
-@import	"objects.wrapper";
 @import	"components.page-footer";
 @import	"components.breadcrumbs";
 
