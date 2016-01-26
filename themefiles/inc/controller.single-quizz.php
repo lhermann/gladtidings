@@ -10,7 +10,6 @@ require( 'controller.shared.item.php' );
 class GTView extends GTItem
 {
 
-	protected $is_exam = false;
 	public $required_questions;
 	public $all_questions;
 	public $current_question;

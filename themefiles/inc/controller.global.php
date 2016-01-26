@@ -15,6 +15,7 @@ class GTGlobal
 	protected $unit;
 	protected $lesson;
 	protected $quizz;
+	protected $is_exam = false;
 
 	protected $context;
 	protected $siblings;
@@ -223,7 +224,7 @@ class GTGlobal
 	}
 
 	/*=======================*\
-		Protexted Functions
+		Protected Functions
 	\*=======================*/
 
 	/**
@@ -457,25 +458,6 @@ class GTGlobal
 		return $return;
 	}
 
-	/**
-	 * Set up a context
-	 * INPUT: a post object
-	 * OBSOLETE
-	 */
-	// public function setup_context( $object )
-	// {
-	// 	try {
-
-	// 		if( !is_object($object) || !isset($object->ID) ) throw new Exception("Input has to be a post object.");
-	// 		if( $object->post_type == $this->context ) throw new Exception("Cannot overwrite context for '$object->post_type'.");
-
-	// 		if( !$this->context ) $this->context = $object->post_type;
-	// 		$this->{$object->post_type} = $object;
-
-	// 	} catch (Exception $e) {
-	// 		echo 'GTGlobal '.__LINE__.' - Caught exception: ', $e->getMessage(), "\n";
-	// 	}
-	// }
 
 	/**
 	 * Wrapper for $this->context;
@@ -485,6 +467,7 @@ class GTGlobal
 		return $this->context;
 	}
 
+
 	/**
 	 * Wrapper for $this->course->ID
 	 */
@@ -492,6 +475,7 @@ class GTGlobal
 	{
 		return $this->course->ID;
 	}
+
 
 	/**
 	 * OUTPUT: true|false
@@ -522,18 +506,6 @@ class GTGlobal
 
 
 	/**
-	 * Return the current post status
-	 * wrapper for $this->{context}->post_status
-	 * OBSOLETE: should be accessed through $post->post_status
-	 */
-	// public function get_status( $context = null )
-	// {
-	// 	if( !$context ) $context = $this->context;
-	// 	return $this->{$context}->post_status;
-	// }
-
-
-	/**
 	 * Wrapper function for $this->get_num_items_total() in a post object contect
 	 * INPUT: post object
 	 * OUTPUT: total number of lessons|quizzes for that object
@@ -560,6 +532,7 @@ class GTGlobal
 		return (int)$this->get_value( $object->post_type, $object->ID, 'progress' );
 	}
 
+
 	/**
 	 * INPUT: Type string (e.g. 'unit') or Post Object
 	 */
@@ -568,6 +541,7 @@ class GTGlobal
 		$object = is_object($input) ? $input : ( is_string($input) ? $this->{$input} : $this->{$this->context} );
 		return gt_get_permalink( $object, $this->course, $this->unit );
 	}
+
 
 	/**
 	 * INPUT:
@@ -589,12 +563,64 @@ class GTGlobal
 			isset($args['display']) ? $args['display'] : $object->post_title
 		);
 	}
+
+
 	/**
 	 * Wrapper to print get_link_to()
 	 */
 	public function print_link_to( $input = null, $args = array() )
 	{
 		print( $this->get_link_to( $input, $args ) );
+	}
+
+
+	/*=======================*\
+		Breadcrumb Functions
+	\*=======================*/
+
+
+	/**
+	 * Get an array with all the breadcrumbs for the current site
+	 */
+	public function get_breadcrumbs()
+	{
+		$return = array();
+
+		switch ( $this->context ) {
+			case 'lesson':
+			case 'quizz':
+				$return[] = $this->{$this->context};
+			case 'unit':
+				if( !$this->is_exam ) $return[] = $this->unit;
+			case 'course':
+				$return[] = $this->course;
+			default:
+				$return[] = 'home';
+		}
+
+		return array_reverse( $return );
+
+	}
+
+
+	/**
+	 * Print the Link for one breadcrumb
+	 * Basically a fancy wrapper for print_link_to()
+	 */
+	public function print_crumb_link( $crumb )
+	{
+		$args = array();
+
+		switch ( $crumb->post_type ) {
+			case 'lesson':
+				$args['display'] = sprintf( __('Lesson %d', 'gladtidings'),  $crumb->order );
+				break;
+			case 'unit':
+				$args['display'] = sprintf( __('Unit %d', 'gladtidings'),  $crumb->order );
+				break;
+		}
+
+		$this->print_link_to( $crumb, $args );
 	}
 
 }

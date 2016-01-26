@@ -2,7 +2,7 @@
     #BREADCRUMBS
 \*------------------------------------*/
 
-$bc-padding:			quarter($base-spacing-unit) !default;
+$breadcrumb-padding:			$base-spacing-unit/8 !default;
 
 .breadcrumbs {
 
@@ -32,17 +32,18 @@ $bc-padding:			quarter($base-spacing-unit) !default;
 // List item styling
 .crumb__item {
 
-	border-bottom: 0;
+	> a {
+		border-bottom: 0;
+	}
 
 	// Item sperator
 	& + &:before {
-		padding: 0 $base-spacing-unit/8;
+		padding: 0 $breadcrumb-padding;
 		color: $color-unstress;
 		content: "/\00a0";
 	}
 
-	&--current {
-		cursor: default;
-		color: $color-body;
-	}
+	// &--current {
+	// 	cursor: default;
+	// }
 }

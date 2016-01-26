@@ -136,10 +136,10 @@ class GTItem extends GTGlobal
 	{
 		switch ( $object->post_type ) {
 			case 'lesson':
-				$attr = array( 'display' => __('Lesson', 'gladtidings') . $object->order );
+				$attr = array( 'display' => sprintf( __('Lesson %d', 'gladtidings'),  $object->order ) );
 				break;
 			case 'quizz':
-				$attr = array( 'display' => __('Quizz', 'gladtidings') . $object->order );
+				$attr = array( 'display' => sprintf( __('Quizz %d', 'gladtidings'),  $object->order ) );
 				break;
 			default:
 				$attr = array();

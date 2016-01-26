@@ -4,14 +4,8 @@
  */
 ?>
 		<footer id="page-footer" class="page-footer">
-			
-			<?php if( !is_home() ): ?>
-				<nav class="breadcrumbs breadcrumbs--full t-light-bg t-main-border">
-					<div class="wrapper">
-						<?php get_template_part( 'templates/breadcrumbs' ); ?>
-					</div>
-				</nav>
-			<?php endif; ?>
+
+			<?php if( !is_home() ) get_template_part( 'templates/breadcrumbs' ); ?>
 
 			<div class="wrapper">
 				<p class="u-text--center">
@@ -40,7 +34,7 @@
 		</footer>
 
 	</div><!-- /.container -->
-	
+
 	<?php wp_footer(); ?>
 	<!--
 	<script src="js/jquery.min.js"></script>
