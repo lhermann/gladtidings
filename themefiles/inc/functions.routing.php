@@ -235,10 +235,26 @@ function gt_login_redirect()
 	if( is_user_logged_in() ) return;
 
 	$object = get_queried_object();
-	if( in_array( $object->post_type, array( 'course', 'unit', 'lesson', 'quizz' ) ) ) {
+	if( in_array( $object->post_type, array( 'lesson', 'quizz' ) ) ) {
 
 		wp_redirect( wp_login_url( $_SERVER['REQUEST_URI'] ) );
 		exit();
 
+	}
+}
+
+/**
+ * Home Redirect
+ * evaluating the constant GT_HOME and redirect the landing page accordingly
+ * constant GT_HOME syntax: 'course:slug'
+ */
+if( defined( 'GT_HOME' ) ) {
+	add_action( 'parse_query', 'gt_home_redirect' );
+	function gt_home_redirect()
+	{
+		if( is_front_page() ) {
+			$redirect = explode( ':', GT_HOME );
+			wp_redirect( esc_url( home_url( '/' ) ) . $redirect[0] . '/' .  $redirect[1] );
+		}
 	}
 }

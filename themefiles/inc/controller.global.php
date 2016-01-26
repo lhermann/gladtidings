@@ -584,6 +584,9 @@ class GTGlobal
 	 */
 	public function get_breadcrumbs()
 	{
+		// evaluate home redirect constant
+		$gt_home = defined( 'GT_HOME' ) ? explode( ':', GT_HOME )[0] : false;
+
 		$return = array();
 
 		switch ( $this->context ) {
@@ -593,7 +596,7 @@ class GTGlobal
 			case 'unit':
 				if( !$this->is_exam ) $return[] = $this->unit;
 			case 'course':
-				$return[] = $this->course;
+				if( !$gt_home ) $return[] = $this->course;
 			default:
 				$return[] = 'home';
 		}
