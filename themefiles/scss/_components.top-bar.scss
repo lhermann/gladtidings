@@ -66,15 +66,19 @@ $top-bar-avatar-size:	36px;
 
 /* the page title,
 	has a greater size */
-.top-bar__item--title {
+.tb__title {
 
-
-	.tb__title__link {
+	&__link {
 		font-size: halve($top-bar-height);
 		color: $color-body;
 	}
 
-	.tb__title__text {
+	&__logo {
+		height: $top-bar-height;
+		vertical-align: middle;
+	}
+
+	&__text {
 		@include media-query( palm ) {
 			display: none;
 		}
