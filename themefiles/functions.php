@@ -21,6 +21,7 @@ require_once ( "inc/functions.theme-activation.php" );
 require_once ( "inc/functions.theme-register.php" );
 require_once ( "inc/functions.gt-relationships.php" );
 require_once ( "inc/functions.routing.php" );
+require_once ( "inc/functions.login.php" );
 // require_once ( "inc/functions.theme-acf.inc.php" );
 // require_once ( "inc/functions.user-register.inc.php" );
 require_once ( "inc/functions.color.php" );
