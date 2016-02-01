@@ -8,9 +8,9 @@
  *
  * @package WordPress
  * @subpackage gladtidings
- * @version 0.2.0-beta.1
+ * @version v0.3.1-beta
  */
-define( THEMEVERSION, '0.2.0-beta.1' );
+define( THEMEVERSION, '0.3.1-beta' );
 
 /*------------------------------------*\
 	External Modules/Files
@@ -22,8 +22,7 @@ require_once ( "inc/functions.theme-register.php" );
 require_once ( "inc/functions.gt-relationships.php" );
 require_once ( "inc/functions.routing.php" );
 require_once ( "inc/functions.login.php" );
-// require_once ( "inc/functions.theme-acf.inc.php" );
-// require_once ( "inc/functions.user-register.inc.php" );
+require_once ( "inc/functions.theme-acf.php" );
 require_once ( "inc/functions.color.php" );
 require_once ( "inc/functions.helpers.php" );
 
