@@ -2,6 +2,9 @@
  * Design by Lukas Hermann <lukas.hermann@joelmediatv.de>
  */
 
+/***********************\
+ * #1 SETTINGS         *
+\***********************/
 $base-font-size: 			16px;
 $base-line-height:			24px;
 @import "settings.colors";
@@ -9,6 +12,9 @@ $base-line-height:			24px;
 @import "inuit-responsive-settings/settings.responsive";
 $base-spacing-unit:			$inuit-base-spacing-unit;
 
+/***********************\
+ * #2 TOOLS            *
+\***********************/
 @import	"inuit-functions/tools.functions";
 @import	"inuit-mixins/tools.mixins";
 @import	"inuit-tools-widths/tools.widths";
@@ -17,11 +23,25 @@ $base-spacing-unit:			$inuit-base-spacing-unit;
 @import	"tools.mixins";
 @import "tools.functions";
 
+/***********************\
+ * #3 GENERIC          *
+\***********************/
+
+
+/***********************\
+ * #4 BASE             *
+\***********************/
 @import	"base.links";
 
+/***********************\
+ * #5 OBJECTS          *
+\***********************/
 @import	"inuit-list-inline/objects.list-inline";
 @import	"objects.wrapper";
 
+/***********************\
+ * #6 COMPONENTS       *
+\***********************/
 /**
  * Custom Login Styles
  */
@@ -56,7 +76,12 @@ body {
 
 }
 
-@import	"components.page-footer";
-@import	"components.breadcrumbs";
 
+@import	"components.wp-social-login";
+@import	"components.breadcrumbs";
+@import	"components.page-footer";
+
+/***********************\
+ * #7 UTILITIES        *
+\***********************/
 @import	"utilities.text";

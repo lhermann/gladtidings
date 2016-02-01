@@ -59,6 +59,17 @@ function gladtidings_rewrite_rules() {
 
 
 /**
+ * Alter the main wp_query on the home page to fetch 'course' instead of 'post'
+ */
+function alter_query_home( $query ) {
+	if ( $query->is_home() && $query->is_main_query() ) {
+		$query->set( 'post_type', 'course' );
+	}
+}
+add_action( 'pre_get_posts', 'alter_query_home' );
+
+
+/**
  * Manipulate WP query before it is executed to interpret the unit routing
  */
 add_action( 'pre_get_posts', 'gt_unit_routing' );
