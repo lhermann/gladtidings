@@ -21,7 +21,7 @@
 add_action( 'save_post', 'gt_establish_relationships', 10, 2 );
 
 function gt_establish_relationships( $post_id, $post_object ) {
-	
+
 	/**
 	 * Make sure it only triggers for post objects of type 'course'
 	 */
@@ -74,10 +74,10 @@ function gt_establish_relationships( $post_id, $post_object ) {
 	$units = array_values( $_POST['acf'][ $k->units_repeater ] ); // new units get really weird array indexes, so we reasign them
 	foreach ( $units as $u_key => $unit ) {
 
-		
+
 		switch ( $unit[ $k->unit_type ] ) {
 			case 'exam':
-				
+
 				/**
 				 * For each exam:
 				 *  (1) get exam_id
@@ -92,7 +92,7 @@ function gt_establish_relationships( $post_id, $post_object ) {
 				break;
 			case 'unit':
 			default:
-				
+
 				/**
 				 * For each unit:
 				 *  (1) create a virtual post object of type 'unit'
@@ -102,7 +102,7 @@ function gt_establish_relationships( $post_id, $post_object ) {
 				 */
 				// (1)
 				$unit_id = gt_update_virtual_object( $post_id, $unit[ $k->unit_title ], 'unit', $unit[ $k->unit_status ] );
-				
+
 				// (3)
 				gt_update_relationship( $post_id, $unit_id, $unit_order, $u_key );
 
@@ -114,7 +114,7 @@ function gt_establish_relationships( $post_id, $post_object ) {
 				$item_order = 1;
 				$items = array_values( $unit[ $k->unit_items ] );
 				foreach ( $items as $i_key => $item ) {
-					
+
 					/**
 					 * reset indexes (because the acf field keys are relly long)
 					 * $item[0] = item type
@@ -163,7 +163,7 @@ function gt_establish_relationships( $post_id, $post_object ) {
 
 		// get object_id of unit | exam
 		$temp_id = $unit_id ? $unit_id : $exam_id;
-		
+
 		/**
 		 * Save Unit | Exam meta
 		 */
@@ -174,7 +174,7 @@ function gt_establish_relationships( $post_id, $post_object ) {
 
 				break;
 			case 'locked':
-				
+
 				update_post_meta( $temp_id, 'unlock_dependency', $unit['field_5695710055ed1'] );
 
 				break;
@@ -182,7 +182,7 @@ function gt_establish_relationships( $post_id, $post_object ) {
 
 		// unset unit_id from the $unit_rem array
 		if( $temp_id ) unset( $unit_rem[ $temp_id ] );
-		
+
 		// reset ids
 		$temp_id = $unit_id = $exam_id = false;
 
@@ -232,7 +232,7 @@ function gt_update_virtual_object( $parent_id, $title, $post_type, $status = '',
 			'post_content' => $content,
 			'post_status'  => $status ? $status : 'publish',
 			'post_type'    => $post_type
-		); 
+		);
 		$ID = wp_insert_post( $object );
 
 	}
@@ -255,17 +255,17 @@ function gt_update_field_unit_id( $unit_id, $unit_key, $post_id ) {
 	global $wpdb;
 
 	$wpdb->update(
-		$wpdb->postmeta, 
-		array( 
+		$wpdb->postmeta,
+		array(
 			'meta_value' => $unit_id
-		), 
+		),
 		array(
 			'post_id' => $post_id,
 			'meta_key' => "units_repeater_{$unit_key}_unit_id"
-		), 
+		),
 		array(
 			'%d'
-		), 
+		),
 		array(
 			'%d',
 			'%s'
@@ -276,18 +276,18 @@ function gt_update_field_unit_id( $unit_id, $unit_key, $post_id ) {
 
 
 /**
- * Helper Function to update the relationship between two objects, 
+ * Helper Function to update the relationship between two objects,
  * or insert it, if it doesn't exist
  */
 function gt_update_relationship( $parent_id, $child_id, $order, $position = 0 ) {
-	
+
 	global $wpdb;
 
 	$relationship = $wpdb->get_row( "SELECT parent_id, child_id FROM $wpdb->gt_relationships WHERE child_id = $child_id" );
 
 	if ( $relationship ) {
 
-		$wpdb->update( 
+		$wpdb->update(
 			$wpdb->gt_relationships,
 			array(
 				'parent_id' => $parent_id,
@@ -296,7 +296,7 @@ function gt_update_relationship( $parent_id, $child_id, $order, $position = 0 ) 
 			),
 			array(
 				'child_id'  => $child_id
-			), 
+			),
 			array(
 				'%d',
 				'%d',
@@ -310,20 +310,20 @@ function gt_update_relationship( $parent_id, $child_id, $order, $position = 0 ) 
 
 	} else {
 
-		$wpdb->insert( 
+		$wpdb->insert(
 			$wpdb->gt_relationships,
-			array( 
-				'parent_id' => $parent_id, 
+			array(
+				'parent_id' => $parent_id,
 				'child_id'  => $child_id,
 				'order'     => $order,
 				'position'  => $position
-			), 
-			array( 
-				'%d', 
+			),
+			array(
+				'%d',
 				'%d',
 				'%d',
 				'%d'
-			) 
+			)
 		);
 
 	}

@@ -16,55 +16,66 @@ define( THEMEVERSION, '0.3.1-beta' );
 	External Modules/Files
 \*------------------------------------*/
 
-/* Functions */
-require_once ( "inc/functions.theme-activation.php" );
-require_once ( "inc/functions.theme-register.php" );
-require_once ( "inc/functions.gt-relationships.php" );
-require_once ( "inc/functions.routing.php" );
-require_once ( "inc/functions.login.php" );
-require_once ( "inc/functions.theme-acf.php" );
-require_once ( "inc/functions.color.php" );
-require_once ( "inc/functions.helpers.php" );
+/**
+ * FUNCTIONS
+ */
+require_once ( "inc/functions/theme-activation.php" );
+require_once ( "inc/functions/theme-register.php" );
+require_once ( "inc/functions/gt-relationships.php" );
+require_once ( "inc/functions/routing.php" );
+require_once ( "inc/functions/login.php" );
+// require_once ( "inc/functions/theme-acf.php" );
 
-/* Controllers */
-require_once ( "inc/controller.global.php" );
-
+/**
+ * Helpers
+ */
+require_once ( "inc/helpers/color.php" );
+require_once ( "inc/helpers/global.php" );
 
 /**
  * Instantiate the Controller
  * filename syntax: "inc/controller.single-{post_type}.php"
  * class syntax: "Single{Post_type}"
  */
-add_action( 'wp', 'instantiate_GladTidings', 10, 1 );
-function instantiate_GladTidings( $wp ) {
+add_action( 'wp', 'instantiate_the_controller', 10, 1 );
+function instantiate_the_controller( $wp ) {
+
+	// Bail for admin area
 	if( is_admin() ) return;
 
-	global $post, $_gt;
+	// get paths
+	$model_path      = dirname( __FILE__ ).'/inc/models/';
+	$controller_path = dirname( __FILE__ ).'/inc/controllers/';
+	$helper_path     = dirname( __FILE__ ).'/inc/helpers/';
 
-	$root = dirname( __FILE__ ).'/inc/controller';
+	// get route
+	$controller = get_query_var( 'controller', false );
+	$action = get_query_var( 'action', 'index' );
+	$model = $controller;
 
-	if( is_single() ) {
+	// include model and controller and helper
+	             require( $model_path . 'user.php' );
+	             require( $model_path . 'application.php' );
+	if( $model ) require( $model_path . $model . '.php' );
 
-		$view = 'single';
-		$type = get_post_type();
+	                  require( $controller_path . 'application_controller.php' );
+	if( $controller ) require( $controller_path . $controller . '_controller.php' );
 
-	} else {
+	if( $controller ) require( $helper_path . $controller . '_helper.php' );
 
+	// Instantiate the user
+	global $user;
+	$user = new User;
+
+	// call controller action statically and pass get_queried_object() as argument
+	if( $controller ) {
+		global $post;
+		$class = ucfirst($controller).'Controller';
+		$post = $class::$action( $post );
 	}
 
-	// include controller
-	if( file_exists( "{$root}.{$view}-{$type}.php" ) ) {
-		require_once ( "{$root}.{$view}-{$type}.php" );
-	} elseif( file_exists( "{$root}.{$view}.php" ) ) {
-		require_once ( "{$root}.{$view}.php" );
-	}
-
-	// instantiate controller
-	if ( class_exists('GTView') ) {
-		$_gt = new GTView( get_queried_object() );
-	} else {
-		$_gt = new GTGlobal( get_queried_object() );
-	}
+	// finished
+	// var_dump( $user, $post ); die();
 
 }
 

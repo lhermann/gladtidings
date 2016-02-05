@@ -3,12 +3,8 @@
     Global Controller
 \*------------------------------------*/
 
-/**
- * TODO:
- */
 
-
-class GTGlobal
+class ApplicationController
 {
 
 	protected $course;

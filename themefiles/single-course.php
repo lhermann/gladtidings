@@ -1,6 +1,6 @@
 <?php
-	global $_gt;
-	// var_dump( $_gt );
+	// global $post;
+	var_dump( $post );
 
 	get_header();
 ?>
@@ -13,11 +13,13 @@
 			<div class="wrapper">
 				<div class="hero-frame hero-frame--course">
 					<div class="hero-frame__badge">
-						<img src="<?= gt_get_course_batch( $post ) ?>" alt="<?= get_the_title().' '.__( 'Badge', 'gladtidings' ); ?>">
+						<img src="<?= $post->batch_src() ?>" alt="<?= $post->title.' '.__( 'Badge', 'gladtidings' ); ?>">
 					</div>
 					<h1 class="hero-frame__title">
-						<?php if( $_gt->is_done() ): ?> <span class="label label--success label--filled label--small shadow--strong"><span class="fi fi-check"></span></span> <?php endif; ?>
-						<span class="shadow--strong-text"><?php the_title(); ?></span>
+						<?php if( $post->is_done() ): ?>
+							<span class="label label--success label--filled label--small shadow--strong"><span class="fi fi-check"></span></span>
+						<?php endif; ?>
+						<span class="shadow--strong-text"><?= $post->title ?></span>
 					</h1>
 				</div>
 			</div><!-- /.wrapper -->
@@ -32,10 +34,10 @@
 
 				<?php //get_template_part( 'templates/content', 'progress' ); ?>
 				<h2 class="u-screen-reader-text"><?= __( 'Progress', 'gladtidings' ) ?></h2>
-				<div class="progress progress--meter" title="<?= __( 'Progress:', 'gladtidings' ).' '.$_gt->get_progress_width() ?>">
-					<span class="progress__item t-comp-bg" style="width: <?= $_gt->get_progress_width() ?>"><?= $_gt->get_progress_width() ?></span>
+				<div class="progress progress--meter" title="<?= __( 'Progress:', 'gladtidings' ).' '.$post->progress() ?>">
+					<span class="progress__item t-comp-bg" style="width: <?= $post->progress().'%' ?>"><?= $post->progress().'%' ?></span>
 				</div>
-				<p class="u-spacing--narrow t-second-text"><?php $_gt->print_progress_message() ?></p>
+				<p class="u-spacing--narrow t-second-text"><?php get_print_progress_message( $post->progress() ) ?></p>
 
 		</section>
 

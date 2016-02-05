@@ -23,10 +23,12 @@
  */
 add_action('init', 'gladtidings_get_variables', 10, 0);
 function gladtidings_get_variables() {
-	add_rewrite_tag('%view%', '([^&]+)');
 	add_rewrite_tag('%course-name%', '([^&]+)');
 	add_rewrite_tag('%unit-position%', '([0-9]{1,})');
-	// flush_rewrite_rules();
+	add_rewrite_tag('%controller%', '([^&]+)');
+	add_rewrite_tag('%action%', '([^&]+)');
+	add_rewrite_tag('%view%', '([^&]+)');
+	flush_rewrite_rules();
 }
 
 
@@ -43,27 +45,54 @@ function gladtidings_rewrite_rules() {
 		// lesson
 		"course/(.?.+?)/unit/([0-9]{1,})/lesson/([^/]+)/?$"
 
-				=> "index.php?lesson=".$wp_rewrite->preg_index(3)."&course-name=".$wp_rewrite->preg_index(1)."&unit-position=".$wp_rewrite->preg_index(2),
+				=> "index.php"
+						."?lesson=".$wp_rewrite->preg_index(3)
+						."&course-name=".$wp_rewrite->preg_index(1)
+						."&unit-position=".$wp_rewrite->preg_index(2)
+						."&controller=lesson"
+						."&action=show",
 
 		// quizz
 		"course/(.?.+?)/unit/([0-9]{1,})/quizz/([^/]+)(?:/(introduction|question|evaluation))?/?$"
 
-				=> "index.php?quizz=".$wp_rewrite->preg_index(3)."&course-name=".$wp_rewrite->preg_index(1)."&unit-position=".$wp_rewrite->preg_index(2)."&view=".$wp_rewrite->preg_index(4),
+				=> "index.php"
+						."?quizz=".$wp_rewrite->preg_index(3)
+						."&course-name=".$wp_rewrite->preg_index(1)
+						."&unit-position=".$wp_rewrite->preg_index(2)
+						."&controller=quizz"
+						."&action=".$wp_rewrite->preg_index(4),
 
 		// unit
 		"course/(.?.+?)/unit/([0-9]{1,})/?$"
 
-				=> "index.php?unit=".$wp_rewrite->preg_index(2)."&course-name=".$wp_rewrite->preg_index(1),
+				=> "index.php"
+						."?unit=".$wp_rewrite->preg_index(2)
+						."&course-name=".$wp_rewrite->preg_index(1)
+						."&controller=unit"
+						."&action=show",
 
 		// exam
 		"course/(.?.+?)/exam/([^/]+)(?:/(introduction|question|evaluation))?/?$"
 
-				=> "index.php?quizz=".$wp_rewrite->preg_index(2)."&course-name=".$wp_rewrite->preg_index(1)."&view=".$wp_rewrite->preg_index(3)
+				=> "index.php"
+						."?quizz=".$wp_rewrite->preg_index(2)
+						."&course-name=".$wp_rewrite->preg_index(1)
+						."&controller=exam"
+						."&action=".$wp_rewrite->preg_index(3),
 
 		// course
-		// "(.?.+?)(?:/([0-9]+))?/?$" => "index.php?course=".$wp_rewrite->preg_index(1)."&page=".$wp_rewrite->preg_index(2)
+		"course/(.?.+?)/?$"
+
+				=> "index.php"
+						."?course=".$wp_rewrite->preg_index(1)
+						."&controller=course"
+						."&action=show",
+
 	);
+	// var_dump($wp_rewrite->rules);
 	$wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
+	// $wp_rewrite->rules = array_merge ( $wp_rewrite->rules, $new_rules );
+	// var_dump($wp_rewrite->rules);
 
 	// root to:
 	// $wp_rewrite->rules['(.?.+?)(?:/([0-9]+))?/?$'] = "index.php?course=".$wp_rewrite->preg_index(1)."&page=".$wp_rewrite->preg_index(2);

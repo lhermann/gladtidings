@@ -9,20 +9,21 @@
  * filename syntax: "inc/controller.single-{post_type}.php"
  * class syntax: "Single{Post_type}"
  */
-add_action( 'login_init', 'instantiate_GladTidings_login', 10, 1 );
-function instantiate_GladTidings_login( $wp ) {
+// add_action( 'login_init', 'instantiate_GladTidings_login', 10, 1 );
+// function instantiate_GladTidings_login( $wp ) {
 
-	global $_gt;
+// 	$controller_path = dirname(dirname( __FILE__ )).'/controllers/';
+// 	require_once $controller_path.'global_controller.obsolete.php';
+// 	global $_gt;
+// 	$_gt = new GladTidings( get_queried_object() );
 
-	$_gt = new GTGlobal( get_queried_object() );
-
-}
+// }
 
 
 /**
  * include the theme footer
  */
-add_action( 'login_footer', 'gt_login_footer' );
+// add_action( 'login_footer', 'gt_login_footer' );
 function gt_login_footer()
 {
 	get_footer();
@@ -65,6 +66,7 @@ function gt_login_message( $value )
 	<img alt="Facebook" title="Connect with Facebook" src="http://gladtidings:8888/wp-content/plugins/wordpress-social-login/assets/img/32x32/wpzoom/facebook.png">
 </a>
 */
+add_filter( 'wsl_render_auth_widget_alter_provider_icon_markup', 'wsl_use_foundation_icons', 10, 3 );
 function wsl_use_foundation_icons( $provider_id, $provider_name, $authenticate_url ) {
 	?>
 		<a class="wsl wp-social-login-provider wp-social-login-provider-<?= strtolower( $provider_id ) ?>" href="<?= $authenticate_url ?>" rel="nofollow" data-provider="<?= strtolower( $provider_id ) ?>" title="<?= sprintf( __('Login with %s', 'gladtidings'), $provider_name ); ?>">
@@ -74,4 +76,3 @@ function wsl_use_foundation_icons( $provider_id, $provider_name, $authenticate_u
 	<?php
 }
 
-add_filter( 'wsl_render_auth_widget_alter_provider_icon_markup', 'wsl_use_foundation_icons', 10, 3 );

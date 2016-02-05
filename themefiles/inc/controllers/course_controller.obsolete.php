@@ -3,7 +3,7 @@
     Single Course Controller
 \*------------------------------------*/
 
-class GTView extends GTGlobal
+class CourseController extends ApplicationController
 {
 
 	function __construct( &$object )
