@@ -22,7 +22,7 @@ require_once ( "inc/functions.theme-register.php" );
 require_once ( "inc/functions.gt-relationships.php" );
 require_once ( "inc/functions.routing.php" );
 require_once ( "inc/functions.login.php" );
-// require_once ( "inc/functions.theme-acf.php" );
+require_once ( "inc/functions.theme-acf.php" );
 require_once ( "inc/functions.color.php" );
 require_once ( "inc/functions.helpers.php" );
 
