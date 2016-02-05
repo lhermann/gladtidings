@@ -55,3 +55,23 @@ function gt_login_message( $value )
 		</div>
 	<?php
 }
+
+
+/**
+ * WP Social Plugin Customization
+ */
+/*
+<a rel="nofollow" href="http://gladtidings:8888/wp-login.php?action=wordpress_social_authenticate&amp;mode=login&amp;provider=Facebook&amp;redirect_to=http%3A%2F%2Fgladtidings%3A8888%3A8888%2Fwp-login.php%3Floggedout%3Dtrue" title="Connect with Facebook" class="wp-social-login-provider wp-social-login-provider-facebook" data-provider="Facebook">
+	<img alt="Facebook" title="Connect with Facebook" src="http://gladtidings:8888/wp-content/plugins/wordpress-social-login/assets/img/32x32/wpzoom/facebook.png">
+</a>
+*/
+function wsl_use_foundation_icons( $provider_id, $provider_name, $authenticate_url ) {
+	?>
+		<a class="wsl wp-social-login-provider wp-social-login-provider-<?= strtolower( $provider_id ) ?>" href="<?= $authenticate_url ?>" rel="nofollow" data-provider="<?= strtolower( $provider_id ) ?>" title="<?= sprintf( __('Login with %s', 'gladtidings'), $provider_name ); ?>">
+			<span class="wsl__icon wsl__icon--<?= strtolower( $provider_id ) ?>"></span>
+			<span class="wsl__label"><?= $provider_name ?></span>
+		</a>
+	<?php
+}
+
+add_filter( 'wsl_render_auth_widget_alter_provider_icon_markup', 'wsl_use_foundation_icons', 10, 3 );

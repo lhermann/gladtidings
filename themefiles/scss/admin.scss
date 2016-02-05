@@ -6,6 +6,12 @@ $color-active-border: 	#006799;
 
 
 /**
+ * Imports
+ */
+@import	"tools.mixins";
+@import	"components.wp-social-login";
+
+/**
  * Post Type: Lesson & Quizz
  * Admin Column Modifications
  */
@@ -31,7 +37,7 @@ $color-active-border: 	#006799;
 		height: 16px;
 		font-size: 16px;
 	}
-	
+
 	// switch off required asterisk which acf adds autmatically
 	& + .acf-required {
 		display: none;

@@ -1,10 +1,12 @@
-/* 
+/*
  * Foundation Icons v 3.0
  * Made by ZURB 2013 http://zurb.com/playground/foundation-icon-fonts-3
  * MIT License
  *
  * Modified Version
  */
+
+$foundation-icons: true;
 
 @mixin icon( $glyph: "\f126" ) {
   font-family: "foundation-icons";
@@ -257,7 +259,7 @@ $fi-path: "../fonts/";
 // .fi-social-drive:before { content: "\f1c1"; }
 // .fi-social-dropbox:before { content: "\f1c2"; }
 // .fi-social-evernote:before { content: "\f1c3"; }
-.fi-social-facebook:before { content: "\f1c4"; }
+// .fi-social-facebook:before { content: "\f1c4"; }
 // .fi-social-flickr:before { content: "\f1c5"; }
 // .fi-social-forrst:before { content: "\f1c6"; }
 // .fi-social-foursquare:before { content: "\f1c7"; }

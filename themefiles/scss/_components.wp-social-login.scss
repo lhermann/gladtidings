@@ -1,0 +1,65 @@
+/*------------------------------------*\
+    #WP SOCIAL LOGIN
+\*------------------------------------*/
+
+/**
+ * WP Social Login
+ */
+$icon-size: 48px;
+
+@if variable-exists(foundation-icons) {
+	/* Do Nothing */
+} @else {
+	/**
+	 * Import Foundation Icons
+	 */
+	$fi-path: "../fonts/";
+	@font-face {
+		font-family: "foundation-icons";
+		src: url("#{$fi-path}/foundation-icons.eot");
+		src: url("#{$fi-path}/foundation-icons.eot?#iefix") format("embedded-opentype"),
+		     url("#{$fi-path}/foundation-icons.woff") format("woff"),
+		     url("#{$fi-path}/foundation-icons.ttf") format("truetype"),
+		     url("#{$fi-path}/foundation-icons.svg#fontcustom") format("svg");
+		font-weight: normal;
+		font-style: normal;
+	}
+}
+
+.wp-social-login-provider-list {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.wsl, .wsl__icon, .wsl__icon:before {
+	display: inline-block;
+}
+
+.wsl {
+	border-bottom: none;
+
+	opacity: .85;
+	&:hover {
+		opacity: 1;
+	}
+}
+
+.wsl__label {
+ 	@include hide-screen-reader-friendly;
+}
+.wsl__icon {
+	text-align: center;
+}
+.wsl__icon:before {
+ 	font-family: "foundation-icons";
+ 	width: $icon-size;
+ 	font-size: $icon-size;
+ 	line-height: 1;
+}
+.wsl__icon {
+	&--facebook:before  { content: "\f1c4"; color: #3B5997; }
+	&--twitter:before   { content: "\f1e4"; color: #00ACF0; }
+	&--google:before    { content: "\f1ca"; color: #DB4F48; }
+	&--instagram:before { content: "\f1cd"; color: #447397; }
+	&--linkedin:before  { content: "\f1d0"; color: #007DB8; }
+}

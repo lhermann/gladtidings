@@ -22,7 +22,7 @@ require_once ( "inc/functions.theme-register.php" );
 require_once ( "inc/functions.gt-relationships.php" );
 require_once ( "inc/functions.routing.php" );
 require_once ( "inc/functions.login.php" );
-require_once ( "inc/functions.theme-acf.php" );
+// require_once ( "inc/functions.theme-acf.php" );
 require_once ( "inc/functions.color.php" );
 require_once ( "inc/functions.helpers.php" );
 
@@ -144,7 +144,7 @@ function remove_menus(){
 //	remove_menu_page( 'index.php' );                  //Dashboard
 	remove_menu_page( 'edit.php' );                   //Posts
 //	remove_menu_page( 'upload.php' );                 //Media
-	remove_menu_page( 'edit.php?post_type=page' );    //Pages
+    remove_menu_page( 'edit.php?post_type=page' );    //Pages
 	remove_menu_page( 'edit-comments.php' );          //Comments
 //	remove_menu_page( 'themes.php' );                 //Appearance
 //	remove_menu_page( 'plugins.php' );                //Plugins
@@ -295,16 +295,6 @@ function remove_admin_bar() {
 }
 add_filter( 'show_admin_bar', 'remove_admin_bar' ); // Remove Admin bar
 
-
-/**
- * Alter the main wp_query on the home page to fetch 'course' instead of 'post'
- */
-function alter_query_home( $query ) {
-	if ( $query->is_home() && $query->is_main_query() ) {
-		$query->set( 'post_type', 'course' );
-	}
-}
-add_action( 'pre_get_posts', 'alter_query_home' );
 
 /**
  * Remove the posts_per_page limit for the unit screen
