@@ -132,6 +132,16 @@ class Application
 	}
 
 	/**
+	 * Returns the ID of the course
+	 * false by default
+	 * Should be overwritten within the appropriate models
+	 */
+	public function course_id()
+	{
+		return false;
+	}
+
+	/**
 	 * Get the parent object
 	 * [1] Return chached value if existing
 	 * [2] Check if the global $post happens to be the parent to save a db query

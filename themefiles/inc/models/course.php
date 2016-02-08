@@ -11,6 +11,14 @@ class Course extends Application
 	\*=======================*/
 
 	/**
+	 * Returns the ID of the course
+	 */
+	public function course_id()
+	{
+		return $this->ID;
+	}
+
+	/**
 	 * Retunrs the batch image source
 	 */
 	public function batch_src( $size = 'full' )

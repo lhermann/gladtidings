@@ -71,12 +71,11 @@ function instantiate_the_controller( $wp ) {
 	if( $controller ) {
 		global $post;
 		$class = ucfirst($controller).'Controller';
-		$post = $class::$action( $post );
+		$post = $class::$action( get_queried_object() );
+
+		// Built Inline Theme CSS Styles
+		add_filter( 'theme_css', 'add_theme_color', 10 );
 	}
-
-	// finished
-	// var_dump( $user, $post ); die();
-
 }
 
 /*------------------------------------*\
@@ -234,13 +233,13 @@ function theme_css() {
  * Add the course colors to the theme_css filter
  */
 function add_theme_color( $css ) {
-	global $_gt;
+	global $post;
 
 	// get and cache variables
-	$header     = get_field( 'img_course_header' , $_gt->get_course_id() );
-	$main_hex   = get_field( 'color_main'        , $_gt->get_course_id() );
-	$second_hex = get_field( 'color_secondary'   , $_gt->get_course_id() );
-	$comp_hex   = get_field( 'color_comp'        , $_gt->get_course_id() );
+	$header     = get_field( 'img_course_header', $post->course_id() );
+	$main_hex   = get_field( 'color_main'       , $post->course_id() );
+	$second_hex = get_field( 'color_secondary'  , $post->course_id() );
+	$comp_hex   = get_field( 'color_comp'       , $post->course_id() );
 
 	// create hues
 	$main_hsl = hex2hsl( $main_hex );
