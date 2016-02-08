@@ -57,9 +57,9 @@ function gt_instantiate_object( $post )
 	$type = $post->post_type === 'quizz' ? 'exam' : $post->post_type;
 
 	// Include Model
-	require_once( dirname( __DIR__ ) . '/models/' . $post->post_type . '.php' );
+	require_once( dirname( __DIR__ ) . '/models/' . $type . '.php' );
 
 	// Instantiate object
-	$class = ucfirst($post->post_type);
+	$class = ucfirst($type);
 	return new $class( $post );
 }

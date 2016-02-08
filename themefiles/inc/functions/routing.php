@@ -204,36 +204,6 @@ function gt_get_permalink( $object = 0 ) {
 
 
 /**
- * INPUT:
- *   $input -> Object || ID
- *   %args  -> possible arguments:
- *              'class'     = css class
- *              'title'     = link title="" attribute
- *              'attribute' = any attribute, eg. disabled
- *              'display'   = the link text or label (should be renamed label)
- */
-function get_link_to( $object = null, $args = array() )
-{
-	return sprintf( '<a class="%1$s" href="%2$s" title="%3$s" %4$s>%5$s</a>',
-		isset($args['class']) ? $args['class'] : 'a--bodycolor',
-		gt_get_permalink( $object ),
-		isset($args['title']) ? $args['title'] : __('Permalink to:', 'gladtidings') . ' ' . $object->title,
-		isset($args['attribute']) ? $args['attribute'] : '',
-		isset($args['display']) ? $args['display'] : $object->title
-	);
-}
-
-
-/**
- * Wrapper to print get_link_to()
- */
-function print_link_to( $object = null, $args = array() )
-{
-	print( $this->get_link_to( $object, $args ) );
-}
-
-
-/**
  * Returns the parent post object. E.g. Course pertaining to the unit.
  * CAUTON: 'order' and 'position' belong to the queried object,
  *         while 'child_order' and 'child_position' belong to the child.

@@ -9,7 +9,7 @@
 
 class Application
 {
-	public $ID, $type, $date, $date_gmt, $title, $status, $slug;
+	public $ID, $type, $title, $slug, $status, $status_num, $date, $date_gmt;
 
 	function __construct( $post )
 	{
@@ -31,12 +31,6 @@ class Application
 		Private Functions
 	\*=======================*/
 
-
-
-	/*=======================*\
-		Protected Functions
-	\*=======================*/
-
 	/**
 	 * Update the status of an object and return the updated object
 	 * If the status is ...
@@ -53,7 +47,7 @@ class Application
 	 *  - 'coming'  - the unit is anounced for a future date, but visible (other than builtin 'future')
 	 *  - 'draft'   - the unit is not visible (wp builtin)
 	 */
-	protected function init_status( $status )
+	private function init_status( $status )
 	{
 		global $user;
 
@@ -82,9 +76,9 @@ class Application
 	}
 
 	/**
-	 * Returns the status in an integer
+	 * Returns the status as an integer
 	 */
-	protected function init_status_number( $status )
+	private function init_status_number( $status )
 	{
 		$number = 0;
 		switch ( $status ) {
@@ -98,6 +92,12 @@ class Application
 		}
 		return $number;
 	}
+
+	/*=======================*\
+		Protected Functions
+	\*=======================*/
+
+
 
 	/*=======================*\
 		Public Functions
@@ -119,4 +119,116 @@ class Application
 		global $user;
 		return $user->get_progress( $this );
 	}
+
+	/**
+	 * Get the parent object
+	 * [1] Return chached value if existing
+	 * [2] Check if the global $post happens to be the parent to save a db query
+	 * [3] Query for the parent object
+	 * [4] Instantiate the queried object
+	 * [5] Chache parent
+	 */
+	public function parent()
+	{
+		global $post;
+
+		if( isset( $this->parent) ) {
+
+			/* [1] */
+			return $this->parent;
+
+		} elseif( $this->parent_id == $post->ID ) {
+
+			/* [2] */
+			return $post;
+
+		} else {
+
+			/* [3] */
+			global $wpdb;
+
+			$query = "SELECT *
+				FROM `wp_gt_relationships` r
+				INNER JOIN `wp_posts` p
+				ON p.ID = r.parent_id
+				WHERE r.child_id = $this->ID
+			";
+
+			/* [4] & [5] */
+			$this->parent = gt_instantiate_object( $wpdb->get_row( $query ) );
+			return $this->parent;
+
+		}
+	}
+
+	/**
+	 * Get the objects chidren as an array
+	 * [1] Return cached array if existing
+	 * [2] Query for the children
+	 * [3] Instantiate the queried objects
+	 * [4] Cache array
+	 */
+	public function children()
+	{
+		if( isset($this->children) ) {
+
+			/* [1] */
+			return $this->children;
+
+		} else {
+
+			/* [2] */
+			global $wpdb;
+			$query = "SELECT *
+					  FROM $wpdb->posts p
+					  INNER JOIN $wpdb->gt_relationships r
+					  ON r.child_id = p.ID
+					  WHERE r.parent_id = {$this->ID}
+					  AND p.post_status IN ('publish', 'coming', 'locked')
+					  ORDER BY r.position;
+					 ";
+			$results = $wpdb->get_results( $query, OBJECT );
+
+			/* [3] */
+			$children   = array();
+			foreach ( $results as $key => $child ) {
+
+				$children[] = gt_instantiate_object( $child );
+
+			}
+
+			/* [4] */
+			$this->children = $children;
+			return $children;
+
+		}
+	}
+
+	/**
+	 * INPUT:
+	 *   %args  -> possible arguments:
+	 *              'class'     = css class
+	 *              'title'     = link title="" attribute
+	 *              'attribute' = any attribute, eg. disabled
+	 *              'display'   = the link text or label (should be renamed label)
+	 */
+	public function link_to( $args = array() )
+	{
+		return sprintf( '<a class="%1$s" href="%2$s" title="%3$s" %4$s>%5$s</a>',
+			isset($args['class']) ? $args['class'] : 'a--bodycolor',
+			gt_get_permalink( $this ),
+			isset($args['title']) ? $args['title'] : __('Permalink to:', 'gladtidings') . ' ' . $this->title,
+			isset($args['attribute']) ? $args['attribute'] : '',
+			isset($args['display']) ? $args['display'] : $this->title
+		);
+	}
+
+
+	/**
+	 * Wrapper to print get_link_to()
+	 */
+	// public function print_link_to( $object = null, $args = array() )
+	// {
+	// 	print( $this->get_link_to( $object, $args ) );
+	// }
 }

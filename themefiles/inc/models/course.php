@@ -10,41 +10,14 @@ class Course extends Application
 		Public Functions
 	\*=======================*/
 
-	public function batch_src()
+	/**
+	 * Retunrs the batch image source
+	 */
+	public function batch_src( $size = 'full' )
 	{
-		return h_get_course_batch( $this->ID );
+		$src = wp_get_attachment_image_src( get_field( 'img_course_badge', $this->ID ), $size );
+		return $src ? $src[0] : get_template_directory_uri().'/img/course-batch-placeholder.png';
+		// return h_get_course_batch( $this->ID );
 	}
 
-	public function children()
-	{
-		if( isset($this->children) ) {
-
-			return $this->children;
-
-		} else {
-
-			global $wpdb;
-
-			$query = "SELECT *
-					  FROM $wpdb->posts p
-					  INNER JOIN $wpdb->gt_relationships r
-					  ON r.child_id = p.ID
-					  WHERE r.parent_id = {$this->ID}
-					  AND p.post_status IN ('publish', 'coming', 'locked')
-					  ORDER BY r.position;
-					 ";
-			$results = $wpdb->get_results( $query, OBJECT );
-
-			$children   = array();
-			foreach ( $results as $key => $child ) {
-
-				$children[] = gt_instantiate_object( $child );
-
-			}
-
-			$this->children = $children;
-			return $children;
-
-		}
-	}
 }
