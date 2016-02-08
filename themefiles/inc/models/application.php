@@ -3,20 +3,28 @@
     Application Module
 \*------------------------------------*/
 
+/**
+ * Pass a post object or an ID
+ */
+
 class Application
 {
 	public $ID, $type, $date, $date_gmt, $title, $status, $slug;
 
 	function __construct( $post )
 	{
-		$this->ID        = $post->ID;
-		$this->type      = strtolower( get_class ( $this ) );
-		$this->date      = $post->post_date;
-		$this->date_gmt  = $post->post_date_gmt;
-		$this->title     = $post->post_title;
-		$this->slug      = $post->post_name;
-		$this->status    = $this->init_status( $post->post_status );
+		$post = is_object( $post ) ? $post : get_post( $post );
 
+		$this->ID         = (int)$post->ID;
+		$this->type       = strtolower( get_class ( $this ) );
+		$this->date       = $post->post_date;
+		$this->date_gmt   = $post->post_date_gmt;
+		$this->title      = $post->post_title;
+		$this->slug       = $post->post_name;
+		$this->status     = $this->init_status( $post->post_status );
+		$this->status_num = $this->init_status_number( $this->status );
+
+		return $post;
 	}
 
 	/*=======================*\
@@ -36,6 +44,14 @@ class Application
 	 *                note: change from 'coming' to 'publish' should only happen once
 	 *  - 'locked'  = unlock condition has been met ? fall through to 'publish' : don't change
 	 *  - 'publish' = user has started ? (active) or finished ? (success) the object : don't change
+	 *
+	 * Possible Status Flags
+	 *  - 'success' - the unit is sucessfully finished (user specific)
+	 *  - 'active'  - the unit was started, but is not finished (user specific)
+	 *  - 'publish' - the unit is open, but not yet started (wp builtin)
+	 *  - 'locked'  - the unit is visible, but not accessible
+	 *  - 'coming'  - the unit is anounced for a future date, but visible (other than builtin 'future')
+	 *  - 'draft'   - the unit is not visible (wp builtin)
 	 */
 	protected function init_status( $status )
 	{
@@ -65,15 +81,39 @@ class Application
 		return $status;
 	}
 
+	/**
+	 * Returns the status in an integer
+	 */
+	protected function init_status_number( $status )
+	{
+		$number = 0;
+		switch ( $status ) {
+			case 'success': $number++; // 5
+			case 'active':  $number++; // 4
+			case 'publish': $number++; // 3
+			case 'locked':  $number++; // 2
+			case 'coming':  $number++; // 1
+			case 'draft':              // 0
+			default:                   // 0
+		}
+		return $number;
+	}
+
 	/*=======================*\
 		Public Functions
 	\*=======================*/
 
+	/**
+	 *
+	 */
 	public function is_done()
 	{
 		return $this->status === 'passed' ? true : false;
 	}
 
+	/**
+	 * The Progress as an integer from 0 to 100
+	 */
 	public function progress()
 	{
 		global $user;

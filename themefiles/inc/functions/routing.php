@@ -141,33 +141,42 @@ function gt_unit_routing( $query ) {
 
 /**
  * My very own get_permalink function!
+ * Pass in the object
  */
-function gt_get_permalink( $post = 0, $parent_course = null, $parent_unit = null ) {
+function gt_get_permalink( $object = 0 ) {
 
-	// get post object
-	if( empty($post) ) {
-		$post = $GLOBALS['post'];
-	} elseif( is_numeric($post) ) {
-		$post = get_post( $post );
-	} elseif( !is_object($post) ) {
-		return false;
+	// get object
+	$classes = array( 'Course', 'Unit', 'Exam', 'Lesson', 'Quizz' );
+	if( !in_array( get_class( $object ), $classes ) ) {
+
+		if( is_numeric( $object ) ) {
+			$post = get_post( $object );
+		} elseif( get_class( $object ) === 'WP_Post' ) {
+			$post = $object;
+		} else {
+			return false;
+		}
+
+		if( $post->post_type === 'quizz' ) $post->post_type = 'exam';
+
+		require_once( dirname( __DIR__ ) . $post->post_type . '.php' );
+		$class = ucfirst($post->post_type);
+		$object = new $class( $post );
+
 	}
 
+	// get url base
 	$url = esc_url( home_url( '/' ) );
 
-	// exam correction
-	if( $post->post_type == 'quizz' && $post->order < 0 ) $post->post_type = 'exam';
-
-	switch ( $post->post_type ) {
+	switch ( $object->type ) {
 		case 'course':
-			$permalink = get_permalink( $post );
+			/* structure: http://gladtidings:8888/course/course-slug */
+			$permalink = $url . 'course/' . $object->slug;
 			break;
 
 		case 'unit':
 			/* structure: http://gladtidings:8888/course/course-slug/unit/1 */
-			if( !isset($post->order) ) gt_get_object_order( $post );
-			if( !$parent_course ) $parent_course = gt_get_parent_object( $post );
-			$permalink = $url . 'course/' . $parent_course->post_name . '/unit/' . ( $post->order ? $post->order : $parent_course->child_order );
+			$permalink = $url . 'course/' . $object->parent()->slug . '/unit/' . $object->order;
 			break;
 
 		case 'exam':
@@ -186,7 +195,7 @@ function gt_get_permalink( $post = 0, $parent_course = null, $parent_unit = null
 			break;
 
 		default:
-			$permalink = get_permalink( $post );
+			$permalink = get_permalink( $object->ID );
 			break;
 	}
 
@@ -195,44 +204,74 @@ function gt_get_permalink( $post = 0, $parent_course = null, $parent_unit = null
 
 
 /**
+ * INPUT:
+ *   $input -> Object || ID
+ *   %args  -> possible arguments:
+ *              'class'     = css class
+ *              'title'     = link title="" attribute
+ *              'attribute' = any attribute, eg. disabled
+ *              'display'   = the link text or label (should be renamed label)
+ */
+function get_link_to( $object = null, $args = array() )
+{
+	return sprintf( '<a class="%1$s" href="%2$s" title="%3$s" %4$s>%5$s</a>',
+		isset($args['class']) ? $args['class'] : 'a--bodycolor',
+		gt_get_permalink( $object ),
+		isset($args['title']) ? $args['title'] : __('Permalink to:', 'gladtidings') . ' ' . $object->title,
+		isset($args['attribute']) ? $args['attribute'] : '',
+		isset($args['display']) ? $args['display'] : $object->title
+	);
+}
+
+
+/**
+ * Wrapper to print get_link_to()
+ */
+function print_link_to( $object = null, $args = array() )
+{
+	print( $this->get_link_to( $object, $args ) );
+}
+
+
+/**
  * Returns the parent post object. E.g. Course pertaining to the unit.
  * CAUTON: 'order' and 'position' belong to the queried object,
  *         while 'child_order' and 'child_position' belong to the child.
  */
-function gt_get_parent_object( $post ) {
-	global $wpdb;
+// function gt_get_parent_object( $post ) {
+// 	global $wpdb;
 
-	$query = "SELECT p.*, r2.order, r2.position, r1.order child_order, r1.position child_position
-		FROM $wpdb->posts p
-		INNER JOIN $wpdb->gt_relationships r1
-		ON r1.parent_id = p.ID
-		INNER JOIN $wpdb->gt_relationships r2
-		ON r2.child_id = p.ID
-		WHERE r1.child_id = $post->ID;
-	";
+// 	$query = "SELECT p.*, r2.order, r2.position, r1.order child_order, r1.position child_position
+// 		FROM $wpdb->posts p
+// 		INNER JOIN $wpdb->gt_relationships r1
+// 		ON r1.parent_id = p.ID
+// 		INNER JOIN $wpdb->gt_relationships r2
+// 		ON r2.child_id = p.ID
+// 		WHERE r1.child_id = $post->ID;
+// 	";
 
-	return $wpdb->get_row( $query );
-}
+// 	return $wpdb->get_row( $query );
+// }
 
 
 /**
  * returns the post object with 'order' and 'position'
  */
-function gt_get_object_order( $post ) {
-	global $wpdb;
+// function gt_get_object_order( $post ) {
+// 	global $wpdb;
 
-	$query = "SELECT r.order, r.position
-		FROM $wpdb->gt_relationships r
-		WHERE r.child_id = $post->ID;
-	";
+// 	$query = "SELECT r.order, r.position
+// 		FROM $wpdb->gt_relationships r
+// 		WHERE r.child_id = $post->ID;
+// 	";
 
-	$result = $wpdb->get_row( $query );
+// 	$result = $wpdb->get_row( $query );
 
-	$post->order = $result->order;
-	$post->position = $result->position;
+// 	$post->order = $result->order;
+// 	$post->position = $result->position;
 
-	return $post;
-}
+// 	return $post;
+// }
 
 
 /**

@@ -59,7 +59,7 @@ function add_post_types_and_taxonomies() {
 		'show_in_admin_bar'     => true, // defaults to 'show_in_menu'
 		// 'show_in_nav_menus'     => true, //defaults to 'public'
 		'can_export'            => true,
-		'has_archive'           => true,		
+		'has_archive'           => true,
 		// 'exclude_from_search'   => false, //defaults to 'public'
 		'publicly_queryable'    => true, //defaults to 'public'
 		'rewrite'               => $rewrite,
@@ -102,10 +102,28 @@ function add_post_types_and_taxonomies() {
 	 *  - 'coming'  - the unit is anounced for a future date, but visible (other than builtin 'future')
 	 *  - 'draft'   - the unit is not visible (wp builtin)
 	 */
-	// register_post_status( 'success', array( 'public' => true, 'label' => __( 'Completed', 'gladtidings' ) ) ); // user specific
-	// register_post_status( 'active',  array( 'public' => true, 'label' => __( 'Active', 'gladtidings' ) ) ); // user specific
 	register_post_status( 'locked',  array( 'public' => true, 'label' => __( 'Locked', 'gladtidings' ) ) );
 	register_post_status( 'coming',  array( 'public' => true, 'label' => __( 'Coming soon', 'gladtidings' ) ) );
+
+
+	/**
+	 * Register Virtual Custom Post Type 'Headline'
+	 */
+	$labels = array(
+		'name'                  => _x( 'Exams', 'Post Type General Name', 'gladtidings' ),
+		'singular_name'         => _x( 'Exam', 'Post Type Singular Name', 'gladtidings' ),
+	);
+	$args = array(
+		'label'                 => __( 'Exam', 'gladtidings' ),
+		'description'           => __( 'Individual Exams', 'gladtidings' ),
+		'labels'                => $labels,
+		'supports'              => array( 'title' ),
+		'public'                => false,
+		'show_ui'               => false,
+		'can_export'            => false,
+		'has_archive'           => false,
+	);
+	register_post_type( 'exam', $args );
 
 
 	/**

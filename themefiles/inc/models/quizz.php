@@ -1,5 +1,5 @@
 <?php
-class Quizz extends GTModule
+class Quizz extends Application
 {
 
 }

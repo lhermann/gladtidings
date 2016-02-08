@@ -32,12 +32,16 @@
 
 		<section id="progress" class="wrapper">
 
-				<?php //get_template_part( 'templates/content', 'progress' ); ?>
 				<h2 class="u-screen-reader-text"><?= __( 'Progress', 'gladtidings' ) ?></h2>
+
 				<div class="progress progress--meter" title="<?= __( 'Progress:', 'gladtidings' ).' '.$post->progress() ?>">
 					<span class="progress__item t-comp-bg" style="width: <?= $post->progress().'%' ?>"><?= $post->progress().'%' ?></span>
 				</div>
-				<p class="u-spacing--narrow t-second-text"><?php get_print_progress_message( $post->progress() ) ?></p>
+
+				<p class="u-spacing--narrow t-second-text">
+					<?= __( 'Lessons watched:', 'gladtidings' ) ?> <strong class="t-comp-text">0/10</strong>
+					&bull; <?= __( 'Quizzes passed:', 'gladtidings' ) ?> <strong class="t-comp-text">0/10</strong>
+				</p>
 
 		</section>
 
@@ -49,18 +53,18 @@
 
 					<?php
 						//get all the units
-						$units = $_gt->get_units();
-						// var_dump( $units );
+						$children = $post->children();
+						// var_dump( $children );
 
 						// check if the repeater field has rows of data
-						if( $units ) {
+						if( $children ) {
 
 							print( '<ul class="nodelist nodelist--course">' );
 
 							// loop through the units
-							foreach ( $units as $key => $post ) {
+							foreach ( $children as $key => $node ) {
 
-								get_template_part( 'templates/node', get_post_type() );
+								get_template_part( 'templates/node', $node->type );
 
 							}
 

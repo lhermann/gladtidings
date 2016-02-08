@@ -44,3 +44,22 @@ function gt_get_filesize( $url )
 		return $filesize.' '.$type;
 	};
 }
+
+
+/**
+ * Instantiate an object for Glad Tidings
+ * INPUT: 'WP_Post' object or 'stdClass' object from query
+ * OUTPUT: Instantiated object with full Model functionality
+ */
+function gt_instantiate_object( $post )
+{
+	// Correction for exam
+	$type = $post->post_type === 'quizz' ? 'exam' : $post->post_type;
+
+	// Include Model
+	require_once( dirname( __DIR__ ) . '/models/' . $post->post_type . '.php' );
+
+	// Instantiate object
+	$class = ucfirst($post->post_type);
+	return new $class( $post );
+}

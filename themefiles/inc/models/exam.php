@@ -1,5 +1,5 @@
 <?php
-class exam extends GTModule
+class Exam extends Application
 {
 
 }

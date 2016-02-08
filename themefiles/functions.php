@@ -29,8 +29,7 @@ require_once ( "inc/functions/login.php" );
 /**
  * Helpers
  */
-require_once ( "inc/helpers/color.php" );
-require_once ( "inc/helpers/global.php" );
+require_once ( "inc/helpers/color_helper.php" );
 
 /**
  * Instantiate the Controller
@@ -61,6 +60,7 @@ function instantiate_the_controller( $wp ) {
 	                  require( $controller_path . 'application_controller.php' );
 	if( $controller ) require( $controller_path . $controller . '_controller.php' );
 
+	                  require( $helper_path . 'application_helper.php' );
 	if( $controller ) require( $helper_path . $controller . '_helper.php' );
 
 	// Instantiate the user
