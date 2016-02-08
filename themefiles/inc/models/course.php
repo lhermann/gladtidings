@@ -5,6 +5,22 @@ class Course extends Application
 	// {
 	// 	parent::__construct( $post );
 	// }
+	/*=======================*\
+		Static Functions
+	\*=======================*/
+
+	public static function all( $posts )
+	{
+		$courses = array();
+
+		foreach( $posts as $post ) {
+
+			$courses[] = gt_instantiate_object( $post );
+
+		}
+
+		return $courses;
+	}
 
 	/*=======================*\
 		Public Functions

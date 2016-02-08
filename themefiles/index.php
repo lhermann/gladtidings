@@ -1,7 +1,4 @@
 <?php
-	global $_gt;
-	// var_dump( $_gt );
-
 	get_header();
 ?>
 

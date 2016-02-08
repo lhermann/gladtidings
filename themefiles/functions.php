@@ -69,13 +69,34 @@ function instantiate_the_controller( $wp ) {
 
 	// call controller action statically and pass get_queried_object() as argument
 	if( $controller ) {
-		global $post;
-		$class = ucfirst($controller).'Controller';
-		$post = $class::$action( get_queried_object() );
 
-		// Built Inline Theme CSS Styles
-		add_filter( 'theme_css', 'add_theme_color', 10 );
+		global $post, $posts;
+		$class = ucfirst($controller).'Controller';
+
+		switch ( $action ) {
+			case 'index': $posts = $class::$action( $posts ); break;
+			default:      $post = $class::$action( $post );   break;
+		}
+
 	}
+
+}
+
+/**
+ * Built Inline Theme CSS Styles
+ */
+add_action( 'wp', 'build_theme_css', 12, 1 );
+function build_theme_css( $wp ) {
+
+	global $post;
+	$classes = array( 'Course', 'Unit', 'Exam', 'Lesson', 'Quizz' );
+
+	if( in_array( get_class($post), $classes ) ) {
+
+		add_filter( 'theme_css', 'add_theme_color', 10 );
+
+	}
+
 }
 
 /*------------------------------------*\

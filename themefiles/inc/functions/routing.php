@@ -105,6 +105,8 @@ function gladtidings_rewrite_rules() {
 function alter_query_home( $query ) {
 	if ( $query->is_home() && $query->is_main_query() ) {
 		$query->set( 'post_type', 'course' );
+		$query->set( 'controller', 'course' );
+		$query->set( 'action', 'index' );
 	}
 }
 add_action( 'pre_get_posts', 'alter_query_home' );
