@@ -1,6 +1,6 @@
 <?php
 	// global $post;
-	var_dump( $post );
+	// var_dump( $post );
 
 	get_header();
 ?>
@@ -83,7 +83,7 @@
 				<aside class="layout__item no-owl-desk u-1/3-desk">
 
 					<?php
-						$description = $_gt->get_description();
+						$description = get_field( 'course_description' );
 						if( $description ): ?>
 
 						<h2 class="t-second-text"><?= __( 'Description', 'gladtidings' ) ?></h2>
