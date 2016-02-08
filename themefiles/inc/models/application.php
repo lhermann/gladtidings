@@ -148,8 +148,8 @@ class Application
 			global $wpdb;
 
 			$query = "SELECT *
-				FROM `wp_gt_relationships` r
-				INNER JOIN `wp_posts` p
+				FROM $wpdb->gt_relationships r
+				INNER JOIN $wpdb->posts p
 				ON p.ID = r.parent_id
 				WHERE r.child_id = $this->ID
 			";
@@ -210,6 +210,79 @@ class Application
 	{
 		$parent = $this->parent();
 		return $parent->children();
+	}
+
+	/**
+	 * Get number of children, optionally of one type only
+	 * [1] Check if cached number exists
+	 * [2] Check if children array is already cached
+	 * [3] Count from hte existing children array
+	 * [4] Cache number
+	 * [5] Build the query
+	 *
+	 * INPUT: $type to limit by
+	 * OUTPUT: (int) number of children
+	 */
+	public function num_children( $type = 'children' )
+	{
+		/* [1] */
+		if( !isset( $this->num_{$type} ) ) {
+
+			/* [2] */
+			if( isset( $this->children ) ) {
+
+				/* [3] */
+				if( $type != 'children' ) {
+
+					$count = 0;
+					foreach( $this->children as $child ) {
+						if( $child->type == $type ) $count++;
+					}
+
+				} else {
+
+					$count = count( $this->children );
+
+				}
+
+				/* [4] */
+				$this->num_{$type} = $count;
+
+			} else {
+
+				/* [5] */
+				global $wpdb;
+
+				$query = "SELECT COUNT(p.ID) AS num
+					FROM $wpdb->gt_relationships r
+					INNER JOIN $wpdb->posts p
+					ON r.child_id = p.ID\n";
+
+				if( $this->type == 'course' ) {
+
+					$query .= "INNER JOIN $wpdb->gt_relationships r2
+						ON r2.child_id = r.parent_id
+						WHERE r2.parent_id = $this->ID\n";
+
+				} else {
+
+					$query .= "WHERE r.parent_id = $this->ID\n";
+
+				}
+
+				if( $type != 'children' ) {
+
+					$query .= "AND p.post_type = '$type'";
+
+				}
+
+				/* [4] */
+				$this->num_{$type} = (int)$wpdb->get_var( $query );
+
+			}
+		}
+
+		return $this->num_{$type};
 	}
 
 	/**

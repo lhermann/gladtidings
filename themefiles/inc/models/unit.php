@@ -64,5 +64,7 @@ class Unit extends Application
 		Public Functions
 	\*=======================*/
 
+	public function num_lessons() { return $this->num_children( 'lesson' ); }
+	public function num_quizzes() { return $this->num_children( 'quizz' ); }
 
 }

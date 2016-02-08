@@ -59,13 +59,21 @@ function h_node_meta( $node )
  * Node footer Paragraph
  * -> get number of videos and lessons
  */
-function h_node_footer()
+function h_node_footer( $node )
 {
-	if( $this->status_num >= 2 ) {
-		return sprintf( '%s %s',
-			( $this->num_lessons( $this->node ) == 1 ? '<span class="fi fi-video"></span> 1 '._x( 'Lesson', 'Post Type Singular Name', 'gladtidings' ) : '<span class="fi fi-video"></span> '.$this->num_lessons( $this->node ).' '._x( 'Lessons', 'Post Type General Name', 'gladtidings' ) ),
-			( $this->num_quizzes( $this->node ) ? '&nbsp; '.( $this->num_quizzes( $this->node ) == 1 ? '<span class="fi fi-clipboard-pencil"></span> 1 '._x( 'Quizz', 'Post Type Singular Name', 'gladtidings' ) : '<span class="fi fi-clipboard-pencil"></span> '.$this->num_quizzes( $this->node ).' '._x( 'Quizzes', 'Post Type General Name', 'gladtidings' ) ) : '' )
+	if( $node->status_num < 2 ) return '';
+
+	$return = sprintf( '<span class="fi fi-video"></span> %1$s %2$s',
+		$node->num_lessons(),
+		_n( 'Lesson', 'Lessons', $node->num_lessons(), 'gladtidings' )
+	);
+
+	if( $node->num_quizzes() ) {
+		$return .= sprintf( '&nbsp; <span class="fi fi-clipboard-pencil"></span> %1$s %2$s',
+			$node->num_quizzes(),
+			_n( 'Quizz', 'Quizzes', $node->num_quizzes(), 'gladtidings' )
 		);
 	}
-	return '';
+
+	return $return;
 }

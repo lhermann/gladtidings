@@ -13,7 +13,7 @@ global $node;
 				<small class="nl__article__meta t-second-text"><?= __( 'Unit', 'gladtidings').' '.$node->order ?> <?= h_node_meta( $node ) ?></small>
 			</header>
 			<footer class="nl__article__footer">
-				<p class="t-comp-text"><?= ''//$_gt->node_footer() ?></p>
+				<p class="t-comp-text"><?= h_node_footer( $node ) ?></p>
 			</footer>
 		</article>
 	<?= $link ? '</a>' : '' ?>

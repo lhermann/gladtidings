@@ -20,4 +20,7 @@ class Course extends Application
 		// return h_get_course_batch( $this->ID );
 	}
 
+	public function num_lessons() { return $this->num_children( 'lesson' ); }
+	public function num_quizzes() { return $this->num_children( 'quizz' ); }
+
 }
