@@ -10,7 +10,9 @@ global $node;
 		<article class="nl__article">
 			<header class="nl__article__header">
 				<h3 class="nl__article__title"><?= $node->title ?> <?= h_node_button( $node ) ?></h3>
-				<?php if( $output['meta'] ): ?><small class="nl__article__meta t-second-text"><?= $_gt->node_meta() ?></small><?php endif; ?>
+				<?php if( h_node_meta( $node ) ): ?>
+					<small class="nl__article__meta t-second-text"><?= h_node_meta( $node ) ?></small>
+				<?php endif; ?>
 			</header>
 		</article>
 	<?= $link ? '</a>' : '' ?>

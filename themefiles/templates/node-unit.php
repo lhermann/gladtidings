@@ -10,7 +10,12 @@ global $node;
 		<article class="nl__article">
 			<header class="nl__article__header">
 				<h3 class="nl__article__title"><?= $node->title ?> <?= h_node_button( $node ) ?></h3>
-				<small class="nl__article__meta t-second-text"><?= __( 'Unit', 'gladtidings').' '.$node->order ?> <?= h_node_meta( $node ) ?></small>
+				<small class="nl__article__meta t-second-text">
+					<?= __( 'Unit', 'gladtidings').' '.$node->order ?>
+					<?php if( h_node_meta( $node ) ): ?>
+						&bull; <?= h_node_meta( $node ) ?>
+					<?php endif; ?>
+				</small>
 			</header>
 			<footer class="nl__article__footer">
 				<p class="t-comp-text"><?= h_node_footer( $node ) ?></p>

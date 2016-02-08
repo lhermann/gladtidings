@@ -82,12 +82,16 @@ function gt_establish_relationships( $post_id, $post_object ) {
 				 * For each exam:
 				 *  (1) get exam_id
 				 *  (2) establish the relationships with course
+				 *  (3) update the post status
 				 */
 				// (1)
 				$exam_id = $unit[ $k->exam_id ];
 
 				// (2)
 				gt_update_relationship( $post_id, $exam_id, -1, $u_key );
+
+				// (3)
+				wp_update_post( array( 'ID' => $exam_id, 'post_status' => $unit[ $k->unit_status ] ) );
 
 				break;
 			case 'unit':

@@ -54,7 +54,6 @@
 					<?php
 						//get all the units
 						$children = $post->children();
-						// var_dump( $children );
 
 						// check if the repeater field has rows of data
 						if( $children ) {
