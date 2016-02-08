@@ -63,3 +63,23 @@ function gt_instantiate_object( $post )
 	$class = ucfirst($type);
 	return new $class( $post );
 }
+
+/**
+ * Get an array with all the breadcrumbs for the current site
+ */
+function gt_get_breadcrumbs( $post )
+{
+	// evaluate home redirect constant
+	$gt_home = defined( 'GT_HOME' ) ? explode( ':', GT_HOME )[0] : false;
+
+	$return = array();
+
+	switch ( $post->type ) {
+		case 'course':
+		default:
+			$return[] = 'home';
+	}
+
+	return array_reverse( $return );
+
+}

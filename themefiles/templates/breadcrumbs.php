@@ -13,24 +13,20 @@
  *	</nav>
  */
 
-
-
-global $_gt;
-// return;
-// var_dump($_gt->get_breadcrumbs());
+// var_dump(gt_get_breadcrumbs( $post ));
 ?>
 
 
 <nav class="breadcrumbs breadcrumbs--full t-light-bg t-main-border">
 	<ul class="wrapper list-inline owl--off">
 
-		<?php foreach( $_gt->get_breadcrumbs() as $crumb ): ?>
+		<?php foreach( gt_get_breadcrumbs( $post ) as $crumb ): ?>
 
 			<li class="crumb__item">
 
 				<?php if( is_object( $crumb ) ): ?>
 
-					<?php $_gt->print_crumb_link( $crumb ); ?>
+					<?= gt_crumb_link( $crumb ); ?>
 
 				<?php else: ?>
 
