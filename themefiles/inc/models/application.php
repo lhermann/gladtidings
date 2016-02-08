@@ -9,7 +9,7 @@
 
 class Application
 {
-	public $ID, $type, $title, $slug, $status, $status_num, $date, $date_gmt;
+	public $ID, $type, $title, $slug, $status, $status_num, $date, $date_gmt, $order, $position, $parent_id;
 
 	function __construct( $post )
 	{
@@ -17,10 +17,16 @@ class Application
 
 		$this->ID         = (int)$post->ID;
 		$this->type       = strtolower( get_class ( $this ) );
-		$this->date       = $post->post_date;
-		$this->date_gmt   = $post->post_date_gmt;
 		$this->title      = $post->post_title;
 		$this->slug       = $post->post_name;
+
+		$this->date       = $post->post_date;
+		$this->date_gmt   = $post->post_date_gmt;
+
+		$this->order     = (int)$post->order;
+		$this->position  = (int)$post->position;
+		$this->parent_id = (int)$post->parent_id;
+
 		$this->status     = $this->init_status( $post->post_status );
 		$this->status_num = $this->init_status_number( $this->status );
 
@@ -30,50 +36,6 @@ class Application
 	/*=======================*\
 		Private Functions
 	\*=======================*/
-
-	/**
-	 * Update the status of an object and return the updated object
-	 * If the status is ...
-	 *  - 'coming'  = date has passed ? set to 'publish' (also update post object and acf field)
-	 *                note: change from 'coming' to 'publish' should only happen once
-	 *  - 'locked'  = unlock condition has been met ? fall through to 'publish' : don't change
-	 *  - 'publish' = user has started ? (active) or finished ? (success) the object : don't change
-	 *
-	 * Possible Status Flags
-	 *  - 'success' - the unit is sucessfully finished (user specific)
-	 *  - 'active'  - the unit was started, but is not finished (user specific)
-	 *  - 'publish' - the unit is open, but not yet started (wp builtin)
-	 *  - 'locked'  - the unit is visible, but not accessible
-	 *  - 'coming'  - the unit is anounced for a future date, but visible (other than builtin 'future')
-	 *  - 'draft'   - the unit is not visible (wp builtin)
-	 */
-	private function init_status( $status )
-	{
-		global $user;
-
-		switch ( $status ) {
-			case 'coming':
-				$date = strtotime( get_post_meta( $this, 'release_date', true ) );
-				if( $date < time() ) {
-					// update status to 'publish' and fall through
-					$status = 'publish';
-					wp_publish_post( $this->ID );
-				} else {
-					$this->release_date = date( "F j, Y", $date );
-					break;
-				}
-
-			case 'publish':
-				$progress = $user->get_progress( $this );
-				if( $progress == 100 ) {
-					$status = 'success';
-				} elseif( $progress > 0 ) {
-					$status = 'active';
-					$this->progress = $progress;
-				}
-		}
-		return $status;
-	}
 
 	/**
 	 * Returns the status as an integer
@@ -97,7 +59,38 @@ class Application
 		Protected Functions
 	\*=======================*/
 
+	/**
+	 * Update the status of an object and return the updated object
+	 * If the status is ...
+	 *  - 'coming'  = date has passed ? set to 'publish' (also update post object and acf field)
+	 *                note: change from 'coming' to 'publish' should only happen once
+	 *  - 'locked'  = unlock condition has been met ? fall through to 'publish' : don't change
+	 *  - 'publish' = user has started ? (active) or finished ? (success) the object : don't change
+	 *
+	 * Possible Status Flags
+	 *  - 'success' - the unit is sucessfully finished (user specific)
+	 *  - 'active'  - the unit was started, but is not finished (user specific)
+	 *  - 'publish' - the unit is open, but not yet started (wp builtin)
+	 *  - 'locked'  - the unit is visible, but not accessible
+	 *  - 'coming'  - the unit is anounced for a future date, but visible (other than builtin 'future')
+	 *  - 'draft'   - the unit is not visible (wp builtin)
+	 */
+	protected function init_status( $status )
+	{
+		global $user;
 
+		switch ( $status ) {
+			case 'publish':
+				$progress = $this->progress();
+				if( $progress == 100 ) {
+					$status = 'success';
+				} elseif( $progress > 0 ) {
+					$status = 'active';
+					$this->progress = $progress;
+				}
+		}
+		return $status;
+	}
 
 	/*=======================*\
 		Public Functions
@@ -116,8 +109,16 @@ class Application
 	 */
 	public function progress()
 	{
-		global $user;
-		return $user->get_progress( $this );
+		if( isset( $this->progress ) ) {
+
+			return $this->progress;
+
+		} else {
+
+			global $user;
+			return $user->get_progress( $this );
+
+		}
 	}
 
 	/**
@@ -131,7 +132,6 @@ class Application
 	public function parent()
 	{
 		global $post;
-
 		if( isset( $this->parent) ) {
 
 			/* [1] */
@@ -189,19 +189,27 @@ class Application
 					 ";
 			$results = $wpdb->get_results( $query, OBJECT );
 
-			/* [3] */
-			$children   = array();
+			/* [3] & [4] */
+			$this->children   = array();
 			foreach ( $results as $key => $child ) {
 
-				$children[] = gt_instantiate_object( $child );
+				$this->children[] = gt_instantiate_object( $child );
 
 			}
 
 			/* [4] */
-			$this->children = $children;
-			return $children;
+			return $this->children;
 
 		}
+	}
+
+	/**
+	 * Get an object's siblings
+	 */
+	public function siblings()
+	{
+		$parent = $this->parent();
+		return $parent->children();
 	}
 
 	/**
