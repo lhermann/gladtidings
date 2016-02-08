@@ -87,7 +87,7 @@ class User
 		$key = "{$scope}_{$ID}_{$name}";
 		$isset = isset($this->data->{$key});
 		$this->data->{$key} = $value;
-		update_user_meta( $this->user_id, $key, is_bool($value) ? (int)$value : $value );
+		update_user_meta( $this->ID, $key, is_bool($value) ? (int)$value : $value );
 		return $isset;
 	}
 

@@ -6,7 +6,6 @@
 /**
  * Pass a post object or an ID
  */
-
 class Application
 {
 	public $ID, $type, $title, $slug, $status, $status_num, $date, $date_gmt, $order, $position, $parent_id;
@@ -77,8 +76,6 @@ class Application
 	 */
 	protected function init_status( $status )
 	{
-		global $user;
-
 		switch ( $status ) {
 			case 'publish':
 				$progress = $this->progress();
@@ -95,6 +92,19 @@ class Application
 	/*=======================*\
 		Public Functions
 	\*=======================*/
+
+
+	/**
+	 * INPUT:
+	 *	$scope = 'course'|'unit'|'lesson'|'quizz'
+	 * 	$ID
+	 * OUTPUt: DB entry existed true|false
+	 */
+	public function touch()
+	{
+		global $user;
+		return $user->update_value( $this->type, $this->ID, 'touched', time() );
+	}
 
 	/**
 	 *
