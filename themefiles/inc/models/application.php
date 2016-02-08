@@ -324,12 +324,4 @@ class Application
 		);
 	}
 
-
-	/**
-	 * Wrapper to print get_link_to()
-	 */
-	// public function print_link_to( $object = null, $args = array() )
-	// {
-	// 	print( $this->get_link_to( $object, $args ) );
-	// }
 }

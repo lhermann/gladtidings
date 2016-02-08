@@ -1,6 +1,11 @@
 <?php
+/*------------------------------------*\
+    Course Controller
+\*------------------------------------*/
+
 class CourseController extends ApplicationController
 {
+
 	public static function index( $posts )
 	{
 		$courses = Course::all( $posts );
@@ -13,4 +18,5 @@ class CourseController extends ApplicationController
 		$course->touch();
 		return $course;
 	}
+
 }
