@@ -61,8 +61,8 @@ function add_post_types_and_taxonomies() {
 		'can_export'            => true,
 		'has_archive'           => true,
 		// 'exclude_from_search'   => false, //defaults to 'public'
-		'publicly_queryable'    => true, //defaults to 'public'
-		'rewrite'               => $rewrite,
+		'publicly_queryable'    => true,
+		'rewrite'               => false,
 		// 'capability_type'       => 'post', // defaults to 'post'
 	);
 	register_post_type( 'course', $args );
@@ -89,7 +89,7 @@ function add_post_types_and_taxonomies() {
 		'can_export'            => false,
 		'has_archive'           => false,
 		'publicly_queryable'    => true,
-		'rewrite'               => $rewrite,
+		'rewrite'               => false,
 	);
 	register_post_type( 'unit', $args );
 
@@ -122,6 +122,8 @@ function add_post_types_and_taxonomies() {
 		'show_ui'               => false,
 		'can_export'            => false,
 		'has_archive'           => false,
+		'publicly_queryable'    => true,
+		'rewrite'               => false,
 	);
 	register_post_type( 'exam', $args );
 
@@ -166,7 +168,7 @@ function add_post_types_and_taxonomies() {
 		'can_export'            => true,
 		'has_archive'           => false,
 		'publicly_queryable'    => true,
-		'rewrite'               => $rewrite
+		'rewrite'               => false
 	);
 	register_post_type( 'lesson', $args );
 
@@ -211,7 +213,7 @@ function add_post_types_and_taxonomies() {
 		'can_export'            => true,
 		'has_archive'           => false,
 		'publicly_queryable'    => true,
-		'rewrite'               => $rewrite
+		'rewrite'               => false
 	);
 	register_post_type( 'quizz', $args );
 
@@ -232,6 +234,7 @@ function add_post_types_and_taxonomies() {
 		'show_ui'               => false,
 		'can_export'            => false,
 		'has_archive'           => false,
+		'rewrite'               => false,
 	);
 	register_post_type( 'headline', $args );
 
