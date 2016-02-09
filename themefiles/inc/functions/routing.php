@@ -159,11 +159,7 @@ function gt_get_permalink( $object = 0 ) {
 			return false;
 		}
 
-		if( $post->post_type === 'quizz' ) $post->post_type = 'exam';
-
-		require_once( dirname( __DIR__ ) . $post->post_type . '.php' );
-		$class = ucfirst($post->post_type);
-		$object = new $class( $post );
+		$object = gt_instantiate_object( $post );
 
 	}
 
