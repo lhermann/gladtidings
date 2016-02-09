@@ -22,9 +22,7 @@ class Application
 		$this->date       = $post->post_date;
 		$this->date_gmt   = $post->post_date_gmt;
 
-		$this->order     = (int)$post->order;
-		$this->position  = (int)$post->position;
-		$this->parent_id = (int)$post->parent_id;
+		$this->gt_relationships( $post );
 
 		$this->status     = $this->init_status( $post->post_status );
 		$this->status_num = $this->init_status_number( $this->status );
@@ -57,6 +55,36 @@ class Application
 	/*=======================*\
 		Protected Functions
 	\*=======================*/
+
+	/**
+	 * Assign the object's order, position and parent_id
+	 * Fetch the values from the DB if they are not existent in the $post object
+	 */
+	protected function gt_relationships( $post )
+	{
+		if( isset( $post->order ) ) {
+
+			$this->order     = (int)$post->order;
+			$this->position  = (int)$post->position;
+			$this->parent_id = (int)$post->parent_id;
+
+		} elseif( in_array( $this->type, array('unit', 'exam', 'lesson', 'quizz') ) ) {
+
+			global $wpdb;
+			$query = "SELECT r.order, r.position, r.parent_id
+				FROM $wpdb->gt_relationships r
+				INNER JOIN $wpdb->posts p
+				ON p.ID = r.child_id
+				WHERE p.ID = $post->ID;";
+			$result = $wpdb->get_row( $query );
+
+			$this->order     = (int)$result->order;
+			$this->position  = (int)$result->position;
+			$this->parent_id = (int)$result->parent_id;
+
+		}
+
+	}
 
 	/**
 	 * Update the status of an object and return the updated object
