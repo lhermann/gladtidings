@@ -69,9 +69,6 @@
 
 							print( '</ul><!-- /.nodelist -->' );
 
-							// restore the original post
-							// wp_reset_postdata();
-
 						} else {
 
 							_e( 'No Units!' );

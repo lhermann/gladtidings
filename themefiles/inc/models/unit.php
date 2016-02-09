@@ -27,6 +27,14 @@ class Unit extends Application
 		Public Functions
 	\*=======================*/
 
+	/**
+	 * Returns the ID of the course
+	 */
+	public function course_id()
+	{
+		return $this->parent()->ID;
+	}
+
 	public function num_lessons() { return $this->num_children( 'lesson' ); }
 	public function num_quizzes() { return $this->num_children( 'quizz' ); }
 

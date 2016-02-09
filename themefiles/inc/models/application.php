@@ -252,12 +252,34 @@ class Application
 	}
 
 	/**
-	 * Get an object's siblings
+	 * Get an object's siblings as array
 	 */
 	public function siblings()
 	{
 		$parent = $this->parent();
 		return $parent->children();
+	}
+
+	/**
+	 * Perform a search for a specific sibling
+	 * INPUT: array with index => value pairs to search for in the object
+	 */
+	public function find_sibling( $search = array() )
+	{
+		if( $search ) {
+			global $wpdb;
+			$query = "SELECT *
+				FROM $wpdb->posts p
+				INNER JOIN $wpdb->gt_relationships r
+				ON p.ID = r.child_id
+				WHERE r.parent_id = $this->parent_id";
+
+			foreach ( $search as $key => $value) {
+				$query .= "\nAND $key = '$value'";
+			}
+
+			return gt_instantiate_object( $wpdb->get_row( $query ) );
+		}
 	}
 
 	/**

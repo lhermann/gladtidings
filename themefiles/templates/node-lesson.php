@@ -2,15 +2,15 @@
 /*------------------------------------*\
                NODE LESSON
 \*------------------------------------*/
+global $node;
 
-global $_gt;
 ?>
-<li class="nl__item nl__item--<?= $post->ID ?> nl__item--<?= $post->post_type ?> nl__item--<?= $post->post_status ?> <?= $_gt->current_node( $post ) ? 'nl__item--current t-second-border' : '' ?>">
+<li class="nl__item nl__item--<?= $node->ID ?> nl__item--<?= $node->type ?> nl__item--<?= $node->status ?> <?= $node->ID === $post->ID ? 'nl__item--current t-second-border' : '' ?>">
 	<article class="nl__article">
 		<header class="nl__article__header">
 			<h4 class="nl__article__title">
-				<span class="label label--small label--fixed label--theme"><?= $post->order ?></span>
-				<?php $_gt->print_link_to( $post, $_gt->get_node_link_attr( $post ) ); ?>
+				<span class="label label--small label--fixed label--theme"><?= $node->order ?></span>
+				<?= $node->link_to() ?>
 			</h4>
 		</header>
 	</article>

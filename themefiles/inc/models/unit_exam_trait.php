@@ -32,8 +32,7 @@ trait init_status {
 			case 'locked':
 				$dependency_position = (int)get_post_meta( $this->ID, 'unlock_dependency', true ) - 1;
 				if( $dependency_position < $this->position ) {
-					$siblings = $this->siblings();
-					$dependency_object = $siblings[ $dependency_position ];
+					$dependency_object = $this->find_sibling( array( 'position' => $dependency_position ) );
 					if( !$dependency_object->is_done ) {
 						$this->unlock_dependency = $dependency_object;
 						break;

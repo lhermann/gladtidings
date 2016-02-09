@@ -75,11 +75,41 @@ function gt_get_breadcrumbs( $post )
 	$return = array();
 
 	switch ( $post->type ) {
+		case 'unit':
+			$return[] = $post;
+			$return[] = $post->parent();
+			$return[] = 'home';
+			break;
+
 		case 'course':
+			$return[] = $post;
+			$return[] = 'home';
+			break;
+
 		default:
 			$return[] = 'home';
 	}
 
 	return array_reverse( $return );
 
+}
+
+/**
+ * Print the Link for one breadcrumb
+ * Basically a fancy wrapper for print_link_to()
+ */
+function gt_crumb_link( $crumb )
+{
+	$args = array();
+
+	switch ( $crumb->post_type ) {
+		case 'lesson':
+			$args['display'] = sprintf( __('Lesson %d', 'gladtidings'),  $crumb->order );
+			break;
+		case 'unit':
+			$args['display'] = sprintf( __('Unit %d', 'gladtidings'),  $crumb->order );
+			break;
+	}
+
+	return $crumb->link_to( $args );
 }

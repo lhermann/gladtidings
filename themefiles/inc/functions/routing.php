@@ -183,12 +183,13 @@ function gt_get_permalink( $object = 0 ) {
 			break;
 
 		case 'lesson':
+			/* structure: http://gladtidings:8888/course/course-slug/unit/1/lesson/1 */
+			$permalink = $url . 'course/' . $object->course()->slug . '/unit/' . $object->parent()->order . '/' . $object->type . '/' . $object->ID;
+			break;
+
 		case 'quizz':
-			/* structure: http://gladtidings:8888/course/course-slug/unit/1/lesson/lesson-slug */
 			/* structure: http://gladtidings:8888/course/course-slug/unit/1/quizz/quizz-slug */
-			if( !isset($parent_unit->order) ) $parent_unit = gt_get_parent_object( $post );
-			if( !$parent_course ) $parent_course = gt_get_parent_object( $parent_unit );
-			$permalink = $url . "course/{$parent_course->post_name}/unit/{$parent_unit->order}/{$post->post_type}/{$post->post_name}";
+			$permalink = $url . 'course/' . $object->course()->slug . '/unit/' . $object->parent()->order . '/' . $object->type . '/' . $object->slug;
 			break;
 
 		default:
