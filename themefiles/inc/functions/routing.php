@@ -28,7 +28,7 @@ function gladtidings_get_variables() {
 	add_rewrite_tag('%controller%', '([^&]+)');
 	add_rewrite_tag('%action%', '([^&]+)');
 	add_rewrite_tag('%view%', '([^&]+)');
-	// flush_rewrite_rules();
+	flush_rewrite_rules();
 }
 
 
@@ -46,10 +46,11 @@ function gladtidings_rewrite_rules() {
 	// define new rules
 	$new_rules = array(
 		// lesson
-		"course/(.?.+?)/unit/([0-9]{1,})/lesson/([^/]+)/?$"
+		"course/(.?.+?)/unit/([0-9]{1,})/lesson/([0-9]+)/?$"
 
 				=> "index.php"
-						."?lesson=".$wp_rewrite->preg_index(3)
+						."?p=".$wp_rewrite->preg_index(3)
+						."&post_type=lesson"
 						."&course-name=".$wp_rewrite->preg_index(1)
 						."&unit-position=".$wp_rewrite->preg_index(2)
 						."&controller=lesson"
