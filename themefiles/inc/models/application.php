@@ -179,34 +179,35 @@ class Application
 	 */
 	public function parent()
 	{
-		global $post;
-		if( isset( $this->parent) ) {
+		/* [1] */
+		if( !isset( $this->parent) ) {
 
-			/* [1] */
-			return $this->parent;
+			global $post;
+			if( $this->parent_id == $post->ID ) {
 
-		} elseif( $this->parent_id == $post->ID ) {
+				/* [2] */
+				$this->parent = $post;
 
-			/* [2] */
-			return $post;
+			} else {
 
-		} else {
+				/* [3] */
+				global $wpdb;
 
-			/* [3] */
-			global $wpdb;
+				$query = "SELECT *
+					FROM $wpdb->posts p
+					LEFT OUTER JOIN $wpdb->gt_relationships r
+					ON p.ID = r.child_id
+					WHERE p.ID = $this->parent_id;
+				";
 
-			$query = "SELECT *
-				FROM $wpdb->gt_relationships r
-				INNER JOIN $wpdb->posts p
-				ON p.ID = r.parent_id
-				WHERE r.child_id = $this->ID
-			";
+				/* [4] & [5] */
+				$this->parent = gt_instantiate_object( $wpdb->get_row( $query ) );
 
-			/* [4] & [5] */
-			$this->parent = gt_instantiate_object( $wpdb->get_row( $query ) );
-			return $this->parent;
+			}
 
 		}
+
+		return $this->parent;
 	}
 
 	/**
@@ -272,9 +273,11 @@ class Application
 				FROM $wpdb->posts p
 				INNER JOIN $wpdb->gt_relationships r
 				ON p.ID = r.child_id
-				WHERE r.parent_id = $this->parent_id";
+				WHERE r.parent_id = $this->parent_id
+				AND p.post_type <> 'headline'";
 
 			foreach ( $search as $key => $value) {
+				$key = in_array( $key, array( 'order', 'position' ) ) ? 'r.'.$key : 'p.'.$key;
 				$query .= "\nAND $key = '$value'";
 			}
 
