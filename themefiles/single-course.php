@@ -40,7 +40,7 @@
 
 				<p class="u-spacing--narrow t-second-text">
 					<?= __( 'Lessons watched:', 'gladtidings' ) ?> <strong class="t-comp-text">0/<?= $post->num_lessons() ?></strong>
-					&bull; <?= __( 'Quizzes passed:', 'gladtidings' ) ?> <strong class="t-comp-text">0/<?= $post->num_quizzes() ?></strong>
+					<?php if( $post->num_quizzes() ) echo '&bull; ' . __( 'Quizzes passed:', 'gladtidings' ) . ' <strong class="t-comp-text">0/' . $post->num_quizzes() . '</strong>'; ?>
 				</p>
 
 		</section>
