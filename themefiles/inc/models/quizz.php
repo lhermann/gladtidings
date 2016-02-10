@@ -14,6 +14,6 @@ class Quizz extends Application
 	\*=======================*/
 
 	// Use trait
-	use course;
+	use get_course;
 
 }

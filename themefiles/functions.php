@@ -88,6 +88,9 @@ function instantiate_the_controller( $wp ) {
 add_action( 'wp', 'build_theme_css', 12, 1 );
 function build_theme_css( $wp ) {
 
+	// Bail for admin area
+	if( is_admin() ) return;
+
 	global $post;
 	$classes = array( 'Course', 'Unit', 'Exam', 'Lesson', 'Quizz' );
 

@@ -53,14 +53,11 @@ function gt_get_filesize( $url )
  */
 function gt_instantiate_object( $post )
 {
-	// Correction for exam
-	$type = $post->post_type === 'quizz' ? 'exam' : $post->post_type;
-
 	// Include Model
-	require_once( dirname( __DIR__ ) . '/models/' . $type . '.php' );
+	require_once( dirname( __DIR__ ) . '/models/' . $post->post_type . '.php' );
 
 	// Instantiate object
-	$class = ucfirst($type);
+	$class = ucfirst( $post->post_type );
 	return new $class( $post );
 }
 

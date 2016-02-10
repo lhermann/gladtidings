@@ -28,19 +28,22 @@ function gladtidings_get_variables() {
 	add_rewrite_tag('%controller%', '([^&]+)');
 	add_rewrite_tag('%action%', '([^&]+)');
 	add_rewrite_tag('%view%', '([^&]+)');
-	flush_rewrite_rules();
+	// flush_rewrite_rules();
 }
 
 
 /**
  * Custom URL Routing
  * Tutorial: http://www.hongkiat.com/blog/wordpress-url-rewrite/
+ *
+ * NOTE: Standard WP rewrite rules are turned off for each custom post type.
+ *       Thus these restful routes here are the only way to reach them
  */
 add_action( 'generate_rewrite_rules', 'gladtidings_rewrite_rules' );
 function gladtidings_rewrite_rules() {
 	global $wp_rewrite;
 
-	// add rules
+	// define new rules
 	$new_rules = array(
 		// lesson
 		"course/(.?.+?)/unit/([0-9]{1,})/lesson/([^/]+)/?$"
@@ -89,13 +92,9 @@ function gladtidings_rewrite_rules() {
 						."&action=show",
 
 	);
-	// var_dump($wp_rewrite->rules);
-	$wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
-	// $wp_rewrite->rules = array_merge ( $wp_rewrite->rules, $new_rules );
-	// var_dump($wp_rewrite->rules);
 
-	// root to:
-	// $wp_rewrite->rules['(.?.+?)(?:/([0-9]+))?/?$'] = "index.php?course=".$wp_rewrite->preg_index(1)."&page=".$wp_rewrite->preg_index(2);
+	// Add new rules to existing rules
+	$wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
 }
 
 
@@ -143,7 +142,7 @@ function gt_unit_routing( $query ) {
 
 /**
  * My very own get_permalink function!
- * Pass in the object
+ * INPUT: Object || ID to which to link
  */
 function gt_get_permalink( $object = 0 ) {
 
@@ -193,53 +192,12 @@ function gt_get_permalink( $object = 0 ) {
 			break;
 
 		default:
-			$permalink = get_permalink( $object->ID );
+			$permalink = get_permalink( $object );
 			break;
 	}
 
 	return $permalink;
 }
-
-
-/**
- * Returns the parent post object. E.g. Course pertaining to the unit.
- * CAUTON: 'order' and 'position' belong to the queried object,
- *         while 'child_order' and 'child_position' belong to the child.
- */
-// function gt_get_parent_object( $post ) {
-// 	global $wpdb;
-
-// 	$query = "SELECT p.*, r2.order, r2.position, r1.order child_order, r1.position child_position
-// 		FROM $wpdb->posts p
-// 		INNER JOIN $wpdb->gt_relationships r1
-// 		ON r1.parent_id = p.ID
-// 		INNER JOIN $wpdb->gt_relationships r2
-// 		ON r2.child_id = p.ID
-// 		WHERE r1.child_id = $post->ID;
-// 	";
-
-// 	return $wpdb->get_row( $query );
-// }
-
-
-/**
- * returns the post object with 'order' and 'position'
- */
-// function gt_get_object_order( $post ) {
-// 	global $wpdb;
-
-// 	$query = "SELECT r.order, r.position
-// 		FROM $wpdb->gt_relationships r
-// 		WHERE r.child_id = $post->ID;
-// 	";
-
-// 	$result = $wpdb->get_row( $query );
-
-// 	$post->order = $result->order;
-// 	$post->position = $result->position;
-
-// 	return $post;
-// }
 
 
 /**
