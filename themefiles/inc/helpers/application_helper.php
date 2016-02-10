@@ -18,7 +18,7 @@ function spaces_to_nbsp( $string ) {
 function gt_get_filesize( $url )
 {
 	// get the filesize in bytes
-	$path = realpath( str_replace( get_bloginfo('url'), '.', $attachment['url'] ) );
+	$path = realpath( str_replace( get_bloginfo('url'), '.', $url ) );
 	if( !is_file($path) ) return false;
 	$bytes = filesize( $path );
 
@@ -53,6 +53,8 @@ function gt_get_filesize( $url )
  */
 function gt_instantiate_object( $post )
 {
+	if( !$post ) return;
+
 	// Include Model
 	require_once( dirname( __DIR__ ) . '/models/' . $post->post_type . '.php' );
 
