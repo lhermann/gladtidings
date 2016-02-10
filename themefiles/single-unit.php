@@ -26,7 +26,7 @@
 
 					<div class="layout layout--auto">
 						<h2 class="layout__item t-second-text"><?= __( 'Lessons', 'gladtidings' ); ?></h2>
-						<?= h_continue_btn( $post ) ?>
+						<?= h_unit_continue_btn( $post ) ?>
 					</div>
 
 					<?php
