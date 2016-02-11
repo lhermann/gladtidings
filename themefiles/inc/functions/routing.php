@@ -57,7 +57,7 @@ function gladtidings_rewrite_rules() {
 						."&action=show",
 
 		// quizz
-		"course/(.?.+?)/unit/([0-9]{1,})/quizz/([^/]+)(?:/(introduction|question|evaluation))?/?$"
+		"course/(.?.+?)/unit/([0-9]{1,})/quizz/([^/]+)(?:/(show|question|evaluation))?/?$"
 
 				=> "index.php"
 						."?quizz=".$wp_rewrite->preg_index(3)
@@ -76,7 +76,7 @@ function gladtidings_rewrite_rules() {
 						."&action=show",
 
 		// exam
-		"course/(.?.+?)/exam/([^/]+)(?:/(introduction|question|evaluation))?/?$"
+		"course/(.?.+?)/exam/([^/]+)(?:/(show|question|evaluation))?/?$"
 
 				=> "index.php"
 						."?quizz=".$wp_rewrite->preg_index(2)
@@ -145,7 +145,7 @@ function gt_unit_routing( $query ) {
  * My very own get_permalink function!
  * INPUT: Object || ID to which to link
  */
-function gt_get_permalink( $object = 0 ) {
+function gt_get_permalink( $object = 0, $after_url = '' ) {
 
 	// get object
 	$classes = array( 'Course', 'Unit', 'Exam', 'Lesson', 'Quizz' );
@@ -197,7 +197,7 @@ function gt_get_permalink( $object = 0 ) {
 			break;
 	}
 
-	return $permalink;
+	return esc_url( $permalink . '/' . $after_url );
 }
 
 

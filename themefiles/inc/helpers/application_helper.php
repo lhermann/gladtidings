@@ -53,7 +53,11 @@ function gt_get_filesize( $url )
  */
 function gt_instantiate_object( $post )
 {
-	if( !$post ) return;
+	if( is_numeric( $post ) ) {
+		$post = get_post( $post );
+	} elseif( !is_object( $post ) ) {
+		return;
+	}
 
 	// Include Model
 	require_once( dirname( __DIR__ ) . '/models/' . $post->post_type . '.php' );

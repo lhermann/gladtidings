@@ -49,7 +49,7 @@ function instantiate_the_controller( $wp ) {
 
 	// get route
 	$controller = get_query_var( 'controller', false );
-	$action = get_query_var( 'action', 'index' );
+	$action = get_query_var( 'action', 'index' ) ? get_query_var( 'action', 'index' ) : 'show';
 	$model = $controller;
 
 	// include model and controller and helper

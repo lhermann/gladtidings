@@ -33,6 +33,36 @@ function h_lesson_continue_btn( $object )
 }
 
 /**
+ * Returns the continue button for lessons and quizzes
+ *
+ * Labeling:
+ *   sibling lesson|quizz -> 'Next'
+ *   parent unit          -> 'Return to Unit Overview'
+ */
+function h_quizz_continue_btn( $object, $attr = null )
+{
+
+	// Determin next object
+	$next = $object->find_sibling( array( 'order' => $object->order + 1 ) );
+	if( !$next ) $next = $object->parent();
+
+	// Labeling
+	switch ( $next->type ) {
+		case 'lesson':
+		case 'quizz' : $label = __( 'Next', 'gladtidings' ) . ' <span class="fi fi-arrow-right"></span>'; break;
+		case 'unit'  : $label = __( 'Return to Unit Overview', 'gladtidings' ); break;
+	}
+
+	$args = array(
+		'class'   => 'btn btn--success',
+		'display' => $label
+	);
+	if( $attr ) $args['attribute'] = $attr;
+
+	return $next->link_to( $args );
+}
+
+/**
  * Returns the continue button for units
  *
  * Labeling:

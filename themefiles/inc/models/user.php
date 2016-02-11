@@ -96,14 +96,16 @@ class User
 	 *	$scope = 'course'|'unit'|'lesson'|'quizz'
 	 * 	$ID
 	 *	$name
-	 * OUTPUt: DB entry existed true|false
+	 * OUTPUt: New Value
 	 */
 	public function increment_value( $scope, $ID, $name )
 	{
 		$key = "{$scope}_{$ID}_{$name}";
 		$value = isset($this->data->{$key}) ? $this->data->{$key} + 1 : 1;
 
-		return $this->update_value( $scope, $ID, $name, $value );
+		$this->update_value( $scope, $ID, $name, $value );
+
+		return $value;
 	}
 
 	/**
@@ -115,5 +117,37 @@ class User
 	{
 		$progress = (int)$this->get_value( $object->post_type, $object->ID, 'progress' );
 		return $progress > 100 ? 100 : $progress;
+	}
+
+	/**
+	 * Delete question/answer cache for a quizz or exam
+	 * [1] There is sometimes a problem when the purge is applied after the new question has been saved already
+	 */
+	public function purge_answers( $object )
+	{
+		// purge them from the database
+		global $wpdb;
+		$query_str = "DELETE FROM $wpdb->usermeta
+						WHERE user_id = $this->ID
+						AND ( meta_key LIKE '%s'
+							OR meta_key LIKE '%s'
+						)";
+		$return = $wpdb->query(
+			$wpdb->prepare(
+					$query_str,
+					"{$object->type}_{$object->ID}_question-[^1]", /* [1] */
+					"{$object->type}_{$object->ID}_answer-%"
+				)
+		);
+
+		// purge them also in $this->data
+		foreach ( array('question', 'answer') as $name ) {
+			for ( $i=1; $i <= $object->required_questions; $i++ ) {
+				$key = "{$object->type}_{$object->ID}_{$name}-{$i}";
+				unset( $this->data->{$key} );
+			}
+		}
+
+		return $return;
 	}
 }

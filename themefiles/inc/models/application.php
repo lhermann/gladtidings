@@ -264,10 +264,27 @@ class Application
 	/**
 	 * Perform a search for a specific sibling
 	 * INPUT: array with index => value pairs to search for in the object
+	 *
+	 * [1] Use cached siblings if available
+	 * [2] Otherwise do a db query
 	 */
 	public function find_sibling( $search = array() )
 	{
-		if( $search ) {
+		if( empty($search) ) return;
+
+		/* [1] */
+		if( isset($this->siblings) ) {
+
+			foreach ( $this->siblings as $object ) {
+				foreach ( $search as $index => $value ) {
+					if( $object->{$index} != $value ) continue 2;
+				}
+				return $object;
+			}
+
+		/* [2] */
+		} else {
+
 			global $wpdb;
 			$query = "SELECT *
 				FROM $wpdb->posts p
@@ -282,6 +299,7 @@ class Application
 			}
 
 			return gt_instantiate_object( $wpdb->get_row( $query ) );
+
 		}
 	}
 
@@ -370,7 +388,7 @@ class Application
 	{
 		return sprintf( '<a class="%1$s" href="%2$s" title="%3$s" %4$s>%5$s</a>',
 			isset($args['class']) ? $args['class'] : 'a--bodycolor',
-			gt_get_permalink( $this ),
+			gt_get_permalink( $this, ( isset($args['after_url']) ? $args['after_url'] : null ) ),
 			isset($args['title']) ? $args['title'] : __('Permalink to:', 'gladtidings') . ' ' . $this->title,
 			isset($args['attribute']) ? $args['attribute'] : '',
 			isset($args['display']) ? $args['display'] : $this->title
