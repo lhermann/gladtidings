@@ -74,6 +74,13 @@ function gt_get_breadcrumbs( $post )
 	$return = array();
 
 	switch ( $post->type ) {
+		case 'lesson':
+			$return[] = $post;
+			$return[] = $post->parent();
+			$return[] = $post->course();
+			$return[] = 'home';
+			break;
+
 		case 'unit':
 			$return[] = $post;
 			$return[] = $post->parent();
