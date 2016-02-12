@@ -21,6 +21,11 @@ class Quizz extends Application
 		Public Functions
 	\*=======================*/
 
+	public function is_done()
+	{
+		return $this->passed;
+	}
+
 	// Use trait
 	use get_course;
 	use questions;

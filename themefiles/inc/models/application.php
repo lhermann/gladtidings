@@ -8,11 +8,13 @@
  */
 class Application
 {
-	public $ID, $type, $title, $slug, $status, $status_num, $date, $date_gmt, $order, $position, $parent_id;
+	public $ID, $type, $title, $slug, $status, $status_num, $date, $date_gmt, $touched, $order, $position, $parent_id;
 
 	function __construct( $post )
 	{
 		$post = is_object( $post ) ? $post : get_post( $post );
+
+		global $user;
 
 		$this->ID         = (int)$post->ID;
 		$this->type       = strtolower( get_class ( $this ) );
@@ -21,6 +23,7 @@ class Application
 
 		$this->date       = $post->post_date;
 		$this->date_gmt   = $post->post_date_gmt;
+		$this->touched    = (int)$user->get_value( $this->type, $this->ID, 'touched' );
 
 		$this->gt_relationships( $post );
 
@@ -106,12 +109,12 @@ class Application
 	{
 		switch ( $status ) {
 			case 'publish':
-				$progress = $this->progress();
-				if( $progress == 100 ) {
+			case 'active' :
+			case 'success':
+				if( $this->is_done() ) {
 					$status = 'success';
-				} elseif( $progress > 0 ) {
+				} elseif( $this->progress() > 0 ) {
 					$status = 'active';
-					$this->progress = $progress;
 				}
 		}
 		return $status;
@@ -147,16 +150,13 @@ class Application
 	 */
 	public function progress()
 	{
-		if( isset( $this->progress ) ) {
-
-			return $this->progress;
-
-		} else {
+		if( !isset( $this->progress ) ) {
 
 			global $user;
-			return $user->get_progress( $this );
-
+			$this->progress = $user->get_value( $this->type, $this->ID, 'progress' );
 		}
+
+		return $this->progress;
 	}
 
 	/**
@@ -317,7 +317,7 @@ class Application
 	public function num_children( $type = 'children' )
 	{
 		/* [1] */
-		if( !isset( $this->num_{$type} ) ) {
+		if( !isset( $this->{"num_$type"} ) ) {
 
 			/* [2] */
 			if( isset( $this->children ) ) {
@@ -337,7 +337,7 @@ class Application
 				}
 
 				/* [4] */
-				$this->num_{$type} = $count;
+				$this->{"num_$type"} = $count;
 
 			} else {
 
@@ -368,12 +368,12 @@ class Application
 				}
 
 				/* [4] */
-				$this->num_{$type} = (int)$wpdb->get_var( $query );
+				$this->{"num_$type"} = (int)$wpdb->get_var( $query );
 
 			}
 		}
 
-		return $this->num_{$type};
+		return $this->{"num_$type"};
 	}
 
 	/**

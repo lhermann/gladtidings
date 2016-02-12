@@ -17,7 +17,7 @@
 	<div class="nl__node nl__node--big">
 		<div class="nl__node__border t-second-border"></div>
 		<div class="nl__node__inner <?= $post->status == 'publish' ? 't-main-text t-main-border' : '' ?>">
-			<?php if( $post->progress() ): ?>
+			<?php if( $post->status == 'active' ): ?>
 				<div class="nl__node__progress" style="width: <?= $post->progress() ?>%"></div>
 				<div class="nl__node__progress-text"><?= $post->progress() ?>%</div>
 			<?php endif; ?>

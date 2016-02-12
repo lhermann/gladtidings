@@ -10,6 +10,7 @@ class UnitController extends ApplicationController
 	{
 		$unit = new Unit( $post );
 		$unit->touch();
+		$unit->calculate_progress();
 		return $unit;
 	}
 

@@ -34,7 +34,8 @@ class User
 		$rows = $wpdb->get_results( $query_str, OBJECT );
 		$return = new stdClass();
 		foreach ( $rows as $row ) {
-			$return->{$row->meta_key} = maybe_unserialize( $row->meta_value );
+			$value = maybe_unserialize( $row->meta_value );
+			$return->{$row->meta_key} = is_numeric( $value ) ? (int)$value : $value;
 		}
 		return $return;
 	}
@@ -106,17 +107,6 @@ class User
 		$this->update_value( $scope, $ID, $name, $value );
 
 		return $value;
-	}
-
-	/**
-	 * Get the progress (to completion) of a course or unit in percent
-	 * INPUT: post object
-	 * OUTPUT: (int) 0-100
-	 */
-	public function get_progress( $object )
-	{
-		$progress = (int)$this->get_value( $object->post_type, $object->ID, 'progress' );
-		return $progress > 100 ? 100 : $progress;
 	}
 
 	/**

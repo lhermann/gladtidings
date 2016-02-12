@@ -38,10 +38,14 @@ trait init_status {
 						break;
 					}
 				}
-				$this->status = 'publish';
+				$status = 'publish';
 		}
 
-		parent::init_status( $status );
+		// var_dump( $status );
+
+		$status = parent::init_status( $status );
+
+		// var_dump( $this->is_done(), $status );
 
 		return $status;
 	}

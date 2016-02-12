@@ -27,7 +27,7 @@ global $node;
 		<div class="nl__node__border t-second-border"></div>
 		<div class="nl__node__link-inner"></div>
 		<div class="nl__node__inner <?= $node->status == 'publish' ? 't-main-text t-main-border' : '' ?>">
-			<?php if( isset($node->progress) ): ?>
+			<?php if( $node->status == 'active' ): ?>
 				<div class="nl__node__progress" style="width: <?= $node->progress ?>%"></div>
 				<div class="nl__node__progress-text"><?= $node->progress ?>%</div>
 			<?php endif; ?>

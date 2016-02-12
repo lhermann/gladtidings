@@ -13,6 +13,11 @@ class Lesson extends Application
 		Public Functions
 	\*=======================*/
 
+	public function is_done()
+	{
+		return $this->touched ? true : false;
+	}
+
 	// Use trait
 	use get_course;
 

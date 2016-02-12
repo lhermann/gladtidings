@@ -60,7 +60,7 @@ function h_node_footer( $node )
 	);
 
 	if( $node->num_quizzes() ) {
-		$return .= sprintf( '&nbsp; <span class="fi fi-clipboard-pencil"></span> %1$s %2$s',
+		$return .= sprintf( ' &bull; <span class="fi fi-clipboard-pencil"></span> %1$s %2$s',
 			$node->num_quizzes(),
 			_n( 'Quizz', 'Quizzes', $node->num_quizzes(), 'gladtidings' )
 		);

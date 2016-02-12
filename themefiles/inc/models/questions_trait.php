@@ -6,20 +6,18 @@
 trait questions
 {
 
-	public $required_questions, $all_questions, $current_question, $mistakes;
+	public $passed, $required_questions, $all_questions, $current_question, $mistakes;
 	private $step;
 
 	private function questions_init( $post )
 	{
-		// Quizz specific object setup
-		$this->all_questions = get_field( 'questions_repeater', $post->ID );
-
-		$i = (int)get_field( 'required_questions', $post->ID );
-		$count = count( $this->all_questions );
-		$this->required_questions = $i > $count ? $count : $i;
-
 		global $user;
-		$this->step = (int)$user->get_value( $this->type, $this->ID, 'step' );
+
+		// Quizz specific object setup
+		$this->passed = (bool)$user->get_value( $this->type, $this->ID, 'passed' );
+		$this->status = $this->init_status( $this->status );
+
+		$this->step = $user->get_value( $this->type, $this->ID, 'step' );
 
 		$this->mistakes = 0;
 	}
@@ -40,7 +38,7 @@ trait questions
 	{
 		global $user;
 		$answers = array();
-		for ( $i = 1; $i <= $this->required_questions; $i++ ) {
+		for ( $i = 1; $i <= $this->required_questions(); $i++ ) {
 			$temp = $user->get_value( $this->type, $this->ID, "question-$i" );
 			if( !$temp ) continue;
 			$answers[$i] = $temp;
@@ -52,6 +50,30 @@ trait questions
 	/*=======================*\
 		Public Functions
 	\*=======================*/
+
+	/**
+	 * $all_questions is an on-demand value, therefore it is a getter function
+	 */
+	public function all_questions()
+	{
+		if( !$this->all_questions ) {
+			$this->all_questions = get_field( 'questions_repeater', $this->ID );
+		}
+		return $this->all_questions;
+	}
+
+	/**
+	 * $required_questions is an on-demand value, therefore it is a getter function
+	 */
+	public function required_questions()
+	{
+		if( !$this->required_questions ) {
+			$i = (int)get_field( 'required_questions', $this->ID );
+			$count = count( $this->all_questions() );
+			$this->required_questions = $i > $count ? $count : $i;
+		}
+		return $this->required_questions;
+	}
 
 	/**
 	 * Returns the current step within in the quizz
@@ -86,7 +108,7 @@ trait questions
 	 */
 	public function final_step()
 	{
-		return $this->step > $this->required_questions;
+		return $this->step > $this->required_questions();
 	}
 
 	/**
@@ -158,7 +180,7 @@ trait questions
 		foreach ( $answers as $key => $answer ) {
 			if( $answer['given_answer'] === $answer['correct_answer'] ) $score++;
 		}
-		$this->mistakes = $this->required_questions - $score;
+		$this->mistakes = $this->required_questions() - $score;
 
 		/**
 		 * If no mistake was found, but the quizz was not yet marked as 'passed'
@@ -179,7 +201,7 @@ trait questions
 	 */
 	public function get_evaluation()
 	{
-		$questions = $this->all_questions;
+		$questions = $this->all_questions();
 		$answers = $this->get_given_answers();
 
 		$return = array();

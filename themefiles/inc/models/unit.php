@@ -27,6 +27,38 @@ class Unit extends Application
 		Public Functions
 	\*=======================*/
 
+	public function calculate_progress()
+	{
+		global $user;
+
+		// get total number of children
+		// count how many children are done
+		$total = 0;
+		$done  = 0;
+		foreach ( $this->children() as $child) {
+			if( $child->type != 'headline' ) $total++;
+			if( $child->is_done() ) $done++;
+		}
+
+		// save number of children done
+		$user->update_value( $this->type, $this->ID, 'children_done', $done );
+
+		// calculate progress percentage
+		$progress = (int)round( ( $done / $total ) * 100 );
+
+		// save progress
+		$this->progress = $progress > 100 ? 100 : $progress;
+		$user->update_value( $this->type, $this->ID, 'progress', $this->progress );
+
+		// update status
+		$this->status = parent::init_status( $this->status );
+	}
+
+	public function is_done()
+	{
+		return $this->progress() === 100 ? true : false ;
+	}
+
 	/**
 	 * Returns the ID of the course
 	 */

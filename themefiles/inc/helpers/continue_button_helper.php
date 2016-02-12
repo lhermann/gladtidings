@@ -42,7 +42,6 @@ function h_unit_continue_btn( $object, $attr = null )
  */
 function h_child_of_course_continue_btn( $object, $attr = null )
 {
-	// var_dump( $object );
 	// Determin next object
 	if( $object->type == 'exam' || $object->is_done() ) {
 
@@ -83,6 +82,7 @@ function h_child_of_course_continue_btn( $object, $attr = null )
 	}
 
 	// Return link
+	if( !$next ) return;
 	return $next->link_to( $args );
 }
 
@@ -96,7 +96,6 @@ function h_child_of_course_continue_btn( $object, $attr = null )
  */
 function h_child_of_unit_continue_btn( $object, $attr = null )
 {
-
 	// Determin next object
 	$next = $object->find_sibling( array( 'order' => $object->order + 1 ) );
 	if( !$next ) $next = $object->parent();
@@ -116,6 +115,7 @@ function h_child_of_unit_continue_btn( $object, $attr = null )
 	if( $attr ) $args['attribute'] = $attr;
 
 	// Return link
+	if( !$next ) return;
 	return $next->link_to( $args );
 
 }
