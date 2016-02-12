@@ -28,7 +28,7 @@ function gladtidings_get_variables() {
 	add_rewrite_tag('%controller%', '([^&]+)');
 	add_rewrite_tag('%action%', '([^&]+)');
 	add_rewrite_tag('%view%', '([^&]+)');
-	flush_rewrite_rules();
+	// flush_rewrite_rules();
 }
 
 
@@ -79,7 +79,7 @@ function gladtidings_rewrite_rules() {
 		"course/(.?.+?)/exam/([^/]+)(?:/(show|question|evaluation))?/?$"
 
 				=> "index.php"
-						."?quizz=".$wp_rewrite->preg_index(2)
+						."?exam=".$wp_rewrite->preg_index(2)
 						."&course-name=".$wp_rewrite->preg_index(1)
 						."&controller=exam"
 						."&action=".$wp_rewrite->preg_index(3),

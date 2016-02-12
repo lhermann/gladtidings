@@ -62,6 +62,11 @@ function h_quizz_continue_btn( $object, $attr = null )
 	return $next->link_to( $args );
 }
 
+function h_exam_continue_btn( $object )
+{
+	return h_unit_continue_btn( $object );
+}
+
 /**
  * Returns the continue button for units
  *

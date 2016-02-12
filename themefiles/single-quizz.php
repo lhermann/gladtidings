@@ -19,7 +19,7 @@
 
 				<div class="wrapper">
 
-					<article id="post-<?php the_ID(); ?>" <?php post_class( 'h-entry u-spacing--top' ); ?>>
+					<article id="post-<?= $post->ID ?>" <?php post_class( 'h-entry u-spacing--top' ); ?>>
 
 						<header class="hgroup">
 							<h1 class="hgroup__title"><span class="label label--small label--theme"><?= $post->order ?></span> <?= $post->title ?></h1>

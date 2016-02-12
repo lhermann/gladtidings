@@ -1,6 +1,3 @@
-<?php
-global $_gt;
-?>
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'h-entry u-spacing--top' ); ?>>
 
 	<header class="hgroup">

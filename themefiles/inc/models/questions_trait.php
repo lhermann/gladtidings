@@ -185,12 +185,12 @@ trait questions
 		$return = array();
 		foreach ($answers as $key => $answer) {
 			$correct = $answer['given_answer'] === $answer['correct_answer'];
-			$related_lesson_id = $questions[ $answer['key'] ]['related_lesson'];
+			$related_lesson = gt_instantiate_object( $questions[ $answer['key'] ]['related_lesson'] );
 			$return[$key] = array(
 				'title' 		 => $questions[ $answer['key'] ]['question_text'],
 				'given_answer' 	 => $answer['given_answer'],
 				'correct'		 => $correct,
-				'related_lesson' => $correct ? null : ( $related_lesson_id ?? null )
+				'related_lesson' => $correct ? null : ( $related_lesson ?? null )
 			);
 		}
 
