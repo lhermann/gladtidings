@@ -1,7 +1,7 @@
 <?php if( !$post->mistakes ): ?>
 	<div class="u-text--center">
 		<p class="p--biglede"><span class="fi fi-check fi--success"></span> <?= __( 'Quizz passed', 'gladtidings' ) ?></p>
-		<p><?= h_quizz_continue_btn( $post ); ?></p>
+		<p><?= h_continue_btn( $post ); ?></p>
 	</div>
 <?php else: ?>
 	<div class="u-text--center">

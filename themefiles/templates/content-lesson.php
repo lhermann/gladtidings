@@ -7,6 +7,6 @@
 		<p><?= h_attachment_link( $post ) ?></p>
 	</div>
 	<footer class="u-text--right">
-		<?= h_lesson_continue_btn( $post ); ?>
+		<?= h_continue_btn( $post ); ?>
 	</footer>
 </article>

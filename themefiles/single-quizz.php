@@ -30,7 +30,7 @@
 
 						<footer class="u-text--right">
 							<?php if( !get_query_var( 'action' ) ): ?>
-								<?= h_quizz_continue_btn( $post, ( $post->is_done() ? '' : 'disabled' ) ); ?>
+								<?= h_continue_btn( $post, ( $post->is_done() ? '' : 'disabled' ) ); ?>
 							<?php endif; ?>
 						</footer>
 					</article>

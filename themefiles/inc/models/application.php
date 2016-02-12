@@ -139,7 +139,7 @@ class Application
 	 */
 	public function is_done()
 	{
-		return $this->status === 'passed' ? true : false;
+		return $this->status === 'success' ? true : false;
 	}
 
 	/**
