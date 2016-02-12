@@ -1,6 +1,6 @@
 <?php
 /*------------------------------------*\
-    Unit & Exam Module Trait
+    Module Trait
 \*------------------------------------*/
 
 trait init_status {

@@ -1,6 +1,6 @@
 <?php
 /*------------------------------------*\
-    Lesson & Quizz Module Trait
+    Module Trait
 \*------------------------------------*/
 
 trait get_course

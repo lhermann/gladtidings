@@ -2,8 +2,8 @@
 /*------------------------------------*\
                 NODE UNIT
 \*------------------------------------*/
-global $node;
 
+global $node;
 ?>
 <li class="nl__item nl__item--<?= $node->position ?> nl__item--<?= $node->type ?> nl__item--<?= $node->status ?>">
 	<?= $link = h_node_link( $node ) ?>

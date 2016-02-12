@@ -2,8 +2,8 @@
 /*------------------------------------*\
                NODE LESSON
 \*------------------------------------*/
-global $node;
 
+global $node;
 ?>
 <li class="nl__item nl__item--<?= $node->ID ?> nl__item--<?= $node->type ?> nl__item--<?= $node->status ?> <?= $node->ID === $post->ID ? 'nl__item--current t-second-border' : '' ?>">
 	<article class="nl__article">

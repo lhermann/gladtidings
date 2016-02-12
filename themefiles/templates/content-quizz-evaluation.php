@@ -1,7 +1,3 @@
-<?php
-// global $_gt;
-?>
-
 <?php if( !$post->mistakes ): ?>
 	<div class="u-text--center">
 		<p class="p--biglede"><span class="fi fi-check fi--success"></span> <?= __( 'Quizz passed', 'gladtidings' ) ?></p>
@@ -18,8 +14,6 @@
 <ol class="list-ui owl--off">
 
 	<?php foreach ( $post->get_evaluation() as $key => $answer ): ?>
-
-		<?php //var_dump( $answer ); ?>
 
 		<li class="list-ui__item owl--narrow">
 			<h3 class="lede"><?= $answer['title'] ?></h3>

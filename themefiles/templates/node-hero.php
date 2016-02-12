@@ -1,11 +1,3 @@
-<?php
-/**
- * Tamplate to display a pseudo nodelist item in the page-header
- * This template works in the context of a term of the type 'tax-unit'
- */
-
-?>
-
 <div class="nl__item nl__item--unit nl__item--hero nl__item--<?= $post->status ?>">
 	<article class="nl__article">
 		<header class="nl__article__header owl--off">

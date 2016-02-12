@@ -1,23 +1,7 @@
 <?php
-
 /**
  * Login Page customization
  */
-
-/**
- * Instantiate the Controller
- * filename syntax: "inc/controller.single-{post_type}.php"
- * class syntax: "Single{Post_type}"
- */
-// add_action( 'login_init', 'instantiate_GladTidings_login', 10, 1 );
-// function instantiate_GladTidings_login( $wp ) {
-
-// 	$controller_path = dirname(dirname( __FILE__ )).'/controllers/';
-// 	require_once $controller_path.'global_controller.obsolete.php';
-// 	global $_gt;
-// 	$_gt = new GladTidings( get_queried_object() );
-
-// }
 
 
 /**
@@ -61,11 +45,6 @@ function gt_login_message( $value )
 /**
  * WP Social Plugin Customization
  */
-/*
-<a rel="nofollow" href="http://gladtidings:8888/wp-login.php?action=wordpress_social_authenticate&amp;mode=login&amp;provider=Facebook&amp;redirect_to=http%3A%2F%2Fgladtidings%3A8888%3A8888%2Fwp-login.php%3Floggedout%3Dtrue" title="Connect with Facebook" class="wp-social-login-provider wp-social-login-provider-facebook" data-provider="Facebook">
-	<img alt="Facebook" title="Connect with Facebook" src="http://gladtidings:8888/wp-content/plugins/wordpress-social-login/assets/img/32x32/wpzoom/facebook.png">
-</a>
-*/
 add_filter( 'wsl_render_auth_widget_alter_provider_icon_markup', 'wsl_use_foundation_icons', 10, 3 );
 function wsl_use_foundation_icons( $provider_id, $provider_name, $authenticate_url ) {
 	?>

@@ -4,7 +4,7 @@
 \*------------------------------------*/
 
 // Include Trait
-include_once( 'unit_exam_trait.php' );
+include_once( 'init_status_trait.php' );
 
 class Unit extends Application
 {

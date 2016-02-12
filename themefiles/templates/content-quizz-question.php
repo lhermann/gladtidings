@@ -1,13 +1,5 @@
-<?php
-// global $_gt;
-
-// var_dump( $_gt->current_question );
-//$question = $_gt->quizz_get_question();
-
-?>
-
 <h3 class="progress__label"><span class="u-screen-reader-text">' . __( 'Quizz Progress', 'gladtidings' ) . '</span></h3>
-<?= h_progress_bar( $post ) ?>
+<?= h_stepper_bar( $post ) ?>
 
 <p class="lede"><?= $post->current_question['question_text'] ?></p class="lede">
 <form class="form" method="POST">

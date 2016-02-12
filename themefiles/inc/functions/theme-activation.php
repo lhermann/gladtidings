@@ -59,8 +59,6 @@ function gladtidings_theme_activation() {
 }
 
 
-
-
 /**
  * When Theme is deactivated
  */

@@ -2,8 +2,8 @@
 /*------------------------------------*\
               NODE HEADLINE
 \*------------------------------------*/
-global $node;
 
+global $node;
 ?>
 <li class="nl__item nl__item--<?= $node->ID ?> nl__item--<?= $node->post_type ?> nl__item--<?= $node->status ?>">
 	<article class="nl__article">

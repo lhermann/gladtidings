@@ -4,13 +4,6 @@
 \*------------------------------------*/
 
 /**
- * Define Constants
- * OBSOLETE
- */
-// define( TAX_COURSE, 'tax-course' );
-// define( TAX_UNIT, 'tax-unit' );
-
-/**
  * Register Custom Post Types 'Course', 'Lessson', 'Quizz' and 'Exam'
  * As well as the virtual post types 'Unit' and 'Headline'
  */
@@ -205,17 +198,3 @@ function add_post_types_and_taxonomies()
 
 
 }
-
-/**
- * Remove the meta box on the admin post edit screen for taxonomy input
- * OBSOLETE
- */
-// if (is_admin()) :
-// 	function remove_edit_screen_meta_boxes() {
-// 		remove_meta_box('tax-coursediv', 'lesson', 'side');
-// 		remove_meta_box('tax-unitdiv', 'lesson', 'side');
-// 		remove_meta_box('tax-coursediv', 'quizz', 'side');
-// 		remove_meta_box('tax-unitdiv', 'quizz', 'side');
-// 	}
-// 	add_action( 'admin_menu', 'remove_edit_screen_meta_boxes' );
-// endif;

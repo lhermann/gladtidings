@@ -6,9 +6,22 @@
 include_once( 'continue_button_helper.php' );
 
 /**
+ * Returns a properly formated subtitle
+ * Needed because of translatable strings
+ */
+function h_subtitle( $object )
+{
+	switch ( get_query_var( 'action' ) ) {
+		default:           return __( 'Introduction', 'gladtidings' );
+		case 'question':   return __( 'Question', 'gladtidings' ).' '.($object->get_step()+1);
+		case 'evaluation': return __( 'Evaluation', 'gladtidings' );
+	}
+}
+
+/**
  * Returns the Progress bar
  */
-function h_progress_bar( $object )
+function h_stepper_bar( $object )
 {
 
 	$progress_pills = array();

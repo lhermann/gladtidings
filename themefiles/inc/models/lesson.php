@@ -4,7 +4,7 @@
 \*------------------------------------*/
 
 // Include Trait
-include_once( 'lesson_quizz_trait.php' );
+include_once( 'get_course_trait.php' );
 
 class Lesson extends Application
 {

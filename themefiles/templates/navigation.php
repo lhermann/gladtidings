@@ -1,5 +1,5 @@
 <?php
-	global $nav_overlay, $_gt;
+	global $nav_overlay, $user;
 ?>
 <nav class="top-bar <?php if( isset( $nav_overlay ) ) echo 'top-bar--overlay'; ?> owl--off" role="navigation">
 
@@ -21,8 +21,8 @@
 		<?php if( is_user_logged_in() ): ?>
 			<li class="top-bar__item top-bar__item--avatar">
 				<a class="tb__avatar__link" href="#" title="Your Profile">
-					<span class="tb__avatar__name"><?= sprintf( __( 'Hello %s', 'gladtidings' ), $_gt->user_name ) ?></span>
-					<?= get_avatar( $_gt->user_id, 36 ) ?>
+					<span class="tb__avatar__name"><?= sprintf( __( 'Hello %s', 'gladtidings' ), $user->name ) ?></span>
+					<?= get_avatar( $user->ID, 36 ) ?>
 				</a>
 			</li>
 			<!-- <li class="top-bar__item top-bar__item--button">

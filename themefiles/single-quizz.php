@@ -1,6 +1,8 @@
 <?php
-	// var_dump( $post );
-	add_filter( 'container_class', function( $classes ){ $classes[] = 'flyout'; return $classes; } );
+	// prepare flyout
+	add_filter( 'container_class', function( $classes ){
+		return $classes + array( 'flyout' );
+	});
 
 	get_header();
 ?>
@@ -21,15 +23,15 @@
 
 						<header class="hgroup">
 							<h1 class="hgroup__title"><span class="label label--small label--theme"><?= $post->order ?></span> <?= $post->title ?></h1>
-							<h2 class="hgroup__subtitle"><?= $post->subtitle() ?></h2>
+							<h2 class="hgroup__subtitle"><?= h_subtitle( $post ) ?></h2>
 						</header>
 
 						<?php get_template_part( 'templates/content-quizz', get_query_var( 'action' ) ); ?>
 
 						<footer class="u-text--right">
-							<?php if( !get_query_var( 'action' ) ) {
-								echo h_quizz_continue_btn( $post, ( $post->is_done() ? '' : 'disabled' ) );
-							} ?>
+							<?php if( !get_query_var( 'action' ) ): ?>
+								<?= h_quizz_continue_btn( $post, ( $post->is_done() ? '' : 'disabled' ) ); ?>
+							<?php endif; ?>
 						</footer>
 					</article>
 
@@ -38,44 +40,7 @@
 			</main>
 			<aside class="layout__item u-1/4-lap-and-up u-spacing--off u-flyout-palm" role="complementary">
 
-				<div class="wrapper u-spacing--top">
-
-					<h2 class="u-text--1rem">
-						<span class="label label--small label--theme"><?= __( 'Unit', 'gladtidings' ).' '.$post->parent()->order ?></span>
-						<?=  $post->parent()->link_to( /*array( 'display' => __('Unit Overview', 'gladtidings') )*/ ) ?>
-					</h2>
-					<nav role="navigation">
-
-						<ul class="nodelist nodelist--lesson">
-
-							<?php
-								//get all the units
-								$siblings = $post->siblings();
-								// var_dump( $siblings );
-
-								if( $siblings ) {
-
-									// loop through the items
-									foreach ( $siblings as $node ) {
-
-										$type = $node->type == 'headline' ? 'divider' : $node->type;
-
-										get_template_part( 'templates/node', $type );
-
-									}
-
-								} else {
-
-									_e( 'No Lessons!' );
-
-								}
-							?>
-
-						</ul>
-
-					</nav>
-
-				</div><!-- /.wrapper -->
+				<?php get_template_part( 'templates/content', 'flyout' ); ?>
 
 			</aside>
 		</div><!-- /#page-content /.layout -->

@@ -12,11 +12,7 @@
  *			<?php get_template_part( 'templates/breadcrumbs' ); ?>
  *	</nav>
  */
-
-// var_dump(gt_get_breadcrumbs( $post ));
 ?>
-
-
 <nav class="breadcrumbs breadcrumbs--full t-light-bg t-main-border">
 	<ul class="wrapper list-inline owl--off">
 
