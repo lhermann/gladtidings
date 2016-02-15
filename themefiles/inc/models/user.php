@@ -45,15 +45,65 @@ class User
 		Public Functions
 	\*=======================*/
 
+	/**
+	 * OUTPUT: (int) User ID
+	 */
 	public function ID()
 	{
 		return wp_get_current_user() ? (int)wp_get_current_user()->data->ID : false;
 	}
 
+	/**
+	 * OUTPUT: (string) User Name
+	 */
 	public function name()
 	{
 		return wp_get_current_user() ? wp_get_current_user()->data->display_name : false;
 	}
+
+	/**
+	 * OUTPUt:
+	 *	(int|string) if DB entry existed
+	 * 	(NULL) if not
+	 */
+	public function get( $object, $key )
+	{
+		$xkey = "{$object->type}_{$object->ID}_{$key}";
+
+		if( isset($this->data->{$xkey}) ) {
+			return $this->data->{$xkey};
+		} else {
+			return NULL;
+		}
+	}
+
+	/**
+	 * OUTPUt: (true|false) if DB entry existed
+	 */
+	public function update( $object, $key, $value )
+	{
+		$xkey = "{$object->type}_{$object->ID}_{$key}";
+		$isset = isset($this->data->{$xkey});
+		// update
+		$this->data->{$xkey} = $value;
+		update_user_meta( $this->ID, $xkey, is_bool($value) ? (int)$value : $value );
+		return $isset;
+	}
+
+	/**
+	 * OUTPUt: (int) new Value
+	 */
+	public function increment( $object, $key )
+	{
+		$xkey = "{$object->type}_{$object->ID}_{$key}";
+		$value = isset($this->data->{$xkey}) ? $this->data->{$xkey} + 1 : 1;
+
+		$this->update( $object, $key, $value );
+
+		return $value;
+	}
+
+
 
 	/**
 	 * INPUT:
@@ -64,16 +114,16 @@ class User
 	 *	if DB entry exists = int
 	 * 	else = false
 	 */
-	public function get_value( $scope, $ID, $name )
-	{
-		$key = "{$scope}_{$ID}_{$name}";
+	// public function get_value( $scope, $ID, $name )
+	// {
+	// 	$key = "{$scope}_{$ID}_{$name}";
 
-		if( isset($this->data->{$key}) ) {
-			return $this->data->{$key};
-		} else {
-			return NULL;
-		}
-	}
+	// 	if( isset($this->data->{$key}) ) {
+	// 		return $this->data->{$key};
+	// 	} else {
+	// 		return NULL;
+	// 	}
+	// }
 
 	/**
 	 * INPUT:
@@ -83,14 +133,14 @@ class User
 	 * 	$value = new value
 	 * OUTPUt: DB entry existed true|false
 	 */
-	public function update_value( $scope, $ID, $name, $value )
-	{
-		$key = "{$scope}_{$ID}_{$name}";
-		$isset = isset($this->data->{$key});
-		$this->data->{$key} = $value;
-		update_user_meta( $this->ID, $key, is_bool($value) ? (int)$value : $value );
-		return $isset;
-	}
+	// public function update_value( $scope, $ID, $name, $value )
+	// {
+	// 	$key = "{$scope}_{$ID}_{$name}";
+	// 	$isset = isset($this->data->{$key});
+	// 	$this->data->{$key} = $value;
+	// 	update_user_meta( $this->ID, $key, is_bool($value) ? (int)$value : $value );
+	// 	return $isset;
+	// }
 
 	/**
 	 * INPUT:
@@ -99,15 +149,15 @@ class User
 	 *	$name
 	 * OUTPUt: New Value
 	 */
-	public function increment_value( $scope, $ID, $name )
-	{
-		$key = "{$scope}_{$ID}_{$name}";
-		$value = isset($this->data->{$key}) ? $this->data->{$key} + 1 : 1;
+	// public function increment_value( $scope, $ID, $name )
+	// {
+	// 	$key = "{$scope}_{$ID}_{$name}";
+	// 	$value = isset($this->data->{$key}) ? $this->data->{$key} + 1 : 1;
 
-		$this->update_value( $scope, $ID, $name, $value );
+	// 	$this->update_value( $scope, $ID, $name, $value );
 
-		return $value;
-	}
+	// 	return $value;
+	// }
 
 	/**
 	 * Delete question/answer cache for a quizz or exam

@@ -14,10 +14,10 @@ trait questions
 		global $user;
 
 		// Quizz specific object setup
-		$this->passed = (bool)$user->get_value( $this->type, $this->ID, 'passed' );
+		$this->passed = (bool)$user->get( $this, 'passed' );
 		$this->status = $this->init_status( $this->status );
 
-		$this->step = $user->get_value( $this->type, $this->ID, 'step' );
+		$this->step = $user->get( $this, 'step' );
 
 		$this->mistakes = 0;
 	}
@@ -39,10 +39,10 @@ trait questions
 		global $user;
 		$answers = array();
 		for ( $i = 1; $i <= $this->required_questions(); $i++ ) {
-			$temp = $user->get_value( $this->type, $this->ID, "question-$i" );
+			$temp = $user->get( $this, "question-$i" );
 			if( !$temp ) continue;
 			$answers[$i] = $temp;
-			$answers[$i]['given_answer'] = $user->get_value( $this->type, $this->ID, "answer-$i" );
+			$answers[$i]['given_answer'] = $user->get( $this, "answer-$i" );
 		}
 		return $answers;
 	}
@@ -87,7 +87,7 @@ trait questions
 	{
 		global $user;
 		$this->step = $value;
-		return $user->update_value( $this->type, $this->ID, 'step', $value );
+		return $user->update( $this, 'step', $value );
 	}
 
 	/**
@@ -97,9 +97,9 @@ trait questions
 	public function increment_step()
 	{
 		global $user;
-		$value = (int)$user->increment_value( $this->type, $this->ID, 'step' );
-		$this->step = $value;
-		return $value;
+		$step = (int)$user->increment( $this, 'step' );
+		$this->step = $step;
+		return $step;
 	}
 
 	/**
@@ -134,7 +134,7 @@ trait questions
 
 		// safe the current question
 		global $user;
-		$user->update_value( $this->type, $this->ID, "question-".($this->step), array( 'key' => $key, 'correct_answer' => $question['answers'][0] ) );
+		$user->update( $this, "question-".($this->step), array( 'key' => $key, 'correct_answer' => $question['answers'][0] ) );
 
 		$this->current_question = $question;
 	}
@@ -156,7 +156,7 @@ trait questions
 	public function save_answer( $answer )
 	{
 		global $user;
-		return $user->update_value( $this->type, $this->ID, 'answer-'.$this->step, $answer );
+		return $user->update( $this, 'answer-'.$this->step, $answer );
 	}
 
 	/**
@@ -189,7 +189,7 @@ trait questions
 		 */
 		if( !$this->mistakes && !$this->is_done() ) {
 			global $user;
-			$user->update_value( $this->type, $this->ID, 'passed', true );
+			$user->update( $this, 'passed', true );
 			$this->status = 'success';
 		}
 

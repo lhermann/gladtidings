@@ -23,7 +23,7 @@ class Application
 
 		$this->date       = $post->post_date;
 		$this->date_gmt   = $post->post_date_gmt;
-		$this->touched    = (int)$user->get_value( $this->type, $this->ID, 'touched' );
+		$this->touched    = (int)$user->get( $this, 'touched' );
 
 		$this->gt_relationships( $post );
 
@@ -134,7 +134,7 @@ class Application
 	public function touch()
 	{
 		global $user;
-		return $user->update_value( $this->type, $this->ID, 'touched', time() );
+		return $user->update( $this, 'touched', time() );
 	}
 
 	/**
@@ -153,7 +153,7 @@ class Application
 		if( !isset( $this->progress ) ) {
 
 			global $user;
-			$this->progress = $user->get_value( $this->type, $this->ID, 'progress' );
+			$this->progress = $user->get( $this, 'progress' );
 		}
 
 		return $this->progress;

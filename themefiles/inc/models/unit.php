@@ -41,14 +41,14 @@ class Unit extends Application
 		}
 
 		// save number of children done
-		$user->update_value( $this->type, $this->ID, 'children_done', $done );
+		$user->update( $this, 'children_done', $done );
 
 		// calculate progress percentage
 		$progress = (int)round( ( $done / $total ) * 100 );
 
 		// save progress
 		$this->progress = $progress > 100 ? 100 : $progress;
-		$user->update_value( $this->type, $this->ID, 'progress', $this->progress );
+		$user->update( $this, 'progress', $this->progress );
 
 		// update status
 		$this->status = parent::init_status( $this->status );
