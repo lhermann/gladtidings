@@ -1,8 +1,6 @@
 <?php
-	// global $post;
-	// var_dump( $post );
-
 	get_header();
+	// var_dump( $post );
 ?>
 
 	<header id="page-header">
@@ -39,8 +37,9 @@
 				</div>
 
 				<p class="u-spacing--narrow t-second-text">
-					<?= __( 'Lessons watched:', 'gladtidings' ) ?> <strong class="t-comp-text">0/<?= $post->num_lessons() ?></strong>
-					<?php if( $post->num_quizzes() ) echo '&bull; ' . __( 'Quizzes passed:', 'gladtidings' ) . ' <strong class="t-comp-text">0/' . $post->num_quizzes() . '</strong>'; ?>
+					<?php                            echo             __( 'Lessons watched:', 'gladtidings' ) . ' <strong class="t-comp-text">' . $post->num_lessons_done() . '/' . $post->num_lessons() . '</strong>'; ?>
+					<?php if( $post->num_quizzes() ) echo '&bull; ' . __( 'Quizzes passed:', 'gladtidings' )  . ' <strong class="t-comp-text">' . $post->num_quizzes_done() . '/' . $post->num_quizzes() . '</strong>'; ?>
+					<?php if( $post->num_exams()   ) echo '&bull; ' . __( 'Exams passed:', 'gladtidings' )    . ' <strong class="t-comp-text">' . $post->num_exams_done()   . '/' . $post->num_exams()   . '</strong>'; ?>
 				</p>
 
 		</section>

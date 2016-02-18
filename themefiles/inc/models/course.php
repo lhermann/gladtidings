@@ -27,6 +27,41 @@ class Course extends Application
 		Public Functions
 	\*=======================*/
 
+	public function calculate_progress()
+	{
+		global $user;
+
+		// get total number of children
+		// count how many children are done
+		$this->num_lesson = 0;	$this->num_lesson_done = 0;
+		$this->num_quizz  = 0;	$this->num_quizz_done  = 0;
+		$this->num_exams  = 0;  $this->num_exams_done  = 0;
+		foreach ( $this->children() as $child ) {
+			switch ( $child->type ) {
+				case 'unit':
+					$child->calculate_progress();
+					$this->num_lesson      += $child->num_lesson;
+					$this->num_lesson_done += $child->num_lesson_done;
+					$this->num_quizz       += $child->num_quizz;
+					$this->num_quizz_done  += $child->num_quizz_done;
+					break;
+				case 'exam':
+					$this->num_exams++;
+					if( $child->is_done() ) $this->num_exams_done++;
+					break;
+			}
+		}
+
+		// calculate progress percentage
+		$total    = $this->num_lesson      + $this->num_quizz      + $this->num_exams;
+		$done     = $this->num_lesson_done + $this->num_quizz_done + $this->num_exams_done;
+		$progress = (int)round( ( $done / $total ) * 100 );
+
+		// save progress
+		$this->progress = $progress > 100 ? 100 : $progress;
+		$user->update( $this, 'progress', $this->progress );
+	}
+
 	/**
 	 * Returns the ID of the course
 	 */
@@ -45,6 +80,11 @@ class Course extends Application
 	}
 
 	public function num_lessons() { return $this->num_children( 'lesson' ); }
-	public function num_quizzes() { return $this->num_children( 'quizz' ); }
+	public function num_quizzes() { return $this->num_children( 'quizz'  ); }
+	public function num_exams()   { return $this->num_children( 'exam'   ); }
+
+	public function num_lessons_done() { return $this->num_children_done( 'lesson' ); }
+	public function num_quizzes_done() { return $this->num_children_done( 'quizz'  ); }
+	public function num_exams_done()   { return $this->num_children_done( 'exam'   ); }
 
 }

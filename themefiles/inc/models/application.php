@@ -219,12 +219,8 @@ class Application
 	 */
 	public function children()
 	{
-		if( isset($this->children) ) {
-
-			/* [1] */
-			return $this->children;
-
-		} else {
+		/* [1] */
+		if( !isset($this->children) ) {
 
 			/* [2] */
 			global $wpdb;
@@ -239,17 +235,16 @@ class Application
 			$results = $wpdb->get_results( $query, OBJECT );
 
 			/* [3] & [4] */
-			$this->children   = array();
+			$this->children = array();
 			foreach ( $results as $key => $child ) {
 
 				$this->children[] = gt_instantiate_object( $child );
 
 			}
 
-			/* [4] */
-			return $this->children;
-
 		}
+
+		return $this->children;
 	}
 
 	/**
@@ -317,7 +312,7 @@ class Application
 	public function num_children( $type = 'children' )
 	{
 		/* [1] */
-		if( !isset( $this->{"num_$type"} ) ) {
+		if( !isset( $this->{"num_{$type}"} ) ) {
 
 			/* [2] */
 			if( isset( $this->children ) ) {
@@ -337,7 +332,7 @@ class Application
 				}
 
 				/* [4] */
-				$this->{"num_$type"} = $count;
+				$this->{"num_{$type}"} = $count;
 
 			} else {
 
@@ -368,12 +363,41 @@ class Application
 				}
 
 				/* [4] */
-				$this->{"num_$type"} = (int)$wpdb->get_var( $query );
+				$this->{"num_{$type}"} = (int)$wpdb->get_var( $query );
 
 			}
 		}
 
-		return $this->{"num_$type"};
+		return $this->{"num_{$type}"};
+	}
+
+	/**
+	 * Get number of children, optionally of one type only
+	 * [1] Check if cached number exists
+	 * [2] Count completed children
+	 * [3] Cache number
+	 *
+	 * INPUT: $type to limit by
+	 * OUTPUT: (int) number of children
+	 */
+	public function num_children_done( $type = 'children' )
+	{
+
+		/* [1] */
+		if( !isset( $this->{"num_{$type}_done"} ) ) {
+
+			/* [2] */
+			$count = 0;
+			foreach( $this->children() as $child ) {
+				if( $child->type != $type && $type != 'children' ) continue;
+				if( $child->is_done() ) $count++;
+			}
+
+			/* [3] */
+			$this->{"num_{$type}_done"} = $count;
+		}
+
+		return $this->{"num_{$type}_done"};
 	}
 
 	/**

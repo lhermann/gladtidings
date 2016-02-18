@@ -16,6 +16,7 @@ class CourseController extends ApplicationController
 	{
 		$course = new Course( $post );
 		$course->touch();
+		$course->calculate_progress();
 		return $course;
 	}
 

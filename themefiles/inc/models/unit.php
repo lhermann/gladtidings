@@ -33,17 +33,20 @@ class Unit extends Application
 
 		// get total number of children
 		// count how many children are done
-		$total = 0;
-		$done  = 0;
-		foreach ( $this->children() as $child) {
-			if( $child->type != 'headline' ) $total++;
-			if( $child->is_done() ) $done++;
+		$this->num_lesson = 0;	$this->num_lesson_done = 0;
+		$this->num_quizz  = 0;	$this->num_quizz_done  = 0;
+
+		foreach ( $this->children() as $child ) {
+			switch ( $child->type ) {
+				case 'lesson': $this->num_lesson++; break;
+				case 'quizz' : $this->num_quizz++; break;
+			}
+			if( $child->is_done() ) $this->{"num_{$child->type}_done"}++;
 		}
 
-		// save number of children done
-		$user->update( $this, 'children_done', $done );
-
 		// calculate progress percentage
+		$total = $this->num_lesson + $this->num_quizz;
+		$done  = $this->num_lesson_done + $this->num_quizz_done;
 		$progress = (int)round( ( $done / $total ) * 100 );
 
 		// save progress
