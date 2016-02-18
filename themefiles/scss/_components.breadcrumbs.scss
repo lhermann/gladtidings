@@ -2,7 +2,7 @@
     #BREADCRUMBS
 \*------------------------------------*/
 
-$breadcrumb-padding:			$base-spacing-unit/8 !default;
+$breadcrumb-padding:			$base-spacing-unit/4 !default;
 
 .breadcrumbs {
 
@@ -38,7 +38,7 @@ $breadcrumb-padding:			$base-spacing-unit/8 !default;
 
 	// Item sperator
 	& + &:before {
-		padding: 0 $breadcrumb-padding;
+		padding-left: $breadcrumb-padding;
 		color: $color-unstress;
 		content: "/\00a0";
 	}

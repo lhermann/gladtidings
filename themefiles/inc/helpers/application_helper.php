@@ -78,29 +78,14 @@ function gt_get_breadcrumbs( $post )
 	$return = array();
 
 	switch ( $post->type ) {
-		case 'lesson':
-			$return[] = $post;
-			$return[] = $post->parent();
-			$return[] = $post->course();
-			$return[] = 'home';
-			break;
-
-		case 'unit':
-			$return[] = $post;
-			$return[] = $post->parent();
-			$return[] = 'home';
-			break;
-
-		case 'course':
-			$return[] = $post;
-			$return[] = 'home';
-			break;
-
+		case 'lesson': $return[] = $post->course();
+		case 'unit':   $return[] = $post->parent();
+		case 'course': $return[] = $post;
 		default:
-			$return[] = 'home';
+			array_unshift( $return , 'home' );
 	}
 
-	return array_reverse( $return );
+	return $return;
 
 }
 
@@ -112,7 +97,7 @@ function gt_crumb_link( $crumb )
 {
 	$args = array();
 
-	switch ( $crumb->post_type ) {
+	switch ( $crumb->type ) {
 		case 'lesson':
 			$args['display'] = sprintf( __('Lesson %d', 'gladtidings'),  $crumb->order );
 			break;
@@ -122,9 +107,4 @@ function gt_crumb_link( $crumb )
 	}
 
 	return $crumb->link_to( $args );
-}
-
-function gt_array_rand( $array )
-{
-	return $array[mt_rand(0, count($array) - 1)];
 }

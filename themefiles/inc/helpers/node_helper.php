@@ -11,6 +11,11 @@ function h_node_link( $node )
 	return $node->status_num >= 3 ? '<a href="' . gt_get_permalink( $node ) . '" title="' . __('Permalink to:', 'gladtidings') . ' ' . $node->title . '">' : '';
 }
 
+function h_node_label( $node )
+{
+	return $node->title;
+}
+
 /**
  * Button
  */

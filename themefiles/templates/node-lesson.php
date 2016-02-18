@@ -10,7 +10,7 @@ global $node;
 		<header class="nl__article__header">
 			<h4 class="nl__article__title">
 				<span class="label label--small label--fixed label--theme"><?= $node->order ?></span>
-				<?= $node->link_to() ?>
+			<?= $node->link_to( ['display' => h_node_label( $node )] ) ?>
 			</h4>
 		</header>
 	</article>

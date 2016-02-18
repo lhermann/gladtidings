@@ -413,12 +413,14 @@ class Application
 	 */
 	public function link_to( $args = array() )
 	{
-		return sprintf( '<a class="%1$s" href="%2$s" title="%3$s" %4$s>%5$s</a>',
-			isset($args['class']) ? $args['class'] : 'a--bodycolor',
-			gt_get_permalink( $this, ( isset($args['after_url']) ? $args['after_url'] : null ) ),
-			isset($args['title']) ? $args['title'] : __('Permalink to:', 'gladtidings') . ' ' . $this->title,
-			isset($args['attribute']) ? $args['attribute'] : '',
-			isset($args['display']) ? $args['display'] : $this->title
+		return sprintf( '<a class="%2$s" href="%1$s" title="%3$s" %4$s>%5$s</a>',
+			gt_get_permalink( $this, (
+				isset( $args['after_url'] ) ? $args['after_url'] : null
+			) ),
+				isset( $args['class']     ) ? $args['class']     : 'a--bodycolor',
+				isset( $args['title']     ) ? $args['title']     : __('Permalink to:', 'gladtidings') . ' ' . $this->title,
+				isset( $args['attribute'] ) ? $args['attribute'] : '',
+				isset( $args['display']   ) ? $args['display']   : $this->title
 		);
 	}
 

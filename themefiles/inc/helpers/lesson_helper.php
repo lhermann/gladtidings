@@ -17,3 +17,11 @@ function h_attachment_link( $lesson )
 		__( 'Download Manuscript', 'gladtidings' ) . ' [' . gt_get_filesize( $attachment['url'] ) . ']'
 	);
 }
+
+function h_node_label( $node )
+{
+	switch ( $node->type ) {
+		case 'lesson': return __( 'Lesson', 'gladtidings' );
+		case 'quizz' : return __( 'Quizz', 'gladtidings' );
+	}
+}
