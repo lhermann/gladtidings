@@ -123,3 +123,8 @@ function gt_crumb_link( $crumb )
 
 	return $crumb->link_to( $args );
 }
+
+function gt_array_rand( $array )
+{
+	return $array[mt_rand(0, count($array) - 1)];
+}

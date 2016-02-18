@@ -47,7 +47,7 @@ class Unit extends Application
 		// calculate progress percentage
 		$total = $this->num_lesson + $this->num_quizz;
 		$done  = $this->num_lesson_done + $this->num_quizz_done;
-		$progress = (int)round( ( $done / $total ) * 100 );
+		$progress = $total > 0 ? (int)round( ( $done / $total ) * 100 ) : 0;
 
 		// save progress
 		$this->progress = $progress > 100 ? 100 : $progress;

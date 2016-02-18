@@ -175,7 +175,7 @@ class User
 		$return = $wpdb->query(
 			$wpdb->prepare(
 					$query_str,
-					"{$object->type}_{$object->ID}_question-[^1]", /* [1] */
+					"{$object->type}_{$object->ID}_question-%", /* [1] */
 					"{$object->type}_{$object->ID}_answer-%"
 				)
 		);

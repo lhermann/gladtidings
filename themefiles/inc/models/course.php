@@ -27,6 +27,11 @@ class Course extends Application
 		Public Functions
 	\*=======================*/
 
+	public function is_done()
+	{
+		return $this->progress() == 100;
+	}
+
 	public function calculate_progress()
 	{
 		global $user;

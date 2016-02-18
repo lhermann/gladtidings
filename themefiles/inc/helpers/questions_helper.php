@@ -20,11 +20,11 @@ function h_start_quizz_btn( $object )
 {
 	if( $object->is_done() ) {
 
-		return $post->type == 'quizz' ? __( 'Repeat Quizz', 'gladtidings' ) : __( 'Repeat Exam', 'gladtidings' );
+		return $object->type == 'quizz' ? __( 'Repeat Quizz', 'gladtidings' ) : __( 'Repeat Exam', 'gladtidings' );
 
 	} else {
 
-		return $post->type == 'quizz' ? __( 'Start Quizz', 'gladtidings' ) : __( 'Start Exam', 'gladtidings' );
+		return $object->type == 'quizz' ? __( 'Start Quizz', 'gladtidings' ) : __( 'Start Exam', 'gladtidings' );
 
 	}
 }

@@ -28,6 +28,11 @@ class Exam extends Application
 		Public Functions
 	\*=======================*/
 
+	public function is_done()
+	{
+		return $this->passed;
+	}
+
 	// Use trait
 	use questions;
 

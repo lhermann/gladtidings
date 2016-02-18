@@ -27,8 +27,7 @@ class Application
 
 		$this->gt_relationships( $post );
 
-		$this->status     = $this->init_status( $post->post_status );
-		$this->status_num = $this->init_status_number( $this->status );
+		$this->init_status( $post->post_status );
 
 		return $post;
 	}
@@ -117,6 +116,10 @@ class Application
 					$status = 'active';
 				}
 		}
+
+		$this->status_num = $this->init_status_number( $status );
+		$this->status     = $status;
+
 		return $status;
 	}
 

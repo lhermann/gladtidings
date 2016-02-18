@@ -117,7 +117,7 @@ trait questions
 	 */
 	public function setup_current_question()
 	{
-		$questions = $this->all_questions;
+		$questions = $this->all_questions();
 		$previous_answers = $this->get_given_answers();
 
 		// unset already used questions
@@ -133,8 +133,10 @@ trait questions
 		$question['answers'] = explode( "\r\n", $question['answers'] );
 
 		// safe the current question
-		global $user;
-		$user->update( $this, "question-".($this->step), array( 'key' => $key, 'correct_answer' => $question['answers'][0] ) );
+		if( isset($key) ){
+			global $user;
+			$user->update( $this, "question-".($this->step), array( 'key' => $key, 'correct_answer' => $question['answers'][0] ) );
+		}
 
 		$this->current_question = $question;
 	}
