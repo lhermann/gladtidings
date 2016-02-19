@@ -20,4 +20,19 @@ class CourseController extends ApplicationController
 		return $course;
 	}
 
+	public static function wrapup( $post )
+	{
+		$course = new Course( $post );
+		$course->touch();
+
+		add_filter( 'single_template', array( 'CourseController', 'wrapup_template_redirect' ), 10, 1 );
+
+		return $course;
+	}
+
+	public static function wrapup_template_redirect( $single_template )
+	{
+		return parent::template_redirect( $single_template, "single-course-wrapup.php" );
+	}
+
 }
