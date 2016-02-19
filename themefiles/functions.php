@@ -71,11 +71,22 @@ function instantiate_the_controller( $wp ) {
 	if( $controller ) {
 
 		global $post, $posts;
+
 		$class = ucfirst($controller).'Controller';
 
-		switch ( $action ) {
-			case 'index': $posts = $class::$action( $posts ); break;
-			default:      $post = $class::$action( $post );   break;
+		if( method_exists( $class, $action ) ) {
+
+			// if action exists: call the action as static method
+			switch ( $action ) {
+				case 'index': $posts = $class::$action( $posts ); break;
+				default:      $post  = $class::$action( $post  ); break;
+			}
+
+		} else {
+
+			// if action doesn't exist: redirect to queried object
+			wp_redirect( gt_get_permalink( $post ) );
+
 		}
 
 	}

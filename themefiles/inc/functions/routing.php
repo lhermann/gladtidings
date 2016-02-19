@@ -46,7 +46,7 @@ function gladtidings_rewrite_rules() {
 	// define new rules
 	$new_rules = array(
 		// lesson
-		"course/(.?.+?)/unit/([0-9]{1,})/lesson/([0-9]+)/?$"
+		"course/(.?.+?)/unit/([0-9]{1,})/lesson/([0-9]+)(?:/([^/]+?))?/?$"
 
 				=> "index.php"
 						."?p=".$wp_rewrite->preg_index(3)
@@ -54,10 +54,10 @@ function gladtidings_rewrite_rules() {
 						."&course-name=".$wp_rewrite->preg_index(1)
 						."&unit-position=".$wp_rewrite->preg_index(2)
 						."&controller=lesson"
-						."&action=show",
+						."&action=".$wp_rewrite->preg_index(4),
 
 		// quizz
-		"course/(.?.+?)/unit/([0-9]{1,})/quizz/([^/]+)(?:/(show|question|evaluation))?/?$"
+		"course/(.?.+?)/unit/([0-9]{1,})/quizz/([^/]+)(?:/([^/]+?))?/?$"
 
 				=> "index.php"
 						."?quizz=".$wp_rewrite->preg_index(3)
@@ -67,16 +67,16 @@ function gladtidings_rewrite_rules() {
 						."&action=".$wp_rewrite->preg_index(4),
 
 		// unit
-		"course/(.?.+?)/unit/([0-9]{1,})/?$"
+		"course/(.?.+?)/unit/([0-9]{1,})(?:/([^/]+?))?/?$"
 
 				=> "index.php"
 						."?unit=".$wp_rewrite->preg_index(2)
 						."&course-name=".$wp_rewrite->preg_index(1)
 						."&controller=unit"
-						."&action=show",
+						."&action=".$wp_rewrite->preg_index(3),
 
 		// exam
-		"course/(.?.+?)/exam/([^/]+)(?:/(show|question|evaluation))?/?$"
+		"course/(.?.+?)/exam/(.?.+?)(?:/([^/]+?))?/?$"
 
 				=> "index.php"
 						."?exam=".$wp_rewrite->preg_index(2)
@@ -85,12 +85,19 @@ function gladtidings_rewrite_rules() {
 						."&action=".$wp_rewrite->preg_index(3),
 
 		// course
-		"course/(.?.+?)/?$"
+		"course/(.?.+?)(?:/([^/]+?))?/?$"
 
 				=> "index.php"
 						."?course=".$wp_rewrite->preg_index(1)
 						."&controller=course"
-						."&action=show",
+						."&action=".$wp_rewrite->preg_index(2),
+
+		// user
+		"user(?:/([^/]+?))?/?$"
+
+				=> "index.php"
+						."?controller=user"
+						."&action=".$wp_rewrite->preg_index(1),
 
 	);
 
