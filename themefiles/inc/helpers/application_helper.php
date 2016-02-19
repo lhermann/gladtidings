@@ -56,7 +56,9 @@ function gt_instantiate_object( $post )
 	if( is_numeric( $post ) ) {
 		$post = get_post( $post );
 	} elseif( !is_object( $post ) ) {
-		return;
+		return NULL;
+	} elseif( get_class($post) === 'WP_Post' ) {
+		return NULL;
 	}
 
 	// Include Model

@@ -146,6 +146,7 @@ function instantiate_the_controller( $wp ) {
 	if( $controller ) {
 
 		global $post, $posts, $wp_query;
+		// var_dump($wp_query);
 
 		$controller_class = ucfirst($controller).'Controller';
 
@@ -166,9 +167,11 @@ function instantiate_the_controller( $wp ) {
 
 		} else {
 
-			// if action doesn't exist: redirect to queried object
-			wp_redirect( gt_get_permalink( $post ) );
-			exit;
+			// if action doesn't exist: show 404 page
+			$wp_query->set_404();
+
+			// wp_redirect( gt_get_permalink( $post ) );
+			// exit;
 
 		}
 
