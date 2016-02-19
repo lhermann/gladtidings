@@ -118,19 +118,19 @@ function instantiate_the_controller( $wp ) {
 	if( is_admin() ) return;
 
 	// get paths
-	$model_path      = dirname( __FILE__ ).'/inc/models/';
-	$controller_path = dirname( __FILE__ ).'/inc/controllers/';
-	$helper_path     = dirname( __FILE__ ).'/inc/helpers/';
+	$model_path      = dirname( __DIR__ ).'/models/';
+	$controller_path = dirname( __DIR__ ).'/controllers/';
+	$helper_path     = dirname( __DIR__ ).'/helpers/';
 
 	// get route
 	$controller = get_query_var( 'controller', false );
-	$action = get_query_var( 'action', 'index' ) ? get_query_var( 'action', 'index' ) : 'show';
+	$action = get_query_var( 'action' ) ? get_query_var( 'action' ) : 'show';
 	$model = $controller;
 
 	// include model and controller and helper
-	             require( $model_path . 'user.php' );
-	             require( $model_path . 'application.php' );
-	if( $model ) require( $model_path . $model . '.php' );
+	             require_once( $model_path . 'user.php' );
+	             require_once( $model_path . 'application.php' );
+	if( $model ) require_once( $model_path . $model . '.php' );
 
 	                  require( $controller_path . 'application_controller.php' );
 	if( $controller ) require( $controller_path . $controller . '_controller.php' );
@@ -181,7 +181,7 @@ function instantiate_the_controller( $wp ) {
  * Alter the main wp_query on the home page to fetch 'course' instead of 'post'
  */
 function alter_query_home( $query ) {
-	if ( $query->is_home() && $query->is_main_query() ) {
+	if ( $query->is_home() && $query->is_main_query() && !$query->query['controller'] ) {
 		$query->set( 'post_type', 'course' );
 		$query->set( 'controller', 'course' );
 		$query->set( 'action', 'index' );
