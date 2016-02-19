@@ -107,6 +107,77 @@ function gladtidings_rewrite_rules() {
 
 
 /**
+ * Instantiate the Controller
+ * filename syntax: "inc/controller.single-{post_type}.php"
+ * class syntax: "Single{Post_type}"
+ */
+add_action( 'wp', 'instantiate_the_controller', 10, 1 );
+function instantiate_the_controller( $wp ) {
+
+	// Bail for admin area
+	if( is_admin() ) return;
+
+	// get paths
+	$model_path      = dirname( __FILE__ ).'/inc/models/';
+	$controller_path = dirname( __FILE__ ).'/inc/controllers/';
+	$helper_path     = dirname( __FILE__ ).'/inc/helpers/';
+
+	// get route
+	$controller = get_query_var( 'controller', false );
+	$action = get_query_var( 'action', 'index' ) ? get_query_var( 'action', 'index' ) : 'show';
+	$model = $controller;
+
+	// include model and controller and helper
+	             require( $model_path . 'user.php' );
+	             require( $model_path . 'application.php' );
+	if( $model ) require( $model_path . $model . '.php' );
+
+	                  require( $controller_path . 'application_controller.php' );
+	if( $controller ) require( $controller_path . $controller . '_controller.php' );
+
+	                  require( $helper_path . 'application_helper.php' );
+	if( $controller ) require( $helper_path . $controller . '_helper.php' );
+
+	// Instantiate the user
+	global $user;
+	$user = new User;
+
+	// call controller action statically and pass get_queried_object() as argument
+	if( $controller ) {
+
+		global $post, $posts, $wp_query;
+
+		$controller_class = ucfirst($controller).'Controller';
+
+		// save some debug information
+		$wp_query->debug = [
+			'model'      => ucfirst($controller),
+			'controller' => $controller_class,
+			'action'     => $action
+		];
+
+		if( method_exists( $controller_class, $action ) ) {
+
+			// if action exists: call the action as static method
+			switch ( $action ) {
+				case 'index': $posts = $controller_class::$action( $posts ); break;
+				default:      $post  = $controller_class::$action( $post  ); break;
+			}
+
+		} else {
+
+			// if action doesn't exist: redirect to queried object
+			wp_redirect( gt_get_permalink( $post ) );
+			exit;
+
+		}
+
+	}
+
+}
+
+
+/**
  * Alter the main wp_query on the home page to fetch 'course' instead of 'post'
  */
 function alter_query_home( $query ) {
