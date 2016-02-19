@@ -1,27 +1,25 @@
-<?php
-/**
- * Tamplate to display a pseudo nodelist item in the page-header
- * This template works in the context of a term of the type 'tax-unit'
- */
-
-global $_gt;
-?>
-
-<div class="nl__item nl__item--unit nl__item--hero nl__item--<?= $post->post_status ?>">
+<div class="nl__item nl__item--unit nl__item--hero nl__item--<?= $post->status ?>">
 	<article class="nl__article">
 		<header class="nl__article__header owl--off">
-			<h1 class="nl__article__title"><span class="label label--small shadow--strong t-second-text"><?= __( 'Unit', 'gladtidings').' '.$post->order ?></span> <span class="shadow--strong-text"><?php the_title() ?></span></h1>
+			<h1 class="nl__article__title">
+				<span class="label label--small shadow--strong t-second-text"><?= __( 'Unit', 'gladtidings').' '.$post->order ?></span>
+				<span class="shadow--strong-text"><?= $post->title ?></span>
+			</h1>
 		</header>
 		<footer class="nl__article__footer shadow--strong t-comp-text">
-			<p><?= $_gt->hero_footer() ?> &bull; <?= __( 'Course', 'gladtidings' ) ?>: <?= $_gt->print_link_to( 'course' ); ?> <?= $_gt->hero_meta() ?></p>
+			<p>
+				<?= h_node_footer( $post ) ?>
+				&bull; <?= __( 'Course', 'gladtidings' ) ?>: <?= $post->parent()->link_to(); ?>
+				<?php if( h_node_meta( $post ) ) print( '&bull; ' . h_node_meta( $post ) );  ?>
+			</p>
 		</footer>
 	</article>
 	<div class="nl__node nl__node--big">
 		<div class="nl__node__border t-second-border"></div>
-		<div class="nl__node__inner <?= $post->post_status == 'publish' ? 't-main-text t-main-border' : '' ?>">
-			<?php if( isset($post->progress) ): ?>
-				<div class="nl__node__progress" style="width: <?= $post->progress ?>%"></div>
-				<div class="nl__node__progress-text"><?= $post->progress ?>%</div>
+		<div class="nl__node__inner <?= $post->status == 'publish' ? 't-main-text t-main-border' : '' ?>">
+			<?php if( $post->status == 'active' ): ?>
+				<div class="nl__node__progress" style="width: <?= $post->progress() ?>%"></div>
+				<div class="nl__node__progress-text"><?= $post->progress() ?>%</div>
 			<?php endif; ?>
 		</div>
 	</div>

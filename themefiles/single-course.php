@@ -1,8 +1,6 @@
 <?php
-	global $_gt;
-	// var_dump( $_gt );
-
 	get_header();
+	// var_dump( $post->children[3] );
 ?>
 
 	<header id="page-header">
@@ -13,11 +11,13 @@
 			<div class="wrapper">
 				<div class="hero-frame hero-frame--course">
 					<div class="hero-frame__badge">
-						<img src="<?= gt_get_course_batch( $post ) ?>" alt="<?= get_the_title().' '.__( 'Badge', 'gladtidings' ); ?>">
+						<img src="<?= $post->batch_src() ?>" alt="<?= $post->title.' '.__( 'Badge', 'gladtidings' ); ?>">
 					</div>
 					<h1 class="hero-frame__title">
-						<?php if( $_gt->is_done() ): ?> <span class="label label--success label--filled label--small shadow--strong"><span class="fi fi-check"></span></span> <?php endif; ?>
-						<span class="shadow--strong-text"><?php the_title(); ?></span>
+						<?php if( $post->is_done() ): ?>
+							<span class="label label--success label--filled label--small shadow--strong"><span class="fi fi-check"></span></span>
+						<?php endif; ?>
+						<span class="shadow--strong-text"><?= $post->title ?></span>
 					</h1>
 				</div>
 			</div><!-- /.wrapper -->
@@ -30,12 +30,17 @@
 
 		<section id="progress" class="wrapper">
 
-				<?php //get_template_part( 'templates/content', 'progress' ); ?>
 				<h2 class="u-screen-reader-text"><?= __( 'Progress', 'gladtidings' ) ?></h2>
-				<div class="progress progress--meter" title="<?= __( 'Progress:', 'gladtidings' ).' '.$_gt->get_progress_width() ?>">
-					<span class="progress__item t-comp-bg" style="width: <?= $_gt->get_progress_width() ?>"><?= $_gt->get_progress_width() ?></span>
+
+				<div class="progress progress--meter" title="<?= __( 'Progress:', 'gladtidings' ).' '.$post->progress() ?>">
+					<span class="progress__item t-comp-bg" style="width: <?= $post->progress().'%' ?>"><?= $post->progress().'%' ?></span>
 				</div>
-				<p class="u-spacing--narrow t-second-text"><?php $_gt->print_progress_message() ?></p>
+
+				<p class="u-spacing--narrow t-second-text">
+					<?php                            echo             __( 'Lessons watched:', 'gladtidings' ) . ' <strong class="t-comp-text">' . $post->num_lessons_done() . '/' . $post->num_lessons() . '</strong>'; ?>
+					<?php if( $post->num_quizzes() ) echo '&bull; ' . __( 'Quizzes passed:', 'gladtidings' )  . ' <strong class="t-comp-text">' . $post->num_quizzes_done() . '/' . $post->num_quizzes() . '</strong>'; ?>
+					<?php if( $post->num_exams()   ) echo '&bull; ' . __( 'Exams passed:', 'gladtidings' )    . ' <strong class="t-comp-text">' . $post->num_exams_done()   . '/' . $post->num_exams()   . '</strong>'; ?>
+				</p>
 
 		</section>
 
@@ -47,25 +52,21 @@
 
 					<?php
 						//get all the units
-						$units = $_gt->get_units();
-						// var_dump( $units );
+						$children = $post->children();
 
 						// check if the repeater field has rows of data
-						if( $units ) {
+						if( $children ) {
 
 							print( '<ul class="nodelist nodelist--course">' );
 
 							// loop through the units
-							foreach ( $units as $key => $post ) {
+							foreach ( $children as $key => $node ) {
 
-								get_template_part( 'templates/node', get_post_type() );
+								get_template_part( 'templates/node', $node->type );
 
 							}
 
 							print( '</ul><!-- /.nodelist -->' );
-
-							// restore the original post
-							wp_reset_postdata();
 
 						} else {
 
@@ -78,7 +79,7 @@
 				<aside class="layout__item no-owl-desk u-1/3-desk">
 
 					<?php
-						$description = $_gt->get_description();
+						$description = get_field( 'course_description' );
 						if( $description ): ?>
 
 						<h2 class="t-second-text"><?= __( 'Description', 'gladtidings' ) ?></h2>

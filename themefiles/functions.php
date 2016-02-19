@@ -16,54 +16,37 @@ define( THEMEVERSION, '0.3.1-beta' );
 	External Modules/Files
 \*------------------------------------*/
 
-/* Functions */
-require_once ( "inc/functions.theme-activation.php" );
-require_once ( "inc/functions.theme-register.php" );
-require_once ( "inc/functions.gt-relationships.php" );
-require_once ( "inc/functions.routing.php" );
-require_once ( "inc/functions.login.php" );
-// require_once ( "inc/functions.theme-acf.php" );
-require_once ( "inc/functions.color.php" );
-require_once ( "inc/functions.helpers.php" );
-
-/* Controllers */
-require_once ( "inc/controller.global.php" );
-
+/**
+ * FUNCTIONS
+ */
+require_once ( "inc/functions/theme-activation.php" );
+require_once ( "inc/functions/theme-register.php" );
+require_once ( "inc/functions/gt-relationships.php" );
+require_once ( "inc/functions/routing.php" );
+require_once ( "inc/functions/login.php" );
+// require_once ( "inc/functions/theme-acf.php" );
 
 /**
- * Instantiate the Controller
- * filename syntax: "inc/controller.single-{post_type}.php"
- * class syntax: "Single{Post_type}"
+ * Helpers
  */
-add_action( 'wp', 'instantiate_GladTidings', 10, 1 );
-function instantiate_GladTidings( $wp ) {
+require_once ( "inc/helpers/color_helper.php" );
+
+/**
+ * Built Inline Theme CSS Styles
+ */
+add_action( 'wp', 'build_theme_css', 12, 1 );
+function build_theme_css( $wp ) {
+
+	// Bail for admin area
 	if( is_admin() ) return;
 
-	global $post, $_gt;
+	global $post;
+	$classes = array( 'Course', 'Unit', 'Exam', 'Lesson', 'Quizz' );
 
-	$root = dirname( __FILE__ ).'/inc/controller';
+	if( is_object( $post ) && in_array( get_class($post), $classes ) ) {
 
-	if( is_single() ) {
+		add_filter( 'theme_css', 'add_theme_color', 10 );
 
-		$view = 'single';
-		$type = get_post_type();
-
-	} else {
-
-	}
-
-	// include controller
-	if( file_exists( "{$root}.{$view}-{$type}.php" ) ) {
-		require_once ( "{$root}.{$view}-{$type}.php" );
-	} elseif( file_exists( "{$root}.{$view}.php" ) ) {
-		require_once ( "{$root}.{$view}.php" );
-	}
-
-	// instantiate controller
-	if ( class_exists('GTView') ) {
-		$_gt = new GTView( get_queried_object() );
-	} else {
-		$_gt = new GTGlobal( get_queried_object() );
 	}
 
 }
@@ -223,13 +206,13 @@ function theme_css() {
  * Add the course colors to the theme_css filter
  */
 function add_theme_color( $css ) {
-	global $_gt;
+	global $post;
 
 	// get and cache variables
-	$header     = get_field( 'img_course_header' , $_gt->get_course_id() );
-	$main_hex   = get_field( 'color_main'        , $_gt->get_course_id() );
-	$second_hex = get_field( 'color_secondary'   , $_gt->get_course_id() );
-	$comp_hex   = get_field( 'color_comp'        , $_gt->get_course_id() );
+	$header     = get_field( 'img_course_header', $post->course_id() );
+	$main_hex   = get_field( 'color_main'       , $post->course_id() );
+	$second_hex = get_field( 'color_secondary'  , $post->course_id() );
+	$comp_hex   = get_field( 'color_comp'       , $post->course_id() );
 
 	// create hues
 	$main_hsl = hex2hsl( $main_hex );

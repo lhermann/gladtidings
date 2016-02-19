@@ -1,8 +1,6 @@
 <?php
-	global $_gt;
-	// var_dump($_gt);
-
 	get_header();
+	// var_dump( $post );
 ?>
 
 	<header id="page-header">
@@ -29,29 +27,26 @@
 
 					<div class="layout layout--auto">
 						<h2 class="layout__item t-second-text"><?= __( 'Lessons', 'gladtidings' ); ?></h2>
-						<?php $_gt->print_continue_btn() ?>
+						<?= h_continue_btn( $post ) ?>
 					</div>
 
 					<?php
 						//get all the units
-						$items = $_gt->get_items();
-						// var_dump( $items );
+						$children = $post->children();
 
-						if( $items ) {
+						// check if the repeater field has rows of data
+						if( $children ) {
 
 							print( '<ul class="nodelist nodelist--unit">' );
 
-							// loop through the items
-							foreach ( $items as $key => $post ) {
+							// loop through the children
+							foreach ( $children as $node ) {
 
-								get_template_part( 'templates/node', get_post_type() );
+								get_template_part( 'templates/node', $node->type );
 
 							}
 
 							print( '</ul><!-- /.nodelist -->' );
-
-							// restore the original post
-							wp_reset_postdata();
 
 						} else {
 

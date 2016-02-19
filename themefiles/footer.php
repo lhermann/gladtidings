@@ -5,7 +5,7 @@
 ?>
 		<footer id="page-footer" class="page-footer">
 
-			<?php if( !is_home() ) get_template_part( 'templates/breadcrumbs' ); ?>
+			<?php if( !is_home() && !is_404() ) get_template_part( 'templates/breadcrumbs' ); ?>
 
 			<div class="wrapper">
 				<p class="u-text--center">
@@ -30,15 +30,17 @@
 						print( 'Post ID: ' . get_the_ID() );
 					?>
 				</p>
+				<p class="u-text--center">
+					<?php global $wp_query; ?>
+					Model: <?= $wp_query->debug['model'] ?>
+					&bull; Controller: <?= $wp_query->debug['controller'] ?>
+					&bull; Action: <?= $wp_query->debug['action'] ?>
+				</p>
 			</div><!-- /.wrapper -->
 		</footer>
 
 	</div><!-- /.container -->
 
 	<?php wp_footer(); ?>
-	<!--
-	<script src="js/jquery.min.js"></script>
-	<script src="js/main.js"></script>
-	-->
 </body>
 </html>

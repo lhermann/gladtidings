@@ -3,16 +3,16 @@
                 NODE EXAM
 \*------------------------------------*/
 
-global $_gt;
-$_gt->setup_node( $post );
-
+global $node;
 ?>
-<li class="<?= $_gt->node_classes() ?>">
-	<?= $link = $_gt->node_link() ?>
+<li class="nl__item nl__item--<?= $node->position ?> nl__item--<?= $node->type ?> nl__item--<?= $node->status ?>">
+	<?= $link = h_node_link( $node ) ?>
 		<article class="nl__article">
 			<header class="nl__article__header">
-				<h3 class="nl__article__title"><?php the_title() ?> <?= $_gt->node_button() ?></h3>
-				<?php if( $output['meta'] ): ?><small class="nl__article__meta t-second-text"><?= $_gt->node_meta() ?></small><?php endif; ?>
+				<h3 class="nl__article__title"><?= $node->title ?> <?= h_node_button( $node ) ?></h3>
+				<?php if( h_node_meta( $node ) ): ?>
+					<small class="nl__article__meta t-second-text"><?= h_node_meta( $node ) ?></small>
+				<?php endif; ?>
 			</header>
 		</article>
 	<?= $link ? '</a>' : '' ?>
@@ -20,6 +20,6 @@ $_gt->setup_node( $post );
 		<div class="nl__node__link t-second-border"></div>
 		<div class="nl__node__border t-second-border"></div>
 		<div class="nl__node__link-inner"></div>
-		<div class="nl__node__inner <?= $_gt->node_status_num == 3 ? 't-main-text t-main-border' : '' ?>"></div>
+		<div class="nl__node__inner <?= $node->status == 'publish' ? 't-main-text t-main-border' : '' ?>"></div>
 	</div>
 </li>

@@ -1,7 +1,4 @@
 <?php
-	global $_gt;
-	// var_dump( $_gt );
-
 	get_header();
 ?>
 
@@ -36,19 +33,19 @@
 		<div class="wrapper">
 			<div class="layout layout--center layout--spacehack">
 
-					<?php
-						if ( have_posts() ) :
-							while ( have_posts() ) : the_post();
+					<?php if ( have_posts() ): ?>
+						<?php while ( have_posts() ) : the_post(); ?>
 
-								print( '<div class="layout__item u-1/2-lap u-1/3-desk no-owl">' );
-								get_template_part( 'templates/teaser', $post->post_type );
-								print( '</div>' );
+							<div class="layout__item u-1/2-lap u-1/3-desk no-owl">
+								<?php get_template_part( 'templates/teaser', 'course' ); ?>
+							</div>
 
-							endwhile;
-						else :
-							_e( 'Sorry, no posts matched your criteria.' );
-						endif;
-					?>
+						<?php endwhile; ?>
+					<?php else : ?>
+
+						<p>Sorry, no posts matched your criteria.</p>
+
+					<?php endif;?>
 
 			</div>
 		</div><!-- /.wrapper -->
