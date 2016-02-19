@@ -155,18 +155,25 @@ function gt_unit_routing( $query ) {
 function gt_get_permalink( $object = 0, $after_url = '' ) {
 
 	// get object
-	$classes = array( 'Course', 'Unit', 'Exam', 'Lesson', 'Quizz' );
-	if( !in_array( get_class( $object ), $classes ) ) {
+	if( is_object( $object ) ) {
+
+		$classes = array( 'Course', 'Unit', 'Exam', 'Lesson', 'Quizz' );
+		$class = get_class( $object );
+		if( !in_array( $class, $classes ) ) {
+			if( $class === 'WP_Post' ) {
+				$object = gt_instantiate_object( $object );
+			} else {
+				return false;
+			}
+		}
+
+	} else {
 
 		if( is_numeric( $object ) ) {
-			$post = get_post( $object );
-		} elseif( get_class( $object ) === 'WP_Post' ) {
-			$post = $object;
+			$object = gt_instantiate_object( get_post( $object ) );
 		} else {
 			return false;
 		}
-
-		$object = gt_instantiate_object( $post );
 
 	}
 

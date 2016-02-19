@@ -70,16 +70,23 @@ function instantiate_the_controller( $wp ) {
 	// call controller action statically and pass get_queried_object() as argument
 	if( $controller ) {
 
-		global $post, $posts;
+		global $post, $posts, $wp_query;
 
-		$class = ucfirst($controller).'Controller';
+		$controller_class = ucfirst($controller).'Controller';
 
-		if( method_exists( $class, $action ) ) {
+		// save some debug information
+		$wp_query->debug = [
+			'model'      => ucfirst($controller),
+			'controller' => $controller_class,
+			'action'     => $action
+		];
+
+		if( method_exists( $controller_class, $action ) ) {
 
 			// if action exists: call the action as static method
 			switch ( $action ) {
-				case 'index': $posts = $class::$action( $posts ); break;
-				default:      $post  = $class::$action( $post  ); break;
+				case 'index': $posts = $controller_class::$action( $posts ); break;
+				default:      $post  = $controller_class::$action( $post  ); break;
 			}
 
 		} else {
@@ -105,7 +112,7 @@ function build_theme_css( $wp ) {
 	global $post;
 	$classes = array( 'Course', 'Unit', 'Exam', 'Lesson', 'Quizz' );
 
-	if( in_array( get_class($post), $classes ) ) {
+	if( is_object( $post ) && in_array( get_class($post), $classes ) ) {
 
 		add_filter( 'theme_css', 'add_theme_color', 10 );
 
