@@ -11,7 +11,6 @@
 				<div class="hero-frame hero-frame--box owl--narrow">
 					<h1 class="hero-frame__title shadow--strong-text">The Glad Tidings</h1>
 					<hr class="hero-frame__hr">
-					<!-- <div class="ero-frame__hr u-header-color"></div> -->
 					<p class="ero-frame__subtitle shadow--strong-text">What the Prophets of old want you to know</p>
 				</div>
 			</div><!-- /.wrapper -->

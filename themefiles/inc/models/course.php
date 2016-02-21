@@ -60,7 +60,7 @@ class Course extends Application
 		// calculate progress percentage
 		$total    = $this->num_lesson      + $this->num_quizz      + $this->num_exams;
 		$done     = $this->num_lesson_done + $this->num_quizz_done + $this->num_exams_done;
-		$progress = (int)round( ( $done / $total ) * 100 );
+		$progress = $total > 0 ? (int)round( ( $done / $total ) * 100 ) : 0;
 
 		// save progress
 		$this->progress = $progress > 100 ? 100 : $progress;

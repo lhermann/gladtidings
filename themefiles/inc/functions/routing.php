@@ -146,7 +146,6 @@ function instantiate_the_controller( $wp ) {
 	if( $controller ) {
 
 		global $post, $posts, $wp_query;
-		// var_dump($wp_query);
 
 		$controller_class = ucfirst($controller).'Controller';
 
@@ -157,7 +156,9 @@ function instantiate_the_controller( $wp ) {
 			'action'     => $action
 		];
 
-		if( method_exists( $controller_class, $action ) ) {
+		// var_dump( $wp_query, method_exists( $controller_class, $action ) );
+
+		if( method_exists( $controller_class, $action ) && ( $post || $posts ) ) {
 
 			// if action exists: call the action as static method
 			switch ( $action ) {
@@ -167,7 +168,9 @@ function instantiate_the_controller( $wp ) {
 
 		} else {
 
+
 			// if action doesn't exist: show 404 page
+			$wp_query->init();
 			$wp_query->set_404();
 
 			// wp_redirect( gt_get_permalink( $post ) );
@@ -211,12 +214,15 @@ function gt_unit_routing( $query ) {
 			 WHERE c.post_name = %s
 			 AND r.order = %d;
 			",
-			$query->query['course-name'],
-			$query->query['unit']
+			$query->get('course-name'),
+			$query->get('unit')
 		);
 		$slug = $wpdb->get_var( $sql );
-		$query->query_vars['unit'] = $slug;
-		$query->query_vars['name'] = $slug;
+
+		if( $slug ) {
+			$query->set( 'unit', $slug );
+			$query->set( 'name', $slug );
+		}
 
 	}
 }

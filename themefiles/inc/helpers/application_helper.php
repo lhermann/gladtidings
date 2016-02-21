@@ -57,12 +57,12 @@ function gt_instantiate_object( $post )
 		$post = get_post( $post );
 	} elseif( !is_object( $post ) ) {
 		return NULL;
-	} elseif( get_class($post) === 'WP_Post' ) {
-		return NULL;
 	}
 
 	// Include Model
-	require_once( dirname( __DIR__ ) . '/models/' . $post->post_type . '.php' );
+	$file = dirname( __DIR__ ) . '/models/' . $post->post_type . '.php';
+	if( !file_exists($file) ) return NULL;
+	require_once( $file );
 
 	// Instantiate object
 	$class = ucfirst( $post->post_type );
