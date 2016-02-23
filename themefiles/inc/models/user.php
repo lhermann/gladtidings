@@ -5,14 +5,19 @@
 
 class User
 {
-	public $ID, $name;
+	public $ID, $first_name, $last_name, $name, $role;
 	private $data;
 
 	function __construct()
 	{
-		$this->ID   = $this->ID();
-		$this->name = $this->name();
-		$this->data = $this->get_data();
+		global $current_user;
+
+		$this->ID         = $current_user->ID;
+		$this->first_name = $current_user->user_firstname;
+		$this->last_name  = $current_user->user_lastname;
+		$this->name       = $current_user->display_name;
+		$this->role       = '';
+		$this->data       = $this->get_data();
 	}
 
 
@@ -56,8 +61,10 @@ class User
 	/**
 	 * OUTPUT: (string) User Name
 	 */
-	public function name()
+	public function name( $key )
 	{
+		global $current_user;
+		var_dump($current_user->user_firstname, $current_user->user_lastname);
 		return wp_get_current_user() ? wp_get_current_user()->data->display_name : false;
 	}
 
@@ -189,5 +196,40 @@ class User
 		}
 
 		return $return;
+	}
+
+	/**
+	 * INPUT: Page String, eg: 'dashboard'
+	 */
+	public function url_to( $page = '' )
+	{
+		$page = $page == 'dashboard' ? '' : $page;
+		return esc_url( home_url( '/' ) . 'user/' . $page );
+	}
+
+	/**
+	 * INPUT:
+	 *   %args  -> possible arguments:
+	 *              'class'     = css class
+	 *              'title'     = link title="" attribute
+	 *              'attribute' = any attribute, eg. disabled
+	 *              'display'   = the link text or label (should be renamed label)
+	 */
+	public function link_to( $page = '', $args = array() )
+	{
+		switch ($page) {
+			default:
+			case 'dashboard': $title = __( 'Dashboard', 'gladtidings' );       break;
+			case 'settings' : $title = __( 'Settings', 'gladtidings' );        break;
+			case 'contact'  : $title = __( 'Write a Message', 'gladtidings' ); break;
+		}
+
+		return sprintf( '<a class="%2$s" href="%1$s" title="%3$s" %4$s>%5$s</a>',
+				$this->url_to( $page ),
+				isset( $args['class']     ) ? $args['class']     : '',
+				isset( $args['title']     ) ? $args['title']     : __('Permalink to:', 'gladtidings') . ' ' . $title,
+				isset( $args['attribute'] ) ? $args['attribute'] : '',
+				isset( $args['display']   ) ? $args['display']   : $title
+		);
 	}
 }

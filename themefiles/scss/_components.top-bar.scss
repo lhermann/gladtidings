@@ -93,15 +93,9 @@ $top-bar-avatar-size:	36px;
 		line-height: 0;
 		@extend %vertical-padding-reset;
 
-		// TEMPORARY
-		cursor: default;
-
-		&:hover {
-			.avatar {
-				box-shadow: 0 0 3px $color-suppl;
-			}
+		&:hover > .avatar {
+			box-shadow: 0 0 3px $color-suppl;
 		}
-
 	}
 
 	.tb__avatar__name {
@@ -116,13 +110,63 @@ $top-bar-avatar-size:	36px;
 	.avatar {
 		border-radius: $base-border-radius;
 	}
+
+	&:hover {
+		background-color: $color-hover-bg;
+		border-left: 1px solid $color-border;
+	}
 }
 
-/* any item that is a simple link */
-.top-bar__item--link {
-	a {
-		@extend %vertical-padding-reset;
+.top-bar__user-menu {
+	position: absolute;
+	z-index: 999;
+	right: halve($base-spacing-unit);
+
+	display: none;
+	padding: halve($base-spacing-unit) $base-spacing-unit;
+
+	background-color: $color-hover-bg;
+	box-shadow: 3px 3px 3px 0 rgba(0, 0, 0, 0.15);
+
+	.top-bar__item--avatar:hover & {
+		display: block;
 	}
+
+}
+
+.user-menu {
+
+	list-style: none;
+	line-height: 1.5;
+
+	&__item {
+		margin-left: 72px;
+		padding: quarter($base-spacing-unit) 0;
+	}
+
+	&__item:not(:last-child) {
+		border-bottom: 1px solid $color-border;
+	}
+
+	&__identity {
+		.avatar {
+			position: absolute;
+			left: $base-spacing-unit;
+		}
+		.user-menu__name {
+			font-weight: bold;
+		}
+	}
+
+}
+
+
+
+
+
+/* any item that is a simple link */
+.top-bar__item--link > a {
+		@extend %vertical-padding-reset;
 }
 
 /* the menu icon
@@ -154,6 +198,9 @@ $top-bar-avatar-size:	36px;
 		margin: 0 0 0.75em 0.6rem;
 	}
 }
+
+
+
 
 /*
  * Helper Silent Extensions

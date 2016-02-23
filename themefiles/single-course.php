@@ -1,6 +1,6 @@
 <?php
 	get_header();
-	// var_dump( $post->children[3] );
+	// var_dump( $user );
 ?>
 
 	<header id="page-header">
