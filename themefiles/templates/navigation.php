@@ -34,6 +34,7 @@
 						<li class="user-menu__item"><?= $user->link_to( 'dashboard' ) ?></li>
 						<li class="user-menu__item"><?= $user->link_to( 'settings' ) ?></li>
 						<li class="user-menu__item"><?= $user->link_to( 'contact' ) ?></li>
+						<li class="user-menu__item"><?php wp_loginout( $_SERVER['REQUEST_URI'] ); ?></li>
 					</ul>
 				</div>
 			</li>
