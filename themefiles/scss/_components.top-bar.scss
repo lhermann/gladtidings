@@ -35,11 +35,11 @@ $top-bar-avatar-size:	36px;
 		display: inline-block;
 		padding: 0 12px;
 
-		line-height: $top-bar-height - 0.1px;
+		line-height: $top-bar-height;
 		// line-height: px-to-rem( $top-bar-height - 0.1px );
 
 		a {
-			display: inline;
+			// display: inline;
 			vertical-align: middle;
 			border-bottom-width: 0;
 
@@ -111,57 +111,41 @@ $top-bar-avatar-size:	36px;
 		border-radius: $base-border-radius;
 	}
 
-	&:hover {
+	&:hover, &.flyoutActive {
 		background-color: $color-hover-bg;
-		border-left: 1px solid $color-border;
 	}
 }
 
+/**
+ * The user menu
+ * Mobile users will be presented with the flyout
+ * Desktop users will see a dropdown
+ */
+
+/* Mobile */
 .top-bar__user-menu {
-	position: absolute;
-	z-index: 999;
-	right: halve($base-spacing-unit);
-
 	display: none;
-	padding: halve($base-spacing-unit) $base-spacing-unit;
-
-	background-color: $color-hover-bg;
-	box-shadow: 3px 3px 3px 0 rgba(0, 0, 0, 0.15);
-
-	.top-bar__item--avatar:hover & {
-		display: block;
-	}
-
 }
 
-.user-menu {
+/* Desktop */
+@include media-query(desk) {
+	.top-bar__user-menu {
+		position: absolute;
+		z-index: 999;
+		right: halve($base-spacing-unit);
 
-	list-style: none;
-	line-height: 1.5;
+		display: none;
+		padding: $base-spacing-unit;
 
-	&__item {
-		margin-left: 72px;
-		padding: quarter($base-spacing-unit) 0;
-	}
+		background-color: $color-hover-bg;
+		box-shadow: 3px 3px 3px 0 rgba(0, 0, 0, 0.15);
 
-	&__item:not(:last-child) {
-		border-bottom: 1px solid $color-border;
-	}
-
-	&__identity {
-		.avatar {
-			position: absolute;
-			left: $base-spacing-unit;
+		.top-bar__item--avatar:hover & {
+			display: block;
 		}
-		.user-menu__name {
-			font-weight: bold;
-		}
-	}
 
+	}
 }
-
-
-
 
 
 /* any item that is a simple link */

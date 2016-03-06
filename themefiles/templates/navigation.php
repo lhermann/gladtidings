@@ -1,7 +1,7 @@
 <?php
-	global $nav_overlay, $user;
+	global $user;
 ?>
-<nav class="top-bar <?php if( isset( $nav_overlay ) ) echo 'top-bar--overlay'; ?> owl--off" role="navigation">
+<nav id="page-navigation" class="top-bar owl--off shadow--drop" role="navigation">
 
 	<a class="skip-link u-screen-reader-text" href="#content"><?= __( 'Skip to content', 'gladtidings' ) ?></a>
 
@@ -20,12 +20,12 @@
 
 		<?php if( is_user_logged_in() ): ?>
 			<li class="top-bar__item top-bar__item--avatar">
-				<a class="tb__avatar__link" href="<?= $user->url_to() ?>" title="<?= __( 'Profile', 'gladtidings' ) ?>">
+				<a id="flyoutButton" class="tb__avatar__link flyoutButton" href="<?= $user->url_to() ?>" title="<?= __( 'Profile', 'gladtidings' ) ?>" data-flyout="right">
 					<span class="tb__avatar__name"><?= sprintf( __( 'Hello %s', 'gladtidings' ), $user->name ) ?></span>
 					<?= get_avatar( $user->ID, 36 ) ?>
 				</a>
 				<div id="user-menu" class="top-bar__user-menu">
-					<ul class="user-menu">
+					<ul class="user-menu user-menu--mouse">
 						<li class="user-menu__item user-menu__identity">
 							<?= get_avatar( $user->ID, 60 ) ?>
 							<div class="user-menu__name"><?= $user->first_name . ' ' . $user->last_name ?></div>

@@ -2,44 +2,59 @@
     #FLYOUT
 \*------------------------------------*/
 
-/**
- * Toggle class .flyout--active class .flyout is present
- */
-var toggleFlyout = function( action ) {
-	var page = document.getElementById("container");
-	var bodyClasses = page.getAttribute("class").split(" ");
-	if( bodyClasses.indexOf("flyout") >= 0 ) {
-
-		var key = bodyClasses.indexOf("flyout--active");
-		if ( key >= 0 ) {
-			bodyClasses.splice(key, 1);
-			page.setAttribute("class", bodyClasses.join(" "));
-		} else if ( action !== "close" ) {
-			bodyClasses.push("flyout--active");
-			page.setAttribute("class", bodyClasses.join(" "));
-		}
-
-	}	
-}
-
 // Toggle flyout on button click
 window.onload = function() {
-	var flyoutButton = document.getElementById("flyout-button");
-	if( flyoutButton !== null ) {
-		flyoutButton.onclick = function(event) {
-			toggleFlyout();
-			event.preventDefault();
+	// get array of flyout activator buttons
+	var buttonArray = Array.from(document.getElementsByClassName("flyoutButton"));
+	// console.log(buttonArray);
+	if( buttonArray !== null ) {
+		buttonArray.forEach( function( button, index ) {
+			button.onclick = function(event) {
+				var container = document.getElementById("container");
+				var side      = button.getAttribute("data-flyout");
+				toggleClass( container, "has-flyout--" + side + "-active", "has-flyout" );
+				toggleClass( button.parentNode, "flyoutActive" );
+				event.preventDefault();
+			}
+		});
+	}
+}
+
+/**
+ * Toggle a class on an element
+ * INPUT:
+ *   element          = the element to toggle the class on
+ *   toggleClass      = the css class
+ *   conditionalClass = (optional) css class that must be present
+ *   limitTo          = (optional) "remove" | "add"
+ */
+var toggleClass = function( element, toggleClass, conditionalClass, limitTo ) {
+
+	// get the classes array
+	var classes = element.getAttribute("class").split(" ");
+
+	// check if the conditionalClass is present
+	if( conditionalClass == null || classes.indexOf(conditionalClass) >= 0 ) {
+
+		// check if the class is present
+		var key = classes.indexOf(toggleClass);
+
+		// toggle the class
+		if ( key >= 0 && limitTo != "add" ) {
+			classes.splice(key, 1);
+			element.setAttribute("class", classes.join(" "));
+		} else if ( limitTo != "remove" ) {
+			classes.push(toggleClass);
+			element.setAttribute("class", classes.join(" "));
 		}
-		var flyoutClose = document.getElementById("flyout-close");
-		flyoutClose.onclick = function(event) {
-			toggleFlyout("close");
-			event.preventDefault();
-		}
+
 	}
 }
 
 // Deactivate flyout on resize
 window.onresize = function() {
-	toggleFlyout("close");
+	var container = document.getElementById("container");
+	toggleClass( container, "has-flyout--left-active", null, "remove" );
+	toggleClass( container, "has-flyout--right-active", null, "remove" );
 }
 

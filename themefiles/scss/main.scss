@@ -152,8 +152,6 @@
  * OOCSS and Framework
  * no cometics
  */
-@import	"objects.container";
-
 		$inuit-enable-layout--center:   true;
 		$inuit-enable-layout--rev:		true;
 		$inuit-enable-layout--middle:	true;
@@ -223,27 +221,25 @@
  * the cosmetics
  */
 @import	"components.top-bar";
-@import	"components.page-hero";
+@import	"components.container";
+@import	"components.page-content";
+@import	"components.flyout";
 @import	"components.page-footer";
 
+@import	"components.content-header";
+@import	"components.content-body";
+
+@import	"components.page-hero";
 @import	"components.foundation-icons";
 @import	"components.nodelist";
 @import	"components.progress";
 @import	"components.embed";
 @import	"components.breadcrumbs";
-@import	"components.flyout";
 @import	"components.teaser";
 @import	"components.form";
+@import	"components.user-menu";
 
-		// I don't know what this one is used for
-		// .progress--panel {
-		// 	border-color: $color-border;
-		// 	.meter {
-		// 		color: #fff;
-		// 		font-size: 80%;
-		// 	}
-		// }
-
+		// This tag is not really self documenting, should be removed!
 		.colorbg {
 			background-color: $color-panel-bg;
 			padding: $base-spacing-unit 0;
@@ -253,7 +249,7 @@
 /*
  * ITCSS Stage 7: Themes
  *
- * Namespace: t-
+ * Namespace: t
  */
 @import "themes.default";
 
@@ -263,7 +259,8 @@
  * Highly specific functions that overwrite everything
  * !important
  *
- * Namespace: u-
+ * Namespace: u
+ * TODO: Some tags still use the namespace t, should be changed to u
  */
 @import	"inuit-widths/trumps.widths";
 @import	"inuit-widths-responsive/trumps.widths-responsive";

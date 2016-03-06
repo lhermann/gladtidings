@@ -1,0 +1,76 @@
+/*------------------------------------*\
+    #USER-MENU
+\*------------------------------------*/
+
+/**
+ * Common styling for the User Menu
+ */
+.user-menu {
+
+	list-style: none;
+	line-height: 1.5;
+
+	&__item {
+		a {
+			display: block;
+			border-bottom: none;
+		}
+	}
+
+	&__item:not(:last-child) {
+		border-bottom: 1px solid $color-border;
+	}
+
+	&__identity {
+		.user-menu__name {
+			font-weight: bold;
+		}
+	}
+
+}
+
+/**
+ * User Menu for touch devices
+ * Located in the right flyout
+ */
+.user-menu--touch {
+
+	.user-menu__item {
+		text-align: center;
+		a {
+			line-height: 3rem;
+		}
+	}
+
+	.user-menu__identity {
+		padding-bottom: $base-spacing-unit;
+		.user-menu__name {
+			font-size: 1.2;
+		}
+	}
+
+}
+
+
+/**
+ * User Menu for mouse pointer devices
+ * Revealed as dropdown when hovering the User Avatar
+ */
+.user-menu--mouse {
+
+	max-width: 260px;
+
+	.user-menu__item {
+		margin-left: 72px;
+	}
+
+	.user-menu__identity {
+		padding: quarter($base-spacing-unit);
+		.avatar {
+			position: absolute;
+			top: $base-spacing-unit;
+			left: $base-spacing-unit;
+		}
+	}
+
+}

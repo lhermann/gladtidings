@@ -16,9 +16,8 @@
 </head>
 <body <?php body_class(); ?>>
 
-	<div id="container" class="container <?php container_class(); ?>">
+	<?php get_template_part( 'templates/navigation' ); ?>
 
-	<?php
-	// global $wp_query;
-	// var_dump( $wp_query );
-	?>
+	<div id="container" class="container u-spacing--off <?php container_class(); ?>">
+
+		<main id="page-content" class="page-content" role="main">

@@ -7,11 +7,11 @@
 
 	<ul class="top-bar__left flyout__top-bar">
 		<li class="top-bar__item top-bar__item--title t-main-text"><?= __('Unit Overview', 'gladtidings') ?></li>
-		<li class="top-bar__item top-bar__item--button flyout__close"><button id="flyout-close" class="btn btn--small btn--theme" title="<?= __( 'Close', 'gladtidings' ) ?>"><span class="fi fi-x"></span></button></li>
+		<li class="top-bar__item top-bar__item--button flyout__deactivator"><button id="flyout-close" class="btn btn--small btn--theme" title="<?= __( 'Close', 'gladtidings' ) ?>"><span class="fi fi-x"></span></button></li>
 	</ul>
 
 	<ul class="top-bar__left">
-		<li class="top-bar__item top-bar__item--button flyout__button"><button id="flyout-button" class="btn btn--dark btn--small" title="<?= __( 'Unit', 'gladtidings' ) ?>"><?= __( 'Unit', 'gladtidings' ) ?></button></li>
+		<li class="top-bar__item top-bar__item--button flyout__activator"><button id="flyout-button" class="btn btn--dark btn--small" title="<?= __( 'Unit', 'gladtidings' ) ?>"><?= __( 'Unit', 'gladtidings' ) ?></button></li>
 
 		<li class="top-bar__item tb__title">
 			<a class="tb__title__link" href="<?= esc_url( home_url( '/' ) ); ?>" rel="bookmark">

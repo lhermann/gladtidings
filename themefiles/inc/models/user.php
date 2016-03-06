@@ -226,7 +226,7 @@ class User
 
 		return sprintf( '<a class="%2$s" href="%1$s" title="%3$s" %4$s>%5$s</a>',
 				$this->url_to( $page ),
-				isset( $args['class']     ) ? $args['class']     : '',
+				isset( $args['class']     ) ? $args['class']     : 'permalink',
 				isset( $args['title']     ) ? $args['title']     : __('Permalink to:', 'gladtidings') . ' ' . $title,
 				isset( $args['attribute'] ) ? $args['attribute'] : '',
 				isset( $args['display']   ) ? $args['display']   : $title

@@ -1,0 +1,12 @@
+/*------------------------------------*\
+    #CONTENT-HEADER
+\*------------------------------------*/
+
+/**
+ * [1] If there is a h1 element within .content-header (which is desired),
+ *     then the it's margin will collapse with the enclosing .container.
+ *     To avoid this, a vertical padding is added to contain the h1 margin.
+ */
+.content-header {
+	padding: 1rem 0; /* [1] */
+}

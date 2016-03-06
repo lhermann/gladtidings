@@ -6,92 +6,133 @@
  * Color Scheme & Settings
  */
 
-
-$flyout-width:			90%;
+$flyout-width:			80%;
 
 
 /**
- * .flyout is a body_class adding a distinctive off-canvass background 
+ * .flyout is a class on the container adding a distinctive off-canvass background
  * through the whole height for the flyout
  */
-.flyout:before,
-.flyout>.wrapper:before {
-	position: absolute;
-	z-index: -1;
-	top: 0;
-	height: 100%;
-	background-color: $color-panel-bg;
-}
-@include media-query(palm) {
-	.flyout:before {
-		content: " ";
-		left: -100%;
-		width: 100%;
-	}
-}
-@include media-query(lap-and-up) {
-	.flyout>.wrapper:before {
-		content: " ";
-		left: 0;
-		width: 25%;
-		height: calc(100% + 1.5em );
-	}
-}
-@include media-query(desk) {
-	.flyout>.wrapper:before {
-		left: $spacing-unit--small;
-	}
-}
+// .flyout:before,
+// .flyout>.wrapper:before {
+// 	position: absolute;
+// 	z-index: -1;
+// 	top: 0;
+// 	height: 100%;
+// 	background-color: $color-panel-bg;
+// }
+// @include media-query(palm) {
+// 	.flyout:before {
+// 		content: " ";
+// 		left: -100%;
+// 		width: 100%;
+// 	}
+// }
+// @include media-query(lap-and-up) {
+// 	.flyout>.wrapper:before {
+// 		content: " ";
+// 		left: 0;
+// 		width: 25%;
+// 		height: calc(100% + 1.5em );
+// 	}
+// }
+// @include media-query(desk) {
+// 	.flyout>.wrapper:before {
+// 		left: $spacing-unit--small;
+// 	}
+// }
 
-.flyout>.wrapper { position: relative; }
+// .flyout>.wrapper { position: relative; }
 
-.flyout {
+/**
+ * Styles on the #container element
+ */
+.has-flyout {
+
 	position: relative;
-	transition: left 0.3s;
-	
-	// Part of top-bar that is really part of the flyout
-	&__top-bar {
+	transition: left 0.3s, right 0.3s;
+
+	// Provide a full height background for the flyout
+	&--right:after {
+		content: "";
 		position: absolute;
-		z-index: 3;
-		left: -$flyout-width;
+		z-index: -1;
+		top: 0;
+		left: 100%;
+		height: 100%;
 		width: $flyout-width;
-
-		.top-bar__item--title {
-			font-size: halve($top-bar-height);
-		}
+		background-color: $color-hover-bg;
 	}
 
-	// Show Flyout Button
-	&__button {
-		@include media-query(lap-and-up) {
-			display: none;
-		}
-	}
-	
-	// Close Flyout Button
-	&__close {
-		float: right;
-	}
+	// // Part of top-bar that is really part of the flyout
+	// &__top-bar {
+	// 	position: absolute;
+	// 	z-index: 3;
+	// 	left: -$flyout-width;
+	// 	width: $flyout-width;
+
+	// 	.top-bar__item--title {
+	// 		font-size: halve($top-bar-height);
+	// 	}
+	// }
+
+	// // Show Flyout Button
+	// &__activator {
+	// 	@include media-query(lap-and-up) {
+	// 		display: none;
+	// 	}
+	// }
+
+	// // Close Flyout Button
+	// &__deactivator {
+	// 	float: right;
+	// }
 
 }
 
-.flyout--active {
+.has-flyout--left-active {
 	left: $flyout-width;
 }
+
+.has-flyout--right-active {
+	right: $flyout-width;
+}
+
+
+/**
+ * Styles on the flyout elements
+ */
+.flyout {
+	position: absolute;
+	top: 0;
+	left: 100%;
+	width: $flyout-width;
+
+	&__left {
+		left: -100%;
+	}
+
+	&__right {
+		left: 100%;
+	}
+}
+
+
+
 
 /**
  * Utility class to pull the content into the flyout
  */
-.u-flyout-palm {
-	@include media-query(palm) {
-		position: absolute;
-		z-index: 2;
-		top: 0;
-		left: -$flyout-width;
-		width: $flyout-width;
-		height: 100%;
-	}
-}
+// .u-flyout-palm {
+// 	@include media-query(palm) {
+// 		position: absolute;
+// 		z-index: 2;
+// 		top: 0;
+// 		left: -$flyout-width;
+// 		width: $flyout-width;
+// 		height: 100%;
+// 	}
+// }
 
 /**
  * Theming
@@ -103,7 +144,7 @@ $color-flyout-text:		#ffffe5;
 $color-flyout-text-alt:	desaturate( darken($color-flyout-text, 20%), 30%);
 
 .t-theme1 {
-	
+
 	.flyout:before,
 	.flyout>.wrapper:before {
 		background-color: $color-flyout-bg;
@@ -134,7 +175,7 @@ $color-flyout-text-alt:	desaturate( darken($color-flyout-text, 20%), 30%);
 		.nl__article__header { color: $color-flyout-text-alt; }
 		.nl__node {
 			&__link { border-color: $color-flyout-text-alt; }
-			&__border { 
+			&__border {
 				border-color: $color-flyout-text;
 				background-color: $color-flyout-text;
 			}

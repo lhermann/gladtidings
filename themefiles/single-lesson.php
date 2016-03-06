@@ -1,7 +1,7 @@
 <?php
 	// prepare flyout
 	add_filter( 'container_class', function( $classes ){
-		return $classes + array( 'flyout' );
+		return $classes + array( 'flyout', 'flyout--left' );
 	});
 
 	get_header();
