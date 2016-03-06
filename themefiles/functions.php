@@ -50,6 +50,19 @@ function build_theme_css( $wp ) {
 	}
 
 }
+/**
+ * Setup Flyouts
+ */
+add_action( 'wp', 'setup_flyout', 12, 1 );
+function setup_flyout( $wp ) {
+
+	if( is_user_logged_in() ) {
+		add_filter( 'container_class', function( $classes ){
+			return $classes + array( 'has-flyout', 'has-flyout--right' );
+		});
+	}
+
+}
 
 /*------------------------------------*\
 	Theme Setup

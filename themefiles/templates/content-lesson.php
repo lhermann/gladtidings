@@ -1,4 +1,4 @@
-<article id="post-<?php the_ID(); ?>" <?php post_class( 'h-entry' ); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class( 'wrapper h-entry' ); ?>>
 	<header class="hgroup">
 		<h1 class="hgroup__title"><span class="label label--small label--theme"><?= $post->order ?></span> <?= $post->title ?></h1>
 	</header>

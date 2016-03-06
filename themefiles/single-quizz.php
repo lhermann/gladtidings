@@ -1,49 +1,37 @@
-<?php
-	// prepare flyout
-	add_filter( 'container_class', function( $classes ){
-		return $classes + array( 'flyout' );
-	});
+<?php get_header(); ?>
 
-	get_header();
-?>
+	<div id="content-body" class="content-body wrapper">
 
-	<header id="page-header" class="shadow--drop">
+		<div class="layout layout--flush layout--rev layout--spacehack">
 
-		<?php get_template_part( 'templates/navigation', 'quizz' ); ?>
+			<section class="layout__item u-3/4-desk u-3/4-lap">
 
-	</header>
+				<article id="post-<?= $post->ID ?>" <?php post_class( 'wrapper h-entry u-spacing--top' ); ?>>
 
-	<div class="wrapper wrapper--desk t-margin-reset--top">
-		<div id="page-content" class="layout layout--flush layout--rev layout--spacehack">
-			<main class="layout__item u-3/4-desk u-3/4-lap" role="main">
+					<header class="hgroup">
+						<h1 class="hgroup__title"><span class="label label--small label--theme"><?= $post->order ?></span> <?= $post->title ?></h1>
+						<h2 class="hgroup__subtitle"><?= h_subtitle( $post ) ?></h2>
+					</header>
 
-				<div class="wrapper">
+					<?php get_template_part( 'templates/content-quizz', get_query_var( 'action' ) ); ?>
 
-					<article id="post-<?= $post->ID ?>" <?php post_class( 'h-entry u-spacing--top' ); ?>>
+					<footer class="u-text--right">
+						<?php if( !get_query_var( 'action' ) ): ?>
+							<?= h_continue_btn( $post, ( $post->is_done() ? '' : 'disabled' ) ); ?>
+						<?php endif; ?>
+					</footer>
+				</article>
 
-						<header class="hgroup">
-							<h1 class="hgroup__title"><span class="label label--small label--theme"><?= $post->order ?></span> <?= $post->title ?></h1>
-							<h2 class="hgroup__subtitle"><?= h_subtitle( $post ) ?></h2>
-						</header>
+			</section>
 
-						<?php get_template_part( 'templates/content-quizz', get_query_var( 'action' ) ); ?>
-
-						<footer class="u-text--right">
-							<?php if( !get_query_var( 'action' ) ): ?>
-								<?= h_continue_btn( $post, ( $post->is_done() ? '' : 'disabled' ) ); ?>
-							<?php endif; ?>
-						</footer>
-					</article>
-
-				</div>
-
-			</main>
 			<aside class="layout__item u-1/4-lap-and-up u-spacing--off u-flyout-palm" role="complementary">
 
 				<?php get_template_part( 'templates/content', 'flyout' ); ?>
 
 			</aside>
-		</div><!-- /#page-content /.layout -->
-	</div>
+
+		</div><!-- /.layout -->
+
+	</div><!-- /#content-body /.wrapper -->
 
 <?php get_footer(); ?>

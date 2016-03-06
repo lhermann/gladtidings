@@ -1,10 +1,6 @@
 <?php get_header(); ?>
 
-<?php
-//var_dump($userdata);
-?>
-
-	<header id="page-header" class="page-hero t-header-image">
+	<header id="content-header" class="content-header page-hero t-header-image">
 
 		<div class="wrapper">
 			<div class="page-hero__frame">
@@ -15,18 +11,12 @@
 	</header>
 
 
-	<main id="page-content">
+	<div id="content-body" class="content-body wrapper">
 
-		<div class="wrapper">
+		<h2>Single Page</h2>
 
-			<?php var_dump($post); ?>
+		<?php var_dump($post); ?>
 
-		</div><!-- /.wrapper -->
-
-		<div class="wrapper">
-
-		</div><!-- /.wrapper -->
-
-	</main>
+	</div><!-- /.wrapper -->
 
 <?php get_footer(); ?>

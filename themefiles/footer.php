@@ -3,7 +3,6 @@
  * Template Footer
  */
 ?>
-
 		</main>
 
 		<?php get_template_part( 'templates/flyout', 'right' ); ?>

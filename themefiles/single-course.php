@@ -1,13 +1,7 @@
-<?php
-	get_header();
-	// var_dump( $user );
-?>
+<?php get_header(); ?>
 
-	<header id="page-header">
+	<header id="content-header" class="content-header page-hero shadow--receive t-header-image">
 
-		<?php get_template_part( 'templates/navigation', 'course' ); ?>
-
-		<div class="page-hero shadow--receive t-header-image">
 			<div class="wrapper">
 				<div class="hero-frame hero-frame--course">
 					<div class="hero-frame__badge">
@@ -21,14 +15,13 @@
 					</h1>
 				</div>
 			</div><!-- /.wrapper -->
-		</div>
 
 	</header>
 
 
-	<main id="page-content" role="main">
+	<div id="content-body" class="content-body wrapper">
 
-		<section id="progress" class="wrapper">
+		<section id="progress">
 
 				<h2 class="u-screen-reader-text"><?= __( 'Progress', 'gladtidings' ) ?></h2>
 
@@ -44,54 +37,55 @@
 
 		</section>
 
-		<div class="wrapper">
-			<div class="layout layout--spacehack">
-				<section id="units" class="layout__item u-2/3-desk">
+		<div class="layout layout--spacehack">
 
-					<h2 class="t-second-text"><?= __( 'Units', 'gladtidings' ); ?></h2>
+			<section id="units" class="layout__item u-2/3-desk">
 
-					<?php
-						//get all the units
-						$children = $post->children();
+				<h2 class="t-second-text"><?= __( 'Units', 'gladtidings' ); ?></h2>
 
-						// check if the repeater field has rows of data
-						if( $children ) {
+				<?php
+					//get all the units
+					$children = $post->children();
 
-							print( '<ul class="nodelist nodelist--course">' );
+					// check if the repeater field has rows of data
+					if( $children ) {
 
-							// loop through the units
-							foreach ( $children as $key => $node ) {
+						print( '<ul class="nodelist nodelist--course">' );
 
-								get_template_part( 'templates/node', $node->type );
+						// loop through the units
+						foreach ( $children as $key => $node ) {
 
-							}
-
-							print( '</ul><!-- /.nodelist -->' );
-
-						} else {
-
-							_e( 'No Units!' );
+							get_template_part( 'templates/node', $node->type );
 
 						}
-					?>
 
-				</section>
-				<aside class="layout__item no-owl-desk u-1/3-desk">
+						print( '</ul><!-- /.nodelist -->' );
 
-					<?php
-						$description = get_field( 'course_description' );
-						if( $description ): ?>
+					} else {
 
-						<h2 class="t-second-text"><?= __( 'Description', 'gladtidings' ) ?></h2>
-						<p><?= $description ?></p>
+						_e( 'No Units!' );
 
-					<?php endif; ?>
+					}
+				?>
 
-				</aside>
-			</div>
+			</section>
 
-		</div><!-- /.wrapper -->
+			<aside class="layout__item no-owl-desk u-1/3-desk">
 
-	</main>
+				<?php
+					$description = get_field( 'course_description' );
+					if( $description ): ?>
+
+					<h2 class="t-second-text"><?= __( 'Description', 'gladtidings' ) ?></h2>
+					<p><?= $description ?></p>
+
+				<?php endif; ?>
+
+			</aside>
+
+		</div><!-- /.layout -->
+
+	</div><!-- /#content-body /.wrapper -->
+
 
 <?php get_footer(); ?>

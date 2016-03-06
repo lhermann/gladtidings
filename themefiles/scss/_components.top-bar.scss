@@ -14,6 +14,9 @@ $top-bar-avatar-size:	36px;
  */
 
 .top-bar {
+	position: relative;
+	z-index: 99;
+
 	height: $top-bar-height;
 	font-size: $base-font-size;
 	background-color: #fff;
@@ -47,21 +50,6 @@ $top-bar-avatar-size:	36px;
 		}
 	}
 
-}
-
-/*
- * Variations
- */
-
-/* the top-bar stays on top of the page-hero with transparent background */
-.top-bar--overlay {
-	position: absolute;
-	width: 100%;
-	background-color: transparent;
-
-	.top-bar__item--title {
-		display: none;
-	}
 }
 
 /* the page title,
@@ -197,7 +185,3 @@ $top-bar-avatar-size:	36px;
 	padding-left: 0;
 	padding-right: 0;
 }
-
-
-
-

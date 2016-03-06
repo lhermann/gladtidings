@@ -1,42 +1,25 @@
-<?php
-	// prepare flyout
-	add_filter( 'container_class', function( $classes ){
-		return $classes + array( 'flyout', 'flyout--left' );
-	});
+<?php get_header(); ?>
 
-	get_header();
-?>
+	<div id="content-body" class="content-body wrapper wrapper--desk">
 
-	<header id="page-header" class="shadow--drop">
-
-		<?php get_template_part( 'templates/navigation', 'lesson' ); ?>
-
-	</header>
-
-	<div id="content" class="wrapper wrapper--desk no-owl">
 		<div class="layout layout--flush layout--rev layout--spacehack">
-			<main class="layout__item u-3/4-desk u-3/4-lap" role="main">
 
+			<section class="layout__item u-3/4-desk u-3/4-lap">
 
-				<div class="wrapper wrapper--paddingless">
+				<?php get_template_part( 'templates/content', 'embed' ); ?>
 
-					<?php get_template_part( 'templates/content', 'embed' ); ?>
+				<?php get_template_part( 'templates/content', 'lesson' ); ?>
 
-				</div><!-- /.wrapper -->
-				<div class="wrapper">
+			</section>
 
-					<?php get_template_part( 'templates/content', 'lesson' ); ?>
-
-				</div>
-
-
-			</main>
 			<aside class="layout__item u-1/4-lap-and-up u-spacing--off u-flyout-palm" role="complementary">
 
 				<?php get_template_part( 'templates/content', 'flyout' ); ?>
 
 			</aside>
-		</div><!-- /#page-content /.layout -->
-	</div>
+
+		</div><!-- /.layout -->
+
+	</div><!-- /#content-body /.wrapper -->
 
 <?php get_footer(); ?>

@@ -1,54 +1,44 @@
-<?php
-	get_header();
-?>
+<?php get_header(); ?>
 
-	<header id="page-header">
+	<header id="content-header" class="content-header page-hero shadow--receive t-header-image">
 
-		<?php get_template_part( 'templates/navigation', 'home' ); ?>
-
-		<div class="page-hero shadow--receive t-header-image">
-			<div class="wrapper">
-				<div class="hero-frame hero-frame--box owl--narrow">
-					<h1 class="hero-frame__title shadow--strong-text">The Glad Tidings</h1>
-					<hr class="hero-frame__hr">
-					<p class="ero-frame__subtitle shadow--strong-text">What the Prophets of old want you to know</p>
-				</div>
-			</div><!-- /.wrapper -->
-		</div>
+		<div class="wrapper">
+			<div class="hero-frame hero-frame--box owl--narrow">
+				<h1 class="hero-frame__title shadow--strong-text">The Glad Tidings</h1>
+				<hr class="hero-frame__hr">
+				<p class="ero-frame__subtitle shadow--strong-text">What the Prophets of old want you to know</p>
+			</div>
+		</div><!-- /.wrapper -->
 
 	</header>
 
 
-	<main id="page-content">
+	<div id="content-body" class="content-body wrapper">
 
-		<div class="wrapper">
-			<div class="layout layout--center">
-				<div class="layout__item u-2/3-lap-and-up">
-					<p class="lede u-text--center">A short description of the course so people know what this website is about. This is a course about the ancient writings of the prophets and applicability today.</p>
-				</div>
+		<div class="layout layout--center">
+			<div class="layout__item u-2/3-lap-and-up">
+				<p class="lede u-text--center">A short description of the course so people know what this website is about. This is a course about the ancient writings of the prophets and applicability today.</p>
 			</div>
-		</div><!-- /.wrapper -->
+		</div>
 
-		<div class="wrapper">
-			<div class="layout layout--center layout--spacehack">
+		<div class="layout layout--center layout--spacehack">
 
-					<?php if ( have_posts() ): ?>
-						<?php while ( have_posts() ) : the_post(); ?>
+				<?php if ( have_posts() ): ?>
+					<?php while ( have_posts() ) : the_post(); ?>
 
-							<div class="layout__item u-1/2-lap u-1/3-desk no-owl">
-								<?php get_template_part( 'templates/teaser', 'course' ); ?>
-							</div>
+						<div class="layout__item u-1/2-lap u-1/3-desk no-owl">
+							<?php get_template_part( 'templates/teaser', 'course' ); ?>
+						</div>
 
-						<?php endwhile; ?>
-					<?php else : ?>
+					<?php endwhile; ?>
+				<?php else : ?>
 
-						<p>Sorry, no posts matched your criteria.</p>
+					<p>Sorry, no posts matched your criteria.</p>
 
-					<?php endif;?>
+				<?php endif;?>
 
-			</div>
-		</div><!-- /.wrapper -->
+		</div>
 
-	</main>
+	</div><!-- /#content-body /.wrapper -->
 
 <?php get_footer(); ?>

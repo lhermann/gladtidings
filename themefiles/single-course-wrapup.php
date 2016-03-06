@@ -1,19 +1,17 @@
-<?php
-	get_header();
-?>
+<?php get_header(); ?>
 
-	<header id="page-header" class="shadow--drop">
+	<header id="content-header" class="content-header">
 
-		<?php get_template_part( 'templates/navigation', 'course' ); ?>
+		<h1>Course Wrapup</h1>
 
 	</header>
 
-	<main id="page-content" role="main">
+	<div id="content-body" class="content-body wrapper">
 
-		<p class="lede u-text--center">Here go nice Wrap-Up information</p>
+		<p class="lede u-text--center">Here goes nice Wrap-Up information</p>
 
 		<?php var_dump( $post ); ?>
 
-	</main>
+	<div id="content-body" class="content-body wrapper">
 
 <?php get_footer(); ?>
