@@ -15,6 +15,9 @@
 			display: block;
 			border-bottom: none;
 		}
+		a.active {
+			border-left: 3px $color-success solid;
+		}
 	}
 
 	&__item:not(:last-child) {

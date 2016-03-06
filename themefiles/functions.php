@@ -156,13 +156,13 @@ add_action( 'admin_menu', 'remove_menus' );
  * (1) Remove Comments Display
  * (2) Remove 'Add Post' and 'Add Page'
  */
+add_action( 'wp_before_admin_bar_render', 'my_tweaked_admin_bar' );
 function my_tweaked_admin_bar() {
 	global $wp_admin_bar;
 	$wp_admin_bar->remove_menu('comments'); // (1)
 	$wp_admin_bar->remove_menu('new-post'); // (2)
 	$wp_admin_bar->remove_menu('new-page'); // (2)
 }
-add_action( 'wp_before_admin_bar_render', 'my_tweaked_admin_bar' );
 
 /**
  * Print classes for html element

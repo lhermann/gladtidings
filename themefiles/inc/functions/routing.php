@@ -184,6 +184,21 @@ function instantiate_the_controller( $wp ) {
 
 
 /**
+ * Add routes to body class like so:
+ * 'model-user action-settings'
+ */
+add_filter( 'body_class', 'add_routes_to_body_class' );
+function add_routes_to_body_class( $classes ) {
+	global $wp_query;
+
+	$classes[] = 'model-' . strtolower( $wp_query->debug['model'] );
+	$classes[] = 'action-' . strtolower( $wp_query->debug['action'] );
+
+	return $classes;
+}
+
+
+/**
  * Alter the main wp_query on the home page to fetch 'course' instead of 'post'
  */
 function alter_query_home( $query ) {

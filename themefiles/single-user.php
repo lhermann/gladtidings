@@ -1,16 +1,30 @@
 <?php
 	get_header();
+	// global $user;
 ?>
-	<header id="content-header" class="content-header">
-
-		<h1 class="u-text--center">User Dashboard</h1>
-
-	</header>
 
 	<div id="content-body" class="content-body wrapper">
 
-		<?php get_template_part( 'templates/content-user', get_query_var( 'action' ) ); ?>
+		<div class="layout u-spacing--top">
 
-	</div>
+			<div class="layout__item u-1/3 u-hidden-palm">
+
+				<ul class="user-menu user-menu--touch panel owl--off">
+
+					<?php get_template_part( 'templates/user-menu' ); ?>
+
+				</ul>
+
+			</div><!--
+
+			--><div class="layout__item u-2/3-lap-and-up">
+
+				<?php get_template_part( 'templates/content-user', get_query_var( 'action' ) ); ?>
+
+			</div>
+
+		</div><!-- /.layout -->
+
+	</div><!-- /#content-body /.wrapper -->
 
 <?php get_footer(); ?>

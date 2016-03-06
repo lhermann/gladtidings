@@ -1,3 +1,11 @@
 /*------------------------------------*\
     #CONTENT-BODY
 \*------------------------------------*/
+
+/**
+ * [1] Avoid marging-top collapse of #container and #content-body children
+ *     if no #content-header is present. It would add margin-top to the flyout.
+ */
+.content-body {
+	padding-top: 1px /* [1] */
+}

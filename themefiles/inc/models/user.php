@@ -215,18 +215,25 @@ class User
 	 *              'attribute' = any attribute, eg. disabled
 	 *              'display'   = the link text or label (should be renamed label)
 	 */
-	public function link_to( $page = '', $args = array() )
+	public function link_to( $page = 'show', $args = array() )
 	{
 		switch ($page) {
-			default:
-			case 'dashboard': $title = __( 'Dashboard', 'gladtidings' );       break;
+			default: $page = 'show';
+			case 'show': $title = __( 'Dashboard', 'gladtidings' );            break;
 			case 'settings' : $title = __( 'Settings', 'gladtidings' );        break;
 			case 'contact'  : $title = __( 'Write a Message', 'gladtidings' ); break;
 		}
 
+		$class = isset( $args['class'] ) ? $args['class'].' permalink' : 'permalink';
+
+		global $wp_query;
+		if( $wp_query->debug['model'] == 'User' && $wp_query->debug['action'] == $page ) {
+			$class .= ' active';
+		}
+
 		return sprintf( '<a class="%2$s" href="%1$s" title="%3$s" %4$s>%5$s</a>',
 				$this->url_to( $page ),
-				isset( $args['class']     ) ? $args['class']     : 'permalink',
+				$class,
 				isset( $args['title']     ) ? $args['title']     : __('Permalink to:', 'gladtidings') . ' ' . $title,
 				isset( $args['attribute'] ) ? $args['attribute'] : '',
 				isset( $args['display']   ) ? $args['display']   : $title
