@@ -3,11 +3,11 @@
 \*------------------------------------*/
 
 .progress {
-	
+
 	&__item {
 		border-radius: $base-border-radius;
 		min-height: $base-font-size;
-		
+
 		color: #fff;
 		font-size: 80%;
 		text-align: center;
@@ -18,6 +18,14 @@
 
 	&:hover .progress__item {
 		opacity: 1;
+		cursor: help;
+	}
+}
+
+
+.progress--compact {
+	.progress__item {
+		min-height: halve($base-font-size);
 	}
 }
 
@@ -31,23 +39,23 @@
 	.progress__item {
 		background-color: $color-success;
 		display: block;
-		
+
 		width: 0%;
 		max-width: 100% !important;
 	}
 }
 
 .progress--pills {
-	
+
 	display: flex;
-	
+
 	> * {
 		margin-top: 0;
 	}
 
 	.progress__item {
 		flex-grow: 1;
-		
+
 		background-color: $color-secondary;
 	}
 

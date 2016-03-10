@@ -84,6 +84,18 @@ class User
 		}
 	}
 
+	public function get_ids( $type = 'course', $key = 'touched' )
+	{
+		$ids = [];
+		$pattern = '/^'.$type.'_(\d+)_'.$key.'$/';
+		foreach ( $this->data as $xkey => $value ) {
+			if( preg_match( $pattern, $xkey, $matches ) ) {
+				$ids[] = $matches[1];
+			}
+		}
+		return $ids;
+	}
+
 	/**
 	 * OUTPUt: (true|false) if DB entry existed
 	 */
@@ -108,6 +120,23 @@ class User
 		$this->update( $object, $key, $value );
 
 		return $value;
+	}
+
+
+	public function courses()
+	{
+		$args = array(
+			'posts_per_page'   => 0,
+			'orderby'          => 'date',
+			'order'            => 'DESC',
+			'post_type'        => 'course',
+			'post_status'      => 'publish',
+			'include'          => $this->get_ids( 'course', 'touched' ),
+			'suppress_filters' => false
+		);
+		return array_map( function($p) {
+			return gt_instantiate_object( $p );
+		}, get_posts( $args ) );
 	}
 
 

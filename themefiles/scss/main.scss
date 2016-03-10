@@ -125,8 +125,8 @@
  */
 @import	"inuit-normalize/generic.normalize";
 @import	"generic.reset";
-@import	"generic.owl";
 @import	"inuit-box-sizing/generic.box-sizing";
+@import	"generic.owl";
 
 /*
  * ITCSS Stage 4: Base
@@ -152,6 +152,7 @@
  * OOCSS and Framework
  * no cometics
  */
+@import	"objects.ui";
 		$inuit-enable-layout--center:   true;
 		$inuit-enable-layout--rev:		true;
 		$inuit-enable-layout--middle:	true;

@@ -2,44 +2,70 @@
     #TEASER
 \*------------------------------------*/
 
-$teaser-badge-size:		120px;
-$teaser-badge-border:	8px;
+$teaser-badge-size:          120px;
+$teaser-badge-size--compact: 50px;
+$teaser-badge-border:        8px;
 
 .teaser {
-	
-	margin-top: halve($teaser-badge-size) + $teaser-badge-border;
 
+	> * {
+		display: inline-block;
+	}
+
+}
+
+.teaser--compact {
+
+	border: 1px solid $color-border;
+	border-radius: 3px;
+	padding: quarter($base-spacing-unit) halve($base-spacing-unit);
+
+	> * {
+		vertical-align: middle;
+	}
+
+	.teaser__badge {
+		width: $teaser-badge-size--compact;
+		height: $teaser-badge-size--compact;
+	}
+
+	.teaser__inner {
+		margin-left: halve($base-spacing-unit);
+		width: 70%;
+		width: calc( 100% - #{$teaser-badge-size--compact + halve($base-spacing-unit)} )
+	}
+
+	.teaser__title {
+		margin-bottom: quarter($base-spacing-unit);
+	}
+}
+
+.teaser--course {
+
+	margin: halve($teaser-badge-size) + $teaser-badge-border 0 1.5em;
 	text-align: center;
-
 	padding-bottom: 1.5rem;
 
-	margin-bottom: 1.5em;
+	.teaser__badge {
 
-	&__badge {
-
-		display: inline-block;
 		margin-top: -( halve($teaser-badge-size) + $teaser-badge-border + halve($panel-padding) + 2px ); // 2px to account for borders
 		padding: $teaser-badge-border;
-		line-height: 0;
-		border-radius: $teaser-badge-size;
 
+		border: 1px solid $color-border;
+		border-radius: $teaser-badge-size;
 		background-color: #fff;
-		
+
 		img {
+			display: block;
 			width: $teaser-badge-size;
 			height: $teaser-badge-size;
 		}
 	}
 
-	&__title {
-		margin-top: quarter( $base-spacing-unit );
-		border-bottom: none;
-	}
-
-	&__description {
+	.teaser__description {
 		font-weight: 300;
 		@include media-query( lap-and-up ) {
-			min-height: 6rem;
+			min-height: 7.5rem;
 		}
 	}
 

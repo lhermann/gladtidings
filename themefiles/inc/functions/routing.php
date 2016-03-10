@@ -135,7 +135,7 @@ function instantiate_the_controller( $wp ) {
 	                  require( $controller_path . 'application_controller.php' );
 	if( $controller ) require( $controller_path . $controller . '_controller.php' );
 
-	                  require( $helper_path . 'application_helper.php' );
+	                  // require( $helper_path . 'application_helper.php' ); // This one is now always included
 	if( $controller ) require( $helper_path . $controller . '_helper.php' );
 
 	// Instantiate the user

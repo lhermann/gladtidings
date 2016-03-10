@@ -29,6 +29,7 @@ require_once ( "inc/functions/login.php" );
 /**
  * Helpers
  */
+require_once ( "inc/helpers/application_helper.php" );
 require_once ( "inc/helpers/color_helper.php" );
 
 /**
@@ -50,6 +51,7 @@ function build_theme_css( $wp ) {
 	}
 
 }
+
 /**
  * Setup Flyouts
  */

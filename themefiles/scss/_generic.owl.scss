@@ -15,17 +15,23 @@
 	margin-top: px-to-em( halve($base-spacing-unit) );
 }
 
+.owl--off1 {
+	> * {
+		margin-top: 0;
+	}
+}
+
 // Turn owl off for all children
 .owl--off {
-	
+
 	* + * {
 		margin-top: 0;
 	}
-	
+
 
 	&-desk * + * {
 		@include media-query( desk ) {
-			margin-top: 0;		
+			margin-top: 0;
 		}
 	}
 }
@@ -37,12 +43,12 @@
 
 	&-desk {
 		@include media-query( desk ) {
-			margin-top: 0;		
+			margin-top: 0;
 		}
 	}
 	&-lap-and-up {
 		@include media-query( lap-and-up ) {
-			margin-top: 0;		
+			margin-top: 0;
 		}
 	}
 }

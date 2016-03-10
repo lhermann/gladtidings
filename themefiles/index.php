@@ -21,23 +21,23 @@
 			</div>
 		</div>
 
-		<div class="layout layout--center layout--spacehack">
+		<ul class="layout layout--center">
 
 				<?php if ( have_posts() ): ?>
-					<?php while ( have_posts() ) : the_post(); ?>
 
-						<div class="layout__item u-1/2-lap u-1/3-desk no-owl">
+					<?php while ( have_posts() ) : the_post();
+						?><li class="layout__item u-1/1-palm u-1/2-lap u-1/3-desk no-owl">
 							<?php get_template_part( 'templates/teaser', 'course' ); ?>
-						</div>
+						</li><?php
+					endwhile; ?>
 
-					<?php endwhile; ?>
 				<?php else : ?>
 
 					<p>Sorry, no posts matched your criteria.</p>
 
 				<?php endif;?>
 
-		</div>
+		</ul>
 
 	</div><!-- /#content-body /.wrapper -->
 

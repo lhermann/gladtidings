@@ -1,8 +1,9 @@
 .color {
-	&--primary 	{ color: $color-primary; }	
+	&--primary 	{ color: $color-primary; }
 	&--success 	{ color: $color-success; }
 	&--error 	{ color: $color-error; }
 }
+
 .p {
 	&--lead {
 		color: $color-unstress;
@@ -12,6 +13,7 @@
 		font-size: 2rem;
 	}
 }
+
 .b {
 	&--shout {
 		display: block;
