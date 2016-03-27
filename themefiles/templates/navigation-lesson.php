@@ -1,7 +1,7 @@
 <?php
 	global $nav_overlay, $user;
 ?>
-<nav class="top-bar <?php if( isset( $nav_overlay ) ) echo 'top-bar--overlay'; ?> owl--off" role="navigation">
+<nav class="top-bar <?php if( isset( $nav_overlay ) ) echo 'top-bar--overlay'; ?> owl--offall" role="navigation">
 
 	<a class="skip-link u-screen-reader-text" href="#content"><?= __('Skip to content', 'gladtidings') ?></a>
 

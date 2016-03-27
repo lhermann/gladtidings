@@ -14,7 +14,7 @@
  */
 ?>
 <nav class="breadcrumbs breadcrumbs--full t-light-bg t-main-border">
-	<ul class="wrapper list-inline owl--off">
+	<ul class="wrapper list-inline owl--offall">
 
 		<?php foreach( gt_get_breadcrumbs( $post ) as $crumb ): ?>
 

@@ -6,9 +6,9 @@
 
 	<header id="page-header" class="page-hero t-header-image">
 
-		<nav class="top-bar top-bar--layover owl--off">
+		<nav class="top-bar top-bar--layover owl--offall">
 			<ul class="top-bar__right">
-				
+
 				<li class="top-bar__item top-bar__item--link"><a href="#" title=""> </a></li>
 				<?php
 					if( $userdata ) {
@@ -50,7 +50,7 @@
 					<?php
 
 						// The Query
-						$bible_basics = new WP_Query( 
+						$bible_basics = new WP_Query(
 							array(
 								'post_type' => 'obj-course',
 								'name' => 'bible-basics'
@@ -64,9 +64,9 @@
 								get_template_part( 'templates/nodelist', 'course' );
 							//}
 						}
-						
+
 						/* Restore original Post Data */
-						wp_reset_postdata(); 
+						wp_reset_postdata();
 					?>
 
 					<ul class="nodelist">
@@ -181,7 +181,7 @@
 							</div>
 						</li>
 					</ul><!-- /.nodelist -->
-			
+
 				</section>
 				<aside class="layout__item u-1/3-lap-and-up">
 					<div class="whitespace whitespace--h2"></div>

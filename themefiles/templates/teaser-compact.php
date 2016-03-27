@@ -1,4 +1,4 @@
-<li class="teaser teaser--compact owl--off">
+<li class="teaser teaser--compact owl--offall">
 	<img class="teaser__badge" src="<?= $post->batch_src('thumbnail') ?>" alt=""><!--
 	--><div class="teaser__inner">
 		<h4 class="teaser__title"><?= $post->link_to() ?></h4>

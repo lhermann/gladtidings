@@ -6,7 +6,7 @@ global $user;
 	<div class="wrapper u-spacing--top">
 
 		<h2 class="u-screen-reader-text">User Menu</h2>
-		<ul class="user-menu user-menu--touch owl--off">
+		<ul class="user-menu user-menu--touch owl--offall">
 			<li class="user-menu__item user-menu__identity">
 				<?= get_avatar( $user->ID, 120 ) ?>
 				<div class="user-menu__name"><?= $user->first_name . ' ' . $user->last_name ?></div>

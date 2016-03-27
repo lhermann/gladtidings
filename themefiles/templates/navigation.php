@@ -1,7 +1,7 @@
 <?php
 	global $user;
 ?>
-<nav id="page-navigation" class="top-bar owl--off shadow--drop" role="navigation">
+<nav id="page-navigation" class="top-bar owl--offall shadow--drop" role="navigation">
 
 	<a class="skip-link u-screen-reader-text" href="#content"><?= __( 'Skip to content', 'gladtidings' ) ?></a>
 

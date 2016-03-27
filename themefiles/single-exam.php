@@ -5,7 +5,7 @@
 		<div class="wrapper">
 			<div class="nl__item nl__item--exam nl__item--hero nl__item--<?= $post->status ?>">
 				<article class="nl__article">
-					<header class="nl__article__header owl--off">
+					<header class="nl__article__header owl--offall">
 						<h1 class="nl__article__title"><span class="label label--small shadow--strong t-second-text"><?= __( 'Exam', 'gladtidings') ?></span> <span class="shadow--strong-text"><?= $post->title ?></span></h1>
 					</header>
 					<footer class="nl__article__footer shadow--strong t-comp-text">

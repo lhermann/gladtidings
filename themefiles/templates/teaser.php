@@ -1,4 +1,4 @@
-<article class="teaser teaser--course panel owl--off1">
+<article class="teaser teaser--course panel owl--offone">
 	<a class="teaser__badge" href="<?= gt_get_permalink( $post ) ?>" rel="bookmark" title="<?= __('Permalink to:', 'gladtidings') . ' ' . $post->title ?>">
 		<img src="<?= $post->batch_src() ?>" alt="">
 	</a>

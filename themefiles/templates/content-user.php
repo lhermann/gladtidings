@@ -2,7 +2,7 @@
 	global $user;
 ?>
 
-<div class="layout owl--off1">
+<div class="layout owl--offone-lap-and-up">
 	<div class="layout__item u-1/2-lap-and-up">
 
 		<h3>Courses</h3>

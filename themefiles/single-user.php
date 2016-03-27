@@ -9,7 +9,7 @@
 
 			<div class="layout__item u-1/3 u-hidden-palm">
 
-				<ul class="user-menu user-menu--touch panel owl--off">
+				<ul class="user-menu user-menu--touch panel owl--offall">
 
 					<?php get_template_part( 'templates/user-menu' ); ?>
 

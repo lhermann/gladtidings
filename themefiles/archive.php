@@ -6,9 +6,9 @@
 
 	<header id="page-header">
 
-		<nav class="top-bar owl--off" role="navigation">
+		<nav class="top-bar owl--offall" role="navigation">
 			<ul class="top-bar__left">
-				
+
 				<li class="top-bar__item top-bar__item--title">
 					<a href="index.html">The Glad Tidings</a>
 				</li>
@@ -16,7 +16,7 @@
 			</ul>
 
 			<ul class="top-bar__right">
-				
+
 				<li class="top-bar__item top-bar__item--link"><a href="index.html" title="Course Overview">Course</a></li>
 				<?php
 					if( $userdata ) {
@@ -54,7 +54,7 @@
 						</style>
 						<div class="nl__node__inner">31%</div>
 					</div>
-				</div>	
+				</div>
 			</div>
 		</div><!-- /.wrapper -->
 
