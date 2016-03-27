@@ -134,7 +134,6 @@ function add_post_types_and_taxonomies()
 	register_post_type( 'exam', $exam_args );
 
 
-
 	/**
 	 * Register Virtual Custom Post Types
 	 * These are just for internal reference, they have no admin ui and are created in gt_relationships

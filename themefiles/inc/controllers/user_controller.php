@@ -18,10 +18,11 @@ class UserController extends ApplicationController
 		add_filter( 'template_include', array( 'UserController', 'settings_template_redirect' ), 99 );
 	}
 
-	public static function contact( $post )
+	public static function messages( $post )
 	{
 		self::login_check();
-		add_filter( 'template_include', array( 'UserController', 'contact_template_redirect' ), 99 );
+		wp_redirect( '/messages/' );
+		exit();
 	}
 
 	public static function show_template_redirect( $old_template )
@@ -32,11 +33,6 @@ class UserController extends ApplicationController
 	public static function settings_template_redirect( $old_template )
 	{
 		return parent::template_redirect( locate_template( "single-user.php" ), "single-user-settings.php" );
-	}
-
-	public static function contact_template_redirect( $old_template )
-	{
-		return parent::template_redirect( locate_template( "single-user.php" ), "single-user-contact.php" );
 	}
 
 	protected function login_check()

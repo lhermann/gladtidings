@@ -6,12 +6,24 @@
 /**
  * Permalink Structure for Glad Tidings
  *
- * - course - http://gladtidings:8888/course/course-slug
- * - unit   - http://gladtidings:8888/course/course-slug/unit/1
- * - lesson - http://gladtidings:8888/course/course-slug/unit/1/lesson/lesson-slug
- * - quizz  - http://gladtidings:8888/course/course-slug/unit/1/quizz/quizz-slug/question
- * - quizz  - http://gladtidings:8888/course/course-slug/unit/1/quizz/quizz-slug/evaluation
- * - exam   - http://gladtidings:8888/course/course-slug/exam/quizz-slug
+ * - course
+ *      /course/course-slug
+ * - unit
+ *      /course/course-slug/unit/1
+ * - lesson
+ *      /course/course-slug/unit/1/lesson/lesson-slug
+ * - quizz
+ *      /course/course-slug/unit/1/quizz/quizz-slug/question
+ * - quizz
+ *      /course/course-slug/unit/1/quizz/quizz-slug/evaluation
+ * - exam
+ *      /course/course-slug/exam/quizz-slug
+ * - messages
+ *      /messages
+ *      /messages/new
+ *      /messages/1
+ *      /messages/1/edit
+ *      /messages/1/delete
  */
 
 
@@ -25,6 +37,7 @@ add_action('init', 'gladtidings_get_variables', 10, 0);
 function gladtidings_get_variables() {
 	add_rewrite_tag('%course-name%', '([^&]+)');
 	add_rewrite_tag('%unit-position%', '([0-9]{1,})');
+	add_rewrite_tag('%message%', '([^&]+)');
 	add_rewrite_tag('%controller%', '([^&]+)');
 	add_rewrite_tag('%action%', '([^&]+)');
 	add_rewrite_tag('%view%', '([^&]+)');
@@ -98,6 +111,20 @@ function gladtidings_rewrite_rules() {
 				=> "index.php"
 						."?controller=user"
 						."&action=".$wp_rewrite->preg_index(1),
+
+		// message
+		"messages(?:/(new))?/?$"
+
+				=> "index.php"
+						."?controller=message"
+						."&action=".$wp_rewrite->preg_index(1),
+
+		"messages/([0-9]{1,})(?:/([^/]+?))?/?$"
+
+				=> "index.php"
+						."?controller=message"
+						."&message=".$wp_rewrite->preg_index(1)
+						."&action=".$wp_rewrite->preg_index(2),
 
 	);
 

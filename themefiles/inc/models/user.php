@@ -248,15 +248,17 @@ class User
 	{
 		switch ($page) {
 			default: $page = 'show';
-			case 'show': $title = __( 'Dashboard', 'gladtidings' );            break;
-			case 'settings' : $title = __( 'Settings', 'gladtidings' );        break;
-			case 'contact'  : $title = __( 'Write a Message', 'gladtidings' ); break;
+			case 'show'     : $title = __( 'Dashboard', 'gladtidings' ); break;
+			case 'messages' : $title = __( 'Messages', 'gladtidings' );  break;
+			case 'settings' : $title = __( 'Settings', 'gladtidings' );  break;
 		}
 
 		$class = isset( $args['class'] ) ? $args['class'].' permalink' : 'permalink';
 
 		global $wp_query;
 		if( $wp_query->debug['model'] == 'User' && $wp_query->debug['action'] == $page ) {
+			$class .= ' active';
+		} elseif ( $wp_query->debug['model'] == 'Message' && $page == 'messages' ) {
 			$class .= ' active';
 		}
 
