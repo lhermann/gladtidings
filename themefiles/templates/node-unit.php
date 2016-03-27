@@ -12,9 +12,7 @@ global $node;
 				<h3 class="nl__article__title"><?= $node->title ?> <?= h_node_button( $node ) ?></h3>
 				<small class="nl__article__meta t-second-text">
 					<?= __( 'Unit', 'gladtidings').' '.$node->order ?>
-					<?php if( h_node_meta( $node ) ): ?>
-						&bull; <?= h_node_meta( $node ) ?>
-					<?php endif; ?>
+					<?= h_node_meta( $node, true ) ?>
 				</small>
 			</header>
 			<footer class="nl__article__footer">

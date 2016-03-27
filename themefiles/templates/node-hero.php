@@ -1,16 +1,22 @@
-<div class="nl__item nl__item--unit nl__item--hero nl__item--<?= $post->status ?>">
+<div class="nl__item nl__item--<?= $post->type ?> nl__item--hero nl__item--<?= $post->status ?>">
 	<article class="nl__article">
-		<header class="nl__article__header owl--offall">
+		<header class="nl__article__header">
 			<h1 class="nl__article__title">
-				<span class="label label--small shadow--strong t-second-text"><?= __( 'Unit', 'gladtidings').' '.$post->order ?></span>
+				<span class="label label--small shadow--strong t-second-text">
+					<?php if( $post->type == 'unit' ): ?>
+						<?= __( 'Unit', 'gladtidings').' '.$post->order ?>
+					<?php else: ?>
+						<?= __( 'Exam', 'gladtidings') ?>
+					<?php endif; ?>
+				</span>
 				<span class="shadow--strong-text"><?= $post->title ?></span>
 			</h1>
 		</header>
 		<footer class="nl__article__footer shadow--strong t-comp-text">
 			<p>
-				<?= h_node_footer( $post ) ?>
-				&bull; <?= __( 'Course', 'gladtidings' ) ?>: <?= $post->parent()->link_to(); ?>
-				<?php if( h_node_meta( $post ) ) print( '&bull; ' . h_node_meta( $post ) );  ?>
+				<?= h_node_footer( $post, true ) ?>
+				<?= __( 'Course', 'gladtidings' ) ?>: <?= $post->parent()->link_to(); ?>
+				<?= h_node_meta( $post, true ) ?>
 			</p>
 		</footer>
 	</article>

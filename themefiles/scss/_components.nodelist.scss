@@ -344,8 +344,10 @@ $node-marging--hero: $node--hero/12;
  */
 
 .nl__item--unit {
-	.nl__article__header {
-		padding-top: 1rem;
+	&:not(.nl__item--hero) {
+		.nl__article__header {
+			padding-top: 1rem;
+		}
 	}
 	.nl__node__inner {
 		@include nl__node__icon ( "\f11d" );
@@ -376,7 +378,7 @@ $node-marging--hero: $node--hero/12;
 .nl__item--divider {
 	background-color: darken($color-panel-bg, 10%);
 	padding: 1px;
-	&:first-child { // make the first divider invisible (but not to screen readers)
+	&:first-child { // make the first divider invisible (but not to screen readers, because it contains text)
 		padding: 0;
 	}
 }

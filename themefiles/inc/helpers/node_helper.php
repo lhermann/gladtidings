@@ -40,23 +40,25 @@ function h_node_button( $node )
  * <span class="color--locked">Locked: Complete "%s" first</span>
  * <span class="color--primary">Coming soon: 01/01/2016</span>
  */
-function h_node_meta( $node )
+function h_node_meta( $node, $bull = false )
 {
 	switch ( $node->status_num ) {
 		case 1:  $output = '<span class="color--primary t-comp-text">' .          __('Coming soon', 'gladtidings') . ': ' . $node->release_date . '</span>'; break;
 		case 2:  $output = '<span class="color--locked t-comp-text">'  . sprintf( __('Locked: Complete "%s" first', 'gladtidings'), $node->unlock_dependency->title ) . '</span>'; break;
 		case 5:  $output = '<span class="color--success">'             .          __('Completed', 'gladtidings') . '</span>'; break;
-		default: $output = '';
+		default: return '';
 	}
-	return $output;
+	return ( $bull ? '&bull; ' : '' ) . $output;
 }
 
 /**
  * Node footer Paragraph
  * -> get number of videos and lessons
  */
-function h_node_footer( $node )
+function h_node_footer( $node, $bull = false )
 {
+	if( $node->type != 'unit' ) return;
+
 	if( $node->status_num < 2 ) return '';
 
 	$return = sprintf( '<span class="fi fi-video"></span> %1$s %2$s',
@@ -71,5 +73,5 @@ function h_node_footer( $node )
 		);
 	}
 
-	return $return;
+	return $return . ( $bull ? '&bull; ' : '' );
 }

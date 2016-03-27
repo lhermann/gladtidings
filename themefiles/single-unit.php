@@ -1,15 +1,12 @@
-<?php
-	get_header();
-	// var_dump( $post );
-?>
+<?php get_header(); ?>
 
 	<header id="content-header" class="content-header page-hero shadow--receive t-header-image">
 
-			<div class="wrapper">
+		<div class="wrapper">
 
-				<?php get_template_part( 'templates/node', 'hero' ); ?>
+			<?php get_template_part( 'templates/node', 'hero' ); ?>
 
-			</div><!-- /.wrapper -->
+		</div><!-- /.wrapper -->
 
 	</header>
 
