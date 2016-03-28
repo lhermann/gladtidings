@@ -1,0 +1,27 @@
+/*------------------------------------*\
+    #BADGES
+\*------------------------------------*/
+
+.badge {
+	display: inline-block;
+
+	background-color: $color-unstress;
+	color: white;
+
+	border-radius: 50%;
+	height: 1.2em;
+	width: 1.2em;
+	line-height: 1.3em;
+	text-align: center;
+}
+
+/* Colors */
+.badge {
+	&--primary {
+		background-color: $color-primary;
+	}
+
+	&--success {
+		background-color: $color-success;
+	}
+}

@@ -1,6 +1,6 @@
-/*
- * Component: label
-\* =================================== */
+/*------------------------------------*\
+    #LABELS
+\*------------------------------------*/
 
 /*
  * a default label is equivalent with a btn--small
@@ -14,6 +14,7 @@ $label-color:			$color-primary !default;
 
 $enable-label--large:	true !default;
 $enable-label--small:	true !default;
+$enable-label--tiny:	true !default;
 
 
 .label {
@@ -52,6 +53,16 @@ $enable-label--small:	true !default;
     .label--small,
     %label--small {
         padding: 1px - $label-border-width  tripple($label-padding--small) - $label-border-width;
+    }
+
+}
+
+// Tiny Label
+@if ($enable-label--tiny == true) {
+
+    .label--tiny,
+    %label--tiny {
+        padding: 0 3px;
     }
 
 }

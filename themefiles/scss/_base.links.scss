@@ -2,13 +2,24 @@ a {
 	color: darken( $color-primary, 3% );
 	text-decoration: none;
 	border-bottom: 1px dotted $color-primary;
-	&:hover { color: $color-suppl; }
+	&:hover {
+		color: $color-suppl;
+		border-bottom: 1px dotted $color-primary;
+	}
 }
 
 .a--bodycolor {
 	color: $color-body;
-	&:hover { 
+	&:hover {
 		color: $color-body;
 		background-color: rgba( $color-body, .1 );
+		border-bottom: 1px dotted $color-primary;
+	}
+}
+
+.a--unchanged {
+	color: $color-body;
+	&:hover {
+		color: $color-body;
 	}
 }

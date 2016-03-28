@@ -1,0 +1,38 @@
+/*------------------------------------*\
+    #MESSAGES
+\*------------------------------------*/
+
+.message {
+	border: 1px solid $color-border;
+	border-radius: $base-border-radius;
+
+	&__content {
+		padding: halve($base-spacing-unit);
+	}
+
+	&__footer {
+		border-top: 1px solid $color-border;
+		background: rgba(0,0,0,.03);
+
+		font-size: 0.8em;
+
+		> * {
+			display: inline-block;
+			padding: quarter($base-spacing-unit) halve($base-spacing-unit);
+		}
+	}
+
+	&__id {
+		border-right: 1px solid $color-border;
+		font-weight: bold;
+	}
+
+	&__controlls {
+		float: right;
+		border-left: 1px solid $color-border;
+	}
+
+	&:hover {
+		box-shadow: 0 0 80px rgba(0,0,0,.03) inset;
+	}
+}
