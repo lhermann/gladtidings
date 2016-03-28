@@ -190,10 +190,11 @@ function add_post_types_and_taxonomies()
 
 
 	/**
-	 * Create a variable in $wpdb for the wp_gt_relationships table
+	 * Create a variable in $wpdb for the wp_gt_relationships and wp_gt_messages tables
 	 */
 	global $wpdb;
 	$wpdb->gt_relationships = $wpdb->prefix . "gt_relationships";
+	$wpdb->gt_messages      = $wpdb->prefix . "gt_messages";
 
 
 }
