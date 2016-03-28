@@ -10,7 +10,7 @@
  * @subpackage gladtidings
  * @version v0.3.1-beta
  */
-define( THEMEVERSION, '0.3.1-beta' );
+define( 'THEMEVERSION', '0.3.1-beta' );
 
 /*------------------------------------*\
 	External Modules/Files
@@ -114,7 +114,7 @@ function scripts_and_styles() {
 	wp_enqueue_style( 'gladtidings-style', get_template_directory_uri().'/css/main.css', array(), THEMEVERSION );
 
 	// Add javascript
-	wp_enqueue_script( 'gladtidings-sript', get_template_directory_uri().'/js/main.js', array(), THEMEVERSION, ture );
+	wp_enqueue_script( 'gladtidings-sript', get_template_directory_uri().'/js/main.js', array(), THEMEVERSION, true );
 }
 add_action( 'wp_enqueue_scripts', 'scripts_and_styles' );
 
@@ -298,7 +298,7 @@ add_filter( 'show_admin_bar', 'remove_admin_bar' ); // Remove Admin bar
  * Remove the posts_per_page limit for the unit screen
  */
 function unit_remove_post_per_page_limit( $limit, $query ) {
-	if ( $query->is_tax( TAX_UNIT ) ) return '';
+	if ( $query->is_tax( 'unit' ) ) return '';
 	return $limit;
 }
 add_filter( 'post_limits', 'unit_remove_post_per_page_limit', 10, 2 );

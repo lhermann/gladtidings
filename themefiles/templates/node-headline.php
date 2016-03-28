@@ -5,7 +5,7 @@
 
 global $node;
 ?>
-<li class="nl__item nl__item--<?= $node->ID ?> nl__item--<?= $node->post_type ?> nl__item--<?= $node->status ?>">
+<li class="nl__item nl__item--<?= $node->ID ?> nl__item--<?= $node->type ?> nl__item--<?= $node->status ?>">
 	<article class="nl__article">
 		<header class="nl__article__header">
 			<h3 class="t-main-text"><?= $node->title ?></h3>

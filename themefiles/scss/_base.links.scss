@@ -4,7 +4,6 @@ a {
 	border-bottom: 1px dotted $color-primary;
 	&:hover {
 		color: $color-suppl;
-		border-bottom: 1px dotted $color-primary;
 	}
 }
 
@@ -13,7 +12,6 @@ a {
 	&:hover {
 		color: $color-body;
 		background-color: rgba( $color-body, .1 );
-		border-bottom: 1px dotted $color-primary;
 	}
 }
 

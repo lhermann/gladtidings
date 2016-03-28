@@ -229,7 +229,7 @@ function add_routes_to_body_class( $classes ) {
  * Alter the main wp_query on the home page to fetch 'course' instead of 'post'
  */
 function alter_query_home( $query ) {
-	if ( $query->is_home() && $query->is_main_query() && !$query->query['controller'] ) {
+	if ( $query->is_home() && $query->is_main_query() && !isset($query->query['controller']) ) {
 		$query->set( 'post_type', 'course' );
 		$query->set( 'controller', 'course' );
 		$query->set( 'action', 'index' );
