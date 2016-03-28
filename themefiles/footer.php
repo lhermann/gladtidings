@@ -13,7 +13,7 @@
 
 			<div class="wrapper">
 				<p class="u-text--center">
-					Copyright 2015 The Glad Tidings, Inc. &bull; <?php wp_loginout( $_SERVER['REQUEST_URI'], true ); ?>
+					Copyright 2015 The Glad Tidings, Inc.
 				</p>
 
 				<?php get_template_part( 'templates/debug', 'footer' ); ?>

@@ -1,4 +1,7 @@
-<?php global $wp_query; ?>
+<?php
+	if( !WP_DEBUG ) return;
+	global $wp_query;
+?>
 
 <p class="u-text--center">
 	<?php
