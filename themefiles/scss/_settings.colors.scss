@@ -11,6 +11,7 @@ $color-neutral:			hsl( 0, 0, 87 );
 $color-primary: 		#4FA5B8;
 $color-suppl: 			#F2A200;
 $color-theme: 			#02944B;
+$color-anchor:			darken( $color-primary, 3% );
 
 $color-primary-light: 	lighten( $color-primary, 40% );
 
@@ -24,3 +25,4 @@ $color-error:			#C22D19;
 // $color-bg-primary:		darken($color-primary, 12%);
 // $color-bg-suppl:		darken($color-suppl, 12%);
 // $color-bg-theme:		darken($color-theme, 12%);
+$color-bg-footer:       #333;

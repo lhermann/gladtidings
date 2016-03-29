@@ -26,7 +26,7 @@ class MessageController extends ApplicationController
 		return parent::template_redirect( locate_template( "404.php" ), "single-message.php" );
 	}
 
-	protected function login_check()
+	protected static function login_check()
 	{
 		if( !is_user_logged_in() ) {
 			wp_redirect( wp_login_url( $_SERVER['REQUEST_URI'] ) );

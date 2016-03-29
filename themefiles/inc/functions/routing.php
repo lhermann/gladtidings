@@ -382,20 +382,20 @@ function exam_template_redirect( $single_template )
 /**
  * Login Redirect
  */
-add_action( 'template_redirect', 'gt_login_redirect' );
-function gt_login_redirect()
-{
+// add_action( 'template_redirect', 'gt_login_redirect' );
+// function gt_login_redirect()
+// {
 
-	if( is_user_logged_in() ) return;
+// 	if( is_user_logged_in() ) return;
 
-	$object = get_queried_object();
-	if( in_array( $object->post_type, array( 'lesson', 'quizz' ) ) ) {
+// 	$object = get_queried_object();
+// 	if( in_array( $object->post_type, array( 'lesson', 'quizz' ) ) ) {
 
-		wp_redirect( wp_login_url( $_SERVER['REQUEST_URI'] ) );
-		exit();
+// 		wp_redirect( wp_login_url( $_SERVER['REQUEST_URI'] ) );
+// 		exit();
 
-	}
-}
+// 	}
+// }
 
 /**
  * Home Redirect

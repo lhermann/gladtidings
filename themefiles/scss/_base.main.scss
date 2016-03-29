@@ -1,4 +1,10 @@
+html {
+	background-color: $color-bg-footer;
+	height: 100%;
+}
+
 body {
+	min-height: 100%;
 	/* If the off canvass flyout is visible, there shouldn't be horizontal scrolling */
 	overflow: hidden;
 }

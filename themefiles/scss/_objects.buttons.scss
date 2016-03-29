@@ -10,8 +10,27 @@ $btn-border-width:		$inuit-btn-border-width;
 $btn-border-bottom-width: 0px;
 
 .btn {
+	text-align: center;
+
 	&:hover {
 		box-shadow: 0 0 20px 20px rgba(0,0,0,.20) inset;
+	}
+
+	/* unstyle a button */
+	&--unstyle, &--anchor {
+		background: none;
+		border: none;
+		border-radius: 0;
+		padding: 0;
+		line-height: 1;
+	}
+
+	/* Disguise button as anchortext */
+	&--anchor {
+		@include anchortext;
+		&:hover {
+			box-shadow: none;
+		}
 	}
 }
 
@@ -34,33 +53,27 @@ $btn-border-bottom-width: 0px;
 
 .btn {
 
-	// &--theme,
-	// &--primary,
-	// &--second,
-	// &--success,
-	// &--unstress,
-	// &--dark {
-	// 	@extend %btn-3d;
-	// }
+	/* Filled buttons */
+	&--primary 	{ @include btn-color( $color-primary ); }
+	&--suppl 	{ @include btn-color( $color-suppl ); }
+	&--success 	{ @include btn-color( $color-success ); }
+	&--gray 	{ @include btn-color( $color-unstress ); }
+	&--unstress { @include btn-color( lighten($color-unstress, 10%) ); }
+	&--dark 	{ @include btn-color( lighten( $color-body, 20% ), 30% );
+		&:hover { background-color: $color-body; }
+	}
 
-	&--primary 	{ 	@include btn-color( $color-primary ); }
-	&--suppl 	{ 	@include btn-color( $color-suppl ); }
-	&--success 	{	@include btn-color( $color-success ); }
-	&--gray 	{	@include btn-color( $color-unstress ); }
-	&--unstress {	@include btn-color( lighten($color-unstress, 10%) ); }
-	&--dark 	{
-		@include btn-color( lighten( $color-body, 20% ), 30% );
+	/* Outlined buttons */
+	&--white, &--grayline {
+		@include btn-color( #fff, 33% );
+		color: $color-unstress !important;
 		&:hover {
-			background-color: $color-body;
+			box-shadow: 0 0 20px 20px rgba(0,0,0,.05) inset;
 		}
 	}
 	&--white	{
-		@include btn-color( #fff, 80% );
-		color: $color-body;
-		&:hover {
-			box-shadow: 0 0 20px 20px rgba(0,0,0,.05) inset;
-			color: $color-body;
-		}
+		border-color: $color-body;
+		color: $color-body !important;
 	}
 }
 
@@ -70,6 +83,12 @@ $btn-border-bottom-width: 0px;
 .btn {
 	&--tiny {
 		padding: 1px - $btn-border-width  quadruple($btn-padding--tiny) - $btn-border-width 1px - $btn-border-width - $btn-border-bottom-width;
+	}
+	&--square {
+		padding: 0;
+		width: 1.8em;
+		height: 1.8em;
+		line-height: 1.8em;
 	}
 }
 

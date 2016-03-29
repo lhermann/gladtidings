@@ -1,10 +1,15 @@
-a {
-	color: darken( $color-primary, 3% );
-	text-decoration: none;
+@mixin anchortext {
+	color: $color-anchor;
 	border-bottom: 1px dotted $color-primary;
 	&:hover {
 		color: $color-suppl;
 	}
+}
+
+a,
+.a {
+	@include anchortext;
+	text-decoration: none;
 }
 
 .a--bodycolor {

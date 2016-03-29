@@ -3,36 +3,104 @@
 \*------------------------------------*/
 
 .message {
+	position: relative;
+
 	border: 1px solid $color-border;
 	border-radius: $base-border-radius;
 
+	&__header {
+		&__item {
+			vertical-align: middle;
+			margin-right: quarter($base-spacing-unit);
+		}
+
+		.message__unread {
+			font-size: 80%;
+		}
+	}
+
+	&__avatar {
+		border-bottom-right-radius: $base-border-radius;
+	}
+
+	&__name {
+		font-weight: bold;
+	}
+
+	&__date {
+		color: $color-unstress;
+	}
+
+	&__edit {
+		visibility: hidden;
+		float: right;
+		margin-top: quarter($base-spacing-unit);
+	}
+
 	&__content {
-		padding: halve($base-spacing-unit);
+		padding: halve($base-spacing-unit) $base-spacing-unit halve($base-spacing-unit) halve($base-spacing-unit);
 	}
 
 	&__footer {
 		border-top: 1px solid $color-border;
 		background: rgba(0,0,0,.03);
 
-		font-size: 0.8em;
+		font-size: 80%;
 
-		> * {
+		// Style reset for buttons
+		> button {
+			background-color: transparent;
+			&:hover {
+				box-shadow: 0 0 80px rgba(0,0,0,.03) inset;
+			}
+		}
+
+		// unified padding and border for children
+		&__item {
 			display: inline-block;
 			padding: quarter($base-spacing-unit) halve($base-spacing-unit);
+			border: none;
+			border-right: 1px solid $color-border;
+		}
+
+		.message__unread {
+			background-color: transparentize($color-success, 0.1) !important;
+			color: white;
+			font-weight: bold;
+			&:hover {
+				background-color: transparentize($color-success, 0) !important;
+			}
 		}
 	}
 
-	&__id {
-		border-right: 1px solid $color-border;
-		font-weight: bold;
+	&__reply, &__expand {
+		color: $color-anchor;
 	}
 
-	&__controlls {
+	&__read {
+		color: $color-success;
+	}
+
+	&__expand {
 		float: right;
 		border-left: 1px solid $color-border;
+		border-right: 0;
 	}
 
 	&:hover {
-		box-shadow: 0 0 80px rgba(0,0,0,.03) inset;
+		.message__edit {
+			visibility: visible;
+		}
+	}
+}
+
+.message--compact {
+
+}
+
+.message--excerpt {
+	&:hover {
+		background-color: $color-hover-bg;
+		// box-shadow: 0 0 60px rgba(0,0,0,.03) inset;
 	}
 }

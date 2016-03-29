@@ -5,23 +5,25 @@
 .badge {
 	display: inline-block;
 
-	background-color: $color-unstress;
-	color: white;
+	// background-color: $color-unstress;
+	color: $color-unstress;
+	border: 1px solid $color-unstress;
 
 	border-radius: 50%;
-	height: 1.2em;
-	width: 1.2em;
-	line-height: 1.3em;
+	width: 1.5em;
+	line-height: 1.4em;
 	text-align: center;
 }
 
 /* Colors */
 .badge {
 	&--primary {
-		background-color: $color-primary;
+		color: $color-primary;
+		border-color: $color-primary;
 	}
 
 	&--success {
-		background-color: $color-success;
+		color: $color-success;
+		border-color: $color-success;
 	}
 }
