@@ -90,8 +90,6 @@
 
 		$base-font-size: 			16px;
 		$base-line-height:			24px;
-		// $base-font-size: 			30px;
-		// $base-line-height:			45px;
 		$inuit-base-font-size: 		$base-font-size;
 		$inuit-base-line-height:	$base-line-height;
 		$mobile-font-size:			14px;
@@ -197,7 +195,7 @@
 				box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.1);
 			}
 			&--receive {
-				box-shadow: 0 6px 6px -6px rgba( 0, 0, 0, 1 ) inset;
+				box-shadow: 0 6px 6px -6px rgba( 0, 0, 0, 1 ) inset, 0 -6px 6px -6px rgba( 0, 0, 0, 1 ) inset;
 			}
 			&--strong {
 				box-shadow: 0 1px 3px rgba(0, 0, 0, 0.65), 0 0 30px rgba( 0, 0, 0, 0.3 );
@@ -206,16 +204,6 @@
 				text-shadow: 0 1px 3px rgba(0, 0, 0, 0.65), 0 0 30px #000;
 			}
 		}
-
-		// .flex {
-		// 	display: flex;
-		// 	justify-content: space-between;
-		// 	align-items: baseline;
-		// 	&__item {
-		// 		display: inline;
-		// 		margin-top: 0;
-		// 	}
-		// }
 
 /*
  * ITCSS Stage 6: Components
@@ -228,8 +216,9 @@
 @import	"components.flyout";
 @import	"components.page-footer";
 
-@import	"components.content-header";
-@import	"components.content-body";
+@import	"components.content-markup";
+// @import	"components.content-header";
+// @import	"components.content-body";
 
 @import	"components.page-hero";
 @import	"components.foundation-icons";
@@ -241,6 +230,7 @@
 @import	"components.messages";
 @import	"components.form";
 @import	"components.user-menu";
+@import	"components.tabs";
 
 		// This tag is not really self documenting, should be removed!
 		.colorbg {
@@ -279,17 +269,17 @@
 		}
 
 		// Owl spacing on individual elements
-		.u-spacing {
-			&--top {
-				margin-top: px-to-em($base-spacing-unit) !important;
-			}
-			&--narrow {
-				margin-top: px-to-em( quarter($base-spacing-unit) ) !important;
-			}
-			&--off {
-				margin-top: 0 !important;
-			}
-		}
+		// .u-spacing {
+		// 	&--top {
+		// 		margin-top: px-to-em($base-spacing-unit) !important;
+		// 	}
+		// 	&--narrow {
+		// 		margin-top: px-to-em( quarter($base-spacing-unit) ) !important;
+		// 	}
+		// 	&--off {
+		// 		margin-top: 0 !important;
+		// 	}
+		// }
 
 		.u-owl {
 
@@ -332,6 +322,10 @@
 		// Wordpress Admin Bar
 		#wpadminbar {
 			margin-top: 0;
+		}
+
+		.hidden {
+			display: none !important;
 		}
 
 

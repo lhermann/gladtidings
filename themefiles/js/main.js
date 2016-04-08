@@ -2,11 +2,46 @@
     #FLYOUT
 \*------------------------------------*/
 
-// Toggle flyout on button click
+$(document).ready( function(){
+
+	/**
+	 * Make Tab Navigation work
+	 */
+	activateTab( $("#tabs .active a") );
+	$("#tabs").on("click", "a", function(event){
+		event.preventDefault();
+		activateTab( $(event.currentTarget) )
+	})
+
+});
+
+
+/**
+ * Tab Navigation helper classes
+ */
+function activateTab(element) {
+	element = $( element.first() );
+	// tabs
+	element.parent()
+		.addClass("active")
+		.siblings()
+		.removeClass("active");
+	//content
+	$(".tab-content").addClass("hidden");
+	$(element.attr("href")).removeClass("hidden")
+}
+
+
+
+
+
+
+
+
 window.onload = function() {
-	// get array of flyout activator buttons
+
+	// Toggle flyout on button click
 	var buttonArray = Array.from(document.getElementsByClassName("flyoutButton"));
-	// console.log(buttonArray);
 	if( buttonArray !== null ) {
 		buttonArray.forEach( function( button, index ) {
 			button.onclick = function(event) {
@@ -18,7 +53,50 @@ window.onload = function() {
 			}
 		});
 	}
+
+	/**
+	 * Make tabs work
+	 */
+	// var tabElement = document.getElementById("tabs");
+	// console.log(tabElement);
+	// if( tabElement !== null ) {
+	// 	var tabsArray = Array.from(tabElement.getElementsByTagName("a"));
+	// 	var id = tabs.getElementsByClassName("active")[0].getElementsByTagName("a")[0].getAttribute("aria-controls");
+	// 	console.log(id);
+	// 	var contentsArray = Array.from(document.getElementsByClassName("tab-content"));
+	// 	showTabContent( contentsArray, id );
+
+	// 	tabsArray.forEach( function( tab, index ) {
+	// 		tab.onclick = function(event) {
+	// 			event.preventDefault();
+	// 			showTabContent( contentsArray, tab.getAttribute("aria-controls") );
+	// 		}
+	// 	});
+	// }
 }
+
+
+window.onresize = function() {
+
+	// Deactivate flyout on resize
+	var container = document.getElementById("container");
+	toggleClass( container, "has-flyout--left-active", null, "remove" );
+	toggleClass( container, "has-flyout--right-active", null, "remove" );
+
+}
+
+
+// function showTabContent( contentsArray, id ) {
+// 	contentsArray.forEach( function( element, index ) {
+// 		console.log(element.getAttribute("id"));
+// 		if( element.getAttribute("id") == id ) {
+// 			toggleClass( element, "hidden", null, "remove" )
+// 		} else {
+// 			toggleClass( element, "hidden", null, "add" )
+// 		}
+// 	});
+// }
+
 
 /**
  * Toggle a class on an element
@@ -49,12 +127,5 @@ var toggleClass = function( element, toggleClass, conditionalClass, limitTo ) {
 		}
 
 	}
-}
-
-// Deactivate flyout on resize
-window.onresize = function() {
-	var container = document.getElementById("container");
-	toggleClass( container, "has-flyout--left-active", null, "remove" );
-	toggleClass( container, "has-flyout--right-active", null, "remove" );
 }
 

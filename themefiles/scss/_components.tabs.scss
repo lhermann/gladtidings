@@ -1,0 +1,42 @@
+/*------------------------------------*\
+    #TABS
+\*------------------------------------*/
+
+$bottom-tab-border: 3px;
+
+.tabs {
+
+	list-style: none;
+
+	&__item {
+
+		display: inline-block;
+		margin-right: 1em;
+
+		border-radius: 5px 5px 0 0;
+		background: darken($color-panel-bg, 5%);
+		transition: background .3s;
+
+		box-shadow: 0 0 10px rgba(0,0,0,.5);
+
+		&:not(.active) {
+			box-shadow: 0 0 10px rgba(0,0,0,.5), 0 -10px 10px -10px rgba(0,0,0,.3) inset;
+		}
+
+		&.active {
+			background: white;
+		}
+
+		&:hover {
+			background: white;
+		}
+
+		> a {
+			display: block;
+			@include inuit-font-size( $heading-size-3, 1.5 );
+			border: none;
+			color: $color-body;
+			padding: 0 0.5em;
+		}
+	}
+}

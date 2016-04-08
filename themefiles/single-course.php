@@ -1,8 +1,9 @@
 <?php get_header(); ?>
 
-	<header id="content-header" class="content-header page-hero shadow--receive t-header-image">
+	<header id="content-header" class="content-header page-hero shadow--receive t-header-image owl">
 
-			<div class="wrapper">
+			<div class="wrapper wrapper--hero">
+
 				<div class="hero-frame hero-frame--course">
 					<div class="hero-frame__badge">
 						<img src="<?= $post->batch_src() ?>" alt="<?= $post->title.' '.__( 'Badge', 'gladtidings' ); ?>">
@@ -14,78 +15,108 @@
 						<span class="shadow--strong-text"><?= $post->title ?></span>
 					</h1>
 				</div>
+
+			</div><!-- /.wrapper -->
+
+			<div class="wrapper">
+
+				<nav id="tabs" class="tabs owl--offall">
+					<ul>
+						<li class="tabs__item active">
+							<a href="#content-units" aria-controls="content-units" role="tab">Units</a>
+						</li>
+						<li class="tabs__item">
+							<a href="#content-description" aria-controls="content-description" role="tab">Description</a>
+						</li>
+					</ul>
+				</nav>
 			</div><!-- /.wrapper -->
 
 	</header>
 
 
-	<div id="content-body" class="content-body wrapper">
+	<div id="content-units" class="content-body tab-content owl">
 
-		<section id="progress">
+		<div class="wrapper">
 
-				<h2 class="u-screen-reader-text"><?= __( 'Progress', 'gladtidings' ) ?></h2>
+			<section id="progress">
 
-				<div class="progress progress--meter" title="<?= __( 'Progress:', 'gladtidings' ).' '.$post->progress() ?>">
-					<span class="progress__item t-comp-bg" style="width: <?= $post->progress().'%' ?>"><?= $post->progress().'%' ?></span>
-				</div>
+					<h2 class="u-screen-reader-text"><?= __( 'Progress', 'gladtidings' ) ?></h2>
 
-				<p class="u-spacing--narrow t-second-text">
-					<?php                            echo             __( 'Lessons watched:', 'gladtidings' ) . ' <strong class="t-comp-text">' . $post->num_lessons_done() . '/' . $post->num_lessons() . '</strong>'; ?>
-					<?php if( $post->num_quizzes() ) echo '&bull; ' . __( 'Quizzes passed:', 'gladtidings' )  . ' <strong class="t-comp-text">' . $post->num_quizzes_done() . '/' . $post->num_quizzes() . '</strong>'; ?>
-					<?php if( $post->num_exams()   ) echo '&bull; ' . __( 'Exams passed:', 'gladtidings' )    . ' <strong class="t-comp-text">' . $post->num_exams_done()   . '/' . $post->num_exams()   . '</strong>'; ?>
-				</p>
+					<div class="progress progress--meter no-owl" title="<?= __( 'Progress:', 'gladtidings' ).' '.$post->progress() ?>">
+						<span class="progress__item t-comp-bg" style="width: <?= $post->progress().'%' ?>"><?= $post->progress().'%' ?></span>
+					</div>
 
-		</section>
-
-		<div class="layout layout--spacehack">
-
-			<section id="units" class="layout__item u-2/3-desk">
-
-				<h2 class="t-second-text"><?= __( 'Units', 'gladtidings' ); ?></h2>
-
-				<?php
-					//get all the units
-					$children = $post->children();
-
-					// check if the repeater field has rows of data
-					if( $children ) {
-
-						print( '<ul class="nodelist nodelist--course">' );
-
-						// loop through the units
-						foreach ( $children as $key => $node ) {
-
-							get_template_part( 'templates/node', $node->type );
-
-						}
-
-						print( '</ul><!-- /.nodelist -->' );
-
-					} else {
-
-						_e( 'No Units!' );
-
-					}
-				?>
+					<p class="progress__description t-second-text">
+						<?php                            echo             __( 'Lessons watched:', 'gladtidings' ) . ' <strong class="t-comp-text">' . $post->num_lessons_done() . '/' . $post->num_lessons() . '</strong>'; ?>
+						<?php if( $post->num_quizzes() ) echo '&bull; ' . __( 'Quizzes passed:', 'gladtidings' )  . ' <strong class="t-comp-text">' . $post->num_quizzes_done() . '/' . $post->num_quizzes() . '</strong>'; ?>
+						<?php if( $post->num_exams()   ) echo '&bull; ' . __( 'Exams passed:', 'gladtidings' )    . ' <strong class="t-comp-text">' . $post->num_exams_done()   . '/' . $post->num_exams()   . '</strong>'; ?>
+					</p>
 
 			</section>
 
-			<aside class="layout__item no-owl-desk u-1/3-desk">
+			<div class="layout">
 
-				<?php
-					$description = get_field( 'course_description' );
-					if( $description ): ?>
+				<section id="units" class="layout__item u-2/3-desk">
 
-					<h2 class="t-second-text"><?= __( 'Description', 'gladtidings' ) ?></h2>
-					<p><?= $description ?></p>
+					<h2 class="t-second-text"><?= __( 'Units', 'gladtidings' ); ?></h2>
 
-				<?php endif; ?>
+					<?php
+						//get all the units
+						$children = $post->children();
 
-			</aside>
+						// check if the repeater field has rows of data
+						if( $children ) {
 
-		</div><!-- /.layout -->
+							print( '<ul class="nodelist nodelist--course">' );
 
-	</div><!-- /#content-body /.wrapper -->
+							// loop through the units
+							foreach ( $children as $key => $node ) {
+
+								get_template_part( 'templates/node', $node->type );
+
+							}
+
+							print( '</ul><!-- /.nodelist -->' );
+
+						} else {
+
+							_e( 'No Units!' );
+
+						}
+					?>
+
+				</section><!--
+
+				--><aside class="layout__item no-owl-desk u-1/3-desk">
+
+					<?php
+						$description = get_field( 'course_description' );
+						if( $description ): ?>
+
+						<h2 class="t-second-text"><?= __( 'Description', 'gladtidings' ) ?></h2>
+						<p><?= $description ?></p>
+
+					<?php endif; ?>
+
+				</aside>
+
+			</div><!-- /.layout -->
+
+		</div><!-- /.wrapper -->
+
+	</div><!-- /#content-units -->
+
+	<div id="content-description" class="content-body tab-content owl">
+
+		<div class="wrapper">
+
+			<h2>Description</h2>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam, commodi culpa incidunt.</p>
+
+		</div><!-- /.wrapper -->
+
+	</div><!-- /#content-description -->
 
 
 <?php get_footer(); ?>
