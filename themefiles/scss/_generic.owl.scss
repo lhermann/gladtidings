@@ -6,7 +6,7 @@
  * The owl, adding margin-top to every element that follows another element
  * http://alistapart.com/article/axiomatic-css-and-lobotomized-owls
  */
-* + * {
+.owl * + * {
 	margin-top: px-to-em($base-spacing-unit);
 }
 

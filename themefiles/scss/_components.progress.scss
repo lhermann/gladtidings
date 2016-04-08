@@ -20,6 +20,10 @@
 		opacity: 1;
 		cursor: help;
 	}
+
+	&__description {
+		margin-top: px-to-em( quarter($base-spacing-unit) );
+	}
 }
 
 

@@ -24,7 +24,7 @@
 
 			</section>
 
-			<aside class="layout__item u-1/4-lap-and-up u-spacing--off u-flyout-palm" role="complementary">
+			<aside class="layout__item u-1/4-lap-and-up u-flyout-palm" role="complementary">
 
 				<?php get_template_part( 'templates/content', 'flyout' ); ?>
 

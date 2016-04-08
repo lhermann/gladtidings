@@ -18,6 +18,6 @@
 
 	<?php get_template_part( 'templates/navigation' ); ?>
 
-	<div id="container" class="container u-spacing--off <?php container_class(); ?>">
+	<div id="container" class="container <?php container_class(); ?>">
 
 		<main id="page-content" class="page-content" role="main">

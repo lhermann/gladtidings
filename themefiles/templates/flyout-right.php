@@ -1,7 +1,7 @@
 <?php
 global $user;
 ?>
-<aside id="flyout-right" class="flyout flyout__right u-spacing--off" role="complementary">
+<aside id="flyout-right" class="flyout flyout__right" role="complementary">
 
 	<div class="wrapper u-spacing--top">
 
