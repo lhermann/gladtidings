@@ -18,9 +18,9 @@
 
 			</div><!-- /.wrapper -->
 
-			<div class="wrapper owl">
+			<div class="wrapper">
 
-				<nav id="tabs" class="tabs owl--offall">
+				<nav id="tabs" class="tabs">
 					<ul>
 						<li class="tabs__item active">
 							<a href="#content-units" aria-controls="content-units" role="tab"><?= __( 'Units', 'gladtidings' ) ?></a>
