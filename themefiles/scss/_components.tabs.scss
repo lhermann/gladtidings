@@ -6,10 +6,16 @@ $bottom-tab-border: 3px;
 
 .tabs {
 
+	position: absolute;
+    bottom: 0;
 	list-style: none;
 
 	ul {
 		padding-left: 200px;
+
+		@include media-query(palm) {
+			padding-left: 0;
+		}
 	}
 
 	&__item {

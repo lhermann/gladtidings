@@ -89,13 +89,15 @@ $flyout-width:			80%;
 
 }
 
-.has-flyout--left-active {
-	left: $flyout-width;
-}
-
-.has-flyout--right-active {
-	right: $flyout-width;
-}
+/**
+ * Flyout Movement
+ * [1] initial value needed for transition animation
+ *     to work on all browsers
+ */
+.has-flyout--left         { left:  0; /* [1] */   }
+.has-flyout--left-active  { left:  $flyout-width; }
+.has-flyout--right        {	right: 0; /* [1] */   }
+.has-flyout--right-active {	right: $flyout-width; }
 
 
 /**
@@ -106,6 +108,8 @@ $flyout-width:			80%;
 	top: 0;
 	left: 100%;
 	width: $flyout-width;
+
+	padding-top: $base-spacing-unit;
 
 	&__left {
 		left: -100%;

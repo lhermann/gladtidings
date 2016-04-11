@@ -57,8 +57,10 @@
 	padding: px-to-rem(halve($base-spacing-unit)) px-to-rem($base-spacing-unit);
 }
 
-$hero-badge-border:	6px;
-$hero-badge-size:	160px + double($hero-badge-border);
+$hero-badge-border:	       6px;
+$hero-badge-size:	       160px + double($hero-badge-border);
+$hero-badge-border--touch: 3px;
+$hero-badge-size--touch:   100px + double($hero-badge-border);
 .hero-frame--course {
 
 	position: relative;
@@ -75,9 +77,20 @@ $hero-badge-size:	160px + double($hero-badge-border);
 
 		img {
 			width: $hero-badge-size - double( $hero-badge-border );
-			// height: $hero-badge-size - double( $hero-badge-border );
 		}
 	}
+
+	@include media-query(palm) {
+		padding-left: $hero-badge-size--touch + $base-spacing-unit;
+		.hero-frame__badge {
+			@include v-center( $hero-badge-size--touch );
+
+			img {
+				width: $hero-badge-size--touch - double( $hero-badge-border--touch );
+			}
+		}
+	}
+
 }
 
 

@@ -9,7 +9,7 @@ global $node;
 	<?= $link = h_node_link( $node ) ?>
 		<article class="nl__article">
 			<header class="nl__article__header">
-				<h3 class="nl__article__title"><?= $node->title ?> <?= h_node_button( $node ) ?></h3>
+				<h3 class="nl__article__title"><?= $node->title ?> <?= h_node_button( $node, "u-hidden-palm" ) ?></h3>
 				<small class="nl__article__meta t-second-text">
 					<?= __( 'Unit', 'gladtidings').' '.$node->order ?>
 					<?= h_node_meta( $node, true ) ?>

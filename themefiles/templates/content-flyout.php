@@ -1,4 +1,4 @@
-<div class="wrapper u-spacing--top">
+<div class="wrapper">
 
 	<h2 class="u-text--1rem">
 		<span class="label label--small label--theme"><?= __( 'Unit', 'gladtidings' ).' '.$post->parent()->order ?></span>

@@ -44,7 +44,7 @@
 					<h2 class="u-screen-reader-text"><?= __( 'Progress', 'gladtidings' ) ?></h2>
 
 					<div class="progress progress--meter no-owl" title="<?= __( 'Progress:', 'gladtidings' ).' '.$post->progress() ?>">
-						<span class="progress__item t-comp-bg" style="width: <?= $post->progress().'%' ?>"><?= $post->progress().'%' ?></span>
+						<span class="progress__item" style="width: <?= $post->progress().'%' ?>"><?= $post->progress().'%' ?></span>
 					</div>
 
 					<p class="progress__description t-second-text">
@@ -59,16 +59,13 @@
 
 				<section id="units" class="layout__item u-2/3-desk">
 
-					<h2 class="t-second-text"><?= __( 'Units', 'gladtidings' ); ?></h2>
+					<h2 class="u-screen-reader-text"><?= __( 'Units', 'gladtidings' ); ?></h2>
 
 					<?php
-						//get all the units
-						$children = $post->children();
-
 						// check if the repeater field has rows of data
-						if( $children ) {
+						if( $children = $post->children() ) {
 
-							print( '<ul class="nodelist nodelist--course">' );
+							print( '<ul class="nodelist nodelist--course no-owl">' );
 
 							// loop through the units
 							foreach ( $children as $key => $node ) {
@@ -90,9 +87,7 @@
 
 				--><aside class="layout__item no-owl-desk u-1/3-desk">
 
-					<?php
-						$description = get_field( 'course_description' );
-						if( $description ): ?>
+					<?php if( $description = get_field( 'course_description' ) ): ?>
 
 						<h2 class="t-second-text"><?= __( 'Description', 'gladtidings' ) ?></h2>
 						<p><?= $description ?></p>
@@ -109,7 +104,9 @@
 
 	<div id="content-notes" class="content-body tab-content">
 
-		<div class="wrapper owl--narrow body-copy">
+		<h2 class="u-screen-reader-text"><?= __( 'Course Notes', 'gladtidings' ); ?></h2>
+
+		<div class="wrapper owl--narrow body-copy no-owl">
 
 			<?php $post->render_content(); ?>
 

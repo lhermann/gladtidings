@@ -9,17 +9,22 @@
  * [2] Avoid marging-top collapse of #container and #content-body children
  *     if no #content-header is present. It would add margin-top to the flyout.
  */
-.content-header, /* [1] */
-.content-body:first-child { /* [2] */
-	padding-top: 1rem; /* [1] */
-}
+// .content-header, /* [1] */
+// .content-body:first-child { /* [2] */
+// 	padding-top: 1rem; /* [1] */
+// }
 
 .content-header,
 .content-body {
 	position: relative;
 	background: white;
-	padding-top: 1.5rem;
 	padding-top: $base-font-size * 1.5;
+	padding-top: 1.5rem;
+}
+
+.content-header {
+	padding-bottom: $base-font-size * 1.5;
+	padding-bottom: 1.5rem;
 }
 
 .content-header {

@@ -19,19 +19,19 @@ function h_node_label( $node )
 /**
  * Button
  */
-function h_node_button( $node )
+function h_node_button( $node, $class = "" )
 {
 	$start_label = $node->type == 'unit' ? __('Start Unit', 'gladtidings') : __('Start Exam', 'gladtidings');
 
 	switch ( $node->status_num ) {
-		case 1:  $button = '<span class="label label--theme">'           . __('Coming Soon' , 'gladtidings') . '</span>'; break;
-		case 2:  $button = '<span class="label label--theme">'           . __('Locked'      , 'gladtidings') . '</span>'; break;
-		case 3:  $button = '<span class="btn btn--theme btn--small">'    . $start_label                      . '</span>'; break;
-		case 4:  $button = '<span class="btn btn--success btn--small">'  . __('Continue'    , 'gladtidings') . '</span>'; break;
-		case 5:  $button = '<span class="btn btn--unstress btn--small">' . __('Review'      , 'gladtidings') . '</span>'; break;
-		default: $button = '';
+		case 1:  $class .= ' label label--theme';           $label = __('Coming Soon' , 'gladtidings'); break;
+		case 2:  $class .= ' label label--theme';           $label = __('Locked'      , 'gladtidings'); break;
+		case 3:  $class .= ' btn btn--theme btn--small';    $label = $start_label;                      break;
+		case 4:  $class .= ' btn btn--success btn--small';  $label = __('Continue'    , 'gladtidings'); break;
+		case 5:  $class .= ' btn btn--unstress btn--small'; $label = __('Review'      , 'gladtidings'); break;
+		default: return;
 	}
-	return $button;
+	return '<span class="' . $class . '">' . $label . '</span>';
 }
 
 /**
