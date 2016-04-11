@@ -1,6 +1,6 @@
-/*!
- * Design by Lukas Hermann <lukas.hermann@joelmediatv.de>
- */
+/*------------------------------------*\
+    Frontend Styles
+\*------------------------------------*/
 
 /**
  * To Do
@@ -124,7 +124,6 @@
 @import	"inuit-normalize/generic.normalize";
 @import	"generic.reset";
 @import	"inuit-box-sizing/generic.box-sizing";
-@import	"generic.owl";
 
 /*
  * ITCSS Stage 4: Base
@@ -141,8 +140,8 @@
 
 		$inuit-lede-size: 1.2;
 @import "base.main";
-@import	"inuit-paragraphs/base.paragraphs";
 @import	"base.headings";
+@import	"base.body-copy";
 @import	"base.links";
 
 /*
@@ -150,6 +149,7 @@
  * OOCSS and Framework
  * no cometics
  */
+@import	"objects.owl";
 @import	"objects.ui";
 		$inuit-enable-layout--center:   true;
 		$inuit-enable-layout--rev:		true;

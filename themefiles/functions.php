@@ -107,6 +107,14 @@ endif; // theme_setup
 add_action( 'after_setup_theme', 'theme_setup' );
 
 /**
+ * Add styles for the admin tiny-mce editor
+ */
+function my_theme_add_editor_styles() {
+    add_editor_style( 'css/editor.css' );
+}
+add_action( 'admin_init', 'my_theme_add_editor_styles' );
+
+/**
  * Enqueue scripts and styles.
  */
 function scripts_and_styles() {

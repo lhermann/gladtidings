@@ -92,4 +92,19 @@ class Course extends Application
 	public function num_quizzes_done() { return $this->num_children_done( 'quizz'  ); }
 	public function num_exams_done()   { return $this->num_children_done( 'exam'   ); }
 
+	public function render_content() {
+		$content = apply_filters( 'the_content', $this->content );
+
+		$patterns = array(
+				'/<h2>/'
+			);
+		$replacements = array(
+				'<h2 class="t-main-text t-second-border">'
+			);
+		$content = preg_replace( $patterns, $replacements, $content );
+
+		$content = str_replace( ']]>', ']]&gt;', $content );
+		echo $content;
+	}
+
 }

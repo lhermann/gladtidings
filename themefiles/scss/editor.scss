@@ -1,0 +1,63 @@
+/*------------------------------------*\
+    Styles for admin tiny mce editor
+\*------------------------------------*/
+
+
+/*
+ * ITCSS Stage 1: Settings
+ * scss variables
+ */
+@import "settings.colors";
+//@import "settings.foundation";
+
+		$base-font-size: 			16px;
+		$base-line-height:			24px;
+		$inuit-base-font-size: 		$base-font-size;
+		$inuit-base-line-height:	$base-line-height;
+		$mobile-font-size:			14px;
+		$mobile-line-height:		21px;
+@import "inuit-defaults/settings.defaults";
+		$base-spacing-unit:			$inuit-base-spacing-unit;
+
+@import "inuit-responsive-settings/settings.responsive";
+
+		// Misc
+		// there is no special file for this as of yet
+		$title-frame-alpha:		0.4;
+		$base-border-radius:	3px;
+
+/*
+ * ITCSS Stage 2: Tools
+ * scss mixins and functions
+ */
+@import	"inuit-functions/tools.functions";
+@import	"inuit-mixins/tools.mixins";
+@import	"inuit-tools-widths/tools.widths";
+@import	"inuit-responsive-tools/tools.responsive";
+@import	"tools.aliases";
+@import	"tools.mixins";
+@import "tools.functions";
+
+/*
+ * ITCSS Stage 3: Generic
+ * global selectors, lowest specificity
+ * no cosmetics
+ */
+@import	"inuit-normalize/generic.normalize";
+@import	"generic.reset";
+body {
+	margin: 1em;
+	font-family: sans-serif;
+}
+
+/*
+ * ITCSS Stage 4: Base
+ * type selectors, no .classes or #ids
+ * no cosmetics
+ */
+* + * {
+	margin-top: px-to-em( halve($base-spacing-unit) );
+}
+@import	"base.headings";
+@import	"base.body-copy";
+@import	"base.links";

@@ -109,13 +109,9 @@
 
 	<div id="content-notes" class="content-body tab-content">
 
-		<div class="wrapper owl--narrow">
+		<div class="wrapper owl--narrow body-copy">
 
-			<?php
-				$post->content = apply_filters( 'the_content', $post->content );
-				$post->content = str_replace( ']]>', ']]&gt;', $post->content );
-				echo $post->content;
-			?>
+			<?php $post->render_content(); ?>
 
 		</div><!-- /.wrapper -->
 
