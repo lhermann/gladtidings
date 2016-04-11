@@ -7,13 +7,20 @@
 $btn-padding:			$inuit-btn-padding;
 $btn-padding--tiny:  	quarter($btn-padding);
 $btn-border-width:		$inuit-btn-border-width;
-$btn-border-bottom-width: 0px;
 
+/* Default Button Styling */
 .btn {
+
 	text-align: center;
+	text-shadow: 0 -1px 0 rgba(0,0,0,.3);
+	box-shadow:
+		      0 1px           rgba(0,0,0,.3),
+		inset 0 -3em 3em -3em rgba(0,0,0,.2);
 
 	&:hover {
-		box-shadow: 0 0 20px 20px rgba(0,0,0,.20) inset;
+		box-shadow:
+			      0 1px       rgba(0,0,0,.3),
+			inset 0 0 3em 3em rgba(0,0,0,.2);
 	}
 
 	/* unstyle a button */
@@ -34,55 +41,40 @@ $btn-border-bottom-width: 0px;
 	}
 }
 
-/**
- * Color Variations
- */
-%btn-3d {
-	color: #fff;
-	box-shadow: 0 -15px 30px rgba(0,0,0,.15) inset;
-	&:hover {
-		color: #fff;
-		box-shadow: 0 -15px 30px rgba(0,0,0,.30) inset;
-	}
-}
-
+/* Standard Color Mixin */
 @mixin btn-color( $color, $darken: 10% ) {
 	background-color: $color;
 	border-color: darken( $color, $darken );
 }
 
+/* Button Color Variations */
 .btn {
-
-	/* Filled buttons */
-	&--primary 	{ @include btn-color( $color-primary ); }
-	&--suppl 	{ @include btn-color( $color-suppl ); }
-	&--success 	{ @include btn-color( $color-success ); }
-	&--gray 	{ @include btn-color( $color-unstress ); }
-	&--unstress { @include btn-color( lighten($color-unstress, 10%) ); }
-	&--dark 	{ @include btn-color( lighten( $color-body, 20% ), 30% );
-		&:hover { background-color: $color-body; }
-	}
-
-	/* Outlined buttons */
+	&--primary 	{ @include btn-color( $color-primary     ); }
+	&--suppl 	{ @include btn-color( $color-suppl,   8% ); }
+	&--success 	{ @include btn-color( $color-success, 6% ); }
+	&--gray 	{ @include btn-color( $color-unstress    ); }
+	&--unstress { @include btn-color( lighten( $color-unstress, 10% )      ); }
+	&--dark 	{ @include btn-color( lighten( $color-body,     20% ), 30% ); }
 	&--white, &--grayline {
-		@include btn-color( #fff, 33% );
-		color: $color-unstress !important;
+		@include btn-color( #fff, 10% );
+		text-shadow: none;
+		box-shadow:
+			      0 1px           rgba(0,0,0,.1),
+			inset 0 -3em 3em -3em rgba(0,0,0,.1);
 		&:hover {
-			box-shadow: 0 0 20px 20px rgba(0,0,0,.05) inset;
+			box-shadow:
+				      0 1px       rgba(0,0,0,.1),
+				inset 0 0 3em 3em rgba(0,0,0,.05);
 		}
 	}
-	&--white	{
-		border-color: $color-body;
-		color: $color-body !important;
-	}
+	&--grayline { color: $color-unstress !important; }
+	&--white	{ color: $color-body     !important; }
 }
 
-/**
- * Additional Sizes
- */
+/* Button Size Variations */
 .btn {
 	&--tiny {
-		padding: 1px - $btn-border-width  quadruple($btn-padding--tiny) - $btn-border-width 1px - $btn-border-width - $btn-border-bottom-width;
+		padding: 1px - $btn-border-width  quadruple($btn-padding--tiny) - $btn-border-width 1px - $btn-border-width;
 	}
 	&--square {
 		padding: 0;
@@ -92,9 +84,7 @@ $btn-border-bottom-width: 0px;
 	}
 }
 
-/**
- * Disabled State
- */
+/* Disabled State */
 .btn[disabled] {
 	opacity: .6;
 	pointer-events: none;
