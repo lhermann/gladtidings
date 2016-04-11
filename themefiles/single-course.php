@@ -1,8 +1,8 @@
 <?php get_header(); ?>
 
-	<header id="content-header" class="content-header page-hero shadow--receive t-header-image owl">
+	<header id="content-header" class="content-header page-hero shadow--receive t-header-image">
 
-			<div class="wrapper wrapper--hero">
+			<div class="wrapper wrapper--hero owl">
 
 				<div class="hero-frame hero-frame--course">
 					<div class="hero-frame__badge">
@@ -18,15 +18,15 @@
 
 			</div><!-- /.wrapper -->
 
-			<div class="wrapper">
+			<div class="wrapper owl">
 
 				<nav id="tabs" class="tabs owl--offall">
 					<ul>
 						<li class="tabs__item active">
-							<a href="#content-units" aria-controls="content-units" role="tab">Units</a>
+							<a href="#content-units" aria-controls="content-units" role="tab"><?= __( 'Units', 'gladtidings' ) ?></a>
 						</li>
 						<li class="tabs__item">
-							<a href="#content-description" aria-controls="content-description" role="tab">Description</a>
+							<a href="#content-notes" aria-controls="content-notes" role="tab"><?= __( 'Course Notes', 'gladtidings' ) ?></a>
 						</li>
 					</ul>
 				</nav>
@@ -35,9 +35,9 @@
 	</header>
 
 
-	<div id="content-units" class="content-body tab-content owl">
+	<div id="content-units" class="content-body tab-content">
 
-		<div class="wrapper">
+		<div class="wrapper owl">
 
 			<section id="progress">
 
@@ -107,16 +107,19 @@
 
 	</div><!-- /#content-units -->
 
-	<div id="content-description" class="content-body tab-content owl">
+	<div id="content-notes" class="content-body tab-content">
 
-		<div class="wrapper">
+		<div class="wrapper owl--narrow">
 
-			<h2>Description</h2>
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam, commodi culpa incidunt.</p>
+			<?php
+				$post->content = apply_filters( 'the_content', $post->content );
+				$post->content = str_replace( ']]>', ']]&gt;', $post->content );
+				echo $post->content;
+			?>
 
 		</div><!-- /.wrapper -->
 
-	</div><!-- /#content-description -->
+	</div><!-- /#content-notes -->
 
 
 <?php get_footer(); ?>

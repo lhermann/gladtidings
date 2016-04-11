@@ -23,7 +23,11 @@ trait init_status {
 					// update post_status to 'publish'
 					$status = 'publish';
 					wp_publish_post( $this->ID );
-					update_sub_field( array('units_repeater', $this->position + 1, 'status'), 'publish', $this->parrent()->ID );
+					try {
+						update_sub_field( array('units_repeater', $this->position + 1, 'status'), 'publish', $this->parrent()->ID );
+					} catch (Exception $e) {
+						var_dump($e);
+					}
 				} else {
 					$this->release_date = date( "F j, Y", $date );
 				}

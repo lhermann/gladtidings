@@ -1,4 +1,37 @@
 <?php
+
+/**
+ * Moving the post editor inside the ACF-field in admin pages fpr courses
+ */
+add_action('acf/input/admin_head', 'my_acf_admin_head');
+function my_acf_admin_head() {
+
+    ?>
+    <script type="text/javascript">
+    (function($) {
+
+        $(document).ready(function(){
+
+            $('.acf-field-570bbae6e16ee .acf-input').append( $('#postdivrich') );
+
+        });
+
+    })(jQuery);
+    </script>
+    <style type="text/css">
+        .acf-field #wp-content-editor-tools {
+            background: white;
+            padding-top: 10px;
+        }
+    </style>
+    <?php
+
+}
+
+return;
+
+
+
 if( function_exists('acf_add_local_field_group') ):
 
 acf_add_local_field_group(array (

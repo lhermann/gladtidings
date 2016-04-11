@@ -8,7 +8,7 @@
  */
 class Application
 {
-	public $ID, $type, $title, $slug, $status, $status_num, $date, $date_gmt, $touched, $order, $position, $parent_id;
+	public $ID, $type, $title, $slug, $content, $status, $status_num, $date, $date_gmt, $touched, $order, $position, $parent_id;
 
 	function __construct( $post )
 	{
@@ -20,6 +20,7 @@ class Application
 		$this->type       = strtolower( get_class ( $this ) );
 		$this->title      = $post->post_title;
 		$this->slug       = $post->post_name;
+		$this->content    = $post->post_content;
 
 		$this->date       = $post->post_date;
 		$this->date_gmt   = $post->post_date_gmt;

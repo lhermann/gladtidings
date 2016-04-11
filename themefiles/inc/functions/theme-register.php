@@ -25,10 +25,10 @@ function add_post_types_and_taxonomies()
 
 	/* Common Arguments */
 	$args = array(
-		'supports'              => array( 'title' ),
+		'supports'              => array( 'title', 'editor' ),
 		'public'                => false,
-		'show_ui'               => true, //defaults to 'public'
-		'show_in_menu'          => true, //defaults to 'show_ui'
+		'show_ui'               => true, // defaults to 'public'
+		'show_in_menu'          => true, // defaults to 'show_ui'
 		'show_in_admin_bar'     => true, // defaults to 'show_in_menu'
 		'can_export'            => true,
 		'has_archive'           => true,
@@ -55,8 +55,6 @@ function add_post_types_and_taxonomies()
 		'label'                 => __( 'Course', 'gladtidings' ),
 		'description'           => __( 'Courses consisting of separate Units with Videos and Quizzes', 'gladtidings' ),
 		'labels'                => $course_labels,
-		'supports'              => array( 'title', 'editor', 'excerpt', 'page-attributes' ),
-		// 'menu_position'         => 5,
 		'menu_icon'             => 'dashicons-welcome-learn-more',
 	);
 	register_post_type( 'course', $course_args );
