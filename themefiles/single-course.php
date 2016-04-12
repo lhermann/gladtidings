@@ -89,8 +89,14 @@
 
 					<?php if( $description = get_field( 'course_description' ) ): ?>
 
-						<h2 class="t-second-text"><?= __( 'Description', 'gladtidings' ) ?></h2>
-						<p><?= $description ?></p>
+						<article class="message owl--offall">
+							<header class="message__header message__header--border">
+								<h2 class="message__header__item message__heading t-second-text"><?= __( 'Description', 'gladtidings' ) ?></h2>
+							</header>
+							<div class="message__content">
+								<p><?= $description ?></p>
+							</div>
+						</article>
 
 					<?php endif; ?>
 

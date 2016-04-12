@@ -13,7 +13,7 @@
  *	</nav>
  */
 ?>
-<nav class="breadcrumbs breadcrumbs--full t-light-bg t-main-border">
+<nav class="breadcrumbs breadcrumbs--full">
 	<ul class="wrapper list-inline owl--offall">
 
 		<?php foreach( gt_get_breadcrumbs( $post ) as $crumb ): ?>
@@ -22,11 +22,11 @@
 
 				<?php if( is_object( $crumb ) ): ?>
 
-					<?= gt_crumb_link( $crumb ); ?>
+					<?= gt_crumb_link( $crumb, ['class' => 'a--unstress'] ); ?>
 
 				<?php else: ?>
 
-					<a class="a--bodycolor" href="<?= home_url() ?>" title="<?= __( 'Home', 'gladtidings' ) ?>"><?= __( 'Home', 'gladtidings' ) ?></a>
+					<a class="a--unstress" href="<?= home_url() ?>" title="<?= __( 'Home', 'gladtidings' ) ?>"><?= __( 'Home', 'gladtidings' ) ?></a>
 
 				<?php endif; ?>
 

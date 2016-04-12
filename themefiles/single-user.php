@@ -17,7 +17,7 @@
 
 			</div><!--
 
-			--><div class="layout__item u-2/3-lap-and-up">
+			--><div class="layout__item u-2/3-lap-and-up owl">
 
 				<?php get_template_part( 'templates/content-user', get_query_var( 'action' ) ); ?>
 

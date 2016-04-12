@@ -4,20 +4,12 @@
 
 $panel-padding: halve($base-spacing-unit);
 
-@mixin panel( $border-width: 1px, $border-color: $color-border, $shadow: true ) {
-	background-color: $color-panel-bg;
-	border: $border-width solid $border-color;
-	@if($inuit-btn-radius != 0) {
-	    border-radius: $inuit-btn-radius;
-	}
-	@if($shadow) {
-		@include std-box-shadow;
-	}
-}
 .panel {
-	@include panel;
 	padding: halve($panel-padding) $panel-padding;
 	padding: px-to-rem( halve($panel-padding) ) px-to-rem( $panel-padding );
+
+	border: 1px solid $color-border;
+	border-radius: $base-border-radius;
 }
 
 .panel--higher {

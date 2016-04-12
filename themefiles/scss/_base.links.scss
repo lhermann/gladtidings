@@ -10,14 +10,22 @@ a,
 .a {
 	@include anchortext;
 	text-decoration: none;
-}
 
-.a--bodycolor {
-	color: $color-body;
-	&:hover {
+	&--bodycolor {
 		color: $color-body;
-		background-color: rgba( $color-body, .1 );
+		&:hover {
+			color: $color-body;
+			background-color: rgba( $color-body, .1 );
+		}
 	}
+
+	&--unstress {
+		color: $color-unstress;
+		&:hover {
+			color: darken($color-unstress, 20%);
+		}
+	}
+
 }
 
 .a--unchanged {

@@ -1,6 +1,8 @@
 /*------------------------------------*\
-    #MESSAGES
+    #MESSAGE
 \*------------------------------------*/
+
+$message-padding: halve($base-spacing-unit);
 
 .message {
 	position: relative;
@@ -8,10 +10,19 @@
 	border: 1px solid $color-border;
 	border-radius: $base-border-radius;
 
+	&--shadow {
+		box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	}
+
 	&__header {
+
+		&--border {
+			border-bottom: 1px solid $color-border;
+		}
+
 		&__item {
 			vertical-align: middle;
-			margin-right: quarter($base-spacing-unit);
+			margin-right: halve($message-padding);
 		}
 
 		.message__unread {
@@ -27,6 +38,11 @@
 		font-weight: bold;
 	}
 
+	&__heading {
+		@include inuit-font-size( $heading-size-4, 2 );
+		padding-left: $message-padding;
+	}
+
 	&__date {
 		color: $color-unstress;
 	}
@@ -34,11 +50,11 @@
 	&__edit {
 		visibility: hidden;
 		float: right;
-		margin-top: quarter($base-spacing-unit);
+		margin-top: halve($message-padding);
 	}
 
 	&__content {
-		padding: halve($base-spacing-unit) $base-spacing-unit halve($base-spacing-unit) halve($base-spacing-unit);
+		padding: $message-padding;
 	}
 
 	&__footer {
@@ -58,7 +74,7 @@
 		// unified padding and border for children
 		&__item {
 			display: inline-block;
-			padding: quarter($base-spacing-unit) halve($base-spacing-unit);
+			padding: halve($message-padding) $message-padding;
 			border: none;
 			border-right: 1px solid $color-border;
 		}

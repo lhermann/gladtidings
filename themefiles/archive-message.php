@@ -17,7 +17,7 @@
 
 			</div><!--
 
-			--><div class="layout__item u-2/3-lap-and-up">
+			--><div class="layout__item u-2/3-lap-and-up owl">
 
 				<h3>List of Messages</h3>
 				<hr class="ui">

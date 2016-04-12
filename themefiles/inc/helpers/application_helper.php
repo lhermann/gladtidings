@@ -95,10 +95,8 @@ function gt_get_breadcrumbs( $post )
  * Print the Link for one breadcrumb
  * Basically a fancy wrapper for print_link_to()
  */
-function gt_crumb_link( $crumb )
+function gt_crumb_link( $crumb, $args = array() )
 {
-	$args = array();
-
 	switch ( $crumb->type ) {
 		case 'lesson':
 			$args['display'] = sprintf( __('Lesson %d', 'gladtidings'),  $crumb->order );
