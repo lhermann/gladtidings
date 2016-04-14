@@ -30,14 +30,18 @@ $btn-border-width:		$inuit-btn-border-width;
 		border-radius: 0;
 		padding: 0;
 		line-height: 1;
+		text-shadow: none;
+		box-shadow: none;
+		color: $color-body;
+		&:hover {
+			box-shadow: none;
+			color: $color-body;
+		}
 	}
 
 	/* Disguise button as anchortext */
 	&--anchor {
 		@include anchortext;
-		&:hover {
-			box-shadow: none;
-		}
 	}
 }
 
