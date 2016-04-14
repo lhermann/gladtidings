@@ -8,11 +8,22 @@
 $top-bar-height:		52px;
 $top-bar-avatar-size:	36px;
 
+/*
+ * Helper Silent Extensions
+ */
+%top-bar-location-setup {
+	position: relative;
+	display: inline-block;
+	list-style: none;
+}
+%vertical-padding-reset {
+	padding-left: 0;
+	padding-right: 0;
+}
 
 /*
  * Standard Definitions
  */
-
 .top-bar {
 	position: relative;
 	z-index: 99;
@@ -23,14 +34,26 @@ $top-bar-avatar-size:	36px;
 
 	&__left {
 		@extend %top-bar-location-setup;
+		z-index: 2;
+		// @include media-query( palm ) {
+		// 	position: absolute;
+		// 	width: 100%;
+		// }
 	}
 
 	&__center {
 		@extend %top-bar-location-setup;
+		z-index: 1;
+		@include media-query( palm ) {
+			position: absolute;
+			width: 100%;
+			text-align: center;
+		}
 	}
 
 	&__right {
 		@extend %top-bar-location-setup;
+		z-index: 3;
 		float: right;
 	}
 
@@ -39,10 +62,8 @@ $top-bar-avatar-size:	36px;
 		padding: 0 12px;
 
 		line-height: $top-bar-height;
-		// line-height: px-to-rem( $top-bar-height - 0.1px );
 
 		a {
-			// display: inline;
 			vertical-align: middle;
 			border-bottom-width: 0;
 
@@ -50,27 +71,10 @@ $top-bar-avatar-size:	36px;
 		}
 	}
 
-}
-
-/* the page title,
-	has a greater size */
-.tb__title {
-
-	&__link {
-		font-size: halve($top-bar-height);
-		color: $color-body;
+	> ul {
+		padding-left: 0;
 	}
 
-	&__logo {
-		height: $top-bar-height;
-		vertical-align: middle;
-	}
-
-	&__text {
-		@include media-query( palm ) {
-			display: none;
-		}
-	}
 }
 
 /* the username and user avatar */
@@ -169,19 +173,4 @@ $top-bar-avatar-size:	36px;
 		width: $base-font-size;
 		margin: 0 0 0.75em 0.6rem;
 	}
-}
-
-
-
-
-/*
- * Helper Silent Extensions
- */
-%top-bar-location-setup {
-	display: inline-block;
-	list-style: none;
-}
-%vertical-padding-reset {
-	padding-left: 0;
-	padding-right: 0;
 }

@@ -1,0 +1,25 @@
+/*------------------------------------*\
+    #BREADCRUMBS
+\*------------------------------------*/
+
+$branding-font-size: 26px;
+
+.branding {
+
+	font-size: $branding-font-size;
+	color: $color-body;
+	border-bottom: none;
+
+	&__logo {
+		height: double($branding-font-size);
+		// center a 52px image properly for a 26px text
+		vertical-align: -16px;
+	}
+
+	&__text {
+		@include media-query( palm ) {
+			display: none;
+		}
+	}
+
+}
