@@ -1,9 +1,9 @@
 {
-  "name": "inuit",
+  "name": "gladtidings",
   "authors": [
     "lhermann <lukher6@web.de>"
   ],
-  "description": "test purposes",
+  "description": "E-Learning Wordpress Theme",
   "main": "index.html",
   "moduleType": [],
   "license": "MIT",
