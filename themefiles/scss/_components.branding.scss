@@ -4,7 +4,13 @@
 
 $branding-font-size: 26px;
 
+/*
+ * [1] avoid strange hights on logo parent elements
+ * [2] optically vertically center logo and text (middle doesn't do it just right)
+ */
 .branding {
+
+	display: inline-block; /* [1] */
 
 	font-size: $branding-font-size;
 	color: $color-body;
@@ -12,8 +18,8 @@ $branding-font-size: 26px;
 
 	&__logo {
 		height: double($branding-font-size);
-		// center a 52px image properly for a 26px text
-		vertical-align: -16px;
+		vertical-align: ( -$branding-font-size * 5 ) / 8; /* [2] */
+		// vertical-align: middle;
 	}
 
 	&__text {

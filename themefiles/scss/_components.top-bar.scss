@@ -13,8 +13,11 @@ $top-bar-avatar-size:	36px;
  */
 %top-bar-location-setup {
 	position: relative;
+	z-index: 2;
 	display: inline-block;
+	float: left;
 	list-style: none;
+	padding-left: 0;
 }
 %vertical-padding-reset {
 	padding-left: 0;
@@ -23,22 +26,17 @@ $top-bar-avatar-size:	36px;
 
 /*
  * Standard Definitions
+ * [1] optically vertically center logo and text (middle doesn't do it just right)
  */
 .top-bar {
 	position: relative;
 	z-index: 99;
 
 	height: $top-bar-height;
-	font-size: $base-font-size;
 	background-color: #fff;
 
 	&__left {
 		@extend %top-bar-location-setup;
-		z-index: 2;
-		// @include media-query( palm ) {
-		// 	position: absolute;
-		// 	width: 100%;
-		// }
 	}
 
 	&__center {
@@ -53,60 +51,104 @@ $top-bar-avatar-size:	36px;
 
 	&__right {
 		@extend %top-bar-location-setup;
-		z-index: 3;
 		float: right;
 	}
 
 	&__item {
-		display: inline-block;
-		padding: 0 12px;
+		float: left; // better than inline-block; removes spaces
+		height: $top-bar-height;
+		padding: 0 halve($base-spacing-unit); // horizontal padding
 
-		line-height: $top-bar-height;
+		&--hover:hover {
+			background-color: $color-hover-bg;
+			img {
+				box-shadow: 0 0 3px $color-suppl;
+			}
+		}
 
-		a {
-			vertical-align: middle;
-			border-bottom-width: 0;
+		&--button {
+			padding-top: halve($top-bar-height) - ($base-font-size*1.125); // fallback
+			padding-top: calc( (#{$top-bar-height} - 2.25em) / 2 );
+		}
 
-			padding: $inuit-btn-padding--small double($inuit-btn-padding--small);
+		&--link {
+			padding: 0;
+			> a {
+				display: block;
+				padding: halve($top-bar-height) - ($base-font-size*0.75) halve($base-spacing-unit); // fallback
+				padding: calc( (#{$top-bar-height} - 1.5em) / 2 ) halve($base-spacing-unit);
+			}
+		}
+
+		&--avatar {
+			@extend .top-bar__item--link;
+			> a {
+				padding-top: ($top-bar-height - $top-bar-avatar-size)/2;
+				padding-bottom: ($top-bar-height - $top-bar-avatar-size)/2;
+			}
+			.avatar {
+				vertical-align: ( -$base-font-size * 3 ) / 4; /* [1] */
+				border-radius: $base-border-radius;
+			}
+
 		}
 	}
 
-	> ul {
-		padding-left: 0;
+	a {
+		border-bottom-width: 0;
 	}
 
 }
 
-/* the username and user avatar */
-.top-bar__item--avatar {
+// mapping out the equator
+// .top-bar:after {
+// 	content: "";
+// 	display: block;
+// 	position: absolute;
+// 	left: 0;
+// 	top: 50%;
+// 	width: 100%;
+// 	height: 1px;
+// 	background-color: red;
+// }
 
-	.tb__avatar__link {
-		display: inline-block;
-		line-height: 0;
-		@extend %vertical-padding-reset;
+/*
+ * the username and user avatar
+ * [1] avoid baseline space below image
+ */
+// .top-bar__item--avatar {
 
-		&:hover > .avatar {
-			box-shadow: 0 0 3px $color-suppl;
-		}
-	}
+// 	.tb__avatar__link {
+// 		display: inline-block; /* [1] */
+// 		line-height: 0; /* [1] */
 
-	.tb__avatar__name {
-		line-height: $top-bar-avatar-size;
-		vertical-align: bottom;
+// 		// border-bottom: none;
+// 		// padding: halve($top-bar-height - $top-bar-avatar-size) 0;
 
-		@include media-query( palm ) {
-			display: none;
-		}
-	}
+// 		@extend %vertical-padding-reset;
 
-	.avatar {
-		border-radius: $base-border-radius;
-	}
+// 		&:hover > .avatar {
+// 			box-shadow: 0 0 3px $color-suppl;
+// 		}
+// 	}
 
-	&:hover, &.flyoutActive {
-		background-color: $color-hover-bg;
-	}
-}
+// 	.tb__avatar__name {
+// 		line-height: $top-bar-avatar-size;
+// 		vertical-align: bottom;
+
+// 		@include media-query( palm ) {
+// 			display: none;
+// 		}
+// 	}
+
+// 	.avatar {
+// 		border-radius: $base-border-radius;
+// 	}
+
+// 	&:hover, &.flyoutActive {
+// 		background-color: $color-hover-bg;
+// 	}
+// }
 
 /**
  * The user menu
@@ -114,63 +156,63 @@ $top-bar-avatar-size:	36px;
  * Desktop users will see a dropdown
  */
 
-/* Mobile */
-.top-bar__user-menu {
-	display: none;
-}
+// /* Mobile */
+// .top-bar__user-menu {
+// 	display: none;
+// }
 
-/* Desktop */
-@include media-query(desk) {
-	.top-bar__user-menu {
-		position: absolute;
-		z-index: 999;
-		right: halve($base-spacing-unit);
+// /* Desktop */
+// @include media-query(desk) {
+// 	.top-bar__user-menu {
+// 		position: absolute;
+// 		z-index: 999;
+// 		right: halve($base-spacing-unit);
 
-		display: none;
-		padding: $base-spacing-unit;
+// 		display: none;
+// 		padding: $base-spacing-unit;
 
-		background-color: $color-hover-bg;
-		box-shadow: 3px 3px 3px 0 rgba(0, 0, 0, 0.15);
+// 		background-color: $color-hover-bg;
+// 		box-shadow: 3px 3px 3px 0 rgba(0, 0, 0, 0.15);
 
-		.top-bar__item--avatar:hover & {
-			display: block;
-		}
+// 		.top-bar__item--avatar:hover & {
+// 			display: block;
+// 		}
 
-	}
-}
+// 	}
+// }
 
 
-/* any item that is a simple link */
-.top-bar__item--link > a {
-		@extend %vertical-padding-reset;
-}
+// /* any item that is a simple link */
+// .top-bar__item--link > a {
+// 		@extend %vertical-padding-reset;
+// }
 
-/* the menu icon
-	only shows up for lap-and-up */
-.top-bar__item--button {
-	.btn {
-		font-weight: 600;
-		line-height: 1.2;
+// /* the menu icon
+// 	only shows up for lap-and-up */
+// .top-bar__item--button {
+// 	.btn {
+// 		font-weight: 600;
+// 		line-height: 1.2;
 
-		border-width: 1px;
-	}
-}
+// 		border-width: 1px;
+// 	}
+// }
 
-#menu-button,
-#flyout-button {
-	// &:hover {
-	// 	&:after {
-	// 		box-shadow: 0 0 0 1px white, 0 7px 0 1px white, 0 14px 0 1px white;
-	// 	}
-	// }
+// #menu-button,
+// #flyout-button {
+// 	// &:hover {
+// 	// 	&:after {
+// 	// 		box-shadow: 0 0 0 1px white, 0 7px 0 1px white, 0 14px 0 1px white;
+// 	// 	}
+// 	// }
 
-	&:after {
-		// content: "\f169";
-		// font-family: "foundation-icons";
-		content: "";
-		display: inline-block;
-		box-shadow: 0 0 0 1px $inuit-btn-color, 0 7px 0 1px $inuit-btn-color, 0 14px 0 1px $inuit-btn-color;
-		width: $base-font-size;
-		margin: 0 0 0.75em 0.6rem;
-	}
-}
+// 	&:after {
+// 		// content: "\f169";
+// 		// font-family: "foundation-icons";
+// 		content: "";
+// 		display: inline-block;
+// 		box-shadow: 0 0 0 1px $inuit-btn-color, 0 7px 0 1px $inuit-btn-color, 0 14px 0 1px $inuit-btn-color;
+// 		width: $base-font-size;
+// 		margin: 0 0 0.75em 0.6rem;
+// 	}
+// }

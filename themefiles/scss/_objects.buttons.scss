@@ -80,11 +80,14 @@ $btn-border-width:		$inuit-btn-border-width;
 	&--tiny {
 		padding: 1px - $btn-border-width  quadruple($btn-padding--tiny) - $btn-border-width 1px - $btn-border-width;
 	}
+
+	// It is assumed that square buttons are for foundation icons
 	&--square {
 		padding: 0;
-		width: 1.8em;
-		height: 1.8em;
-		line-height: 1.8em;
+		width: 1.5em;
+		height: 1.5em;
+		font-size: 1.5em;
+		line-height: 1em;
 	}
 }
 
