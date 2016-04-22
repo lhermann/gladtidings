@@ -5,6 +5,7 @@
  * Extending InuitCSS btn object
  */
 $btn-padding:			$inuit-btn-padding;
+$btn-padding--small:    halve($btn-padding);
 $btn-padding--tiny:  	quarter($btn-padding);
 $btn-border-width:		$inuit-btn-border-width;
 
@@ -75,8 +76,15 @@ $btn-border-width:		$inuit-btn-border-width;
 	&--white	{ color: $color-body     !important; }
 }
 
-/* Button Size Variations */
+/**
+ * Button Size Variations
+ * [1] Add rem value support
+ */
 .btn {
+	&--small {
+		padding: px-to-rem($inuit-btn-padding--small - $inuit-btn-border-width)  px-to-rem(double($inuit-btn-padding--small) - $inuit-btn-border-width); /* [1] */
+	}
+
 	&--tiny {
 		padding: 1px - $btn-border-width  quadruple($btn-padding--tiny) - $btn-border-width 1px - $btn-border-width;
 	}

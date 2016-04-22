@@ -52,3 +52,9 @@
 	overflow: hidden;
 	clip: rect(1px, 1px, 1px, 1px);
 }
+
+// Measurements
+@mixin rem( $key, $value ) {
+	#{$key}: $value; // Fallback
+	#{$key}: px-to-rem($value);
+}

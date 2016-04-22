@@ -12,20 +12,17 @@ $branding-font-size: 26px;
 
 	display: inline-block; /* [1] */
 
-	font-size: $branding-font-size;
+	@include font-size( $branding-font-size );
 	color: $color-body;
 	border-bottom: none;
 
 	&__logo {
-		height: double($branding-font-size);
-		vertical-align: ( -$branding-font-size * 5 ) / 8; /* [2] */
-		// vertical-align: middle;
+		@include rem( "height", double($branding-font-size) );
+		@include rem( "vertical-align", ( -$branding-font-size * 5 ) / 8 /* [2] */ );
 	}
 
 	&__text {
-		@include media-query( palm ) {
-			display: none;
-		}
+
 	}
 
 }

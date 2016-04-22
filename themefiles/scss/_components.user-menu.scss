@@ -6,15 +6,17 @@
  * Common styling for the User Menu
  */
 .user-menu {
-
+	position: relative;
 	list-style: none;
 	line-height: 1.5;
 	padding-left: 0;
 
 	&__item {
+		text-align: center;
 		a {
 			display: block;
 			border-bottom: none;
+			padding: quarter($base-spacing-unit);
 		}
 		a.active {
 			border-left: 3px $color-success solid;
@@ -29,6 +31,9 @@
 		.user-menu__name {
 			font-weight: bold;
 		}
+		.avatar {
+			border-radius: $base-border-radius;
+		}
 	}
 
 	&.panel {
@@ -38,16 +43,13 @@
 }
 
 /**
- * User Menu for touch devices
- * Located in the right flyout
+ * User Menu in the flyout
+ * for touch devices
  */
-.user-menu--touch {
+.user-menu--flyout {
 
-	.user-menu__item {
-		text-align: center;
-		a {
-			line-height: 3rem;
-		}
+	.user-menu__item a {
+		line-height: 3rem;
 	}
 
 	.user-menu__identity {
@@ -61,12 +63,13 @@
 
 
 /**
- * User Menu for mouse pointer devices
- * Revealed as dropdown when hovering the User Avatar
+ * User Menu in the dropdown
+ * for mouse pointer devices
+ * revealed when hovering the user avatar
  */
-.user-menu--mouse {
+.user-menu--dropdown {
 
-	max-width: 260px;
+	@include rem( "width", $base-spacing-unit * 10 );
 
 	.user-menu__item {
 		margin-left: 72px;
@@ -76,8 +79,8 @@
 		padding: quarter($base-spacing-unit);
 		.avatar {
 			position: absolute;
-			top: $base-spacing-unit;
-			left: $base-spacing-unit;
+			top: 0;
+			left: 0;
 			width: 60px;
 			height: 60px;
 		}
