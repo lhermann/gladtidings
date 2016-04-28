@@ -6,21 +6,25 @@
  * Common styling for the User Menu
  */
 .user-menu {
-	position: relative;
-	list-style: none;
 	line-height: 1.5;
+	list-style: none;
 	padding-left: 0;
+	position: relative;
 
 	&__item {
 		text-align: center;
+
 		a {
+			border-bottom: 0;
 			display: block;
-			border-bottom: none;
 			padding: quarter($base-spacing-unit);
+
 		}
-		a.active {
+
+		.active {
 			border-left: 3px $color-success solid;
 		}
+
 	}
 
 	&__item:not(:last-child) {
@@ -31,6 +35,7 @@
 		.user-menu__name {
 			font-weight: bold;
 		}
+
 		.avatar {
 			border-radius: $base-border-radius;
 		}
@@ -54,6 +59,7 @@
 
 	.user-menu__identity {
 		padding-bottom: $base-spacing-unit;
+
 		.user-menu__name {
 			font-size: 1.2;
 		}
@@ -69,7 +75,7 @@
  */
 .user-menu--dropdown {
 
-	@include rem( "width", $base-spacing-unit * 10 );
+	@include rem("width", $base-spacing-unit * 10);
 
 	.user-menu__item {
 		margin-left: 72px;
@@ -77,12 +83,13 @@
 
 	.user-menu__identity {
 		padding: quarter($base-spacing-unit);
+
 		.avatar {
+			height: 60px;
+			left: 0;
 			position: absolute;
 			top: 0;
-			left: 0;
 			width: 60px;
-			height: 60px;
 		}
 	}
 

@@ -2,17 +2,20 @@
     #OWL
 \*------------------------------------*/
 
+$owl:         $base-spacing-unit;
+$owl--narrow: halve($owl);
+
 /**
  * The owl, adding margin-top to every element that follows another element
  * http://alistapart.com/article/axiomatic-css-and-lobotomized-owls
  */
 .owl * + * {
-	margin-top: px-to-em($base-spacing-unit);
+	margin-top: px-to-em($owl);
 }
 
 // All children will have an owl with only halve the margin
 .owl--narrow * + * {
-	margin-top: px-to-em( halve($base-spacing-unit) );
+	margin-top: px-to-em($owl--narrow);
 }
 
 // Turn owl off for all levels of children
@@ -24,7 +27,7 @@
 
 
 	&-desk * + * {
-		@include media-query( desk ) {
+		@include media-query(desk) {
 			margin-top: 0;
 		}
 	}
@@ -37,7 +40,7 @@
 	}
 
 	&-lap-and-up > * {
-		@include media-query( lap-and-up ) {
+		@include media-query(lap-and-up) {
 			margin-top: 0;
 		}
 	}
@@ -49,12 +52,13 @@
 	margin-top: 0;
 
 	&-desk {
-		@include media-query( desk ) {
+		@include media-query(desk) {
 			margin-top: 0;
 		}
 	}
+
 	&-lap-and-up {
-		@include media-query( lap-and-up ) {
+		@include media-query(lap-and-up) {
 			margin-top: 0;
 		}
 	}

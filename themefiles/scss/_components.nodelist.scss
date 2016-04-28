@@ -1,12 +1,43 @@
 /*------------------------------------*\
     #NODELIST
 \*------------------------------------*/
+/*
+ * Nodelist Markup:
+ * .nodelist
+ *   .node
+ *     .node__inner
+ *       .node__header
+ *         .node__title
+ *         .node__meta
+ *       .node__footer
+ *     .node__dot
+ *       .node__dot__connector
+ *       .node__dot__border
+ *       .node__dot__connector-inner
+ *       .node__dot__inner
+ *
+ * Nodelist Item variations of type:
+ *   .node--unit
+ *   .node--exam
+ *   .node--lesson
+ *   .node--quizz
+ *   .node--divider
+ *   .node--hero
+ *
+ * Nodelist Item variations of status:
+ *   .node--draft
+ *   .node--coming
+ *   .node--locked
+ *   .node--publish
+ *   .node--active
+ *   .node--success
+ */
 
 /*
  * Settings
  */
 $node:        30px;
-$node--small: $node * 0.4;
+$node--small: $node * .4;
 $node--big:   $node * 2;
 $node--hero:  $node * 4;
 
@@ -15,119 +46,174 @@ $node--hero:  $node * 4;
  */
 
 %nodelist__icon {
-	font-family: "foundation-icons";
-	position: absolute;
-	font-size: 20px;
-	line-height: 1;
-	@include v-center( 20px );
-	left: 45px;
+	@include v-center(20px);
 	color: $color-unstress;
+	font-family: 'foundation-icons';
+	font-size: 20px;
+	left: 45px;
+	line-height: 1;
+	position: absolute;
+}
+
+/*
+ * Mixins
+ */
+@mixin node-icon ($icon, $color: false) {
+	&::after {
+		content: $icon;
+		@if ($color) {
+			color: $color;
+		}
+	}
 }
 
 /*
  * Standard Definitions
  */
 
-/* === ul.nodelist === */
+/* === .nodelist === */
 .nodelist {
-	list-style: none;
 	margin-left: 0;
 	padding-left: 0;
 }
 
-/* === ul li.nl__item === */
-.nl__item {
+/* === .node === */
+$node-padding:          $node / 10;
+
+.node {
+	border-radius: $base-border-radius;
+	list-style: none;
+	padding: $node-padding;
 	position: relative;
 
-	border-radius: $base-border-radius;
-	padding: $node/10;
-}
+	// CHILDREN //
 
-/* === ul li article.nl__article === */
-.nl__article {
-
-	margin-left: 38px;
-	padding: 4px;
-
-	&__header {
+	&__inner {
+		margin-left: 38px;
+		padding: 4px;
 	}
 
-	&__title {
-		font-weight: 200;
-		margin: 0.3em 0;
-		color: $color-body;
+	// &__header {
+	// }
 
-		.btn, .label {
-			font-size: 1rem;
-			line-height: 1.3;
-			vertical-align: $base-font-size / 6;
-		}
+	&__title {
+		color: $color-body;
+		font-weight: 200;
+		margin: .3em 0;
 
 		@include media-query(palm) {
 			font-size: 1.3em;
 		}
+
+		.btn,
+		.label {
+			font-size: 1rem;
+			line-height: 1.3;
+			vertical-align: $base-font-size / 6;
+		}
 	}
 
 	&__meta {
+		color: $color-unstress;
 		margin: 0;
 		position: absolute;
-		top: 0.2em;
-		color: $color-unstress;
+		top: .2em;
 	}
 
 	&__footer {
-		margin-top: 0;
-		font-size: 80%;
 		color: $color-suppl;
+		font-size: 80%;
+		margin-top: 0;
 	}
 
+	// VARIATIONS //
 
+	&--unit {
+		transition: background-color .3s;
+
+		&:hover {
+			background-color: darken($color-panel-bg, 2%);
+		}
+
+		/* Seperation line between nodelist items */
+		+ .node::before {
+			border-top: 1px solid $color-border;
+			content: '';
+			display: block;
+			position: relative;
+			top: -($node-padding + $owl--narrow);
+		}
+
+		.node__inner {
+			margin-left: 80px;
+		}
+
+		&:not(.node--hero) {
+			.node__header {
+				padding-top: 1rem;
+			}
+		}
+
+		.node__dot__inner {
+			@include node-icon ("\f11d");
+		}
+	}
 }
 
-/* === ul li div.nl__node === */
-$node-margin: $node/15;
-$node-link:   2px;
-.nl__node {
+/* === ul li div.node__dot === */
+$node-connector-margin:      $node / 15;
+$node-connector-margin--big: $node--big / 12;
 
+$node-connector:             2px;
+$node-connector--big:        12px;
+
+.node__dot {
+
+	@include width-height($node);
+	@include v-center($node);
 	position: absolute;
-	@include width-height( $node );
-	@include v-center( $node );
 
 	div {
-		position: absolute;
 		margin-top: 0;
+		position: absolute;
 	}
 
-	&__link {
-		left: 50%;
-		z-index: 1;
-		margin-left: halve(-$node-link);
-		border: halve($node-link) solid $color-border;
-		height: 400%;
-		top: 50%;
-
-		.nl__item:nth-last-child(2) & {
-			height: 200%;
-		}
-		.nl__item:last-child & {
+	&__connector,
+	&__connector-inner {
+		.node:last-of-type & {
 			display: none;
 		}
 	}
 
+	&__connector {
+		border: halve($node-connector) solid $color-border;
+		height: 400%;
+		left: 50%;
+		margin-left: halve(-$node-connector);
+		top: 50%;
+		z-index: 1;
+
+		.node:nth-last-of-type(2) & {
+			height: 200%;
+		}
+
+	}
+
 	&__border {
-		z-index: 2;
 		@include grow;
 		@include round;
-		border: 1px solid $color-border;
-		background-color: #fff;
 		@include std-box-shadow;
+
+		background-color: #fff;
+		border: 1px solid $color-border;
+		z-index: 2;
 
 		a &:hover {
 			background-color: #f5f5f5;
 		}
 	}
 
-	&__link-inner {
+	&__connector-inner {
 		left: 50%;
 		z-index: 3;
 	}
@@ -138,7 +224,7 @@ $node-link:   2px;
 		@include round;
 		color: $color-border;
 		text-align: center;
-		font-size: gold-less( $node );
+		font-size: gold-less($node);
 		line-height: $node;
 
 		&:after {
@@ -151,13 +237,105 @@ $node-link:   2px;
 		height: 100%;
 		width: 0%;
 		max-width: 100% !important;
-		background-color: rgba( $color-success, .4 );
+		background-color: rgba($color-success, .4);
 	}
 
 	&__progress-text {
 		width: 100%;
 		font-size: 0.5em;
 		color: $color-body;
+	}
+
+
+	/* small dot to unstress it's importance,
+		used for headlines */
+	&--small {
+
+		padding: halve($node - $node--small);
+
+		.node__dot__border, {
+			@include width-height($node--small);
+		}
+
+		.node__dot__inner {
+			display: none;
+		}
+	}
+
+
+	/* big dot providing broader information,
+		used to represent entire units */
+	.node--unit & {
+		@include width-height($node--big);
+		@include v-center($node--big);
+		@include media-query(lap-and-up) { margin-left: 10px; }
+
+		&__connector,
+		&__connector-inner {
+			background-color: #fff;
+			height: $base-font-size * 8;
+			top: 50%;
+		}
+
+		&__connector {
+			margin-left: halve(-($node-connector--big + 2px));
+			width: $node-connector--big + 2px;
+		}
+
+		&__connector-inner {
+			border: third($node-connector--big) solid #fff;
+			margin-left: halve(-$node-connector--big);
+			width: $node-connector--big;
+		}
+
+		&__border {
+			box-shadow: 0 1px 1px rgba(0, 0, 0, .3) inset;
+		}
+
+		&__inner {
+			@include width-height(px-to-percent($node--big - double($node-connector-margin--big), $node--big));
+			background-color: #fff;
+			border: gold-less($node-connector-margin--big) solid $color-border;
+			color: $color-border;
+			font-size: halve($node--big);
+			font-weight: 200;
+			line-height: $node--big - double($node-connector-margin--big) - double(gold-less($node-connector-margin--big));
+			margin: px-to-percent($node-connector-margin--big, $node--big);
+		}
+	}
+
+
+	/* same layout as the --big but magnified,
+		used in the page-hero */
+	$node-marging--hero: $node--hero / 12;
+	$node--hero-palm: gold-less($node--hero);
+	&--hero {
+
+		.node__dot {
+			@include width-height($node--hero);
+			margin-top: halve(-$node--hero);
+			margin-left: 0;
+		}
+
+		.node__dot__inner {
+			border: gold-less($node-marging--hero) solid $color-border;
+			font-size: halve($node--hero);
+			line-height: $node--hero - double($node-marging--hero) - double(gold-less($node-marging--hero));
+			font-weight: bold;
+		}
+
+		@include media-query(palm) {
+			.node__dot {
+				@include width-height( $node--hero-palm );
+				margin-top: halve(-$node--hero-palm);
+			}
+
+			.node__dot__inner {
+				border: gold-less($node--hero-palm / 12) solid $color-border;
+				font-size: halve($node--hero-palm);
+				line-height: $node--hero-palm - double($node--hero-palm / 12) - double(gold-less($node--hero-palm / 12));
+			}
+		}
 	}
 
 }
@@ -171,8 +349,8 @@ $node-link:   2px;
  */
 
 // mixins
-@mixin nl__node__icon ( $icon, $color: false ) {
-	&:after {
+@mixin node-icon ($icon, $color: false) {
+	&::after {
 		content: $icon;
 		@if ($color) {
 			color: $color;
@@ -185,7 +363,7 @@ $node-link:   2px;
 /* nodelist displays the contents of a course,
 	the individual elements are units */
 .nodelist--course {
-	.nl__item {
+	.node {
 
 		transition: background-color .3s;
 		&:hover {
@@ -193,15 +371,15 @@ $node-link:   2px;
 		}
 
 		/* Seperation line between nodelist items */
-		+ .nl__item:before {
-			content: "";
+		+ .node:before {
+			content: '';
 			display: block;
 			border-top: 1px solid $color-border;
 			position: relative;
-			top: -$node/10 + -$base-spacing-unit/2;
+			top: -$node / 10 + -$base-spacing-unit / 2;
 		}
 	}
-	.nl__article {
+	.node__inner {
 		margin-left: 80px;
 	}
 
@@ -210,176 +388,176 @@ $node-link:   2px;
 /* nodelist displays the contents of a unit,
 	the individual elements are lessons, quizzes and headlines */
 .nodelist--unit {
-	.nl__item {
-		margin-top: px-to-em( halve($inuit-base-spacing-unit) );
+	.node {
+		margin-top: px-to-em(halve($inuit-base-spacing-unit));
 	}
 }
 
 /* nodelist displays the contents of a unit but inside a single lesson screen */
 .nodelist--lesson {
-	.nl__item {
-		margin-top: px-to-em( quarter($inuit-base-spacing-unit) );
+	.node {
+		margin-top: px-to-em(quarter($inuit-base-spacing-unit));
 	}
 
-	.nl__item--current {
+	.node--current {
 		border: 1px solid $color-border;
 		padding: $node/10 -  1px;
 	}
 
-	.nl__node__link {
+	.node__dot__connector {
 		height: 300%;
 	}
 }
 
 
-/* === ul li div.nl__node === */
+/* === ul li div.node__dot === */
 
 /**
  * Nodelist Item Sizes
- * .nl__node--small
- * .nl__node--big
- * .nl__node--hero
+ * .node__dot--small
+ * .node__dot--big
+ * .node__dot--hero
  */
 
 /* small node dot to unstress it's importance,
 	used for headlines */
-.nl__node--small {
+// .node__dot--small {
 
-	padding: halve($node - $node--small);
+// 	padding: halve($node - $node--small);
 
-	.nl__node__border, {
-		@include width-height( $node--small );
-	}
-	.nl__node__inner {
-		display: none;
-	}
-}
+// 	.node__dot__border, {
+// 		@include width-height( $node--small );
+// 	}
+// 	.node__dot__inner {
+// 		display: none;
+// 	}
+// }
 
 /* bog node dot providing broader information,
 	used to represent entire units */
-$node-marging--big: $node--big/12;
-$node-link--big:    12px;
-.nl__node--big {
-	@include width-height( $node--big );
-	@include v-center( $node--big );
-	@include media-query(lap-and-up) { margin-left: 10px; }
+// $node-connector-margin--big: $node--big/12;
+// $node-connector--big:    12px;
+// .node__dot--big {
+// 	@include width-height( $node--big );
+// 	@include v-center( $node--big );
+// 	@include media-query(lap-and-up) { margin-left: 10px; }
 
-	.nl__node__link,
-	.nl__node__link-inner {
-		top: 50%;
-		height: $base-font-size * 8;
-		background-color: #fff;
-		.nl__item:last-child & {
-			display: none;
-		}
-	}
-	.nl__node__link {
-		margin-left: halve( -($node-link--big + 2px) );
-		width: $node-link--big + 2px;
-	}
+// 	.node__dot__connector,
+// 	.node__dot__connector-inner {
+// 		top: 50%;
+// 		height: $base-font-size * 8;
+// 		background-color: #fff;
+// 		.node:last-of-type & {
+// 			display: none;
+// 		}
+// 	}
+// 	.node__dot__connector {
+// 		margin-left: halve( -($node-connector--big + 2px) );
+// 		width: $node-connector--big + 2px;
+// 	}
 
-	.nl__node__link-inner {
-		margin-left: halve(-$node-link--big);
-		width: $node-link--big;
-		border: third($node-link--big) solid #fff;
-	}
-	.nl__node__border {
-		box-shadow: 0 1px 1px rgba(0,0,0,.3) inset;
-	}
-	.nl__node__inner {
-		@include width-height( px-to-percent( $node--big - double($node-marging--big), $node--big ) );
-		margin: px-to-percent( $node-marging--big, $node--big );
+// 	.node__dot__connector-inner {
+// 		margin-left: halve(-$node-connector--big);
+// 		width: $node-connector--big;
+// 		border: third($node-connector--big) solid #fff;
+// 	}
+// 	.node__dot__border {
+// 		box-shadow: 0 1px 1px rgba(0,0,0,.3) inset;
+// 	}
+// 	.node__dot__inner {
+// 		@include width-height( px-to-percent( $node--big - double($node-connector-margin--big), $node--big ) );
+// 		margin: px-to-percent( $node-connector-margin--big, $node--big );
 
-		border: gold-less($node-marging--big) solid $color-border;
-		background-color: #fff;
+// 		border: gold-less($node-connector-margin--big) solid $color-border;
+// 		background-color: #fff;
 
-		font-size: halve($node--big);
-		line-height: $node--big - double($node-marging--big) - double( gold-less($node-marging--big) );
-		color: $color-border;
-		font-weight: 200;
-	}
-}
+// 		font-size: halve($node--big);
+// 		line-height: $node--big - double($node-connector-margin--big) - double( gold-less($node-connector-margin--big) );
+// 		color: $color-border;
+// 		font-weight: 200;
+// 	}
+// }
 
 /* same layout as the --big but magnified,
 	used in the page-hero */
-$node-marging--hero: $node--hero/12;
-                     $node--hero-palm: gold-less( $node--hero );
-.nl__item--hero {
+// $node-marging--hero: $node--hero/12;
+//                      $node--hero-palm: gold-less( $node--hero );
+// .node--hero {
 
-	.nl__node {
-		@include width-height( $node--hero );
-		margin-top: halve(-$node--hero);
-		margin-left: 0;
-	}
+// 	.node__dot {
+// 		@include width-height( $node--hero );
+// 		margin-top: halve(-$node--hero);
+// 		margin-left: 0;
+// 	}
 
-	.nl__node__inner {
-		border: gold-less($node-marging--hero) solid $color-border;
-		font-size: halve($node--hero);
-		line-height: $node--hero - double($node-marging--hero) - double( gold-less($node-marging--hero) );
-		font-weight: bold;
-	}
+// 	.node__dot__inner {
+// 		border: gold-less($node-marging--hero) solid $color-border;
+// 		font-size: halve($node--hero);
+// 		line-height: $node--hero - double($node-marging--hero) - double( gold-less($node-marging--hero) );
+// 		font-weight: bold;
+// 	}
 
-	@include media-query(palm) {
-		.nl__node {
-			@include width-height( $node--hero-palm );
-			margin-top: halve(-$node--hero-palm);
-		}
+// 	@include media-query(palm) {
+// 		.node__dot {
+// 			@include width-height( $node--hero-palm );
+// 			margin-top: halve(-$node--hero-palm);
+// 		}
 
-		.nl__node__inner {
-			border: gold-less($node--hero-palm/12) solid $color-border;
-			font-size: halve($node--hero-palm);
-			line-height: $node--hero-palm - double($node--hero-palm/12) - double( gold-less($node--hero-palm/12) );
-		}
-	}
-}
+// 		.node__dot__inner {
+// 			border: gold-less($node--hero-palm/12) solid $color-border;
+// 			font-size: halve($node--hero-palm);
+// 			line-height: $node--hero-palm - double($node--hero-palm/12) - double( gold-less($node--hero-palm/12) );
+// 		}
+// 	}
+// }
 
 /**
  * Nodelist Item Types
  * # Unit Level
- *     .nl__item--unit
- *     .nl__item--exam
- *     .nl__item--hero
+ *     .node--unit
+ *     .node--exam
+ *     .node--hero
  *
  * # Item Level
- *     .nl__item--headline
- *     .nl__item--lesson
- *     .nl__item--quizz
- *     .nl__item--divider
+ *     .node--headline
+ *     .node--lesson
+ *     .node--quizz
+ *     .node--divider
  */
 
-.nl__item--unit {
-	&:not(.nl__item--hero) {
-		.nl__article__header {
-			padding-top: 1rem;
-		}
-	}
-	.nl__node__inner {
-		@include nl__node__icon ( "\f11d" );
-	}
-}
+// .node--unit {
+// 	&:not(.node--hero) {
+// 		.node__header {
+// 			padding-top: 1rem;
+// 		}
+// 	}
+// 	.node__dot__inner {
+// 		@include node-icon ( "\f11d" );
+// 	}
+// }
 
-.nl__item--exam {
-	.nl__node__inner {
-		@include nl__node__icon ( "\f184" );
+.node--exam {
+	.node__dot__inner {
+		@include node-icon ( "\f184" );
 	}
 }
 
 /* this nodelist item represents a video lesson */
-.nl__item--lesson {
-	.nl__node__inner {
-		@include nl__node__icon ( "\f20e" );
+.node--lesson {
+	.node__dot__inner {
+		@include node-icon ( "\f20e" );
 	}
 }
 
 /* this nodelist item represents a quizz */
-.nl__item--quizz {
-	.nl__node__inner {
-		@include nl__node__icon ( "\f129" );
+.node--quizz {
+	.node__dot__inner {
+		@include node-icon ( "\f129" );
 	}
 }
 
 /* a simple divider between list items, this item has no visible content */
-.nl__item--divider {
+.node--divider {
 	background-color: darken($color-panel-bg, 10%);
 	padding: 1px;
 	&:first-child { // make the first divider invisible (but not to screen readers, because it contains text)
@@ -388,13 +566,14 @@ $node-marging--hero: $node--hero/12;
 }
 
 /* One prominent nodelist item in the header */
-.nl__item--hero {
+.node--hero {
 
-	.nl__article {
+	.node__inner {
 
 		margin-left: halve($node--hero);
 		padding-left: halve($node--hero) + 20px;
 
+		$node--hero-palm: gold-less($node--hero);
 		@include media-query(palm) {
 			margin-left: halve($node--hero-palm);
 			padding-left: halve($node--hero-palm) + 20px;
@@ -436,66 +615,66 @@ $node-marging--hero: $node--hero/12;
  */
 
 // Disabled
-.nl__item--draft {
-	.nl__node__inner:after {
+.node--draft {
+	.node__dot__inner:after {
 		content: "\f217";
 	}
 }
 
 // Scheduled
-.nl__item--coming {
-	.nl__node__inner:after {
+.node--coming {
+	.node__dot__inner:after {
 		content: "\f124";
 	}
 }
 
 // Locked
-.nl__item--locked {
-	.nl__node__inner:after {
+.node--locked {
+	.node__dot__inner:after {
 		content: "\f16a";
 	}
 }
 
 // Public
-.nl__item--publish {
-	.nl__node__inner {
+.node--publish {
+	.node__dot__inner {
 		color: $color-primary;
 		border-color: $color-primary;
 	}
 }
 
 // Active
-.nl__item--active {
-	:not(.nl__node--big) {
-		.nl__node__border { border-color: $color-success; }
-		.nl__node__inner { color: $color-success; }
+.node--active {
+	:not(.node__dot--big) {
+		.node__dot__border { border-color: $color-success; }
+		.node__dot__inner { color: $color-success; }
 	}
-	.nl__node--big .nl__node__inner,
-	.nl__node--hero .nl__node__inner {
+	.node__dot--big .node__dot__inner,
+	.node__dot--hero .node__dot__inner {
 		border-color: $color-success;
 		overflow: hidden;
-		@include nl__node__icon ( "" );
+		@include node-icon ( "" );
 	}
-	.nl__node--hero .nl__node__progress-text {
+	.node__dot--hero .node__dot__progress-text {
 		font-size: double($base-font-size);
 		font-weight: bold;
 	}
 }
 
 // Success
-.nl__item--success {
-	:not(.nl__node--big) {
-		.nl__node__link,
-		.nl__node__border {
+.node--success {
+	:not(.node__dot--big) {
+		.node__dot__connector,
+		.node__dot__border {
 			border-color: $color-success;
 		}
 	}
-	.nl__node__link-inner,
-	.nl__node__inner {
+	.node__dot__connector-inner,
+	.node__dot__inner {
 		background-color: $color-success;
 	}
-	.nl__node__inner {
+	.node__dot__inner {
 		border-color: $color-success;
-		@include nl__node__icon ( "\f126", #fff );
+		@include node-icon ( "\f126", #fff );
 	}
 }
