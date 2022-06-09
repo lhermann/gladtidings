@@ -153,9 +153,14 @@ $node-padding:          $node / 10;
 				padding-top: 1rem;
 			}
 		}
+	}
 
-		.node__dot__inner {
-			@include node-icon ("\f11d");
+	&--hero {
+		.node__footer {
+		    background-color: white;
+		    border-radius: 3px;
+		    display: inline-block;
+		    padding: 6px 12px;
 		}
 	}
 }
@@ -177,6 +182,8 @@ $node-connector--big:        12px;
 		margin-top: 0;
 		position: absolute;
 	}
+
+	// CHILDREN //
 
 	&__connector,
 	&__connector-inner {
@@ -246,9 +253,10 @@ $node-connector--big:        12px;
 		color: $color-body;
 	}
 
+	// VARIATIONS //
 
-	/* small dot to unstress it's importance,
-		used for headlines */
+	// small dot to unstress it's importance,
+	// used for headlines
 	&--small {
 
 		padding: halve($node - $node--small);
@@ -263,8 +271,8 @@ $node-connector--big:        12px;
 	}
 
 
-	/* big dot providing broader information,
-		used to represent entire units */
+	// big dot providing broader information,
+	// used to represent entire units
 	.node--unit & {
 		@include width-height($node--big);
 		@include v-center($node--big);
@@ -293,6 +301,7 @@ $node-connector--big:        12px;
 		}
 
 		&__inner {
+			@include node-icon ("\f11d");
 			@include width-height(px-to-percent($node--big - double($node-connector-margin--big), $node--big));
 			background-color: #fff;
 			border: gold-less($node-connector-margin--big) solid $color-border;
@@ -305,40 +314,58 @@ $node-connector--big:        12px;
 	}
 
 
-	/* same layout as the --big but magnified,
-		used in the page-hero */
+	// Active unit nodes with a progress bar
+	.node--active & {
+
+		&__inner {
+			border-color: #02944b;
+			overflow: hidden;
+
+			&::after {
+				display: none;
+			}
+		}
+	}
+
+
+	// same layout as the node--big but magnified,
+	// used in the page-hero
 	$node-marging--hero: $node--hero / 12;
 	$node--hero-palm: gold-less($node--hero);
-	&--hero {
 
-		.node__dot {
-			@include width-height($node--hero);
-			margin-top: halve(-$node--hero);
-			margin-left: 0;
-		}
+	.node--hero & {
 
-		.node__dot__inner {
-			border: gold-less($node-marging--hero) solid $color-border;
-			font-size: halve($node--hero);
-			line-height: $node--hero - double($node-marging--hero) - double(gold-less($node-marging--hero));
-			font-weight: bold;
-		}
+		@include width-height($node--hero);
+		margin-left: 0;
+		margin-top: halve(-$node--hero);
 
 		@include media-query(palm) {
-			.node__dot {
-				@include width-height( $node--hero-palm );
-				margin-top: halve(-$node--hero-palm);
-			}
+			@include width-height($node--hero-palm);
+			margin-top: halve(-$node--hero-palm);
 
-			.node__dot__inner {
+			&__inner {
 				border: gold-less($node--hero-palm / 12) solid $color-border;
 				font-size: halve($node--hero-palm);
 				line-height: $node--hero-palm - double($node--hero-palm / 12) - double(gold-less($node--hero-palm / 12));
 			}
 		}
+
+		&__inner {
+			border: gold-less($node-marging--hero) solid $color-border;
+			font-size: halve($node--hero);
+			font-weight: bold;
+			line-height: $node--hero - double($node-marging--hero) - double(gold-less($node-marging--hero));
+		}
 	}
 
 }
+
+
+
+
+
+
+
 
 
 

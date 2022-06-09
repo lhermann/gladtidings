@@ -7,17 +7,17 @@
  * Permalink Structure for Glad Tidings
  *
  * - course
- *      /course/course-slug
+ *      /course/<course-slug>
  * - unit
- *      /course/course-slug/unit/1
+ *      /course/<course-slug>/unit/<id>
  * - lesson
- *      /course/course-slug/unit/1/lesson/lesson-slug
+ *      /course/<course-slug>/unit/<id>/lesson/<lesson-slug>
  * - quizz
- *      /course/course-slug/unit/1/quizz/quizz-slug/question
+ *      /course/<course-slug>/unit/<id>/quizz/<quizz-slug>/question
  * - quizz
- *      /course/course-slug/unit/1/quizz/quizz-slug/evaluation
+ *      /course/<course-slug>/unit/<id>/quizz/<quizz-slug>/evaluation
  * - exam
- *      /course/course-slug/exam/quizz-slug
+ *      /course/<course-slug>/exam/<quizz-slug>
  * - messages
  *      /messages
  *      /messages/new
